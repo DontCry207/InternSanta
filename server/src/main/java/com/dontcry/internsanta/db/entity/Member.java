@@ -1,9 +1,6 @@
 package com.dontcry.internsanta.db.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -52,11 +49,18 @@ public class Member {
     private String memberBottom;
 
     @ColumnDefault("0")
-    private Long memberPet;
+    private int memberPet;
 
     @ColumnDefault("0")
     private int memberChapter;
 
     @ColumnDefault("0")
     private int memberCheckpoint;
+
+    public void updateMemberCoin(int memberCoin) {
+        this.memberCoin += memberCoin;
+    };
+    public void updateMemberPet(int memberPet) {
+        this.memberPet = memberPet;
+    };
 }
