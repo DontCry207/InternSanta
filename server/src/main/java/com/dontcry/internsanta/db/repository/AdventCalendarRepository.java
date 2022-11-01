@@ -2,7 +2,6 @@ package com.dontcry.internsanta.db.repository;
 
 import com.dontcry.internsanta.db.entity.AdventCalendar;
 import com.dontcry.internsanta.db.entity.Member;
-import jdk.internal.dynalink.linker.LinkerServices;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
