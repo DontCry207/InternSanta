@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -18,6 +19,21 @@ public class Quest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questId;
+
+    @NotNull
+    private int questChapter;
+
+    @NotNull
+    private int questCheckpoint;
+
+    @NotNull
     @Column(length = 100)
-    private String questTxt;
+    private String questTitle;
+
+    @NotNull
+    @Column(length = 100)
+    private String questSub;
+
+    @NotNull
+    private int questNpc;
 }
