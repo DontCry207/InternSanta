@@ -9,4 +9,6 @@ public interface MemberService {
     int updateMemberCoin(Member member, int memberCoin);
     int updateMemberPet(Member member, int memberPet);
     List<Integer> adventChulCheck(Member member);
+
+    void registerMember(Member memberInfo);
 }

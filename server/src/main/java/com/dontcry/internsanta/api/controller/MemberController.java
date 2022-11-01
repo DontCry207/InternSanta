@@ -2,21 +2,20 @@ package com.dontcry.internsanta.api.controller;
 
 import com.dontcry.internsanta.api.request.MemberCoinUpdateReq;
 import com.dontcry.internsanta.api.request.MemberPetUpdateReq;
+import com.dontcry.internsanta.api.request.MemberRegistReq;
+import com.dontcry.internsanta.api.response.MemberAdventCalendarListRes;
 import com.dontcry.internsanta.api.response.MemberCoinRes;
 import com.dontcry.internsanta.api.response.MemberPetRes;
 import com.dontcry.internsanta.api.service.MemberService;
 import com.dontcry.internsanta.common.JwtAuthenticationUtil;
+import com.dontcry.internsanta.common.auth.MemberDetails;
+import com.dontcry.internsanta.common.model.response.BaseResponseBody;
 import com.dontcry.internsanta.db.entity.Member;
 import io.swagger.annotations.Api;
-import com.dontcry.internsanta.api.response.MemberAdventCalendarListRes;
-import com.dontcry.internsanta.common.auth.MemberDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.ArrayList;
@@ -56,5 +55,19 @@ public class MemberController {
 
 
         return ResponseEntity.status(200).body(MemberAdventCalendarListRes.of(memberAdventCalendarList));
+    }
+
+    @GetMapping
+    public ResponseEntity<BaseResponseBody> registerMember(@RequestBody MemberRegistReq memberRegistReq) {
+
+        Member memberInfo = Member.builder()
+                .memberEmail(memberRegistReq.getMemberEmail())
+                .memberPwd(memberRegistReq.getMemberPwd())
+                .memberNickname(memberRegistReq.getMemberNickname())
+                .memberGender(memberRegistReq.getMemberGender()).build();
+
+        memberService.registerMember(memberInfo);
+
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success")) ;
     }
 }

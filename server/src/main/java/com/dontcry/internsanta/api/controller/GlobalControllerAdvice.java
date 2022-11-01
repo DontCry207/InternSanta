@@ -1,10 +1,7 @@
 package com.dontcry.internsanta.api.controller;
 
 import com.dontcry.internsanta.common.exception.code.ErrorCode;
-import com.dontcry.internsanta.common.exception.member.MemberCoinNegativeException;
-import com.dontcry.internsanta.common.exception.member.MemberNicknameValidateException;
-import com.dontcry.internsanta.common.exception.member.MemberNotFoundException;
-import com.dontcry.internsanta.common.exception.member.MemberUnauthorizedException;
+import com.dontcry.internsanta.common.exception.member.*;
 import com.dontcry.internsanta.common.exception.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,6 +24,13 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(MemberNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleMemberNotFoundException(MemberNotFoundException e) {
         log.error("handleMemberNotFoundException", e);
+        ErrorResponse response = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(MemberEmailDuplicationException.class)
+    public ResponseEntity<ErrorResponse> handleMemberEmailDuplicationException(MemberEmailDuplicationException e) {
+        log.error("handleMemberEmailDuplicationException", e);
         ErrorResponse response = new ErrorResponse(e.getErrorCode());
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }

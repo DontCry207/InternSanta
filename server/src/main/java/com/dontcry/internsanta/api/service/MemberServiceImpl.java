@@ -1,11 +1,12 @@
 package com.dontcry.internsanta.api.service;
 
+import com.dontcry.internsanta.common.exception.adventcalendar.AdventCalendarNotFoundException;
 import com.dontcry.internsanta.common.exception.code.ErrorCode;
 import com.dontcry.internsanta.common.exception.member.MemberCoinNegativeException;
+import com.dontcry.internsanta.common.exception.member.MemberEmailDuplicationException;
 import com.dontcry.internsanta.common.exception.member.MemberNotFoundException;
-import com.dontcry.internsanta.db.entity.Member;
-import com.dontcry.internsanta.common.exception.adventcalendar.AdventCalendarNotFoundException;
 import com.dontcry.internsanta.db.entity.AdventCalendar;
+import com.dontcry.internsanta.db.entity.Member;
 import com.dontcry.internsanta.db.repository.AdventCalendarRepository;
 import com.dontcry.internsanta.db.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,14 @@ public class MemberServiceImpl implements MemberService{
         List<AdventCalendar> adventCalendarList = adventCalendarRepository.findAllByMember(member).orElseThrow(()-> new AdventCalendarNotFoundException("advent calendar not found", ErrorCode.ADVENT_CALENDAR_NOT_FOUND));
 
         return null;
+    }
+
+    @Override
+    public void registerMember(Member memberInfo) {
+
+        memberRepository.findByMemberEmail(memberInfo.getMemberEmail())
+                .orElseThrow(()->new MemberEmailDuplicationException("Email Duplication",ErrorCode.EMAIL_DUPLICATION));
+
+        memberRepository.save(memberInfo);
     }
 }
