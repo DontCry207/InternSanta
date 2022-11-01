@@ -1,6 +1,7 @@
 package com.dontcry.internsanta.api.controller;
 
 import com.dontcry.internsanta.common.exception.code.ErrorCode;
+import com.dontcry.internsanta.common.exception.member.MemberCoinNegativeException;
 import com.dontcry.internsanta.common.exception.member.MemberNicknameValidateException;
 import com.dontcry.internsanta.common.exception.member.MemberNotFoundException;
 import com.dontcry.internsanta.common.exception.member.MemberUnauthorizedException;
@@ -41,6 +42,14 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(MemberNicknameValidateException.class)
     public ResponseEntity<ErrorResponse> handleMemberNicknameValidateException(MemberNicknameValidateException e) {
         log.error("handleMemberNicknameValidateException", e);
+        ErrorResponse response = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    // 코인 변경 시 음수가 되는 경우
+    @ExceptionHandler(MemberCoinNegativeException.class)
+    public ResponseEntity<ErrorResponse> handleMemberCoinNegativeException(MemberCoinNegativeException e) {
+        log.error("handleMemberCoinNegativeException", e);
         ErrorResponse response = new ErrorResponse(e.getErrorCode());
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
