@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -18,10 +20,43 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
+
+    @NotNull
     @Column(length = 100)
     private String memberEmail;
-    @Column(length = 20)
-    private String memberNickname;
+
+    @NotNull
     @Column(length = 20)
     private String memberPwd;
+
+    @NotNull
+    @Column(length = 20)
+    private String memberNickname;
+
+    @NotNull
+    @Column(columnDefinition = "TINYINT", length=1)
+    private int memberGender;
+
+    @ColumnDefault("0")
+    private int memberCoin;
+
+    @ColumnDefault("0")
+    private int memberTicket;
+
+    @NotNull
+    @Column(length = 500)
+    private String memberTop;
+
+    @NotNull
+    @Column(length = 500)
+    private String memberBottom;
+
+    @ColumnDefault("0")
+    private Long memberPet;
+
+    @ColumnDefault("0")
+    private int memberChapter;
+
+    @ColumnDefault("0")
+    private int memberCheckpoint;
 }

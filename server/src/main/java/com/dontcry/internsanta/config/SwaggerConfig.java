@@ -33,7 +33,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .apis(RequestHandlerSelectors.basePackage("com.singsong.api.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.dontcry.internsanta.api.controller"))
                 .paths(PathSelectors.ant("/api/**"))
 //                .paths(PathSelectors.any())
                 .build()
@@ -44,8 +44,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("NORAEHEY Swagger")
-                .description("NORAEHEY swagger config")
+                .title("INTERNSANTA Swagger")
+                .description("INTERNSANTA swagger config")
                 .version("1.0")
                 .build();
     }
