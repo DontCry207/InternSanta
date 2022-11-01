@@ -1,7 +1,7 @@
 package com.dontcry.internsanta.common.auth;
 
-import com.singsong.api.service.MemberService;
-import com.singsong.db.entity.Member;
+import com.dontcry.internsanta.api.service.MemberService;
+import com.dontcry.internsanta.db.entity.Member;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

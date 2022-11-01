@@ -1,8 +1,8 @@
 package com.dontcry.internsanta.config;
 
-import com.singsong.api.service.MemberService;
-import com.singsong.common.util.auth.JwtAuthenticationFilter;
-import com.singsong.common.util.auth.MemberDetailService;
+import com.dontcry.internsanta.api.service.MemberService;
+import com.dontcry.internsanta.common.auth.JwtAuthenticationFilter;
+import com.dontcry.internsanta.common.auth.MemberDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
