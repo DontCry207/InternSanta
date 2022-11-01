@@ -1,5 +1,6 @@
 package com.dontcry.internsanta.api.service;
 
+import com.dontcry.internsanta.api.request.MemberRegistReq;
 import com.dontcry.internsanta.common.exception.adventcalendar.AdventCalendarNotFoundException;
 import com.dontcry.internsanta.common.exception.code.ErrorCode;
 import com.dontcry.internsanta.common.exception.member.MemberCoinNegativeException;
@@ -7,8 +8,10 @@ import com.dontcry.internsanta.common.exception.member.MemberEmailDuplicationExc
 import com.dontcry.internsanta.common.exception.member.MemberNotFoundException;
 import com.dontcry.internsanta.db.entity.AdventCalendar;
 import com.dontcry.internsanta.db.entity.Member;
+import com.dontcry.internsanta.db.entity.RefreshToken;
 import com.dontcry.internsanta.db.repository.AdventCalendarRepository;
 import com.dontcry.internsanta.db.repository.MemberRepository;
+import com.dontcry.internsanta.db.repository.RefreshTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,9 @@ public class MemberServiceImpl implements MemberService{
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    RefreshTokenRepository refreshTokenRepository;
 
     @Autowired
     AdventCalendarRepository adventCalendarRepository;
@@ -58,11 +64,40 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public void registerMember(Member memberInfo) {
+    public Member registerMember(MemberRegistReq memberInfo) {
 
-        memberRepository.findByMemberEmail(memberInfo.getMemberEmail())
-                .orElseThrow(()->new MemberEmailDuplicationException("Email Duplication",ErrorCode.EMAIL_DUPLICATION));
+       if (memberRepository.findByMemberEmail(memberInfo.getMemberEmail()).orElse(null) != null) {
+           throw new MemberEmailDuplicationException("email duplication",ErrorCode.EMAIL_DUPLICATION);
+       }
 
-        memberRepository.save(memberInfo);
+        // TODO : 상의,하의 Default URL 수정하기
+        Member member = Member.builder()
+                .memberEmail(memberInfo.getMemberEmail())
+                .memberPwd(memberInfo.getMemberPwd())
+                .memberNickname(memberInfo.getMemberNickname())
+                .memberGender(memberInfo.getMemberGender())
+                .memberTop("")
+                .memberBottom("")
+                .build();
+
+        memberRepository.save(member);
+
+        return member;
+    }
+
+    @Override
+    public void registerRefreshToken(Member member, String token) {
+        RefreshToken refreshToken = refreshTokenRepository.findByMemberMemberId(member.getMemberId())
+                .orElse(null);
+
+        if (refreshToken != null) {
+            refreshToken.updateRefreshToken(token);
+        } else {
+            refreshToken = RefreshToken.builder()
+                    .refreshToken(token)
+                    .member(member)
+                    .build();
+        }
+        refreshTokenRepository.save(refreshToken);
     }
 }

@@ -1,5 +1,6 @@
 package com.dontcry.internsanta.api.service;
 
+import com.dontcry.internsanta.api.request.MemberRegistReq;
 import com.dontcry.internsanta.db.entity.Member;
 
 import java.util.List;
@@ -10,5 +11,7 @@ public interface MemberService {
     int updateMemberPet(Member member, int memberPet);
     List<Integer> adventChulCheck(Member member);
 
-    void registerMember(Member memberInfo);
+    Member registerMember(MemberRegistReq memberInfo);
+
+    void registerRefreshToken(Member member, String token);
 }

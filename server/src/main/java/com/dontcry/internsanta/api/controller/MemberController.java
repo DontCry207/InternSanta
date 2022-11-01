@@ -8,6 +8,7 @@ import com.dontcry.internsanta.api.response.MemberCoinRes;
 import com.dontcry.internsanta.api.response.MemberPetRes;
 import com.dontcry.internsanta.api.service.MemberService;
 import com.dontcry.internsanta.common.JwtAuthenticationUtil;
+import com.dontcry.internsanta.common.JwtTokenUtil;
 import com.dontcry.internsanta.common.auth.MemberDetails;
 import com.dontcry.internsanta.common.model.response.BaseResponseBody;
 import com.dontcry.internsanta.db.entity.Member;
@@ -20,6 +21,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Api(value = "멤버 API", tags = {"Member"})
 @RestController
@@ -57,16 +59,13 @@ public class MemberController {
         return ResponseEntity.status(200).body(MemberAdventCalendarListRes.of(memberAdventCalendarList));
     }
 
-    @GetMapping
+    @PostMapping
     public ResponseEntity<BaseResponseBody> registerMember(@RequestBody MemberRegistReq memberRegistReq) {
 
-        Member memberInfo = Member.builder()
-                .memberEmail(memberRegistReq.getMemberEmail())
-                .memberPwd(memberRegistReq.getMemberPwd())
-                .memberNickname(memberRegistReq.getMemberNickname())
-                .memberGender(memberRegistReq.getMemberGender()).build();
+        Member member = memberService.registerMember(memberRegistReq);
 
-        memberService.registerMember(memberInfo);
+        Map<String, String> tokens = JwtTokenUtil.generateTokenSet(member.getMemberEmail());
+        memberService.registerRefreshToken(member, tokens.get("refreshToken"));
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success")) ;
     }
