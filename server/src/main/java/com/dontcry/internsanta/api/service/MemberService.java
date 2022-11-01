@@ -2,8 +2,11 @@ package com.dontcry.internsanta.api.service;
 
 import com.dontcry.internsanta.db.entity.Member;
 
+import java.util.List;
+
 public interface MemberService {
-    public Member getMemberByMemberEmail(String memberEmail);
-    public int updateMemberCoin(Member member, int memberCoin);
-    public int updateMemberPet(Member member, int memberPet);
+    Member getMemberByMemberEmail(String memberEmail);
+    int updateMemberCoin(Member member, int memberCoin);
+    int updateMemberPet(Member member, int memberPet);
+    List<Integer> adventChulCheck(Member member);
 }
