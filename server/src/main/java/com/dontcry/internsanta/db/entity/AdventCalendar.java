@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,6 +26,7 @@ public class AdventCalendar {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @NotNull
     @CreatedDate
     private LocalDateTime adventCalendarCheck;
 }
