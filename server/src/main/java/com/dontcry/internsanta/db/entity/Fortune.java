@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -18,6 +19,8 @@ public class Fortune {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long fortuneId;
+
+    @NotNull
     @Column(length = 50)
     private String fortuneContent;
 }

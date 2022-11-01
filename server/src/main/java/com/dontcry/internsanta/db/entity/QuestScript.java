@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -23,8 +24,7 @@ public class QuestScript {
     @JoinColumn(name = "quest_id")
     private Quest quest;
 
-    @Column(columnDefinition = "TINYINT", length=1)
-    private int questComplete;
+    @NotNull
     @Column(length = 500)
     private String questScriptTxt;
 }
