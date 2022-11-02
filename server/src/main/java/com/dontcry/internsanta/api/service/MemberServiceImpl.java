@@ -55,4 +55,18 @@ public class MemberServiceImpl implements MemberService{
 
         return null;
     }
+
+    @Override
+    public Member updateMemberChpater(Member member) {
+        member.updateMemberProgress(member.getMemberChapter() + 1, 0);
+        memberRepository.save(member);
+        return member;
+    }
+
+    @Override
+    public Member updateMemberCheckpoint(Member member) {
+        member.updateMemberProgress(member.getMemberChapter(), member.getMemberCheckpoint() + 1);
+        memberRepository.save(member);
+        return member;
+    }
 }
