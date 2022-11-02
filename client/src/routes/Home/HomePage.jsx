@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Home = () => {
+const HomePage = () => {
   return <div>Home</div>;
 };
 
-export default Home;
+export default HomePage;
