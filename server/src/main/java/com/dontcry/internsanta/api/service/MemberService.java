@@ -10,6 +10,8 @@ public interface MemberService {
     int updateMemberCoin(Member member, int memberCoin);
     int updateMemberPet(Member member, int memberPet);
     List<Integer> adventChulCheck(Member member);
+    Member updateMemberChpater(Member member);
+    Member updateMemberCheckpoint(Member member);
 
     Member registerMember(MemberRegistReq memberInfo);
 

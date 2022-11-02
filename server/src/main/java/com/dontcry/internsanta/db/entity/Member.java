@@ -65,4 +65,8 @@ public class Member {
     public void updateMemberPet(int memberPet) {
         this.memberPet = memberPet;
     };
+    public void updateMemberProgress(int memberChapter, int memberCheckpoint) {
+        this.memberChapter = memberChapter;
+        this.memberCheckpoint = memberCheckpoint;
+    }
 }

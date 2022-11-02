@@ -8,6 +8,7 @@ import com.dontcry.internsanta.api.response.MemberAdventCalendarListRes;
 import com.dontcry.internsanta.api.response.MemberCoinRes;
 import com.dontcry.internsanta.api.response.MemberInfoRes;
 import com.dontcry.internsanta.api.response.MemberPetRes;
+import com.dontcry.internsanta.api.response.MemberProgressRes;
 import com.dontcry.internsanta.api.service.MemberService;
 import com.dontcry.internsanta.common.JwtAuthenticationUtil;
 import com.dontcry.internsanta.common.JwtTokenUtil;
@@ -81,5 +82,19 @@ public class MemberController {
         memberService.registerRefreshToken(member, tokens.get("refreshToken"));
 
         return ResponseEntity.status(200).body(MemberInfoRes.of(member,tokens)) ;
+    }
+
+    @PatchMapping("/chapter")
+    public ResponseEntity<?> updateMemberChapter(@ApiIgnore Authentication authentication) {
+        Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
+        Member updateMember = memberService.updateMemberChpater(member);
+        return ResponseEntity.status(200).body(MemberProgressRes.of(updateMember));
+    }
+
+    @PatchMapping("/checkpoint")
+    public ResponseEntity<?> updateMemberCheckpoint(@ApiIgnore Authentication authentication) {
+        Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
+        Member updateMember = memberService.updateMemberCheckpoint(member);
+        return ResponseEntity.status(200).body(MemberProgressRes.of(updateMember));
     }
 }
