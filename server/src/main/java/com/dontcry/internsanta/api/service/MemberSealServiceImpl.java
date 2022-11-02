@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SealServiceImpl implements SealService {
+public class MemberSealServiceImpl implements MemberSealService {
 
     @Autowired
     SealRepository sealRepository;
@@ -29,5 +29,11 @@ public class SealServiceImpl implements SealService {
     public Seal getSeal() {
         Seal seal = sealRepository.findRandomSeal();
         return seal;
+    }
+
+    @Override
+    public List<Seal> getAllSealList() {
+        List<Seal> sealList = sealRepository.findAll();
+        return sealList;
     }
 }

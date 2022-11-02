@@ -3,9 +3,12 @@ package com.dontcry.internsanta.api.service;
 import com.dontcry.internsanta.db.entity.MemberSeal;
 import com.dontcry.internsanta.db.entity.Seal;
 
-public interface SealService {
+import java.util.List;
+
+public interface MemberSealService {
 
     void updateSeal(MemberSeal memberSeal, Seal seal);
 
     Seal getSeal();
+    List<Seal> getAllSealList();
 }
