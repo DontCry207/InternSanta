@@ -8,12 +8,14 @@ import lombok.Getter;
 @Builder
 public class MemberSealRes {
 
-    SealRes sealRes;
-    int count;
+    private String sealName;
+    private String sealUrl;
+    private int count;
 
     public static MemberSealRes of(Seal seal, int count) {
         MemberSealRes res = MemberSealRes.builder()
-                .sealRes(SealRes.of(seal))
+                .sealName(seal.getSealName())
+                .sealUrl(seal.getSealUrl())
                 .count(count)
                 .build();
 
