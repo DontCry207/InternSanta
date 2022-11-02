@@ -1,9 +1,12 @@
 package com.dontcry.internsanta.api.controller;
 
 import com.dontcry.internsanta.common.exception.code.ErrorCode;
+import com.dontcry.internsanta.common.exception.member.MemberCoinNegativeException;
 import com.dontcry.internsanta.common.exception.member.MemberNicknameValidateException;
 import com.dontcry.internsanta.common.exception.member.MemberNotFoundException;
 import com.dontcry.internsanta.common.exception.member.MemberUnauthorizedException;
+import com.dontcry.internsanta.common.exception.quest.QuestNotFoundException;
+import com.dontcry.internsanta.common.exception.member.*;
 import com.dontcry.internsanta.common.exception.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -30,6 +33,13 @@ public class GlobalControllerAdvice {
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
 
+    @ExceptionHandler(MemberEmailDuplicationException.class)
+    public ResponseEntity<ErrorResponse> handleMemberEmailDuplicationException(MemberEmailDuplicationException e) {
+        log.error("handleMemberEmailDuplicationException", e);
+        ErrorResponse response = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
     // 토큰 없는 경우 (401 Unauthorized)
     @ExceptionHandler(MemberUnauthorizedException.class)
     public ResponseEntity<ErrorResponse> handleMemberUnauthorizedException(MemberUnauthorizedException e) {
@@ -41,6 +51,21 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(MemberNicknameValidateException.class)
     public ResponseEntity<ErrorResponse> handleMemberNicknameValidateException(MemberNicknameValidateException e) {
         log.error("handleMemberNicknameValidateException", e);
+        ErrorResponse response = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    // 코인 변경 시 음수가 되는 경우
+    @ExceptionHandler(MemberCoinNegativeException.class)
+    public ResponseEntity<ErrorResponse> handleMemberCoinNegativeException(MemberCoinNegativeException e) {
+        log.error("handleMemberCoinNegativeException", e);
+        ErrorResponse response = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(QuestNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleQuestNotFoundException(QuestNotFoundException e) {
+        log.error("handleQuestNotFoundException", e);
         ErrorResponse response = new ErrorResponse(e.getErrorCode());
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
