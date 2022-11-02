@@ -42,10 +42,12 @@ public class Member {
 
     @NotNull
     @Column(length = 500)
+    @ColumnDefault("topUrl")
     private String memberTop;
 
     @NotNull
     @Column(length = 500)
+    @ColumnDefault("bottomUrl")
     private String memberBottom;
 
     @ColumnDefault("0")
