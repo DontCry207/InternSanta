@@ -1,5 +1,6 @@
 package com.dontcry.internsanta.db.entity;
 
+import com.dontcry.internsanta.common.model.converter.IntegerArrayConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,8 +21,7 @@ public class MemberSeal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberSealId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
+    @Column(length = 100)
+    @Convert(converter = IntegerArrayConverter.class)
+    private List<Integer> memberSeals;
 }

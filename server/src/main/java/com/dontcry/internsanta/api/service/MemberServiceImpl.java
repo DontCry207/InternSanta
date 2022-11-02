@@ -8,9 +8,11 @@ import com.dontcry.internsanta.common.exception.member.MemberEmailDuplicationExc
 import com.dontcry.internsanta.common.exception.member.MemberNotFoundException;
 import com.dontcry.internsanta.db.entity.AdventCalendar;
 import com.dontcry.internsanta.db.entity.Member;
+import com.dontcry.internsanta.db.entity.MemberSeal;
 import com.dontcry.internsanta.db.entity.RefreshToken;
 import com.dontcry.internsanta.db.repository.AdventCalendarRepository;
 import com.dontcry.internsanta.db.repository.MemberRepository;
+import com.dontcry.internsanta.db.repository.MemberSealRepository;
 import com.dontcry.internsanta.db.repository.RefreshTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     AdventCalendarRepository adventCalendarRepository;
+
+    @Autowired
+    MemberSealRepository memberSealRepository;
 
     @Override
     public Member getMemberByMemberEmail(String memberEmail) {
@@ -84,11 +89,17 @@ public class MemberServiceImpl implements MemberService {
            throw new MemberEmailDuplicationException("email duplication",ErrorCode.EMAIL_DUPLICATION);
        }
 
+        MemberSeal memberSeal = MemberSeal.builder()
+                .build();
+
+        memberSealRepository.save(memberSeal);
+
         Member member = Member.builder()
                 .memberEmail(memberInfo.getMemberEmail())
                 .memberPwd(memberInfo.getMemberPwd())
                 .memberNickname(memberInfo.getMemberNickname())
                 .memberGender(memberInfo.getMemberGender())
+                .memberSeal(memberSeal)
                 .build();
 
         memberRepository.save(member);

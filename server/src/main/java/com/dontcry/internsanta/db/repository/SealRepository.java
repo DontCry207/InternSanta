@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface SealRepository extends JpaRepository<Seal, Long> {
 
     @Query(value = "SELECT * FROM Seal order by RAND() limit 1",nativeQuery = true)
-    public Seal findByRand();
+    public Seal findRandomSeal();
 }
