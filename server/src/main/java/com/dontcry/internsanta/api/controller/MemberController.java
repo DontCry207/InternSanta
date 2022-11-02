@@ -1,10 +1,12 @@
 package com.dontcry.internsanta.api.controller;
 
 import com.dontcry.internsanta.api.request.MemberCoinUpdateReq;
+import com.dontcry.internsanta.api.request.MemberLoginReq;
 import com.dontcry.internsanta.api.request.MemberPetUpdateReq;
 import com.dontcry.internsanta.api.request.MemberRegistReq;
 import com.dontcry.internsanta.api.response.MemberAdventCalendarListRes;
 import com.dontcry.internsanta.api.response.MemberCoinRes;
+import com.dontcry.internsanta.api.response.MemberInfoRes;
 import com.dontcry.internsanta.api.response.MemberPetRes;
 import com.dontcry.internsanta.api.service.MemberService;
 import com.dontcry.internsanta.common.JwtAuthenticationUtil;
@@ -68,5 +70,16 @@ public class MemberController {
         memberService.registerRefreshToken(member, tokens.get("refreshToken"));
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success")) ;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> getMemberByLogin(@RequestBody MemberLoginReq memberLoginReq) {
+
+        Member member = memberService.getMemberByEmailAndPwd(memberLoginReq.getMemberEmail(),memberLoginReq.getMemberPwd());
+
+        Map<String, String> tokens = JwtTokenUtil.generateTokenSet(member.getMemberEmail());
+        memberService.registerRefreshToken(member, tokens.get("refreshToken"));
+
+        return ResponseEntity.status(200).body(MemberInfoRes.of(member,tokens)) ;
     }
 }

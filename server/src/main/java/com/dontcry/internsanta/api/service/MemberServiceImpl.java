@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
 
     @Autowired
     MemberRepository memberRepository;
@@ -70,14 +70,11 @@ public class MemberServiceImpl implements MemberService{
            throw new MemberEmailDuplicationException("email duplication",ErrorCode.EMAIL_DUPLICATION);
        }
 
-        // TODO : 상의,하의 Default URL 수정하기
         Member member = Member.builder()
                 .memberEmail(memberInfo.getMemberEmail())
                 .memberPwd(memberInfo.getMemberPwd())
                 .memberNickname(memberInfo.getMemberNickname())
                 .memberGender(memberInfo.getMemberGender())
-                .memberTop("")
-                .memberBottom("")
                 .build();
 
         memberRepository.save(member);
@@ -99,5 +96,16 @@ public class MemberServiceImpl implements MemberService{
                     .build();
         }
         refreshTokenRepository.save(refreshToken);
+    }
+
+    @Override
+    public Member getMemberByEmailAndPwd(String memberEmail, String memberPwd) {
+
+        Member member = memberRepository.findByMemberEmail(memberEmail).orElseThrow(() -> new MemberNotFoundException("member not found", ErrorCode.MEMBER_NOT_FOUND));
+
+        if(!member.getMemberPwd().equals(memberPwd))
+            throw new MemberNotFoundException("비밀번호가 틀립니다", ErrorCode.MEMBER_NOT_FOUND);
+
+        return member;
     }
 }

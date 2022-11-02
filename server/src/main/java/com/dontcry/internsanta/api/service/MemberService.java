@@ -14,4 +14,6 @@ public interface MemberService {
     Member registerMember(MemberRegistReq memberInfo);
 
     void registerRefreshToken(Member member, String token);
+
+    Member getMemberByEmailAndPwd(String memberEmail, String memberPwd);
 }
