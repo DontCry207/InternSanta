@@ -42,10 +42,12 @@ public class Member {
 
     @NotNull
     @Column(length = 500)
+    @ColumnDefault("topUrl")
     private String memberTop;
 
     @NotNull
     @Column(length = 500)
+    @ColumnDefault("bottomUrl")
     private String memberBottom;
 
     @ColumnDefault("0")
@@ -63,4 +65,8 @@ public class Member {
     public void updateMemberPet(int memberPet) {
         this.memberPet = memberPet;
     };
+    public void updateMemberProgress(int memberChapter, int memberCheckpoint) {
+        this.memberChapter = memberChapter;
+        this.memberCheckpoint = memberCheckpoint;
+    }
 }
