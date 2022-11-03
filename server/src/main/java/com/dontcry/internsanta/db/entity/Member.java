@@ -1,6 +1,9 @@
 package com.dontcry.internsanta.db.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -40,14 +43,12 @@ public class Member {
     @ColumnDefault("0")
     private int memberTicket;
 
-    @NotNull
+    @ColumnDefault("'url'")
     @Column(length = 500)
-    @ColumnDefault("topUrl")
     private String memberTop;
 
-    @NotNull
+    @ColumnDefault("'url'")
     @Column(length = 500)
-    @ColumnDefault("bottomUrl")
     private String memberBottom;
 
     @ColumnDefault("0")
@@ -59,6 +60,10 @@ public class Member {
     @ColumnDefault("0")
     private int memberCheckpoint;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_seal_id")
+    MemberSeal memberSeal;
+
     public void updateMemberCoin(int memberCoin) {
         this.memberCoin += memberCoin;
     };
@@ -69,4 +74,6 @@ public class Member {
         this.memberChapter = memberChapter;
         this.memberCheckpoint = memberCheckpoint;
     }
+
+    public void updateMemberTicket() { this.memberTicket++; }
 }

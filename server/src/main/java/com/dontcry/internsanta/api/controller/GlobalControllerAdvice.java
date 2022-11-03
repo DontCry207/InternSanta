@@ -8,6 +8,7 @@ import com.dontcry.internsanta.common.exception.member.MemberUnauthorizedExcepti
 import com.dontcry.internsanta.common.exception.quest.QuestNotFoundException;
 import com.dontcry.internsanta.common.exception.member.*;
 import com.dontcry.internsanta.common.exception.response.ErrorResponse;
+import com.dontcry.internsanta.common.exception.seal.SealNotStretchException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,6 +67,14 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(QuestNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleQuestNotFoundException(QuestNotFoundException e) {
         log.error("handleQuestNotFoundException", e);
+        ErrorResponse response = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    // 씰이 부족한 경우
+    @ExceptionHandler(SealNotStretchException.class)
+    public ResponseEntity<ErrorResponse> handleSealNotStretchException(SealNotStretchException e) {
+        log.error("handleSealNotStretchException", e);
         ErrorResponse response = new ErrorResponse(e.getErrorCode());
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
