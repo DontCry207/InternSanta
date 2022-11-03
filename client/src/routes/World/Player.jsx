@@ -1,10 +1,15 @@
-import { useRef } from 'react';
-import { useLoader, useThree, useFrame } from '@react-three/fiber';
+import { useRef, useState } from 'react';
+import { useLoader, useThree, useFrame, extend } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import ilbuni from '../../assets/ilbuni.glb';
 import { RigidBody, BallCollider } from '@react-three/rapier';
+import {
+  OrbitControls,
+  MapControls,
+} from 'three/examples/jsm/controls/OrbitControls';
 import * as THREE from 'three';
 import { useKeyboardControls } from '@react-three/drei';
+extend({ OrbitControls, MapControls });
 
 const Player = () => {
   const gltf = useLoader(GLTFLoader, ilbuni);
@@ -13,16 +18,23 @@ const Player = () => {
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();
   const sideVector = new THREE.Vector3();
-
   const ref = useRef();
-  const { camera } = useThree();
+  const {
+    camera,
+    gl: { domElement },
+  } = useThree();
   const [, get] = useKeyboardControls();
-  useFrame((state) => {
+  const [location, setLocation] = useState([0, 2, 2]);
+  const controls = useRef();
+
+  useFrame((state, delta) => {
     const { forward, backward, left, right } = get();
     const velocity = ref.current.linvel();
     // update camera
     const [x, y, z] = [...ref.current.translation()];
-    camera.position.set(x, y + 1, z + 2);
+    setLocation([x, y + 0.8, z]);
+    controls.current.update();
+
     // movement
     frontVector.set(0, 0, backward - forward);
     sideVector.set(left - right, 0, 0);
@@ -35,10 +47,25 @@ const Player = () => {
   });
 
   return (
-    <RigidBody ref={ref} type="dynamic" colliders={false} position={[0, 3, 0]}>
-      <primitive object={gltf.scene} />
-      <BallCollider args={[0.3, 0.3]} />
-    </RigidBody>
+    <>
+      <mapControls
+        ref={controls}
+        args={[camera, domElement]}
+        target={location}
+        minDistance={2}
+        maxDistance={2}
+        maxPolarAngle={Math.PI / 2.7}
+        minPolarAngle={Math.PI / 2.7}
+      />
+      <RigidBody
+        ref={ref}
+        type="dynamic"
+        colliders={false}
+        position={[0, 3, 0]}>
+        <primitive object={gltf.scene} />
+        <BallCollider args={[0.3, 0.3]} />
+      </RigidBody>
+    </>
   );
 };
 

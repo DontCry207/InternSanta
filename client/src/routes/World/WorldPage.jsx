@@ -1,4 +1,4 @@
-import { KeyboardControls, OrbitControls, Sky } from '@react-three/drei';
+import { KeyboardControls, PerspectiveCamera, Sky } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
 import React, { Suspense } from 'react';
@@ -17,7 +17,7 @@ const WorldPage = () => {
           { name: 'right', keys: ['ArrowRight', 'd', 'D'] },
           { name: 'jump', keys: ['Space'] },
         ]}>
-        <Canvas>
+        <Canvas camera={{ fov: 75 }}>
           <Sky sunPosition={[30, 10, 10]} />
           <ambientLight intensity={0.3} />
           <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />

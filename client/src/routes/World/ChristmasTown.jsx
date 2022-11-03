@@ -3,11 +3,10 @@ import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import Town from '../../assets/ChristmasTown.glb';
 import { RigidBody } from '@react-three/rapier';
-import { PerspectiveCamera } from '@react-three/drei';
 
 const ChristmasTown = () => {
   const gltf = useLoader(GLTFLoader, Town);
-  gltf.scene.scale.set(8, 8, 8);
+  gltf.scene.scale.set(9, 9, 9);
   return (
     <RigidBody type="fixed" colliders={'trimesh'}>
       <primitive object={gltf.scene} />
