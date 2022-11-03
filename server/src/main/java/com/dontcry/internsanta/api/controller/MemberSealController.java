@@ -39,7 +39,7 @@ public class MemberSealController {
     public ResponseEntity<SealRes> updateMemberSeal(@ApiIgnore Authentication authentication) {
         Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
 
-        memberService.updateMemberCoin(member, -10);
+        memberService.updateMemberCoin(member, -100);
 
         Seal seal = memberSealService.getSeal();
 

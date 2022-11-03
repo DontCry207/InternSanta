@@ -27,8 +27,8 @@ public class MemberSealServiceImpl implements MemberSealService {
     @Override
     public void updateSeal(MemberSeal memberSeal, Seal seal) {
         List<Integer> seals = memberSeal.getMemberSeals();
-        long idx = seal.getSealId();
-        seals.set((int) idx,seals.get((int) idx)+1);
+        int idx = (int) (seal.getSealId() - 1);
+        seals.set(idx,seals.get(idx)+1);
         memberSealRepository.save(memberSeal);
     }
 
