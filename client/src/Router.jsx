@@ -6,7 +6,7 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/game" element={<GameConnectPage />}></Route>
+        <Route path="/main" element={<GameConnectPage />}></Route>
       </Routes>
     </BrowserRouter>
   );

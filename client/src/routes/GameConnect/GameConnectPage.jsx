@@ -1,15 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import christmasTown from '../../assets/images/christmasTown.jpg';
+import AlertModal from '../Common/AlertModal';
 const GameConnectPage = () => {
+  const [onLoginModal, setOnLoginModal] = useState(false);
+  const [onRegisterModal, setOnRegisterModal] = useState(false);
+
+  const loginModalOpen = () => {
+    setOnLoginModal(true);
+  };
+  const registerModalOpen = () => {
+    setOnRegisterModal(true);
+  };
+
+  const loginModal = () => {
+    if (onLoginModal)
+      return (
+        <AlertModal
+          title="로그인"
+          leftBtnName="닫기"
+          rightBtnName="시작하기"
+          setLeftBtnControl={setOnLoginModal}></AlertModal>
+      );
+  };
+  const registerModal = () => {
+    if (onRegisterModal)
+      return (
+        <AlertModal
+          title="회원가입"
+          leftBtnName="닫기"
+          rightBtnName="가입"
+          setLeftBtnControl={setOnRegisterModal}></AlertModal>
+      );
+  };
   return (
-    <Container img={christmasTown}>
-      <MainTitle>INTERN SANTA</MainTitle>
-      <BtnSet>
-        <button>로그인</button>
-        <button>회원가입</button>
-      </BtnSet>
-    </Container>
+    <>
+      <Container img={christmasTown}>
+        <MainTitle>INTERN SANTA</MainTitle>
+        <BtnSet>
+          <button onClick={() => loginModalOpen()}>로그인</button>
+          <button onClick={() => registerModalOpen()}>회원가입</button>
+        </BtnSet>
+      </Container>
+      {loginModal()}
+      {registerModal()}
+    </>
   );
 };
 
@@ -50,12 +85,10 @@ const BtnSet = styled.div`
     display: inline-block;
     width: 220px;
     height: 70px;
-    border: none;
     border-radius: 15px;
     font-size: 40px;
     color: white;
     background: ${(props) => props.theme.colors.gradientOrange};
-    cursor: pointer;
     transform: scale(1);
     transition: 0.5s;
   }

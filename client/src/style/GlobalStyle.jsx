@@ -66,6 +66,10 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     color: inherit;
   }
+  button {
+    border: none;
+    cursor: pointer;
+  }
 `;
 
 export default GlobalStyle;
