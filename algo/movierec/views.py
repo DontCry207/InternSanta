@@ -4,20 +4,31 @@ from rest_framework.response import Response
 from rest_framework import status
 import pandas as pd
 import pickle
+from django.apps import AppConfig
+
+CONST_MOVIES = {}
+CONST_COSINE_SIM = {}
+
+class MovieInit(AppConfig):
+  global CONST_MOVIES
+  global CONST_COSINE_SIM
+  CONST_MOVIES = pickle.load(open('movies.pickle', 'rb'))
+  CONST_COSINE_SIM = pickle.load(open('cosine_sim.pickle', 'rb'))
+
 
 @api_view(["GET"])
 def recommend(request):
 
-  movies = pickle.load(open('movies.pickle', 'rb'))
-  cosine_sim = pickle.load(open('cosine_sim.pickle', 'rb'))
+  global CONST_MOVIES
+  global CONST_COSINE_SIM
 
   title = request.GET["title"]
 
   # 영화의 제목을 통해서 전체 데이터 기준 그 영화의 index 값을 얻기
-  idx = movies[movies['title'] == title].index[0]
+  idx = CONST_MOVIES[CONST_MOVIES['title'] == title].index[0]
   
-  # 코사인 유사도 매트릭스 (cosine_sim)에서 idx에 해당하는 데이터를 (idx, 유사도) 형태로 얻기
-  sim_scores = list(enumerate(cosine_sim[idx]))
+  # 코사인 유사도 매트릭스 (CONST_COSINE_SIM)에서 idx에 해당하는 데이터를 (idx, 유사도) 형태로 얻기
+  sim_scores = list(enumerate(CONST_COSINE_SIM[idx]))
 
   # 코사인 유사도 기준으로 내림차순 정렬
   sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
@@ -32,10 +43,10 @@ def recommend(request):
   for i in movie_indices:
     movie = {}
     
-    movie["title"] = movies["title"][i]
-    movie["poster_path"] = movies["poster_path"][i]
-    movie["overview"] = movies["overview"][i]
-    movie["release_date"] = movies["release_date"][i]
+    movie["title"] = CONST_MOVIES["title"][i]
+    movie["poster_path"] = CONST_MOVIES["poster_path"][i]
+    movie["overview"] = CONST_MOVIES["overview"][i]
+    movie["release_date"] = CONST_MOVIES["release_date"][i]
     
     result.append(movie)
     
