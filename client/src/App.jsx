@@ -1,10 +1,21 @@
 import GlobalStyle from './style/GlobalStyle';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { RecoilRoot } from 'recoil';
+import Router from './Router';
+import './style/font.css';
 
 function App() {
   return (
     <>
-      <GlobalStyle />
-      <p>하이</p>
+      <HelmetProvider>
+        <Helmet>
+          <title>인턴산타</title>
+        </Helmet>
+        <GlobalStyle />
+        <RecoilRoot>
+          <Router />
+        </RecoilRoot>
+      </HelmetProvider>
     </>
   );
 }
