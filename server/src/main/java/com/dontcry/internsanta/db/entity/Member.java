@@ -74,4 +74,6 @@ public class Member {
         this.memberChapter = memberChapter;
         this.memberCheckpoint = memberCheckpoint;
     }
+
+    public void updateMemberTicket() { this.memberTicket++; }
 }

@@ -1,6 +1,7 @@
 package com.dontcry.internsanta.api.controller;
 
 import com.dontcry.internsanta.api.response.MemberSealRes;
+import com.dontcry.internsanta.api.response.MemberSealTicketRes;
 import com.dontcry.internsanta.api.response.SealRes;
 import com.dontcry.internsanta.api.service.MemberSealService;
 import com.dontcry.internsanta.api.service.MemberService;
@@ -38,11 +39,11 @@ public class MemberSealController {
     public ResponseEntity<SealRes> updateMemberSeal(@ApiIgnore Authentication authentication) {
         Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
 
-        memberService.updateMemberCoin(member,-10);
+        memberService.updateMemberCoin(member, -10);
 
         Seal seal = memberSealService.getSeal();
 
-        memberSealService.updateSeal(member.getMemberSeal(),seal);
+        memberSealService.updateSeal(member.getMemberSeal(), seal);
 
         return ResponseEntity.status(200).body(SealRes.of(seal));
     }
@@ -53,12 +54,30 @@ public class MemberSealController {
         List<Seal> sealList = memberSealService.getAllSealList();
         List<Integer> memberSealCnt = member.getMemberSeal().getMemberSeals();
 
-        List<MemberSealRes> memberSealResList =new ArrayList<>();
+        List<MemberSealRes> memberSealResList = new ArrayList<>();
 
-        for (int i=0; i<12; i++) {
-            memberSealResList.add(MemberSealRes.of(sealList.get(i),memberSealCnt.get(i)));
+        for (int i = 0; i < 12; i++) {
+            memberSealResList.add(MemberSealRes.of(sealList.get(i), memberSealCnt.get(i)));
         }
 
         return ResponseEntity.status(200).body(memberSealResList);
     }
+
+    @PatchMapping("/ticket")
+        public ResponseEntity<MemberSealTicketRes> updateMemberTicket(@ApiIgnore Authentication authentication) {
+            Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
+
+        memberSealService.updateMemberTicket(member);
+
+        List<Seal> sealList = memberSealService.getAllSealList();
+        List<Integer> memberSealCnt = member.getMemberSeal().getMemberSeals();
+        List<MemberSealRes> memberSealResList = new ArrayList<>();
+
+        for (int i = 0; i < 12; i++) {
+            memberSealResList.add(MemberSealRes.of(sealList.get(i), memberSealCnt.get(i)));
+        }
+
+        return ResponseEntity.status(200).body(MemberSealTicketRes.of(member,memberSealResList));
+    }
+
 }
