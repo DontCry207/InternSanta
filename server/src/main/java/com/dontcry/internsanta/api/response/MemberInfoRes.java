@@ -9,6 +9,7 @@ import java.util.Map;
 @Getter
 @Builder
 public class MemberInfoRes {
+    String memberNickname;
     int memberCoin;
     int memberTicket;
     int memberGender;
@@ -22,6 +23,7 @@ public class MemberInfoRes {
 
     public static MemberInfoRes of(Member member, Map<String, String> tokens) {
         MemberInfoRes res = MemberInfoRes.builder()
+                .memberNickname(member.getMemberNickname())
                 .memberCoin(member.getMemberCoin())
                 .memberTicket(member.getMemberTicket())
                 .memberGender(member.getMemberGender())
