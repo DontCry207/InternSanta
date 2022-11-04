@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import christmasTown from '../../assets/images/christmasTown.jpg';
 import AlertModal from '../Common/AlertModal';
+import LoginPage from '../Login/LoginPage';
+import RegisterPage from '../Register/RegisterPage';
 const GameConnectPage = () => {
   const [onLoginModal, setOnLoginModal] = useState(false);
   const [onRegisterModal, setOnRegisterModal] = useState(false);
@@ -20,7 +22,9 @@ const GameConnectPage = () => {
           title="로그인"
           leftBtnName="닫기"
           rightBtnName="시작하기"
-          setLeftBtnControl={setOnLoginModal}></AlertModal>
+          setLeftBtnControl={setOnLoginModal}>
+          <LoginPage />
+        </AlertModal>
       );
   };
   const registerModal = () => {
@@ -30,7 +34,9 @@ const GameConnectPage = () => {
           title="회원가입"
           leftBtnName="닫기"
           rightBtnName="가입"
-          setLeftBtnControl={setOnRegisterModal}></AlertModal>
+          setLeftBtnControl={setOnRegisterModal}>
+          <RegisterPage />
+        </AlertModal>
       );
   };
   return (
