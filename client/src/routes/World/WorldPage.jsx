@@ -5,6 +5,7 @@ import React, { Suspense } from 'react';
 import styled from 'styled-components';
 import ChristmasTown from './ChristmasTown';
 import Player from './Player';
+import Pet from './Pet';
 
 const WorldPage = () => {
   return (
@@ -23,6 +24,7 @@ const WorldPage = () => {
           <Suspense fallback={null}>
             <Physics gravity={[0, -20, 0]}>
               <Player />
+              <Pet />
               <ChristmasTown />
             </Physics>
           </Suspense>
