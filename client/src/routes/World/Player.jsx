@@ -1,14 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { useThree, useFrame, extend } from '@react-three/fiber';
 import ilbuni from '../../assets/ilbuni.glb';
-import MainCharacter from '../../assets/MainCharacter.glb';
 import { RigidBody, CuboidCollider } from '@react-three/rapier';
 import {
   OrbitControls,
   MapControls,
 } from 'three/examples/jsm/controls/OrbitControls';
 import * as THREE from 'three';
-import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
+import {
+  useKeyboardControls,
+  useGLTF,
+  useAnimations,
+  PointerLockControls,
+} from '@react-three/drei';
 extend({ OrbitControls, MapControls });
 
 const Player = () => {
@@ -28,6 +32,12 @@ const Player = () => {
   const [location2, setLocation2] = useState([10, 10, -2]);
   const controls = useRef();
 
+  useEffect(() => {
+    console.log(controls);
+    controls.current.enableRotate = true;
+    controls.current.rotateSpeed = 0.5;
+  }, []);
+
   const group = useRef();
   const { nodes, materials, animations } = useGLTF(ilbuni);
   const { actions } = useAnimations(animations, group);
@@ -38,7 +48,7 @@ const Player = () => {
     const velocity = ref.current.linvel();
     // update camera
     const [x, y, z] = [...ref.current.translation()];
-    setLocation([x, y + 0.6, z]);
+    setLocation([x, y + 0.4, z]);
     setLocation2([x, y - 0.1, z]);
 
     if (forward || backward || left || right) {
@@ -49,20 +59,21 @@ const Player = () => {
       actions.default.play();
     }
 
-    nodes.Armature.rotateY(Math.PI);
     if (forward && left) {
-      nodes.Armature.rotateY(Math.PI / 4);
+      nodes.Armature.rotateY(-(3 * Math.PI) / 4);
     } else if (backward && left) {
-      nodes.Armature.rotateY((3 * Math.PI) / 4);
-    } else if (left) {
-      nodes.Armature.rotateY(Math.PI / 2);
-    } else if (forward && right) {
       nodes.Armature.rotateY(-Math.PI / 4);
-    } else if (backward && right) {
-      nodes.Armature.rotateY((-3 * Math.PI) / 4);
-    } else if (right) {
+    } else if (left) {
       nodes.Armature.rotateY(-Math.PI / 2);
+    } else if (forward && right) {
+      nodes.Armature.rotateY((3 * Math.PI) / 4);
+    } else if (backward && right) {
+      nodes.Armature.rotateY(Math.PI / 4);
+    } else if (right) {
+      nodes.Armature.rotateY(Math.PI / 2);
     } else if (backward) {
+      nodes.Armature.rotateY(2 * Math.PI);
+    } else {
       nodes.Armature.rotateY(Math.PI);
     }
     controls.current.update();
@@ -86,8 +97,8 @@ const Player = () => {
         target={location}
         minDistance={1.6}
         maxDistance={1.6}
-        maxPolarAngle={Math.PI / 2.6}
-        minPolarAngle={Math.PI / 2.6}
+        maxPolarAngle={Math.PI / 1.7}
+        minPolarAngle={Math.PI / 2.8}
         enableRotate={false}
         enablePan={false}
       />

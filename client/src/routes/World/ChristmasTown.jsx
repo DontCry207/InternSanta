@@ -1,8 +1,8 @@
 import React from 'react';
 import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import Town from '../../assets/ChristmasTown.glb';
 import { RigidBody } from '@react-three/rapier';
+import Town from '../../assets/ChristmasTown.glb';
 
 const ChristmasTown = () => {
   const gltf = useLoader(GLTFLoader, Town);

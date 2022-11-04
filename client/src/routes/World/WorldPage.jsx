@@ -4,6 +4,7 @@ import { Physics } from '@react-three/rapier';
 import React, { Suspense } from 'react';
 import styled from 'styled-components';
 import ChristmasTown from './ChristmasTown';
+import Npc from './Npc';
 import Player from './Player';
 
 const WorldPage = () => {
@@ -21,8 +22,9 @@ const WorldPage = () => {
           <ambientLight intensity={0.3} />
           <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
           <Suspense fallback={null}>
-            <Physics gravity={[0, -20, 0]}>
+            <Physics gravity={[0, -30, 0]}>
               <Player />
+              <Npc />
               <ChristmasTown />
             </Physics>
           </Suspense>
