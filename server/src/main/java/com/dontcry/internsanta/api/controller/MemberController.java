@@ -102,42 +102,43 @@ public class MemberController {
     }
 
     @PatchMapping("/top")
-    public ResponseEntity<?> updateMemberTop(@RequestBody List<MultipartFile> memberTopList) throws IOException {
+    public ResponseEntity<?> updateMemberTop(@RequestBody List<MultipartFile> memberTopList, @ApiIgnore Authentication authentication) throws IOException {
+        Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        // MultipartFIle -> ByteArray 변환
         ByteArrayResource frontImg = new ByteArrayResource(memberTopList.get(0).getBytes()) {
             // 기존 ByteArrayResource의 getFilename 메서드 override
             @Override
             public String getFilename() {
-                return "front.jpg";
+                return "front" + member.getMemberId() + ".jpg";
             }
         };
         ByteArrayResource backImg = new ByteArrayResource(memberTopList.get(1).getBytes()) {
             // 기존 ByteArrayResource의 getFilename 메서드 override
             @Override
             public String getFilename() {
-                return "back.jpg";
+                return "back" + member.getMemberId() + ".jpg";
             }
         };
-
-        System.out.println(memberTopList.get(0));
-        System.out.println(memberTopList.get(0).getClass());
+        // Header MediaType 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("front", frontImg);
         body.add("back", backImg);
+        body.add("member", member.getMemberId());
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
         String url = "http://localhost:8000/api/v2/member/top/";
         // 2. RestTemplate 객체를 생성합니다.
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
-        System.out.println(response.getBody());
-        System.out.println(response.getClass());
+        String memberTopUrl = response.getBody();
+        memberTopUrl = memberTopUrl.substring(1, memberTopUrl.length() - 1); // " " 자르기
+        
         if (response.getStatusCode() == HttpStatus.OK) {
-//            return ResponseEntity.status(200).body(MemberTopRes.of(memberTopUrl));
-//            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
-            return ResponseEntity.status(200).body(response);
+            return ResponseEntity.status(200).body(MemberTopRes.of(memberTopUrl));
         } else
             return ResponseEntity.status(409).body(BaseResponseBody.of(409, "fail"));
     }
