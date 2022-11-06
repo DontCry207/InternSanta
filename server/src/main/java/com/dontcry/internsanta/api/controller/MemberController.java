@@ -136,7 +136,9 @@ public class MemberController {
         ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
         String memberTopUrl = response.getBody();
         memberTopUrl = memberTopUrl.substring(1, memberTopUrl.length() - 1); // " " 자르기
-        
+
+
+
         if (response.getStatusCode() == HttpStatus.OK) {
             return ResponseEntity.status(200).body(MemberTopRes.of(memberTopUrl));
         } else
