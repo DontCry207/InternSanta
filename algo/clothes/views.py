@@ -7,13 +7,15 @@ from rest_framework import status
 import cv2
 import numpy as np
 from django.core.files.storage import default_storage
+from django.core.files.storage import FileSystemStorage
+
 from django.core.files.base import ContentFile
 from os import remove
 from django.http import FileResponse
 from django.http import HttpResponse
 from PIL import Image
-# import boto3
-# from django.conf import settings
+from io import BytesIO
+import boto3
 # Create your views here.
 
 
@@ -22,9 +24,10 @@ def top(request):
     front_file = request.FILES["front"]
     back_file = request.FILES["back"]
     # 이미지 파일 임시 저장
-    front_path = default_storage.save(
+    fs = FileSystemStorage()
+    front_path = fs.save(
         'clothes/img/tmp/' + str(front_file), ContentFile(front_file.read()))
-    back_path = default_storage.save(
+    back_path = fs.save(
         'clothes/img/tmp/' + str(back_file), ContentFile(back_file.read()))
     print(front_file.read())
     print(front_path)
@@ -40,7 +43,6 @@ def top(request):
 
     # 텍스쳐 파일 생성
     texture = cv2.imread('clothes/img/texture.png')
-
     width, height, channel = front.shape
     # print(width, height, channel)
 
@@ -55,31 +57,50 @@ def top(request):
     # cv2.destroyAllWindows()
     # cv2.imwrite('texture_result.png', texture)
 
-    remove(front_path)
-    remove(back_path)
-
     # cv2.imwrite()
     # response = HttpResponse(
     #     texture, content_type="application/octet-stream; charset=utf-8")
     # response['Content-Disposition'] = 'attachment; filename=texture_file'
 
     textureRGB = cv2.cvtColor(texture, cv2.COLOR_BGR2RGB)
+    # cv2.imwrite('clothes/img/tmp/' + 'result.png', textureRGB)
     result = Image.fromarray(textureRGB)
-    result.show(result)
+    buffer = BytesIO()
+    result.save(buffer, "PNG")
+    buffer.seek(0)
 
-    # s3_client = boto3.client(
-    #     's3',
-    #     aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-    #     aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
-    # )
+    s3_client = boto3.client(
+        's3',
+        aws_access_key_id='AKIA6QAZ24GKGKIVGZWF',
+        aws_secret_access_key='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'
+    )
 
-    # s3_client.upload_fileobj(
-    #     result,
-    #     settings.AWS_STORAGE_BUCKET_NAME,
-    #     '/texture/memberId/texture.png'
-    # )
+    a = s3_client.upload_fileobj(
+        buffer,
+        "internsanta",
+        "texture1",
+        ExtraArgs={
+            "ContentType": 'image/png'
+        }
+    )
+    print(a)
+    # result.show(result)
+    # result.save('clothes/img/tmp/' + 'result.png')
+    # data = open('clothes/img/tmp/' + 'result.png', 'rb')
+    # print(type(data))
+    # print(data.content_type)
 
+    # s3r = boto3.resource('s3', aws_access_key_id='AKIA6QAZ24GKGKIVGZWF',
+    #                      aws_secret_access_key='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')
+    # s3r.Bucket('internsanta').put_object(
+    #     Key='texture/', body=data, ContentType='png')
+    # AWS_ACCESS_KEY_ID = 'AKIA6QAZ24GKGKIVGZWF'
+# AWS_SECRET_ACCESS_KEY = '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'
+    # result_path = default_storage.save(
+    #     'texture/memberId/' + str(result), buffer)
     # response = FileResponse(result, content_type='application/force-download')
     # response['Content-Disposition'] = 'attachment; filename="filename.pdf"'
     # return HttpResponse(result, content_type="image/png")
+    remove(front_path)
+    remove(back_path)
     return Response("success", status=status.HTTP_200_OK)
