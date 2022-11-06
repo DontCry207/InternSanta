@@ -2,7 +2,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
-const RegisterPage = () => {
+const RegisterPage = (props) => {
+  const { closeFnc } = props;
   const {
     register,
     handleSubmit,
@@ -90,14 +91,21 @@ const RegisterPage = () => {
             <small role="alert">{errors?.memberNickname?.message}</small>
           </div>
         </InputBox>
-        <input type="submit" />
+        <BtnSet>
+          <button className="leftBtn" onClick={() => closeFnc()}>
+            닫기
+          </button>
+          <button className="rightBtn" type="submit">
+            가입
+          </button>
+        </BtnSet>
       </form>
     </div>
   );
 };
 
 const InputBox = styled.div`
-  padding: 5px;
+  padding: 10px 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -114,8 +122,33 @@ const InputBox = styled.div`
     border-radius: 20px;
     width: 200px;
     font-size: 18px;
-    padding: 5px 10px;
+    padding: 5px 15px;
+    &:focus {
+      outline: 0;
+    }
   }
 `;
+const BtnSet = styled.div`
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  justify-content: center;
+  gap: 10px;
+  transform: translate(0, 50%);
 
+  button {
+    width: 140px;
+    height: 50px;
+    background-color: #60c783;
+    border-radius: 70px;
+    font-size: 24px;
+  }
+  .leftBtn {
+    background-color: #cfcfcf;
+  }
+  .rightBtn {
+    background-color: #60c783;
+    color: white;
+  }
+`;
 export default RegisterPage;

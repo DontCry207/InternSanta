@@ -80,7 +80,7 @@ const Title = styled.div`
   font-size: 36px;
 `;
 const MainContents = styled.div`
-  padding: 40px 20px;
+  padding: 50px 20px;
   display: flex;
   justify-content: center;
 `;

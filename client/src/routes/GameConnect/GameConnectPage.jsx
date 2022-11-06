@@ -18,24 +18,16 @@ const GameConnectPage = () => {
   const loginModal = () => {
     if (onLoginModal)
       return (
-        <AlertModal
-          title="로그인"
-          leftBtnName="닫기"
-          rightBtnName="시작하기"
-          setLeftBtnControl={setOnLoginModal}>
-          <LoginPage />
+        <AlertModal title="로그인">
+          <LoginPage closeFnc={setOnLoginModal} />
         </AlertModal>
       );
   };
   const registerModal = () => {
     if (onRegisterModal)
       return (
-        <AlertModal
-          title="회원가입"
-          leftBtnName="닫기"
-          rightBtnName="가입"
-          setLeftBtnControl={setOnRegisterModal}>
-          <RegisterPage />
+        <AlertModal title="회원가입">
+          <RegisterPage closeFnc={setOnRegisterModal} />
         </AlertModal>
       );
   };

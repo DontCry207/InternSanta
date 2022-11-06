@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 
-export const loggedinState = atom({
-  key: `loggedin`,
+export const loggedInState = atom({
+  key: `loggedIn`,
   default: sessionStorage.getItem('accessToken') ? true : false,
 });
 
@@ -12,8 +12,8 @@ export const userInfoState = atom({
     memberCoin: -1,
     memberTicket: -1,
     memberGender: -1,
-    memberTop: '',
-    memberBottom: '',
+    memberTop: null,
+    memberBottom: null,
     memberPet: -1,
     memberChapter: -1,
     memberCheckpoint: -1,
