@@ -80,7 +80,7 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler(MemberTopUpdateException.class)
-    public ResponseEntity<ErrorResponse> handleMemberTopUpdateException(SealNotStretchException e) {
+    public ResponseEntity<ErrorResponse> handleMemberTopUpdateException(MemberTopUpdateException e) {
         log.error("handleMemberTopUpdateException", e);
         ErrorResponse response = new ErrorResponse(e.getErrorCode());
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));

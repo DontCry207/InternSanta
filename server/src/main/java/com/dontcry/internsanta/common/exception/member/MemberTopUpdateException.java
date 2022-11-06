@@ -1,7 +1,9 @@
 package com.dontcry.internsanta.common.exception.member;
 
 import com.dontcry.internsanta.common.exception.code.ErrorCode;
+import lombok.Getter;
 
+@Getter
 public class MemberTopUpdateException extends RuntimeException{
     private ErrorCode errorCode;
 

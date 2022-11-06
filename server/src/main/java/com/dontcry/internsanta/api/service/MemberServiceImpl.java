@@ -6,6 +6,7 @@ import com.dontcry.internsanta.common.exception.code.ErrorCode;
 import com.dontcry.internsanta.common.exception.member.MemberCoinNegativeException;
 import com.dontcry.internsanta.common.exception.member.MemberEmailDuplicationException;
 import com.dontcry.internsanta.common.exception.member.MemberNotFoundException;
+import com.dontcry.internsanta.common.exception.member.MemberTopUpdateException;
 import com.dontcry.internsanta.db.entity.AdventCalendar;
 import com.dontcry.internsanta.db.entity.Member;
 import com.dontcry.internsanta.db.entity.MemberSeal;
@@ -143,15 +144,18 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public String updateMemberTop(List<MultipartFile> memberTopList, Long memberId) throws IOException {
+        if (memberTopList.size() != 2) {
+            throw new MemberTopUpdateException("이미지 파일의 개수가 2개가 아닙니다.", ErrorCode.MEMBER_TOP_IMAGE_ERROR);
+        }
         // MultipartFIle -> ByteArray 변환
-        ByteArrayResource frontImg = new ByteArrayResource(memberTopList.get(0).getBytes()) {
+        ByteArrayResource frontImg = new ByteArrayResource(memberTopList.get(1).getBytes()) {
             // 기존 ByteArrayResource의 getFilename 메서드 override
             @Override
             public String getFilename() {
                 return "front" + memberId + ".jpg";
             }
         };
-        ByteArrayResource backImg = new ByteArrayResource(memberTopList.get(1).getBytes()) {
+        ByteArrayResource backImg = new ByteArrayResource(memberTopList.get(0).getBytes()) {
             // 기존 ByteArrayResource의 getFilename 메서드 override
             @Override
             public String getFilename() {
@@ -168,12 +172,12 @@ public class MemberServiceImpl implements MemberService {
         body.add("member", memberId);
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-        String url = "http://localhost:8000/api/v2/member/top/";
+        String url = "http://localhost:8000/api/v2/cloth/top/";
         // 2. RestTemplate 객체를 생성합니다.
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
         if (response.getStatusCode() != HttpStatus.OK)
-            throw new MemberNotFoundException("상의 업데이트 중 에러가 발생했습니다.", ErrorCode.MEMBER_TOP_UPDATE_ERROR);
+            throw new MemberTopUpdateException("상의 업데이트 중 에러가 발생했습니다.", ErrorCode.MEMBER_TOP_UPDATE_ERROR);
 
         String memberTopUrl = response.getBody();
         return memberTopUrl.substring(1, memberTopUrl.length() - 1); // " " 자르기
