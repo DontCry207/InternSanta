@@ -20,5 +20,5 @@ public interface MemberService {
     void registerRefreshToken(Member member, String token);
 
     Member getMemberByEmailAndPwd(String memberEmail, String memberPwd);
-    String updateMemberTop(List<MultipartFile> memberTopList, Long memberId) throws IOException;
+    String updateMemberTop(List<MultipartFile> memberTopList, Member member) throws IOException;
 }

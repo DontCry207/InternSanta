@@ -104,7 +104,7 @@ public class MemberController {
     @PatchMapping("/top")
     public ResponseEntity<MemberTopRes> updateMemberTop(@RequestBody List<MultipartFile> memberTopList, @ApiIgnore Authentication authentication) throws IOException {
         Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
-        String memberTopUrl = memberService.updateMemberTop(memberTopList, member.getMemberId());
+        String memberTopUrl = memberService.updateMemberTop(memberTopList, member);
             return ResponseEntity.status(200).body(MemberTopRes.of(memberTopUrl));
     }
 }
