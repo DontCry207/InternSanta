@@ -21,6 +21,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -98,18 +102,18 @@ public class MemberController {
     }
 
     @PatchMapping("/top")
-    public ResponseEntity<?> updateMemberTop(@RequestBody List<MultipartFile> memberTopList) {
+    public ResponseEntity<?> updateMemberTop(@RequestBody List<MultipartFile> memberTopList) throws IOException {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        ByteArrayResource frontImg = new ByteArrayResource(memberTopList.get(0).getOriginalFilename().getBytes()) {
+        ByteArrayResource frontImg = new ByteArrayResource(memberTopList.get(0).getBytes()) {
             // 기존 ByteArrayResource의 getFilename 메서드 override
             @Override
             public String getFilename() {
                 return "front.jpg";
             }
         };
-        ByteArrayResource backImg = new ByteArrayResource(memberTopList.get(1).getOriginalFilename().getBytes()) {
+        ByteArrayResource backImg = new ByteArrayResource(memberTopList.get(1).getBytes()) {
             // 기존 ByteArrayResource의 getFilename 메서드 override
             @Override
             public String getFilename() {
@@ -117,8 +121,8 @@ public class MemberController {
             }
         };
 
-        System.out.println("type : " + frontImg);
-
+        System.out.println(memberTopList.get(0));
+        System.out.println(memberTopList.get(0).getClass());
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("front", frontImg);
         body.add("back", backImg);
@@ -129,9 +133,11 @@ public class MemberController {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
         System.out.println(response.getBody());
+        System.out.println(response.getClass());
         if (response.getStatusCode() == HttpStatus.OK) {
 //            return ResponseEntity.status(200).body(MemberTopRes.of(memberTopUrl));
-            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+//            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+            return ResponseEntity.status(200).body(response);
         } else
             return ResponseEntity.status(409).body(BaseResponseBody.of(409, "fail"));
     }
