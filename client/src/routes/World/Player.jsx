@@ -30,10 +30,10 @@ const Player = () => {
   const [, get] = useKeyboardControls();
   const [location, setLocation] = useState([10, 10, -2]);
   const [location2, setLocation2] = useState([10, 10, -2]);
+  const [maxPolarAngle, setMaxPolarAngle] = useState(1.7);
   const controls = useRef();
 
   useEffect(() => {
-    console.log(controls);
     controls.current.enableRotate = true;
     controls.current.rotateSpeed = 0.5;
   }, []);
@@ -54,9 +54,13 @@ const Player = () => {
     if (forward || backward || left || right) {
       actions.default.stop();
       actions.walk.play().setEffectiveTimeScale(1.3);
+      if (maxPolarAngle < 2.8) {
+        setMaxPolarAngle(maxPolarAngle + 0.1);
+      }
     } else {
       actions.walk.stop();
       actions.default.play();
+      setMaxPolarAngle(1.7);
     }
 
     if (forward && left) {
@@ -97,7 +101,7 @@ const Player = () => {
         target={location}
         minDistance={1.6}
         maxDistance={1.6}
-        maxPolarAngle={Math.PI / 1.7}
+        maxPolarAngle={Math.PI / maxPolarAngle}
         minPolarAngle={Math.PI / 2.8}
         enableRotate={false}
         enablePan={false}

@@ -18,9 +18,9 @@ const WorldPage = () => {
           { name: 'right', keys: ['ArrowRight', 'd', 'D'] },
         ]}>
         <Canvas camera={{ fov: 70 }}>
-          <Sky sunPosition={[30, 10, 10]} />
+          <Sky sunPosition={[-100, -100, 0]} />
           <ambientLight intensity={0.3} />
-          <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
+          <pointLight castShadow intensity={0.4} position={[0, 100, 100]} />
           <Suspense fallback={null}>
             <Physics gravity={[0, -30, 0]}>
               <Player />
