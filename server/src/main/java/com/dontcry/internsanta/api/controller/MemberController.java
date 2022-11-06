@@ -1,14 +1,7 @@
 package com.dontcry.internsanta.api.controller;
 
-import com.dontcry.internsanta.api.request.MemberCoinUpdateReq;
-import com.dontcry.internsanta.api.request.MemberLoginReq;
-import com.dontcry.internsanta.api.request.MemberPetUpdateReq;
-import com.dontcry.internsanta.api.request.MemberRegistReq;
-import com.dontcry.internsanta.api.response.MemberAdventCalendarListRes;
-import com.dontcry.internsanta.api.response.MemberCoinRes;
-import com.dontcry.internsanta.api.response.MemberInfoRes;
-import com.dontcry.internsanta.api.response.MemberPetRes;
-import com.dontcry.internsanta.api.response.MemberProgressRes;
+import com.dontcry.internsanta.api.request.*;
+import com.dontcry.internsanta.api.response.*;
 import com.dontcry.internsanta.api.service.MemberService;
 import com.dontcry.internsanta.common.JwtAuthenticationUtil;
 import com.dontcry.internsanta.common.JwtTokenUtil;
@@ -17,9 +10,15 @@ import com.dontcry.internsanta.common.model.response.BaseResponseBody;
 import com.dontcry.internsanta.db.entity.Member;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.*;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.core.Authentication;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.ArrayList;
@@ -70,31 +69,70 @@ public class MemberController {
         Map<String, String> tokens = JwtTokenUtil.generateTokenSet(member.getMemberEmail());
         memberService.registerRefreshToken(member, tokens.get("refreshToken"));
 
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success")) ;
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> getMemberByLogin(@RequestBody MemberLoginReq memberLoginReq) {
 
-        Member member = memberService.getMemberByEmailAndPwd(memberLoginReq.getMemberEmail(),memberLoginReq.getMemberPwd());
+        Member member = memberService.getMemberByEmailAndPwd(memberLoginReq.getMemberEmail(), memberLoginReq.getMemberPwd());
 
         Map<String, String> tokens = JwtTokenUtil.generateTokenSet(member.getMemberEmail());
         memberService.registerRefreshToken(member, tokens.get("refreshToken"));
 
-        return ResponseEntity.status(200).body(MemberInfoRes.of(member,tokens)) ;
+        return ResponseEntity.status(200).body(MemberInfoRes.of(member, tokens));
     }
 
     @PatchMapping("/chapter")
-    public ResponseEntity<?> updateMemberChapter(@ApiIgnore Authentication authentication) {
+    public ResponseEntity<MemberProgressRes> updateMemberChapter(@ApiIgnore Authentication authentication) {
         Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
         Member updateMember = memberService.updateMemberChpater(member);
         return ResponseEntity.status(200).body(MemberProgressRes.of(updateMember));
     }
 
     @PatchMapping("/checkpoint")
-    public ResponseEntity<?> updateMemberCheckpoint(@ApiIgnore Authentication authentication) {
+    public ResponseEntity<MemberProgressRes> updateMemberCheckpoint(@ApiIgnore Authentication authentication) {
         Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
         Member updateMember = memberService.updateMemberCheckpoint(member);
         return ResponseEntity.status(200).body(MemberProgressRes.of(updateMember));
+    }
+
+    @PatchMapping("/top")
+    public ResponseEntity<?> updateMemberTop(@RequestBody List<MultipartFile> memberTopList) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        ByteArrayResource frontImg = new ByteArrayResource(memberTopList.get(0).getOriginalFilename().getBytes()) {
+            // 기존 ByteArrayResource의 getFilename 메서드 override
+            @Override
+            public String getFilename() {
+                return "front.jpg";
+            }
+        };
+        ByteArrayResource backImg = new ByteArrayResource(memberTopList.get(1).getOriginalFilename().getBytes()) {
+            // 기존 ByteArrayResource의 getFilename 메서드 override
+            @Override
+            public String getFilename() {
+                return "back.jpg";
+            }
+        };
+
+        System.out.println("type : " + frontImg);
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("front", frontImg);
+        body.add("back", backImg);
+
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+        String url = "http://localhost:8000/api/v2/member/top/";
+        // 2. RestTemplate 객체를 생성합니다.
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
+        System.out.println(response.getBody());
+        if (response.getStatusCode() == HttpStatus.OK) {
+//            return ResponseEntity.status(200).body(MemberTopRes.of(memberTopUrl));
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+        } else
+            return ResponseEntity.status(409).body(BaseResponseBody.of(409, "fail"));
     }
 }
