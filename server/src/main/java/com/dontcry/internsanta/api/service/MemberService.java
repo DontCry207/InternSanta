@@ -2,8 +2,11 @@ package com.dontcry.internsanta.api.service;
 
 import com.dontcry.internsanta.api.request.MemberRegistReq;
 import com.dontcry.internsanta.db.entity.Member;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface MemberService {
     Member getMemberByMemberEmail(String memberEmail);
@@ -18,4 +21,7 @@ public interface MemberService {
     void registerRefreshToken(Member member, String token);
 
     Member getMemberByEmailAndPwd(String memberEmail, String memberPwd);
+
+    Map<String, String> modifyRefreshToken(String refreshToken);
+    String updateMemberTop(List<MultipartFile> memberTopList, Member member) throws IOException;
 }
