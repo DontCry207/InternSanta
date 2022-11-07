@@ -33,10 +33,6 @@ public class Member {
     @Column(length = 20)
     private String memberNickname;
 
-    @NotNull
-    @Column(columnDefinition = "TINYINT", length=1)
-    private int memberGender;
-
     @ColumnDefault("0")
     private int memberCoin;
 
@@ -60,7 +56,7 @@ public class Member {
     @ColumnDefault("0")
     private int memberCheckpoint;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "member_seal_id")
     MemberSeal memberSeal;
 

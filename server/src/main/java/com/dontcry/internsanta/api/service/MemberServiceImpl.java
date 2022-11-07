@@ -92,13 +92,10 @@ public class MemberServiceImpl implements MemberService {
         MemberSeal memberSeal = MemberSeal.builder()
                 .build();
 
-        memberSealRepository.save(memberSeal);
-
         Member member = Member.builder()
                 .memberEmail(memberInfo.getMemberEmail())
                 .memberPwd(memberInfo.getMemberPwd())
                 .memberNickname(memberInfo.getMemberNickname())
-                .memberGender(memberInfo.getMemberGender())
                 .memberSeal(memberSeal)
                 .build();
 
