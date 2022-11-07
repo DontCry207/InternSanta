@@ -1,11 +1,13 @@
 package com.dontcry.internsanta.api.service;
 
 import com.dontcry.internsanta.api.request.MemberRegistReq;
+import com.dontcry.internsanta.common.JwtTokenUtil;
 import com.dontcry.internsanta.common.exception.adventcalendar.AdventCalendarNotFoundException;
 import com.dontcry.internsanta.common.exception.code.ErrorCode;
 import com.dontcry.internsanta.common.exception.member.MemberCoinNegativeException;
 import com.dontcry.internsanta.common.exception.member.MemberEmailDuplicationException;
 import com.dontcry.internsanta.common.exception.member.MemberNotFoundException;
+import com.dontcry.internsanta.common.exception.member.MemberUnauthorizedException;
 import com.dontcry.internsanta.db.entity.AdventCalendar;
 import com.dontcry.internsanta.db.entity.Member;
 import com.dontcry.internsanta.db.entity.MemberSeal;
@@ -19,7 +21,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -35,6 +39,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     MemberSealRepository memberSealRepository;
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
 
     @Override
     public Member getMemberByMemberEmail(String memberEmail) {
@@ -130,4 +137,25 @@ public class MemberServiceImpl implements MemberService {
 
         return member;
     }
+
+    @Override
+    public Map<String, String> modifyRefreshToken(String oldRefreshToken) {
+        // refreshToken 정보 조회
+        RefreshToken originRefreshToken = refreshTokenRepository.findByRefreshToken(oldRefreshToken)
+                .orElseThrow(() -> new MemberUnauthorizedException("잘못된 토큰입니다.", ErrorCode.MEMBER_UNAUTHORIZED));
+
+        Member member = originRefreshToken.getMember();
+
+        RefreshToken newRefreshToken = jwtTokenUtil.reGenerateRefreshToken(member, originRefreshToken);
+
+        Map<String, String> tokens = new HashMap<>();
+
+        tokens.put("accessToken", JwtTokenUtil.getToken(member.getMemberEmail())) ;
+        tokens.put("refreshToken",newRefreshToken.getRefreshToken().replace("Bearer ", "")) ;
+
+
+        return tokens;
+
+    }
+
 }

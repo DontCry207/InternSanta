@@ -103,4 +103,12 @@ public class MemberController {
         Member updateMember = memberService.updateMemberCheckpoint(member);
         return ResponseEntity.status(200).body(MemberProgressRes.of(updateMember));
     }
+
+    @GetMapping("/refresh")
+    public ResponseEntity<?> tokenRefresh(@RequestHeader(value = "REFRESH-TOKEN") String refreshToken) {
+
+        Map<String, String> tokens = memberService.modifyRefreshToken(refreshToken);
+
+        return ResponseEntity.status(200).body(MemberTokenRes.of(tokens));
+    }
 }

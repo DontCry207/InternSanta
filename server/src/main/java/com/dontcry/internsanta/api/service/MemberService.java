@@ -4,6 +4,7 @@ import com.dontcry.internsanta.api.request.MemberRegistReq;
 import com.dontcry.internsanta.db.entity.Member;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MemberService {
     Member getMemberByMemberEmail(String memberEmail);
@@ -18,4 +19,6 @@ public interface MemberService {
     void registerRefreshToken(Member member, String token);
 
     Member getMemberByEmailAndPwd(String memberEmail, String memberPwd);
+
+    Map<String, String> modifyRefreshToken(String refreshToken);
 }
