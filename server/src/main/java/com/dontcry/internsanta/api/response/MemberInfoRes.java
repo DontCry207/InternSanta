@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class MemberInfoRes {
-
+    String memberNickname;
     int memberCoin;
     int memberTicket;
     String memberTop;
@@ -18,6 +18,7 @@ public class MemberInfoRes {
 
     public static MemberInfoRes of(Member member) {
         MemberInfoRes res = MemberInfoRes.builder()
+                .memberNickname(member.getMemberNickname())
                 .memberCoin(member.getMemberCoin())
                 .memberTicket(member.getMemberTicket())
                 .memberTop(member.getMemberTop())
