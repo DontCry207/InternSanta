@@ -6,6 +6,7 @@ import com.dontcry.internsanta.common.exception.code.ErrorCode;
 import com.dontcry.internsanta.common.exception.member.MemberCoinNegativeException;
 import com.dontcry.internsanta.common.exception.member.MemberEmailDuplicationException;
 import com.dontcry.internsanta.common.exception.member.MemberNotFoundException;
+import com.dontcry.internsanta.common.exception.member.MemberTopUpdateException;
 import com.dontcry.internsanta.db.entity.AdventCalendar;
 import com.dontcry.internsanta.db.entity.Member;
 import com.dontcry.internsanta.db.entity.MemberSeal;
@@ -15,8 +16,15 @@ import com.dontcry.internsanta.db.repository.MemberRepository;
 import com.dontcry.internsanta.db.repository.MemberSealRepository;
 import com.dontcry.internsanta.db.repository.RefreshTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -132,5 +140,50 @@ public class MemberServiceImpl implements MemberService {
             throw new MemberNotFoundException("비밀번호가 틀립니다", ErrorCode.MEMBER_NOT_FOUND);
 
         return member;
+    }
+
+    @Override
+    public String updateMemberTop(List<MultipartFile> memberTopList, Member member) throws IOException {
+        if (memberTopList.size() != 2) {
+            throw new MemberTopUpdateException("이미지 파일의 개수가 2개가 아닙니다.", ErrorCode.MEMBER_TOP_IMAGE_ERROR);
+        }
+        Long memberId = member.getMemberId();
+        // MultipartFIle -> ByteArray 변환
+        ByteArrayResource frontImg = new ByteArrayResource(memberTopList.get(1).getBytes()) {
+            // 기존 ByteArrayResource의 getFilename 메서드 override
+            @Override
+            public String getFilename() {
+                return "front" + memberId + ".jpg";
+            }
+        };
+        ByteArrayResource backImg = new ByteArrayResource(memberTopList.get(0).getBytes()) {
+            // 기존 ByteArrayResource의 getFilename 메서드 override
+            @Override
+            public String getFilename() {
+                return "back" + memberId + ".jpg";
+            }
+        };
+        // Header MediaType 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("front", frontImg);
+        body.add("back", backImg);
+        body.add("member", memberId);
+
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+        String url = "http://k7a207.p.ssafy.io/api/v2/cloth/top/";
+        // 2. RestTemplate 객체를 생성합니다.
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
+        if (response.getStatusCode() != HttpStatus.OK)
+            throw new MemberTopUpdateException("상의 업데이트 중 에러가 발생했습니다.", ErrorCode.MEMBER_TOP_UPDATE_ERROR);
+        String memberTopUrl = response.getBody();
+        memberTopUrl = memberTopUrl.substring(1, memberTopUrl.length() - 1); // " " 자르기
+        member.updateMemberTop(memberTopUrl);
+        memberRepository.save(member);
+        return memberTopUrl;
+
     }
 }

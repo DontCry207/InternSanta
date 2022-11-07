@@ -76,4 +76,5 @@ public class Member {
     }
 
     public void updateMemberTicket() { this.memberTicket++; }
+    public void updateMemberTop(String memberTop) { this.memberTop = memberTop; }
 }
