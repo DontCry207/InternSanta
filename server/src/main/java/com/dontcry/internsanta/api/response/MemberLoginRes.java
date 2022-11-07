@@ -4,10 +4,11 @@ import com.dontcry.internsanta.db.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.Map;
+
 @Getter
 @Builder
-public class MemberInfoRes {
-
+public class MemberLoginRes {
     int memberCoin;
     int memberTicket;
     int memberGender;
@@ -16,16 +17,20 @@ public class MemberInfoRes {
     int memberPet;
     int memberChapter;
     int memberCheckpoint;
+    String refreshToken;
+    String accessToken;
 
-    public static MemberInfoRes of(Member member) {
-        MemberInfoRes res = MemberInfoRes.builder()
+    public static MemberLoginRes of(Member member, Map<String, String> tokens) {
+        MemberLoginRes res = MemberLoginRes.builder()
                 .memberCoin(member.getMemberCoin())
                 .memberTicket(member.getMemberTicket())
                 .memberTop(member.getMemberTop())
                 .memberBottom(member.getMemberBottom())
                 .memberPet(member.getMemberPet())
                 .memberChapter(member.getMemberChapter())
-                .memberCheckpoint(member.getMemberCheckpoint()).build();
+                .memberCheckpoint(member.getMemberCheckpoint())
+                .refreshToken(tokens.get("refreshToken"))
+                .accessToken(tokens.get("accessToken")).build();
 
         return res;
     }
