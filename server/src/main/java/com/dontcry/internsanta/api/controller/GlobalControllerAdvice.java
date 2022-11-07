@@ -79,4 +79,11 @@ public class GlobalControllerAdvice {
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
 
+    @ExceptionHandler(MemberTopUpdateException.class)
+    public ResponseEntity<ErrorResponse> handleMemberTopUpdateException(MemberTopUpdateException e) {
+        log.error("handleMemberTopUpdateException", e);
+        ErrorResponse response = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
 }

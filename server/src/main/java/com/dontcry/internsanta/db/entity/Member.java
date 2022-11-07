@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamicInsert
 @DynamicUpdate // 변경된 컬럼만 업데이트(patch)
 public class Member {
     @Id
@@ -32,10 +34,6 @@ public class Member {
     @NotNull
     @Column(length = 20)
     private String memberNickname;
-
-    @NotNull
-    @Column(columnDefinition = "TINYINT", length=1)
-    private int memberGender;
 
     @ColumnDefault("0")
     private int memberCoin;
@@ -60,7 +58,7 @@ public class Member {
     @ColumnDefault("0")
     private int memberCheckpoint;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "member_seal_id")
     MemberSeal memberSeal;
 
@@ -76,4 +74,5 @@ public class Member {
     }
 
     public void updateMemberTicket() { this.memberTicket++; }
+    public void updateMemberTop(String memberTop) { this.memberTop = memberTop; }
 }
