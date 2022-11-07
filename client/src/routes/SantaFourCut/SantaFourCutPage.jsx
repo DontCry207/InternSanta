@@ -2,69 +2,50 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import AppCanvas from './components/AppCanvas';
-import SantaFourCutAR from './SantaFourCutAR';
+
 const SantaFourCutPage = () => {
-  // const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    // if (!loading) {
-    //   console.log('sdf');
-    SantaFourCutAR();
-    // }
-  }, []);
-  // const play = () => {
-  //   return <canvas width="600" height="600" id="jeeFaceFilterCanvas"></canvas>;
-  // };
-  // return (
-  //   <>
-  //     {loading ? (
-  //       <button
-  //         onClick={() => {
-  //           setLoading(false);
-  //         }}>
-  //         Play
-  //       </button>
-  //     ) : (
-  //       play()
-  //     )}
-  //   </>
-  // );
-  // function main() {
-  //   console.log('asdf');
-  // }
-  // window.addEventListener('load', main());
   function capture() {
-    let canvas = document.getElementsByClassName('mirrorX')[1];
-    let imgData = canvas.toDataURL('image/png');
-    let im = document.createElement('img');
-    im.setAttribute('src', imgData);
-    document.body.appendChild(im);
+    let resbox = document.getElementById('resbox');
+    let canvas = document.querySelectorAll('#arcamera canvas');
+    // console.log(canvas);
+    let imgData1 = canvas[0].toDataURL('image/png');
+    let imgData2 = canvas[1].toDataURL('image/png');
+    let im1 = document.createElement('img');
+    let im2 = document.createElement('img');
+    im1.setAttribute('src', imgData1);
+    im1.setAttribute('width', 90);
+    im1.setAttribute('height', 60);
+    resbox.appendChild(im1);
+    im2.setAttribute('src', imgData2);
+    im2.setAttribute('width', 90);
+    im2.setAttribute('height', 60);
+    resbox.appendChild(im2);
     // // console.log(imgData);
   }
+
   return (
     <>
-      {/* <CameraBox>
+      <CameraBox id="arcamera">
         <AppCanvas />
-      </CameraBox> */}
-      <canvas width="600" height="600" id="jeeFaceFilterCanvas"></canvas>
+      </CameraBox>
       <Btn
         onClick={() => {
           capture();
         }}>
         캡쳐
       </Btn>
+      <div id="resbox"></div>
     </>
   );
 };
 const CameraBox = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  .mirrorX {
-    right: 0;
-  }
+  position: absolute;
+  bottom: 200px;
+  left: 50px;
+  /* transform: translate(-50%, -50%); */
 `;
 const Btn = styled.button`
   position: absolute;
-  top: 0;
+  bottom: 400px;
 `;
 export default SantaFourCutPage;

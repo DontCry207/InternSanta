@@ -7,7 +7,9 @@ import { JEELIZFACEFILTER, NN_4EXPR } from 'facefilter';
 // import THREE.js helper, useful to compute pose
 // The helper is not minified, feel free to customize it (and submit pull requests bro):
 import { JeelizThreeFiberHelper } from '../contrib/faceFilter/JeelizThreeFiberHelper.js';
-
+import { useLoader } from '@react-three/fiber';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import octopus from '../../../assets/octopus.gltf';
 const _maxFacesDetected = 1; // max number of detected faces
 const _faceFollowers = new Array(_maxFacesDetected);
 let _expressions = null;
@@ -19,31 +21,34 @@ const FaceFollower = (props) => {
   const objRef = useRef();
   useEffect(() => {
     const threeObject3D = objRef.current;
+    // console.log(threeObject3D);
+    // threeObject3D.position = THREE.Vector3(-0.33, -0.73, -5.64);
     _faceFollowers[props.faceIndex] = threeObject3D;
   });
 
-  const mouthOpenRef = useRef();
-  const mouthSmileRef = useRef();
-  useFrame(() => {
-    if (mouthOpenRef.current) {
-      const s0 = props.expression.mouthOpen;
-      mouthOpenRef.current.scale.set(s0, 1, s0);
-    }
+  // const mouthOpenRef = useRef();
+  // const mouthSmileRef = useRef();
+  // useFrame(() => {
+  //   if (mouthOpenRef.current) {
+  //     const s0 = props.expression.mouthOpen;
+  //     mouthOpenRef.current.scale.set(s0, 1, s0);
+  //   }
 
-    if (mouthSmileRef.current) {
-      const s1 = props.expression.mouthSmile;
-      mouthSmileRef.current.scale.set(s1, 1, s1);
-    }
-  });
+  //   if (mouthSmileRef.current) {
+  //     const s1 = props.expression.mouthSmile;
+  //     mouthSmileRef.current.scale.set(s1, 1, s1);
+  //   }
+  // });
 
-  console.log('RENDER FaceFollower component');
-
+  // console.log('RENDER FaceFollower component');
+  const gltf = useLoader(GLTFLoader, octopus);
   return (
     <object3D ref={objRef}>
-      <mesh name="mainCube">
-        <boxBufferGeometry args={[2, 1, 1]} />
+      {/* <mesh name="mainCube" position={[0, 1.5, 0]}>
+        <boxBufferGeometry args={[0.8, 0.8, 0.8]} />
         <meshNormalMaterial />
-      </mesh>
+      </mesh> */}
+      <primitive object={gltf.scene} scale={0.3} position={[0, 1.5, 0]} />
     </object3D>
   );
 };
@@ -78,15 +83,15 @@ const compute_sizing = () => {
 
 const AppCanvas = () => {
   // init state:
-  _expressions = [];
-  for (let i = 0; i < _maxFacesDetected; ++i) {
-    _expressions.push({
-      mouthOpen: 0,
-      mouthSmile: 0,
-      eyebrowFrown: 0,
-      eyebrowRaised: 0,
-    });
-  }
+  // _expressions = [];
+  // for (let i = 0; i < _maxFacesDetected; ++i) {
+  //   _expressions.push({
+  //     mouthOpen: 0,
+  //     mouthSmile: 0,
+  //     eyebrowFrown: 0,
+  //     eyebrowRaised: 0,
+  //   });
+  // }
   const [sizing, setSizing] = useState(compute_sizing());
   const [isInitialized] = useState(true);
 
@@ -137,11 +142,11 @@ const AppCanvas = () => {
     // get expressions factors:
     detectStates.forEach((detectState, faceIndex) => {
       const exprIn = detectState.expressions;
-      const expression = _expressions[faceIndex];
-      expression.mouthOpen = exprIn[0];
-      expression.mouthSmile = exprIn[1];
-      expression.eyebrowFrown = exprIn[2]; // not used here
-      expression.eyebrowRaised = exprIn[3]; // not used here
+      // const expression = _expressions[faceIndex];
+      // expression.mouthOpen = exprIn[0];
+      // expression.mouthSmile = exprIn[1];
+      // expression.eyebrowFrown = exprIn[2]; // not used here
+      // expression.eyebrowRaised = exprIn[3]; // not used here
     });
   };
 
@@ -171,8 +176,7 @@ const AppCanvas = () => {
 
   console.log('RENDER AppCanvas component');
   return (
-    <div>
-      {/* Canvas managed by three fiber, for AR: */}
+    <>
       <Canvas
         className="mirrorX"
         style={{
@@ -185,7 +189,7 @@ const AppCanvas = () => {
         }}
         updatedefaultcamera="false">
         <ThreeGrabber sizing={sizing} />
-        <FaceFollower faceIndex={0} expression={_expressions[0]} />
+        <FaceFollower faceIndex={0} />
       </Canvas>
 
       {/* Canvas managed by FaceFilter, just displaying the video (and used for WebGL computations) */}
@@ -200,7 +204,7 @@ const AppCanvas = () => {
         width={sizing.width}
         height={sizing.height}
       />
-    </div>
+    </>
   );
 };
 
