@@ -25,7 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = my_settings.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Watching for file changes with StatReloader 방지
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
