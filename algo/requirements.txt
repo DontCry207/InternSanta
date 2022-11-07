@@ -4,3 +4,7 @@ mysqlclient
 pandas
 numpy
 openpyxl
+opencv-python-headless
+pillow
+boto3
+django-storages==1.13.1
