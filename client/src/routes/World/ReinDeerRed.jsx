@@ -26,7 +26,6 @@ const ReinDeerRed = (props) => {
   const buble = useLoader(GLTFLoader, speech);
 
   useEffect(() => {
-    console.log(box);
   }, []);
 
   useEffect(() => {

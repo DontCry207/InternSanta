@@ -26,9 +26,6 @@ const ChristmasTown = () => {
   });
 
   useEffect(() => {
-    console.log(gl);
-    gl.outputEncoding = THREE.sRGBEncoding;
-    console.log(redBall, blueBall, yellowBall);
   }, []);
 
   return (
@@ -39,5 +36,6 @@ const ChristmasTown = () => {
     </>
   );
 };
+
 
 export default ChristmasTown;

@@ -14,7 +14,6 @@ const Npc = () => {
   const location = [-0.34421640634536743, 0.2, 7.816373348236084];
 
   useEffect(() => {
-    console.log(actions);
     actions['Song Jump'].play().setEffectiveTimeScale(1.3);
   }, []);
 
@@ -24,5 +23,7 @@ const Npc = () => {
     </RigidBody>
   );
 };
+
+useGLTF.preload(newCharacter);
 
 export default Npc;

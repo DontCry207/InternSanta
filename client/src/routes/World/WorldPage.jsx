@@ -44,15 +44,15 @@ const WorldPage = () => {
           <Stars
             radius={100}
             depth={30}
-            count={3000}
+            count={1000}
             factor={4}
             saturation={1}
             fade
             speed={5}
           />
           <Sky sunPosition={[-100, -100, 2800]} />
-          <ambientLight intensity={0.3} color={'white'} />
-          <pointLight castShadow intensity={0.7} position={[1, 10, 1]} />
+          <ambientLight intensity={0.4} color={'#E9E8E2'} />
+          <pointLight castShadow intensity={0.4} position={[0, 100, 0]} />
           <Suspense fallback={null}>
             <Physics gravity={[0, -30, 0]}>
               <Player />
