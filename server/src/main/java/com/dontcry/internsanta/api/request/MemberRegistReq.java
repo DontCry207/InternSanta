@@ -8,6 +8,5 @@ public class MemberRegistReq {
     String memberEmail;
     String memberPwd;
     String memberNickname;
-    int memberGender;
 
 }

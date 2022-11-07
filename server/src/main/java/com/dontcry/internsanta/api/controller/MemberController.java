@@ -1,5 +1,10 @@
 package com.dontcry.internsanta.api.controller;
 
+import com.dontcry.internsanta.api.request.MemberCoinUpdateReq;
+import com.dontcry.internsanta.api.request.MemberLoginReq;
+import com.dontcry.internsanta.api.request.MemberPetUpdateReq;
+import com.dontcry.internsanta.api.request.MemberRegistReq;
+import com.dontcry.internsanta.api.response.*;
 import com.dontcry.internsanta.api.request.*;
 import com.dontcry.internsanta.api.response.*;
 import com.dontcry.internsanta.api.service.MemberService;
@@ -76,15 +81,23 @@ public class MemberController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
     }
 
+    @GetMapping
+    public ResponseEntity<MemberInfoRes> getMemberInfo(@ApiIgnore Authentication authentication) {
+        MemberDetails memberDetails = (MemberDetails) authentication.getDetails();
+        Member member = memberDetails.getUser();
+
+        return ResponseEntity.status(200).body(MemberInfoRes.of(member)) ;
+    }
+
     @PostMapping("/login")
-    public ResponseEntity<?> getMemberByLogin(@RequestBody MemberLoginReq memberLoginReq) {
+    public ResponseEntity<MemberLoginRes> getMemberByLogin(@RequestBody MemberLoginReq memberLoginReq) {
 
         Member member = memberService.getMemberByEmailAndPwd(memberLoginReq.getMemberEmail(), memberLoginReq.getMemberPwd());
 
         Map<String, String> tokens = JwtTokenUtil.generateTokenSet(member.getMemberEmail());
         memberService.registerRefreshToken(member, tokens.get("refreshToken"));
 
-        return ResponseEntity.status(200).body(MemberInfoRes.of(member, tokens));
+        return ResponseEntity.status(200).body(MemberLoginRes.of(member,tokens)) ;
     }
 
     @PatchMapping("/chapter")
@@ -106,5 +119,13 @@ public class MemberController {
         Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
         String memberTopUrl = memberService.updateMemberTop(memberTopList, member);
             return ResponseEntity.status(200).body(MemberTopRes.of(memberTopUrl));
+    }
+
+    @GetMapping("/refresh")
+    public ResponseEntity<?> tokenRefresh(@RequestHeader(value = "REFRESH-TOKEN") String refreshToken) {
+
+        Map<String, String> tokens = memberService.modifyRefreshToken(refreshToken);
+
+        return ResponseEntity.status(200).body(MemberTokenRes.of(tokens));
     }
 }
