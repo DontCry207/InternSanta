@@ -11,7 +11,6 @@ import java.util.Map;
 public class MemberLoginRes {
     int memberCoin;
     int memberTicket;
-    int memberGender;
     String memberTop;
     String memberBottom;
     int memberPet;

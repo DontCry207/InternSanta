@@ -10,7 +10,6 @@ public class MemberInfoRes {
 
     int memberCoin;
     int memberTicket;
-    int memberGender;
     String memberTop;
     String memberBottom;
     int memberPet;
