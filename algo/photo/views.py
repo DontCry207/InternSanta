@@ -1,13 +1,11 @@
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from os import remove
 import cv2
 from PIL import Image
 from io import BytesIO
-import json
+from django.http import HttpResponse
 
 @api_view(["POST"])
 def photo(request):
@@ -31,6 +29,11 @@ def photo(request):
     src3 = cv2.imread(image_file3_path)
     src4 = cv2.imread(image_file4_path)
 
+    remove(image_file1_path)
+    remove(image_file2_path)
+    remove(image_file3_path)
+    remove(image_file4_path)
+
     img1 = cv2.resize(src1, dsize=(535,436), interpolation=cv2.INTER_AREA)
     img2 = cv2.resize(src2, dsize=(535,436), interpolation=cv2.INTER_AREA)
     img3 = cv2.resize(src3, dsize=(535,436), interpolation=cv2.INTER_AREA)
@@ -45,13 +48,14 @@ def photo(request):
     
     # BGR -> RGB 변환
     frameRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
     # nparray -> PIL Image 변환
     result = Image.fromarray(frameRGB)
-    # PIL Image -> Bytes 변환
+    # # PIL Image -> Bytes 변환
     buffer = BytesIO()
     result.save(buffer, "PNG")
     buffer.seek(0)
 
-    buffer.read()
-    print(type(buffer))
-    return Response({'photo': output.png}, status=status.HTTP_200_OK)
+    response = HttpResponse(buffer, content_type='image/png')
+    response['Content-Disposition'] = 'attachment; filename="result.png"'
+    return response
