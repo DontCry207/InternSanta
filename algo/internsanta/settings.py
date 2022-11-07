@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'movierec',
     'clothes',
+    'photo',
     'django_extensions',
     'rest_framework',
     "django.contrib.admin",
@@ -134,15 +135,15 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400', }
-AWS_REGION = 'ap-northeast-2'
 AWS_DEFAULT_ACL = 'public-read'
 
-AWS_STORAGE_BUCKET_NAME = 'internsanta'
-AWS_ACCESS_KEY_ID = 'AKIA6QAZ24GKGKIVGZWF'
-AWS_SECRET_ACCESS_KEY = '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'
+AWS_REGION = my_settings.AWS_REGION
+AWS_STORAGE_BUCKET_NAME = my_settings.AWS_STORAGE_BUCKET_NAME
+AWS_ACCESS_KEY_ID = my_settings.AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY = my_settings.AWS_SECRET_ACCESS_KEY
 
 AWS_S3_SECURE_URLS = False
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_FILE_OVERWRITE = False
 
-AWS_S3_CUSTOM_DOMAIN = f's3.{AWS_REGION}.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}'
+AWS_S3_CUSTOM_DOMAIN = f's3.{my_settings.AWS_REGION}.amazonaws.com/{my_settings.AWS_STORAGE_BUCKET_NAME}'
