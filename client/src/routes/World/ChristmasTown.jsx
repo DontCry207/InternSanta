@@ -3,7 +3,6 @@ import { useLoader, useThree } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { RigidBody } from '@react-three/rapier';
 import Town from '../../assets/ChristmasTown.glb';
-import { PointLight } from 'three';
 import { useEffect } from 'react';
 import * as THREE from 'three';
 

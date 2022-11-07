@@ -7,9 +7,8 @@ const Snow = () => {
   let particles;
 
   const { camera, gl, scene } = useThree();
-
-  const particleNum = 10000;
-  const maxRange = 1000;
+  const particleNum = 20000;
+  const maxRange = 500;
   const minRange = maxRange / 2;
   const textureSize = 64.0;
 
@@ -60,29 +59,25 @@ const Snow = () => {
   };
 
   const render = (timeStamp) => {
-    const posArr = particles.geometry.vertices;
+    const posArr = particles.geometry.attributes.position.array;
     const velArr = particles.geometry.velocities;
 
-    posArr.forEach((vertex, i) => {
-      const velocity = velArr[i];
-
-      const x = i * 3;
-      const y = i * 3 + 1;
-      const z = i * 3 + 2;
+    for (var i = 0; i < 3 * particleNum; i += 3) {
+      const velocity = velArr[i / 3];
 
       const velX = Math.sin(timeStamp * 0.001 * velocity.x) * 0.1;
       const velZ = Math.cos(timeStamp * 0.0015 * velocity.z) * 0.1;
 
-      vertex.x += velX;
-      vertex.y += velocity.y;
-      vertex.z += velZ;
+      posArr[i] += velX;
+      posArr[i + 1] += velocity.y;
+      posArr[i + 2] += velZ;
 
-      if (vertex.y < -minRange) {
-        vertex.y = minRange;
+      if (posArr[i + 1] < -minRange) {
+        posArr[i + 1] = minRange;
       }
-    });
+    }
 
-    particles.geometry.verticesNeedUpdate = true;
+    particles.geometry.attributes.position.needsUpdate = true;
 
     gl.render(scene, camera);
 
@@ -110,7 +105,7 @@ const Snow = () => {
     pointGeometry.setFromPoints(positionTemp);
 
     const pointMaterial = new THREE.PointsMaterial({
-      size: 8,
+      size: 1.5,
       color: 0xffffff,
       vertexColors: false,
       map: getTexture(),
@@ -123,16 +118,15 @@ const Snow = () => {
 
     const velocities = [];
     for (let i = 0; i < particleNum; i++) {
-      const x = Math.floor(Math.random() * 6 - 3) * 0.1;
-      const y = Math.floor(Math.random() * 10 + 3) * -0.05;
-      const z = Math.floor(Math.random() * 6 - 3) * 0.1;
+      const x = Math.floor(Math.random() * 6 - 3) * 0.02;
+      const y = Math.floor(Math.random() * 10 + 3) * -0.01;
+      const z = Math.floor(Math.random() * 6 - 3) * 0.02;
       const particle = new THREE.Vector3(x, y, z);
       velocities.push(particle);
     }
 
     particles = new THREE.Points(pointGeometry, pointMaterial);
     particles.geometry.velocities = velocities;
-    console.log(particles);
     scene.add(particles);
 
     /* rendering start

@@ -13,6 +13,7 @@ import {
   useAnimations,
   PointerLockControls,
 } from '@react-three/drei';
+import { CircleGeometry } from 'three';
 extend({ OrbitControls, MapControls });
 
 const Player = () => {
@@ -30,7 +31,7 @@ const Player = () => {
   const [, get] = useKeyboardControls();
   const [location, setLocation] = useState([10, 10, -2]);
   const [location2, setLocation2] = useState([10, 10, -2]);
-  const [maxPolarAngle, setMaxPolarAngle] = useState(1.7);
+  const [maxPolarAngle, setMaxPolarAngle] = useState(1.8);
   const controls = useRef();
 
   useEffect(() => {
@@ -52,6 +53,7 @@ const Player = () => {
     setLocation2([x, y - 0.1, z]);
 
     if (forward || backward || left || right) {
+      console.log(location);
       actions.default.stop();
       actions.walk.play().setEffectiveTimeScale(1.3);
       if (maxPolarAngle < 2.8) {
@@ -110,7 +112,7 @@ const Player = () => {
         ref={group}
         object={nodes.Armature}
         position={location2}
-        scale={(0.2, 0.2, 0.2)}
+        scale={(0.16, 0.16, 0.16)}
       />
       <RigidBody
         ref={ref}
