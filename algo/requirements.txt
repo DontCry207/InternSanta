@@ -4,5 +4,5 @@ mysqlclient
 pandas
 numpy
 openpyxl
-opencv-python
+opencv-python-headless
 boto3
