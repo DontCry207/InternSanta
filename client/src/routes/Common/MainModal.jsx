@@ -39,13 +39,13 @@ const ModalBox = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 1050px;
-  height: 850px;
+  width: 70%;
+  height: 90%;
   border-radius: 40px;
   background: linear-gradient(
     180deg,
     ${(props) => `${props.bgColor}`} 25%,
-    #ffffff 100%
+    #f3f3f3 100%
   );
 
   .close {
