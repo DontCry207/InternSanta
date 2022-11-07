@@ -198,7 +198,7 @@ public class MemberServiceImpl implements MemberService {
         body.add("member", memberId);
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-        String url = "http://k7a207.p.ssafy.io/api/v2/cloth/top/";
+        String url = "https://k7a207.p.ssafy.io/api/v2/cloth/top/";
         // 2. RestTemplate 객체를 생성합니다.
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
