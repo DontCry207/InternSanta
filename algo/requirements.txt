@@ -5,4 +5,5 @@ pandas
 numpy
 openpyxl
 opencv-python-headless
+pillow
 boto3
