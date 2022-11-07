@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import ChristmasTown from './ChristmasTown';
 import Npc from './Npc';
 import Player from './Player';
+import Snow from './Snow';
 
 const WorldPage = () => {
   return (
@@ -18,6 +19,7 @@ const WorldPage = () => {
           { name: 'right', keys: ['ArrowRight', 'd', 'D'] },
         ]}>
         <Canvas camera={{ fov: 70 }}>
+          <Snow />
           <Sky sunPosition={[-100, -100, 0]} />
           <ambientLight intensity={0.3} />
           <pointLight castShadow intensity={0.4} position={[0, 100, 100]} />

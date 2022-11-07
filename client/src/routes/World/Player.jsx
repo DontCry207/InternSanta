@@ -60,7 +60,7 @@ const Player = () => {
     } else {
       actions.walk.stop();
       actions.default.play();
-      setMaxPolarAngle(1.7);
+      setMaxPolarAngle(1.6);
     }
 
     if (forward && left) {

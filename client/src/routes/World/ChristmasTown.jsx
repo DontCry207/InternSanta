@@ -16,20 +16,20 @@ const ChristmasTown = () => {
   let tree = gltf.scene.children.find((ele) => {
     if (ele.name === 'Tree') return true;
   });
-  let red = tree.children.find((ele) => {
+  let redBall = tree.children.find((ele) => {
     if (ele.name === 'Cylinder001_2') return true;
   });
-  let blue = tree.children.find((ele) => {
+  let blueBall = tree.children.find((ele) => {
     if (ele.name === 'Cylinder001_3') return true;
   });
-  let yellow = tree.children.find((ele) => {
+  let yellowBall = tree.children.find((ele) => {
     if (ele.name === 'Cylinder001_4') return true;
   });
 
   useEffect(() => {
     console.log(gl);
     gl.outputEncoding = THREE.sRGBEncoding;
-    console.log(red, blue, yellow);
+    console.log(redBall, blueBall, yellowBall);
   }, []);
 
   return (
