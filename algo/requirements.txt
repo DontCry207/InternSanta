@@ -4,3 +4,6 @@ mysqlclient
 pandas
 numpy
 openpyxl
+opencv-python
+boto3
+storages
