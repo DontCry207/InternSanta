@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { loggedInState, userInfoState } from '../../Atom';
 import { fetchData } from '../../utils/apis/api';
 import MainModal from '../Common/MainModal';
+import MiniGamePage from '../MiniGame/MiniGamePage';
 import SantaFourCutPage from '../SantaFourCut/SantaFourCutPage';
 const HomePage = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
@@ -29,6 +30,21 @@ const HomePage = () => {
   };
 
   //미니게임
+  const [onMiniGameModal, setOnMiniGameModal] = useState(false);
+
+  const miniGameModalOpen = () => {
+    setOnMiniGameModal(true);
+  };
+
+  const MiniGameModal = () => {
+    if (onMiniGameModal) {
+      return (
+        <MainModal closeBtnControl={setOnMiniGameModal} bgColor="#56668E">
+          <MiniGamePage />
+        </MainModal>
+      );
+    }
+  };
 
   const logout = () => {
     setUserInfo({
@@ -70,9 +86,10 @@ const HomePage = () => {
             onClick={() => {
               miniGameModalOpen();
             }}>
-            산타네컷
+            미니게임
           </button>
           {SantaFourCutModal()}
+          {MiniGameModal()}
         </div>
       ) : (
         <button
