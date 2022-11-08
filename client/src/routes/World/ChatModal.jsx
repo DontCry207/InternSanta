@@ -2,13 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import reindeerRed from '../../assets/images/reindeerRed.png';
 
-const dialog = {
+const dialog = {};
 
-}
-
-const npcImages = {
-  
-}
+const npcImages = {};
 
 const ChatModal = (props) => {
   return (
@@ -39,7 +35,7 @@ const Modal = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.404);
-  z-index: 1;
+  z-index: 4;
 `;
 
 const ChatBox = styled.div`
@@ -50,7 +46,7 @@ const ChatBox = styled.div`
   max-width: 1000px;
   height: 30%;
   background-color: white;
-  z-index: 2;
+  z-index: 5;
 
   .name {
     font-size: 30px;
