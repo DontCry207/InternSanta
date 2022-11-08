@@ -58,7 +58,8 @@ const ModalBox = styled.div`
 const MainContents = styled.div`
   padding: 40px 20px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const CloseBtn = styled.div`

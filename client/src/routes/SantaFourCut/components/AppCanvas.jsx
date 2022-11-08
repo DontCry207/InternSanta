@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 
 // import main script and neural network model from Jeeliz FaceFilter NPM package
@@ -7,9 +7,10 @@ import { JEELIZFACEFILTER, NN_4EXPR } from 'facefilter';
 // import THREE.js helper, useful to compute pose
 // The helper is not minified, feel free to customize it (and submit pull requests bro):
 import { JeelizThreeFiberHelper } from '../contrib/faceFilter/JeelizThreeFiberHelper.js';
-import { useLoader } from '@react-three/fiber';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import octopus from '../../../assets/octopus.gltf';
+import myCharacter from '../../../assets/character_final.glb';
+import { Stars, useGLTF } from '@react-three/drei';
+// import { Model } from '../Character_final';
+
 const _maxFacesDetected = 1; // max number of detected faces
 const _faceFollowers = new Array(_maxFacesDetected);
 let _expressions = null;
@@ -41,15 +42,28 @@ const FaceFollower = (props) => {
   // });
 
   // console.log('RENDER FaceFollower component');
-  const gltf = useLoader(GLTFLoader, octopus);
+  const { nodes, materials, animations } = useGLTF(myCharacter);
   return (
-    <object3D ref={objRef}>
-      {/* <mesh name="mainCube" position={[0, 1.5, 0]}>
+    <>
+      <Stars
+        radius={40}
+        depth={20}
+        count={1000}
+        factor={4}
+        saturation={1}
+        fade
+        speed={5}
+      />
+      <object3D ref={objRef}>
+        {/* <mesh name="mainCube" position={[0, 1.5, 0]}>
         <boxBufferGeometry args={[0.8, 0.8, 0.8]} />
         <meshNormalMaterial />
       </mesh> */}
-      <primitive object={gltf.scene} scale={0.3} position={[0, 1.5, 0]} />
-    </object3D>
+        <ambientLight intensity={0.8} />
+        <primitive object={nodes.Scene} scale={0.7} position={[0, 1, 0]} />
+        {/* <Model /> */}
+      </object3D>
+    </>
   );
 };
 
@@ -180,7 +194,6 @@ const AppCanvas = () => {
       <Canvas
         className="mirrorX"
         style={{
-          position: 'absolute',
           zIndex: 2,
           ...sizing,
         }}
@@ -188,8 +201,10 @@ const AppCanvas = () => {
           preserveDrawingBuffer: true, // allow image capture
         }}
         updatedefaultcamera="false">
-        <ThreeGrabber sizing={sizing} />
-        <FaceFollower faceIndex={0} />
+        <Suspense fallback={null}>
+          <ThreeGrabber sizing={sizing} />
+          <FaceFollower faceIndex={0} />
+        </Suspense>
       </Canvas>
 
       {/* Canvas managed by FaceFilter, just displaying the video (and used for WebGL computations) */}
@@ -207,5 +222,7 @@ const AppCanvas = () => {
     </>
   );
 };
+
+useGLTF.preload(myCharacter);
 
 export default AppCanvas;
