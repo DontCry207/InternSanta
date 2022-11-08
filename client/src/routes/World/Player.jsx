@@ -40,7 +40,7 @@ const Player = () => {
   }, []);
 
   const group = useRef();
-  useGLTF;
+  const { nodes, materials, animations } = useGLTF(ilbuni);
   const { actions } = useAnimations(animations, group);
   nodes.Armature.rotation.copy(camera.rotation);
 
