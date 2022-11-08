@@ -10,6 +10,8 @@ import SantaFourCutPage from '../SantaFourCut/SantaFourCutPage';
 const HomePage = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [loggedIn, setloggedIn] = useRecoilState(loggedInState);
+  const navigate = useNavigate();
+  //산타네컷
   const [onSantaFourCutModal, setOnSantaFourCutModal] = useState(false);
 
   const santaFourCutModalOpen = () => {
@@ -26,12 +28,8 @@ const HomePage = () => {
     }
   };
 
-  const navigate = useNavigate();
-  // const test = () => {
-  //   fetchData.get('/api/v1/quest').then((res) => {
-  //     console.log(res);
-  //   });
-  // };
+  //미니게임
+
   const logout = () => {
     setUserInfo({
       memberNickname: '',
@@ -65,6 +63,12 @@ const HomePage = () => {
           <button
             onClick={() => {
               santaFourCutModalOpen();
+            }}>
+            산타네컷
+          </button>
+          <button
+            onClick={() => {
+              miniGameModalOpen();
             }}>
             산타네컷
           </button>
