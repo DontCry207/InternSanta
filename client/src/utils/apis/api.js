@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const baseURL = 'https://k7a207.p.ssafy.io';
+// const baseURL = 'http://localhost:8000';
 
 const getAccessToken = () => {
   const accessToken = sessionStorage.getItem('accessToken');
