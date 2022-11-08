@@ -101,7 +101,7 @@ const Player = () => {
         ref={ref}
         mass={1}
         type="dynamic"
-        colliders={false}
+        colliders={'trimesh'}
         position={[0, 2, 0]}>
         <CuboidCollider args={[0.3, 0.3, 0.3]} />
       </RigidBody>
@@ -109,6 +109,6 @@ const Player = () => {
   );
 };
 
-useGLTF.preload(ilbuni);
+// useGLTF.preload(ilbuni);
 
 export default Player;
