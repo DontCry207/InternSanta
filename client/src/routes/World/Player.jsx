@@ -16,21 +16,25 @@ const Player = (props) => {
   const frontVector = new THREE.Vector3();
   const sideVector = new THREE.Vector3();
   const ref = useRef();
+  const controls = useRef();
+  const group = useRef();
 
   const {
     camera,
     gl: { domElement },
     scene,
   } = useThree();
+
   const [, get] = useKeyboardControls();
   const [location, setLocation] = useState([10, 10, 10]);
   const [location2, setLocation2] = useState([10, 10, 10]);
   const [maxPolarAngle, setMaxPolarAngle] = useState(1.8);
-  const controls = useRef();
+  const { nodes, materials, animations } = useGLTF(character);
+  const { actions } = useAnimations(animations, group);
 
   useEffect(() => {
     controls.current.enableRotate = true;
-    controls.current.rotateSpeed = 0.5;
+    controls.current.rotateSpeed = 0.4;
   }, []);
 
   useEffect(() => {
@@ -40,21 +44,16 @@ const Player = (props) => {
     }
   }, [props]);
 
-  const group = useRef();
-  const { nodes, materials, animations } = useGLTF(character);
-  const { actions } = useAnimations(animations, group);
-  nodes.Scene.rotation.copy(camera.rotation);
-
   useFrame((state, delta) => {
     const { forward, backward, left, right } = get();
     const velocity = ref.current.linvel();
     // update camera
     const [x, y, z] = [...ref.current.translation()];
-    setLocation([x, y + 0.4, z]);
-    setLocation2([x, y - 0.3, z]);
+    nodes.Scene.rotation.copy(camera.rotation);
 
     if (forward || backward || left || right) {
-      console.log(location);
+      setLocation([x, y + 0.4, z]);
+      setLocation2([x, y - 0.3, z]);
       actions.Idle.stop();
       actions.Run.play().setEffectiveTimeScale(1.3);
       if (maxPolarAngle < 2.45) {
@@ -67,22 +66,21 @@ const Player = (props) => {
     }
 
     if (forward && left) {
-      nodes.Scene.rotateY(-(3 * Math.PI) / 4);
+      nodes.Scene.rotateY(Math.PI * 0.25);
     } else if (backward && left) {
-      nodes.Scene.rotateY(-Math.PI / 4);
+      nodes.Scene.rotateY(Math.PI * 0.75);
     } else if (left) {
-      nodes.Scene.rotateY(-Math.PI / 2);
+      nodes.Scene.rotateY(Math.PI * 0.5);
     } else if (forward && right) {
-      nodes.Scene.rotateY((3 * Math.PI) / 4);
+      nodes.Scene.rotateY(-Math.PI * 0.25);
     } else if (backward && right) {
-      nodes.Scene.rotateY(Math.PI / 4);
+      nodes.Scene.rotateY(-Math.PI * 0.75);
     } else if (right) {
-      nodes.Scene.rotateY(Math.PI / 2);
+      nodes.Scene.rotateY(-Math.PI * 0.5);
     } else if (backward) {
-      nodes.Scene.rotateY(2 * Math.PI);
-    } else {
       nodes.Scene.rotateY(Math.PI);
     }
+
     controls.current.update();
     // movement
     frontVector.set(0, 0, backward - forward);

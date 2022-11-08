@@ -55,9 +55,9 @@ const ChatBox = styled.div`
 
 const NpcImage = styled.div`
   position: absolute;
-  top: 60px;
+  bottom: 150px;
   img {
-    width: 300px;
+    width: 230px;
   }
 `;
 
