@@ -2,20 +2,18 @@ from rest_framework.decorators import api_view
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
-from ai import AI
+import quickdraw.AI as AI
 
 @api_view(["POST"])
 def quickdraw(request):
-    key = 1
-    vector = "vector"
-    if key == 1: answer = "나무"
-    elif key == 2: answer = "망치"
-    elif key == 3: answer = "못"
-    else: return Response("not valid key", status=status.HTTP_409_CONFLICT)
+    key = request.data.get('key')
+    vector = request.data.get('vector')
 
-    draw = AI.AIfunction(vector)
+    draw, answer = AI.AIfunction(vector, key)
 
-    if (draw != answer): result = True
+    if draw == 'error':
+        return Response("not valid key", status=status.HTTP_409_CONFLICT)
+    if draw == answer: result = True
     else: result = False
 
     return Response({"result": result, "draw": draw}, status=status.HTTP_200_OK)

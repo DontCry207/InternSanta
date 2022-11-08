@@ -41,13 +41,9 @@ public class Member {
     @ColumnDefault("0")
     private int memberTicket;
 
-    @ColumnDefault("'url'")
+    @ColumnDefault("'internsanta.s3.ap-northeast-2.amazonaws.com/texture/0/texture.png'")
     @Column(length = 500)
     private String memberTop;
-
-    @ColumnDefault("'url'")
-    @Column(length = 500)
-    private String memberBottom;
 
     @ColumnDefault("0")
     private int memberPet;

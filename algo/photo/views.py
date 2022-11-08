@@ -61,4 +61,5 @@ def photo(request):
     # Bytes -> base64 encoding
     img_base64 = base64.b64encode(buffer.getvalue())
     # header 추가 후  return
+    print("good!")
     return Response("data:image/png;base64," + str(img_base64)[2:-1], status=status.HTTP_200_OK)

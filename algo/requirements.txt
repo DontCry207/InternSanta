@@ -8,4 +8,6 @@ opencv-python-headless
 pillow
 boto3
 django-storages==1.13.1
-tensorflow
+# tensorflow
+tensorflow-cpu
+# tensorflow==2.0.0

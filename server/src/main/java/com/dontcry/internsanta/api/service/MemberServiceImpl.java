@@ -174,14 +174,14 @@ public class MemberServiceImpl implements MemberService {
         }
         Long memberId = member.getMemberId();
         // MultipartFIle -> ByteArray 변환
-        ByteArrayResource frontImg = new ByteArrayResource(memberTopList.get(1).getBytes()) {
+        ByteArrayResource frontImg = new ByteArrayResource(memberTopList.get(0).getBytes()) {
             // 기존 ByteArrayResource의 getFilename 메서드 override
             @Override
             public String getFilename() {
                 return "front" + memberId + ".jpg";
             }
         };
-        ByteArrayResource backImg = new ByteArrayResource(memberTopList.get(0).getBytes()) {
+        ByteArrayResource backImg = new ByteArrayResource(memberTopList.get(1).getBytes()) {
             // 기존 ByteArrayResource의 getFilename 메서드 override
             @Override
             public String getFilename() {
