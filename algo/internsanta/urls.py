@@ -20,5 +20,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('api/v2/movie/', include('movierec.urls')),
     path('api/v2/cloth/', include('clothes.urls')),
-    path('api/v2/photo', include('photo.urls'))
+    path('api/v2/photo', include('photo.urls')),
+    path('api/v2/quick', include('quickdraw.urls'))
 ]

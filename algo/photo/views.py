@@ -1,15 +1,9 @@
 from rest_framework.decorators import api_view
-from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
-from os import remove
 import cv2
 from PIL import Image
 from io import BytesIO
-from django.http import HttpResponse
-
 from rest_framework.response import Response
 from rest_framework import status
-
 import numpy as np
 import base64
 
@@ -67,4 +61,5 @@ def photo(request):
     # Bytes -> base64 encoding
     img_base64 = base64.b64encode(buffer.getvalue())
     # header 추가 후  return
+    print("good!")
     return Response("data:image/png;base64," + str(img_base64)[2:-1], status=status.HTTP_200_OK)
