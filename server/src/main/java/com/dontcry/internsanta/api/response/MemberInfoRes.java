@@ -11,7 +11,6 @@ public class MemberInfoRes {
     int memberCoin;
     int memberTicket;
     String memberTop;
-    String memberBottom;
     int memberPet;
     int memberChapter;
     int memberCheckpoint;
@@ -22,7 +21,6 @@ public class MemberInfoRes {
                 .memberCoin(member.getMemberCoin())
                 .memberTicket(member.getMemberTicket())
                 .memberTop(member.getMemberTop())
-                .memberBottom(member.getMemberBottom())
                 .memberPet(member.getMemberPet())
                 .memberChapter(member.getMemberChapter())
                 .memberCheckpoint(member.getMemberCheckpoint()).build();
