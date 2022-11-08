@@ -2,7 +2,6 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-import pandas as pd
 import pickle
 from django.apps import AppConfig
 

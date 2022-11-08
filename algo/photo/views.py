@@ -1,15 +1,9 @@
 from rest_framework.decorators import api_view
-from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
-from os import remove
 import cv2
 from PIL import Image
 from io import BytesIO
-from django.http import HttpResponse
-
 from rest_framework.response import Response
 from rest_framework import status
-
 import numpy as np
 import base64
 
