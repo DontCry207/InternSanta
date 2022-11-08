@@ -6,9 +6,26 @@ import styled from 'styled-components';
 import { loggedInState, userInfoState } from '../../Atom';
 import { fetchData } from '../../utils/apis/api';
 import MainModal from '../Common/MainModal';
+import SantaFourCutPage from '../SantaFourCut/SantaFourCutPage';
 const HomePage = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [loggedIn, setloggedIn] = useRecoilState(loggedInState);
+  const [onSantaFourCutModal, setOnSantaFourCutModal] = useState(false);
+
+  const santaFourCutModalOpen = () => {
+    setOnSantaFourCutModal(true);
+  };
+
+  const SantaFourCutModal = () => {
+    if (onSantaFourCutModal) {
+      return (
+        <MainModal closeBtnControl={setOnSantaFourCutModal} bgColor="#30314B">
+          <SantaFourCutPage />
+        </MainModal>
+      );
+    }
+  };
+
   const navigate = useNavigate();
   // const test = () => {
   //   fetchData.get('/api/v1/quest').then((res) => {
@@ -45,6 +62,13 @@ const HomePage = () => {
             }}>
             게임
           </button>
+          <button
+            onClick={() => {
+              santaFourCutModalOpen();
+            }}>
+            산타네컷
+          </button>
+          {SantaFourCutModal()}
         </div>
       ) : (
         <button
