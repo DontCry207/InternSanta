@@ -7,32 +7,42 @@ from PIL import Image
 from io import BytesIO
 from django.http import HttpResponse
 
+from rest_framework.response import Response
+from rest_framework import status
+
+import numpy as np
+import base64
+
+
+
 @api_view(["POST"])
 def photo(request):
-    image_files = request.FILES.getlist('photoImageList')
-    image_file1 = image_files[0]
-    image_file2 = image_files[1]
-    image_file3 = image_files[2]
-    image_file4 = image_files[3]
     
-    image_file1_path = default_storage.save(
-        'photo/img/tmp/' + str(image_file1), ContentFile(image_file1.read()))
-    image_file2_path = default_storage.save(
-        'photo/img/tmp/' + str(image_file2), ContentFile(image_file2.read()))
-    image_file3_path = default_storage.save(
-        'photo/img/tmp/' + str(image_file3), ContentFile(image_file3.read()))
-    image_file4_path = default_storage.save(
-        'photo/img/tmp/' + str(image_file4), ContentFile(image_file4.read()))    
-    frame = cv2.imread('photo/img/frame.png')
-    src1 = cv2.imread(image_file1_path)
-    src2 = cv2.imread(image_file2_path)
-    src3 = cv2.imread(image_file3_path)
-    src4 = cv2.imread(image_file4_path)
+    temp1 = request.POST.__getitem__('photoImage1')
+    temp2 = request.POST.__getitem__('photoImage2')
+    temp3 = request.POST.__getitem__('photoImage3')
+    temp4 = request.POST.__getitem__('photoImage4')
+    
+    header1, data1 = temp1.split(';base64,')
+    header2, data2 = temp2.split(';base64,')
+    header3, data3 = temp3.split(';base64,')
+    header4, data4 = temp4.split(';base64,')
 
-    remove(image_file1_path)
-    remove(image_file2_path)
-    remove(image_file3_path)
-    remove(image_file4_path)
+    image_data1 = base64.b64decode(data1)
+    image_data2 = base64.b64decode(data2)
+    image_data3 = base64.b64decode(data3)
+    image_data4 = base64.b64decode(data4)
+
+    nparr1 = np.fromstring(image_data1, np.uint8)
+    nparr2 = np.fromstring(image_data2, np.uint8)
+    nparr3 = np.fromstring(image_data3, np.uint8)
+    nparr4 = np.fromstring(image_data4, np.uint8)
+
+    frame = cv2.imread('photo/img/frame.png')
+    src1 = cv2.imdecode(nparr1, cv2.IMREAD_COLOR)
+    src2 = cv2.imdecode(nparr2, cv2.IMREAD_COLOR)
+    src3 = cv2.imdecode(nparr3, cv2.IMREAD_COLOR)
+    src4 = cv2.imdecode(nparr4, cv2.IMREAD_COLOR)
 
     img1 = cv2.resize(src1, dsize=(535,436), interpolation=cv2.INTER_AREA)
     img2 = cv2.resize(src2, dsize=(535,436), interpolation=cv2.INTER_AREA)
@@ -46,16 +56,15 @@ def photo(request):
     frame[1155:width + 1155, 185:height + 185] = img3
     frame[1660:width + 1660, 185:height + 185] = img4
     
-    # BGR -> RGB 변환
+    # # BGR -> RGB 변환
     frameRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
     # nparray -> PIL Image 변환
     result = Image.fromarray(frameRGB)
     # # PIL Image -> Bytes 변환
     buffer = BytesIO()
     result.save(buffer, "PNG")
-    buffer.seek(0)
-
-    response = HttpResponse(buffer, content_type='image/png')
-    response['Content-Disposition'] = 'attachment; filename="result.png"'
-    return response
+    # buffer.seek(0)
+    # Bytes -> base64 encoding
+    img_base64 = base64.b64encode(buffer.getvalue())
+    # header 추가 후  return
+    return Response("data:image/png;base64," + str(img_base64)[2:-1], status=status.HTTP_200_OK)
