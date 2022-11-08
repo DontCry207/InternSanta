@@ -27,7 +27,10 @@ const GameConnectPage = () => {
     if (onRegisterModal)
       return (
         <AlertModal title="회원가입">
-          <RegisterPage closeFnc={setOnRegisterModal} />
+          <RegisterPage
+            closeFnc={setOnRegisterModal}
+            loginFnc={setOnLoginModal}
+          />
         </AlertModal>
       );
   };
