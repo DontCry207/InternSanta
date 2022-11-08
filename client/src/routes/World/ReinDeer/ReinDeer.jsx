@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import reindeer from '../../assets/reindeer.glb';
+import reindeer from '../../../assets/reindeer/reindeer.glb';
 import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { RigidBody } from '@react-three/rapier';

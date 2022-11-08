@@ -7,16 +7,10 @@ import {
   MapControls,
 } from 'three/examples/jsm/controls/OrbitControls';
 import * as THREE from 'three';
-import {
-  useKeyboardControls,
-  useGLTF,
-  useAnimations,
-  PointerLockControls,
-} from '@react-three/drei';
-import { CircleGeometry } from 'three';
+import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
 extend({ OrbitControls, MapControls });
 
-const Player = () => {
+const Player = (props) => {
   const SPEED = 4;
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();
@@ -29,8 +23,8 @@ const Player = () => {
     scene,
   } = useThree();
   const [, get] = useKeyboardControls();
-  const [location, setLocation] = useState([10, 10, -2]);
-  const [location2, setLocation2] = useState([10, 10, -2]);
+  const [location, setLocation] = useState([10, 10, 10]);
+  const [location2, setLocation2] = useState([10, 10, 10]);
   const [maxPolarAngle, setMaxPolarAngle] = useState(1.8);
   const controls = useRef();
 
@@ -38,6 +32,13 @@ const Player = () => {
     controls.current.enableRotate = true;
     controls.current.rotateSpeed = 0.5;
   }, []);
+
+  useEffect(() => {
+    if (!props.loading) {
+      controls.current.minAzimuthAngle = 0;
+      controls.current.maxAzimuthAngle = Infinity;
+    }
+  }, [props]);
 
   const group = useRef();
   const { nodes, materials, animations } = useGLTF(character);
@@ -60,7 +61,7 @@ const Player = () => {
       }
     } else {
       actions.Run.stop();
-      actions.Idle.play();
+      actions.Idle.play().setEffectiveTimeScale(2);
       setMaxPolarAngle(1.7);
     }
 
@@ -102,6 +103,8 @@ const Player = () => {
         target={location}
         minDistance={1.6}
         maxDistance={1.6}
+        minAzimuthAngle={-Math.PI * 0.25}
+        maxAzimuthAngle={-Math.PI * 0.25}
         maxPolarAngle={Math.PI / maxPolarAngle}
         minPolarAngle={Math.PI / 2.45}
         enableRotate={false}
@@ -118,7 +121,7 @@ const Player = () => {
         mass={1}
         type="dynamic"
         colliders={false}
-        position={[-13, 2, 22]}>
+        position={[-15.7, 4, 21.4]}>
         <CuboidCollider args={[0.3, 0.3, 0.3]} />
       </RigidBody>
     </>
