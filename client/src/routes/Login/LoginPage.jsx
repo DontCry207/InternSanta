@@ -11,51 +11,36 @@ const LoginPage = (props) => {
   const [memberEmail, setMemberEmail] = useState('');
   const [memberPwd, setMemberPwd] = useState('');
   const navigate = useNavigate();
-  const loginFnc = (props) => {
-    fetchData
-      .post('/api/v1/member/login', {
-        memberEmail,
-        memberPwd,
-      })
-      .then((res) => {
-        try {
-          const {
-            data: {
-              memberNickname,
-              memberCoin,
-              memberTicket,
-              memberGender,
-              memberTop,
-              memberBottom,
-              memberPet,
-              memberChapter,
-              memberCheckpoint,
-              accessToken,
-              refreshToken,
-            },
-          } = res;
-          setUserInfo({
-            memberNickname,
-            memberCoin,
-            memberTicket,
-            memberGender,
-            memberTop,
-            memberBottom,
-            memberPet,
-            memberChapter,
-            memberCheckpoint,
-          });
+  const loginFnc = async () => {
+    const res = await fetchData.post('/api/v1/member/login', {
+      memberEmail,
+      memberPwd,
+    });
 
-          localStorage.setItem('refreshToken', refreshToken);
-          sessionStorage.setItem('accessToken', accessToken);
-          console.log('로그인');
-          setloggedIn(true);
-          console.log(loggedIn);
-          navigate('/');
-        } catch (err) {
-          console.log(err);
-        }
-      });
+    const {
+      memberNickname,
+      memberCoin,
+      memberTicket,
+      memberTop,
+      memberPet,
+      memberChapter,
+      memberCheckpoint,
+      accessToken,
+      refreshToken,
+    } = await res.data;
+    setUserInfo({
+      memberNickname,
+      memberCoin,
+      memberTicket,
+      memberTop,
+      memberPet,
+      memberChapter,
+      memberCheckpoint,
+    });
+    localStorage.setItem('refreshToken', refreshToken);
+    sessionStorage.setItem('accessToken', accessToken);
+    setloggedIn(true);
+    navigate('/');
   };
 
   return (
@@ -88,7 +73,7 @@ const LoginPage = (props) => {
           />
         </InputBox>
         <BtnSet>
-          <button className="leftBtn" onClick={() => closeFnc()}>
+          <button className="leftBtn" type="button" onClick={() => closeFnc()}>
             닫기
           </button>
           <button className="rightBtn" type="submit">
