@@ -15,9 +15,8 @@ const SantaFourCutPage = () => {
   const [resData, setResData] = useState('');
   useEffect(() => {
     if (photoNum === 5) {
-      const fourcut = imgChange();
-      setResData(fourcut.data);
       setPage(3);
+      page3();
     }
   }, [photoNum]);
 
@@ -110,15 +109,21 @@ const SantaFourCutPage = () => {
   };
 
   const page3 = async () => {
-    // let photo = document.createElement('img');
-    // photo.setAttribute('width', 90);
-    // photo.setAttribute('src', fourcut.data);
-    // resbox.appendChild(photo);
-    return (
-      <>
-        <img src={resData} alt="" />
-      </>
-    );
+    const fourcut = await imgChange();
+    setResData(fourcut.data);
+  };
+
+  const saveFile = function (strData, filename) {
+    var link = document.createElement('a');
+    if (typeof link.download === 'string') {
+      document.body.appendChild(link); //Firefox requires the link to be in the body
+      link.download = filename;
+      link.href = strData;
+      link.click();
+      document.body.removeChild(link); //remove the link when done
+    } else {
+      location.replace(uri);
+    }
   };
   return (
     <>
@@ -131,12 +136,26 @@ const SantaFourCutPage = () => {
         <SubTitle>나의 캐릭터와 함께 사진을 찍어보아요!</SubTitle>
       </div>
       {page === 2 ? page2() : null}
-      <CameraBox id="arcamera">
-        <AppCanvas />
-      </CameraBox>
+      {page < 3 ? (
+        <CameraBox id="arcamera">
+          <AppCanvas />
+        </CameraBox>
+      ) : null}
       {page === 1 ? page1() : null}
-      {page === 3 ? page3() : null}
-      {/* <div id="resbox"></div> */}
+      {resData ? <img src={resData} alt="" width="240px" id="resimg" /> : null}
+      {page === 3 ? (
+        <StartBtn>
+          <button
+            onClick={() => {
+              saveFile(
+                resData.replace('image/png', 'image/octet-stream'),
+                'Santa4cut.jpg',
+              );
+            }}>
+            저장
+          </button>
+        </StartBtn>
+      ) : null}
     </>
   );
 };
