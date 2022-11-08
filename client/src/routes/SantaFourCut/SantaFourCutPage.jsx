@@ -11,17 +11,17 @@ import photo4 from '../../assets/images/photo4.png';
 const SantaFourCutPage = () => {
   const [page, setPage] = useState(1);
   const [photoNum, setPhotoNum] = useState(1);
-
+  const [imgData, setImgData] = useState([]);
+  const [resData, setResData] = useState('');
   useEffect(() => {
-    console.log(photoNum);
     if (photoNum === 5) {
-      console.log('api호출');
+      const fourcut = imgChange();
+      setResData(fourcut.data);
       setPage(3);
     }
   }, [photoNum]);
 
   async function capture() {
-    let resbox = document.getElementById('resbox');
     let canvas = document.querySelectorAll('#arcamera canvas');
     // console.log(canvas);
     let imgData1 = canvas[0].toDataURL('image/png');
@@ -46,6 +46,7 @@ const SantaFourCutPage = () => {
         var dataURI = tempCanvas.toDataURL('image/png');
         document.querySelector('#photo' + photoNum).src = dataURI;
         setPhotoNum(photoNum + 1);
+        setImgData([...imgData, dataURI]);
       };
     };
 
@@ -68,10 +69,12 @@ const SantaFourCutPage = () => {
     // resbox.appendChild(photo);
   }
 
-  const imgChange = async (imgData1, imgData2) => {
+  const imgChange = async () => {
     const formData = new FormData();
-    formData.append('photoImage1', imgData1);
-    formData.append('photoImage2', imgData2);
+    formData.append('photoImage1', imgData[0]);
+    formData.append('photoImage2', imgData[1]);
+    formData.append('photoImage3', imgData[2]);
+    formData.append('photoImage4', imgData[3]);
     // console.log(formData.get('photoImageList'));
     return await fetchData.post('/api/v2/photo', formData, {
       headers: {
@@ -105,6 +108,18 @@ const SantaFourCutPage = () => {
       </>
     );
   };
+
+  const page3 = async () => {
+    // let photo = document.createElement('img');
+    // photo.setAttribute('width', 90);
+    // photo.setAttribute('src', fourcut.data);
+    // resbox.appendChild(photo);
+    return (
+      <>
+        <img src={resData} alt="" />
+      </>
+    );
+  };
   return (
     <>
       <div>
@@ -120,6 +135,8 @@ const SantaFourCutPage = () => {
         <AppCanvas />
       </CameraBox>
       {page === 1 ? page1() : null}
+      {page === 3 ? page3() : null}
+      {/* <div id="resbox"></div> */}
     </>
   );
 };
