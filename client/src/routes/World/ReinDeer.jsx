@@ -4,7 +4,10 @@ import reindeerRed from '../../assets/reindeer/reindeerRed.glb';
 import reindeerOrange from '../../assets/reindeer/reindeerOrange.glb';
 import reindeerYellow from '../../assets/reindeer/reindeerYellow.glb';
 import reindeerGreen from '../../assets/reindeer/reindeerGreen.glb';
+import reindeerBlue from '../../assets/reindeer/reindeerBlue.glb';
 import reindeerPurple from '../../assets/reindeer/reindeerPurple.glb';
+import reindeerWhite from '../../assets/reindeer/reindeerWhite.glb';
+import reindeerPink from '../../assets/reindeer/reindeerPink.glb';
 import speech from '../../assets/speech.glb';
 import { useLoader, useThree } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -17,7 +20,10 @@ const DeerLocation = {
   reindeerOrange: [0.625369131565094, 0.2155776143074036, -1.4708287715911865],
   reindeerYellow: [-18.077816009521484, 0.0630310499668122, 10.820121765136719],
   reindeerGreen: [15.034184455871582, 2.4461227416992187, 0.8214784860610962],
+  reindeerBlue: [10.7400541305542, 0, 12.818519592285156],
   reindeerPurple: [-5.882803821563721, 1.3245592832565307, -6.936524868011475],
+  reindeerWhite: [-5.882803821563721, 1.3245592832565307, -6.936524868011475],
+  reindeerPink: [-7.679970741271973, 1.521248912811279, 26.733945846557617],
 };
 
 const DeerLotation = {
@@ -26,7 +32,10 @@ const DeerLotation = {
   reindeerOrange: [0, 1.85 * Math.PI, 0],
   reindeerYellow: [0, 0.5 * Math.PI, 0],
   reindeerGreen: [0, 1.35 * Math.PI, 0],
+  reindeerBlue: [0, 1.35 * Math.PI, 0],
   reindeerPurple: [0, 2.05 * Math.PI, 0],
+  reindeerWhite: [0, 2.05 * Math.PI, 0],
+  reindeerPink: [0, 0.66 * Math.PI, 0],
 };
 
 const DeerModel = {
@@ -35,7 +44,10 @@ const DeerModel = {
   reindeerOrange: reindeerOrange,
   reindeerYellow: reindeerYellow,
   reindeerGreen: reindeerGreen,
+  reindeerBlue: reindeerBlue,
   reindeerPurple: reindeerPurple,
+  reindeerWhite: reindeerWhite,
+  reindeerPink: reindeerPink,
 };
 
 const ReinDeer = (props) => {

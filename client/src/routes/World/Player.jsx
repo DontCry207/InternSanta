@@ -55,7 +55,7 @@ const Player = (props) => {
     nodes.Scene.rotation.copy(camera.rotation);
     if (forward || backward || left || right) {
       setLocation([x, y + 0.4, z]);
-      console.log(location);
+      //console.log(location);
       actions.Idle.stop();
       if (dash) {
         setSpeed(8);
