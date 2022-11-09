@@ -6,8 +6,7 @@ import styled from 'styled-components';
 import ChristmasTown from './ChristmasTown';
 import YellowGuy from './Npc/YellowGuy';
 import Player from './Player';
-import ReinDeer from './ReinDeer/ReinDeer';
-import ReinDeerRed from './ReinDeer/ReinDeerRed';
+import ReinDeer from './ReinDeer';
 import Snow from './Snow';
 import ChatModal from './ChatModal';
 import PlayUi from './PlayUi';
@@ -30,6 +29,7 @@ const WorldPage = () => {
           { name: 'backward', keys: ['ArrowDown', 's', 'S'] },
           { name: 'left', keys: ['ArrowLweft', 'a', 'A'] },
           { name: 'right', keys: ['ArrowRight', 'd', 'D'] },
+          { name: 'dash', keys: ['ShiftLeft'] },
         ]}>
         <Canvas camera={{ fov: 70 }}>
           <Snow />
@@ -58,8 +58,12 @@ const WorldPage = () => {
               <Player loading={loading} />
               <InfoGuy setModal={(e) => setModal(e)} />
               <YellowGuy />
-              <ReinDeer />
-              <ReinDeerRed setModal={(e) => setModal(e)} />
+              <ReinDeer type={'reindeer'} setModal={(e) => setModal(e)} />
+              <ReinDeer type={'reindeerRed'} setModal={(e) => setModal(e)} />
+              <ReinDeer type={'reindeerOrange'} setModal={(e) => setModal(e)} />
+              <ReinDeer type={'reindeerYellow'} setModal={(e) => setModal(e)} />
+              <ReinDeer type={'reindeerGreen'} setModal={(e) => setModal(e)} />
+              <ReinDeer type={'reindeerPurple'} setModal={(e) => setModal(e)} />
             </Physics>
           </Suspense>
         </Canvas>

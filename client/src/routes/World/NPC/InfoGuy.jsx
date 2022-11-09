@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import infoGuy from '../../../assets/npc/infoGuy.glb';
-import { RigidBody } from '@react-three/rapier';
+import { CuboidCollider, RigidBody } from '@react-three/rapier';
 import { useAnimations, useGLTF } from '@react-three/drei';
 import { useLoader, useThree } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import speech from '../../../assets/speech.glb';
-import styled from 'styled-components';
 
 const InfoGuy = (props) => {
   const group = useRef();
@@ -15,6 +14,7 @@ const InfoGuy = (props) => {
   nodes.Scene.scale.set(0.6, 0.6, 0.6);
   const location1 = [-15.301273727416992, 0.2, 19.988668060302734];
   const location2 = [-15.301273727416992, 1.2, 19.988668060302734];
+  const location3 = [-15.301273727416992, 0.6, 19.988668060302734];
   const [hovered, setHover] = useState(false);
   const [clicked, setClick] = useState(false);
 
@@ -39,17 +39,22 @@ const InfoGuy = (props) => {
 
   return (
     <>
+      <RigidBody type="fixed" colliders={'hull'}>
+        <primitive ref={group} object={nodes.Scene} position={location1} />
+        <CuboidCollider args={[0.3, 0.3, 0.3]} />
+      </RigidBody>
       <mesh
-        position={location1}
+        position={location3}
         onClick={() => setClick(!clicked)}
         onPointerOver={() => setHover(true)}
         onPointerOut={() => setHover(false)}>
-        <boxGeometry args={[0.5, 1.5, 0.5]} />
-        <meshStandardMaterial transparent />
+        <boxGeometry args={[0.5, 0.8, 0.5]} />
+        <meshStandardMaterial
+          color={(0, 0, 0, 0)}
+          opacity={0}
+          transparent={true}
+        />
       </mesh>
-      <RigidBody type="fixed" colliders={'hull'}>
-        <primitive ref={group} object={nodes.Scene} position={location1} />
-      </RigidBody>
       {hovered ? (
         <primitive
           object={buble.scene}

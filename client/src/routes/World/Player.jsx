@@ -11,7 +11,7 @@ import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
 extend({ OrbitControls, MapControls });
 
 const Player = (props) => {
-  const SPEED = 4;
+  const [SPEED, setSpeed] = useState(4);
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();
   const sideVector = new THREE.Vector3();
@@ -35,7 +35,6 @@ const Player = (props) => {
     controls.current.enableRotate = true;
     controls.current.rotateSpeed = 0.4;
     nodes.Scene.name = 'player';
-    console.log(scene);
   }, []);
 
   useEffect(() => {
@@ -48,7 +47,7 @@ const Player = (props) => {
   }, [props]);
 
   useFrame((state, delta) => {
-    const { forward, backward, left, right } = get();
+    const { forward, backward, left, right, dash } = get();
     const velocity = ref.current.linvel();
     // update camera
     const [x, y, z] = [...ref.current.translation()];
@@ -56,8 +55,15 @@ const Player = (props) => {
     nodes.Scene.rotation.copy(camera.rotation);
     if (forward || backward || left || right) {
       setLocation([x, y + 0.4, z]);
+      console.log(location);
       actions.Idle.stop();
-      actions.Run.play().setEffectiveTimeScale(1.3);
+      if (dash) {
+        setSpeed(8);
+        actions.Run.play().setEffectiveTimeScale(2.6);
+      } else {
+        setSpeed(4);
+        actions.Run.play().setEffectiveTimeScale(1.3);
+      }
       if (maxPolarAngle < 2.45) {
         setMaxPolarAngle(maxPolarAngle + 0.1);
       }
