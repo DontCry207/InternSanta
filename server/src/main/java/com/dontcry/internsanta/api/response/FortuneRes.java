@@ -10,9 +10,8 @@ public class FortuneRes {
     String fortune;
 
     public static FortuneRes of(Fortune fortune) {
-        FortuneRes res = FortuneRes.builder()
+        return FortuneRes.builder()
                 .fortune(fortune.getFortuneContent())
                 .build();
-        return res;
     }
 }

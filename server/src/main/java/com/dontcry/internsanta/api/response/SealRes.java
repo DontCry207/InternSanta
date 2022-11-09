@@ -12,12 +12,10 @@ public class SealRes {
     private String sealUrl;
 
     public static SealRes of (Seal seal) {
-        SealRes res = SealRes
+        return SealRes
                 .builder()
                 .sealName(seal.getSealName())
                 .sealUrl(seal.getSealUrl())
                 .build();
-
-        return res;
     }
 }
