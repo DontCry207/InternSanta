@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import newCharacter from '../../assets/newCharacter.glb';
+import yellowGuy from '../../../assets/npc/yellowGuy.glb';
 import { RigidBody } from '@react-three/rapier';
 import { useAnimations, useGLTF } from '@react-three/drei';
 
-const Npc = () => {
+const YellowGuy = () => {
   const group = useRef();
-  const { nodes, materials, animations } = useGLTF(newCharacter);
+  const { nodes, materials, animations } = useGLTF(yellowGuy);
   const { actions } = useAnimations(animations, group);
   nodes.Scene.rotation.set(0, -(2.9 * Math.PI) / 4, 0);
   nodes.Scene.scale.set(0.55, 0.55, 0.55);
@@ -22,6 +22,6 @@ const Npc = () => {
   );
 };
 
-useGLTF.preload(newCharacter);
+useGLTF.preload(yellowGuy);
 
-export default Npc;
+export default YellowGuy;
