@@ -133,15 +133,17 @@ const SantaFourCutPage = () => {
           <img src={santa} alt="santaLogo" />
           <p>네컷</p>
         </Logo>
-        <SubTitle>나의 캐릭터와 함께 사진을 찍어보아요!</SubTitle>
+        {page === 1 && (
+          <SubTitle>나의 캐릭터와 함께 사진을 찍어보아요!</SubTitle>
+        )}
       </div>
-      {page === 2 ? page2() : null}
       {page < 3 ? (
         <CameraBox id="arcamera">
           <AppCanvas />
         </CameraBox>
       ) : null}
       {page === 1 ? page1() : null}
+      {page === 2 ? page2() : null}
       {resData ? <img src={resData} alt="" width="240px" id="resimg" /> : null}
       {page === 3 ? (
         <StartBtn>
@@ -166,7 +168,7 @@ const Logo = styled.div`
   font-size: 72px;
   color: #de6363;
   img {
-    width: 72px;
+    width: 76px;
   }
 `;
 const SubTitle = styled.div`
@@ -178,12 +180,9 @@ const SubTitle = styled.div`
 `;
 const CameraBox = styled.div`
   position: relative;
-  /* position: absolute;
-  bottom: 100px; */
-  /* transform: translate(-50%, -50%); */
+  padding: 10px 0;
 `;
 const StartBtn = styled.div`
-  padding: 20px;
   button {
     width: 140px;
     height: 50px;
@@ -198,7 +197,7 @@ const StartBtn = styled.div`
 const PhotoBox = styled.div`
   display: flex;
   gap: 10px;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   img {
     width: 100px;
   }
