@@ -12,14 +12,11 @@ const HomePage = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [loggedIn, setloggedIn] = useRecoilState(loggedInState);
   const navigate = useNavigate();
-  //산타네컷
+
   const [onSantaFourCutModal, setOnSantaFourCutModal] = useState(false);
+  const [onMiniGameModal, setOnMiniGameModal] = useState(false);
 
-  const santaFourCutModalOpen = () => {
-    setOnSantaFourCutModal(true);
-  };
-
-  const SantaFourCutModal = () => {
+  const openModal = () => {
     if (onSantaFourCutModal) {
       return (
         <MainModal closeBtnControl={setOnSantaFourCutModal} bgColor="#30314B">
@@ -27,16 +24,6 @@ const HomePage = () => {
         </MainModal>
       );
     }
-  };
-
-  //미니게임
-  const [onMiniGameModal, setOnMiniGameModal] = useState(false);
-
-  const miniGameModalOpen = () => {
-    setOnMiniGameModal(true);
-  };
-
-  const MiniGameModal = () => {
     if (onMiniGameModal) {
       return (
         <MainModal closeBtnControl={setOnMiniGameModal} bgColor="#56668E">
@@ -76,20 +63,9 @@ const HomePage = () => {
             }}>
             게임
           </button>
-          <button
-            onClick={() => {
-              santaFourCutModalOpen();
-            }}>
-            산타네컷
-          </button>
-          <button
-            onClick={() => {
-              miniGameModalOpen();
-            }}>
-            미니게임
-          </button>
-          {SantaFourCutModal()}
-          {MiniGameModal()}
+          <button onClick={() => setOnSantaFourCutModal(true)}>산타네컷</button>
+          <button onClick={() => setOnMiniGameModal(true)}>미니게임</button>
+          {openModal()}
         </div>
       ) : (
         <button
