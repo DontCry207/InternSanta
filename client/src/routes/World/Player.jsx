@@ -34,6 +34,8 @@ const Player = (props) => {
   useEffect(() => {
     controls.current.enableRotate = true;
     controls.current.rotateSpeed = 0.4;
+    nodes.Scene.name = 'player';
+    console.log(scene);
   }, []);
 
   useEffect(() => {
@@ -50,8 +52,8 @@ const Player = (props) => {
     const velocity = ref.current.linvel();
     // update camera
     const [x, y, z] = [...ref.current.translation()];
-    nodes.Scene.rotation.copy(camera.rotation);
 
+    nodes.Scene.rotation.copy(camera.rotation);
     if (forward || backward || left || right) {
       setLocation([x, y + 0.4, z]);
       actions.Idle.stop();

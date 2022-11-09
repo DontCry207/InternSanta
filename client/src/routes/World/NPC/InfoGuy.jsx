@@ -5,6 +5,7 @@ import { useAnimations, useGLTF } from '@react-three/drei';
 import { useLoader, useThree } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import speech from '../../../assets/speech.glb';
+import styled from 'styled-components';
 
 const InfoGuy = (props) => {
   const group = useRef();
@@ -25,7 +26,7 @@ const InfoGuy = (props) => {
 
   useEffect(() => {
     if (clicked) {
-      props.setModal();
+      props.setModal('infoGuy');
       setClick(!clicked);
     }
   }, [clicked]);
@@ -37,15 +38,18 @@ const InfoGuy = (props) => {
   }, []);
 
   return (
-    <RigidBody type="fixed" colliders={false}>
-      <primitive
-        ref={group}
-        object={nodes.Scene}
+    <>
+      <mesh
         position={location1}
         onClick={() => setClick(!clicked)}
         onPointerOver={() => setHover(true)}
-        onPointerOut={() => setHover(false)}
-      />
+        onPointerOut={() => setHover(false)}>
+        <boxGeometry args={[0.5, 1.5, 0.5]} />
+        <meshStandardMaterial transparent />
+      </mesh>
+      <RigidBody type="fixed" colliders={'hull'}>
+        <primitive ref={group} object={nodes.Scene} position={location1} />
+      </RigidBody>
       {hovered ? (
         <primitive
           object={buble.scene}
@@ -54,7 +58,7 @@ const InfoGuy = (props) => {
           scale={[0.43, 0.43, 0.43]}
         />
       ) : null}
-    </RigidBody>
+    </>
   );
 };
 

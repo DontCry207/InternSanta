@@ -29,7 +29,7 @@ const ReinDeerRed = (props) => {
 
   useEffect(() => {
     if (clicked) {
-      props.setModal();
+      props.setModal('reindeerRed');
       setClick(!clicked);
     }
   }, [clicked]);

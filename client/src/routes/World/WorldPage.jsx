@@ -16,13 +16,13 @@ import LoadingPage from './LoadingPage';
 import InfoGuy from './NPC/InfoGuy';
 
 const WorldPage = () => {
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(null);
   const [loading, setLoading] = useState(true);
 
   return (
     <Container>
       {loading ? <LoadingPage /> : null}
-      {modal ? <ChatModal setModal={() => setModal(!modal)} /> : null}
+      {modal ? <ChatModal modal={modal} setModal={(e) => setModal(e)} /> : null}
       <PlayUi />
       <KeyboardControls
         map={[
@@ -56,10 +56,10 @@ const WorldPage = () => {
             <Physics gravity={[0, -30, 0]}>
               <ChristmasTown />
               <Player loading={loading} />
-              <InfoGuy setModal={() => setModal(!modal)} />
+              <InfoGuy setModal={(e) => setModal(e)} />
               <YellowGuy />
               <ReinDeer />
-              <ReinDeerRed setModal={() => setModal(!modal)} />
+              <ReinDeerRed setModal={(e) => setModal(e)} />
             </Physics>
           </Suspense>
         </Canvas>
