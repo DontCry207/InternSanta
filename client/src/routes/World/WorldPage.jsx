@@ -55,6 +55,7 @@ const WorldPage = () => {
             }>
             <Physics gravity={[0, -30, 0]}>
               <ChristmasTown />
+              <Pet />
               <Player loading={loading} />
               <InfoGuy setModal={(e) => setModal(e)} />
               <YellowGuy />
