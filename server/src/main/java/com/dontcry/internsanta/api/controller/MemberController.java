@@ -73,8 +73,7 @@ public class MemberController {
 
     @GetMapping
     public ResponseEntity<MemberInfoRes> getMemberInfo(@ApiIgnore Authentication authentication) {
-        MemberDetails memberDetails = (MemberDetails) authentication.getDetails();
-        Member member = memberDetails.getUser();
+        Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
 
         return ResponseEntity.status(200).body(MemberInfoRes.of(member)) ;
     }
