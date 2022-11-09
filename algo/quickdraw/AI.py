@@ -7,7 +7,7 @@ def AIfunction(vector, key):
   if key == '1': answer = "나무"
   elif key == '2': answer = "망치"
   elif key == '3': answer = "못"
-  else: return "error"
+  else: return "not valid key", "error"
 
   #1. data에 vector 추가
   data = [vector]
