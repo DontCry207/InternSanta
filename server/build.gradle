@@ -9,6 +9,7 @@ plugins {
     id 'org.springframework.boot' version "${springBootVer}"
     id 'io.spring.dependency-management' version "${springDependencyMgmtVer}.RELEASE"
     id 'java'
+    id "org.sonarqube" version "3.0"
 }
 
 group = 'com.dontcry'
@@ -51,8 +52,6 @@ dependencies {
     // lombok
     implementation("org.projectlombok:lombok:1.18.20")
     annotationProcessor("org.projectlombok:lombok:1.18.20")
-    // S3
-    implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.3.1'
     // json 파싱
     dependencies { implementation 'com.google.code.gson:gson:2.8.7' }
     implementation('commons-io:commons-io:2.6')

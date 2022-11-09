@@ -13,12 +13,10 @@ public class MemberSealRes {
     private int count;
 
     public static MemberSealRes of(Seal seal, int count) {
-        MemberSealRes res = MemberSealRes.builder()
+        return MemberSealRes.builder()
                 .sealName(seal.getSealName())
                 .sealUrl(seal.getSealUrl())
                 .count(count)
                 .build();
-
-        return res;
     }
 }

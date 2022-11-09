@@ -16,7 +16,7 @@ public class MemberInfoRes {
     int memberCheckpoint;
 
     public static MemberInfoRes of(Member member) {
-        MemberInfoRes res = MemberInfoRes.builder()
+        return MemberInfoRes.builder()
                 .memberNickname(member.getMemberNickname())
                 .memberCoin(member.getMemberCoin())
                 .memberTicket(member.getMemberTicket())
@@ -24,8 +24,6 @@ public class MemberInfoRes {
                 .memberPet(member.getMemberPet())
                 .memberChapter(member.getMemberChapter())
                 .memberCheckpoint(member.getMemberCheckpoint()).build();
-
-        return res;
     }
 
 }
