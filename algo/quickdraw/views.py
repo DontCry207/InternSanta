@@ -12,7 +12,7 @@ def quickdraw(request):
     draw, answer = AI.AIfunction(vector, key)
 
     if draw == 'error':
-        return Response("not valid key", status=status.HTTP_409_CONFLICT)
+        return Response({"result": False, "draw": "not valid key"}, status=status.HTTP_409_CONFLICT)
     if draw == answer: result = True
     else: result = False
 
