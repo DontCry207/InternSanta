@@ -5,8 +5,6 @@ import com.dontcry.internsanta.api.request.MemberLoginReq;
 import com.dontcry.internsanta.api.request.MemberPetUpdateReq;
 import com.dontcry.internsanta.api.request.MemberRegistReq;
 import com.dontcry.internsanta.api.response.*;
-import com.dontcry.internsanta.api.request.*;
-import com.dontcry.internsanta.api.response.*;
 import com.dontcry.internsanta.api.service.MemberService;
 import com.dontcry.internsanta.common.JwtAuthenticationUtil;
 import com.dontcry.internsanta.common.JwtTokenUtil;
@@ -15,21 +13,13 @@ import com.dontcry.internsanta.common.model.response.BaseResponseBody;
 import com.dontcry.internsanta.db.entity.Member;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +43,7 @@ public class MemberController {
     }
 
     @PatchMapping("/pet")
-    public ResponseEntity<?> updateMemberPet(@RequestBody MemberPetUpdateReq memberPetUpdateReq, @ApiIgnore Authentication authentication) {
+    public ResponseEntity<MemberPetRes> updateMemberPet(@RequestBody MemberPetUpdateReq memberPetUpdateReq, @ApiIgnore Authentication authentication) {
         Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
         int memberPet = memberService.updateMemberPet(member, memberPetUpdateReq.getMemberPet());
         return ResponseEntity.status(200).body(MemberPetRes.of(memberPet));
@@ -122,7 +112,7 @@ public class MemberController {
     }
 
     @GetMapping("/refresh")
-    public ResponseEntity<?> tokenRefresh(@RequestHeader(value = "REFRESH-TOKEN") String refreshToken) {
+    public ResponseEntity<MemberTokenRes> tokenRefresh(@RequestHeader(value = "REFRESH-TOKEN") String refreshToken) {
 
         Map<String, String> tokens = memberService.modifyRefreshToken(refreshToken);
 

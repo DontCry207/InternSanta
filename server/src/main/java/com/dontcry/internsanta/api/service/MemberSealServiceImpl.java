@@ -34,14 +34,12 @@ public class MemberSealServiceImpl implements MemberSealService {
 
     @Override
     public Seal getSeal() {
-        Seal seal = sealRepository.findRandomSeal();
-        return seal;
+        return sealRepository.findRandomSeal();
     }
 
     @Override
     public List<Seal> getAllSealList() {
-        List<Seal> sealList = sealRepository.findAll();
-        return sealList;
+        return sealRepository.findAll();
     }
 
     @Override

@@ -20,7 +20,7 @@ public class MemberLoginRes {
     String accessToken;
 
     public static MemberLoginRes of(Member member, Map<String, String> tokens) {
-        MemberLoginRes res = MemberLoginRes.builder()
+        return MemberLoginRes.builder()
                 .memberNickname(member.getMemberNickname())
                 .memberCoin(member.getMemberCoin())
                 .memberTicket(member.getMemberTicket())
@@ -30,8 +30,5 @@ public class MemberLoginRes {
                 .memberCheckpoint(member.getMemberCheckpoint())
                 .refreshToken(tokens.get("refreshToken"))
                 .accessToken(tokens.get("accessToken")).build();
-
-        return res;
     }
-
 }

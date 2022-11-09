@@ -11,10 +11,9 @@ public class QuestScriptListRes {
     List<String> questScriptList;
 
     public static QuestScriptListRes of(List<String> questScriptList) {
-        QuestScriptListRes res = QuestScriptListRes.builder()
+        return QuestScriptListRes.builder()
                 .questScriptList(questScriptList)
                 .build();
-        return res;
     }
 
 }
