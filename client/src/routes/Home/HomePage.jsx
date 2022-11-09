@@ -11,6 +11,7 @@ const HomePage = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [loggedIn, setloggedIn] = useRecoilState(loggedInState);
   const [onSantaFourCutModal, setOnSantaFourCutModal] = useState(false);
+  const navigate = useNavigate();
 
   const santaFourCutModalOpen = () => {
     setOnSantaFourCutModal(true);
@@ -26,7 +27,6 @@ const HomePage = () => {
     }
   };
 
-  const navigate = useNavigate();
   // const test = () => {
   //   fetchData.get('/api/v1/quest').then((res) => {
   //     console.log(res);
@@ -37,9 +37,7 @@ const HomePage = () => {
       memberNickname: '',
       memberCoin: -1,
       memberTicket: -1,
-      memberGender: -1,
-      memberTop: '',
-      memberBottom: '',
+      memberTop: null,
       memberPet: -1,
       memberChapter: -1,
       memberCheckpoint: -1,
