@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
 const RegisterPage = (props) => {
-  const { closeFnc } = props;
+  const { closeFnc, loginFnc } = props;
   const {
     register,
     handleSubmit,
@@ -16,7 +16,9 @@ const RegisterPage = (props) => {
       setError('memberPwdChk', { message: '비밀번호가 일치하지 않습니다.' });
     } else {
       fetchData.post('/api/v1/member', data).then((res) => {
-        console.log(res.data);
+        alert('가입 완료!');
+        closeFnc(false);
+        loginFnc(true);
       });
     }
   };
@@ -92,7 +94,7 @@ const RegisterPage = (props) => {
           </div>
         </InputBox>
         <BtnSet>
-          <button className="leftBtn" onClick={() => closeFnc()}>
+          <button className="leftBtn" type="button" onClick={() => closeFnc()}>
             닫기
           </button>
           <button className="rightBtn" type="submit">
@@ -110,6 +112,12 @@ const InputBox = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  & > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
   label {
     font-size: 22px;
     text-align: center;
@@ -126,6 +134,10 @@ const InputBox = styled.div`
     &:focus {
       outline: 0;
     }
+  }
+  small {
+    font-size: 14px;
+    color: ${(props) => props.theme.colors.mainRed};
   }
 `;
 const BtnSet = styled.div`

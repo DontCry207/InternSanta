@@ -7,7 +7,7 @@ const Snow = () => {
   let particles;
 
   const { camera, gl, scene } = useThree();
-  const particleNum = 20000;
+  const particleNum = 10000;
   const maxRange = 500;
   const minRange = maxRange / 2;
   const textureSize = 64.0;

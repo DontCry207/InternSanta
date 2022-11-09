@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import newCharacter from '../../assets/newCharacter.glb';
-import { useLoader } from '@react-three/fiber';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { RigidBody } from '@react-three/rapier';
 import { useAnimations, useGLTF } from '@react-three/drei';
 
@@ -14,7 +12,6 @@ const Npc = () => {
   const location = [-0.34421640634536743, 0.2, 7.816373348236084];
 
   useEffect(() => {
-    console.log(actions);
     actions['Song Jump'].play().setEffectiveTimeScale(1.3);
   }, []);
 
@@ -24,5 +21,7 @@ const Npc = () => {
     </RigidBody>
   );
 };
+
+useGLTF.preload(newCharacter);
 
 export default Npc;
