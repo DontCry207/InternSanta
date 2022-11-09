@@ -53,7 +53,7 @@ const Player = () => {
     setLocation2([x, y - 0.1, z]);
 
     if (forward || backward || left || right) {
-      console.log(location);
+      // console.log(location);
       actions.default.stop();
       actions.walk.play().setEffectiveTimeScale(1.3);
       if (maxPolarAngle < 2.8) {

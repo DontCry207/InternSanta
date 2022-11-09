@@ -10,9 +10,11 @@ import ReinDeer from './ReinDeer';
 import ReinDeerRed from './ReinDeerRed';
 import Snow from './Snow';
 import reindeerRed from '../../assets/images/reindeerRed.png';
+import CarolZone from './CarolZone';
 
 const WorldPage = () => {
   const [modal, setModal] = useState(false);
+  const [movieModal, setMovieModal] = useState(false);
   return (
     <Container>
       {modal ? (
@@ -30,6 +32,21 @@ const WorldPage = () => {
               닫기
             </button>
           </ChatBox>
+        </Modal>
+      ) : null}
+      {movieModal ? (
+        <Modal>
+          <MovieBox>
+            <p className="name">
+              다음 영화들 중 재밌게 봤던 영화 1개를 골라주세요
+            </p>
+            <button
+              onClick={() => {
+                setMovieModal(!movieModal);
+              }}>
+              닫기
+            </button>
+          </MovieBox>
         </Modal>
       ) : null}
       <KeyboardControls
@@ -59,7 +76,10 @@ const WorldPage = () => {
               <Npc />
               <ReinDeer />
               <ReinDeerRed setModal={() => setModal(!modal)} />
-              <ChristmasTown />
+              {/* <ChristmasTown /> */}
+
+              <CarolZone
+                setMovieModal={() => setMovieModal(!movieModal)}></CarolZone>
             </Physics>
           </Suspense>
         </Canvas>
@@ -92,6 +112,22 @@ const ChatBox = styled.div`
   padding: 20px;
   max-width: 1000px;
   height: 30%;
+  background-color: white;
+  z-index: 2;
+
+  .name {
+    font-size: 30px;
+  }
+`;
+
+const MovieBox = styled.div`
+  position: absolute;
+  border-radius: 20px;
+  width: 90%;
+  padding: 20px;
+  max-width: 1000px;
+  height: 80%;
+  bottom: 20px;
   background-color: white;
   z-index: 2;
 
