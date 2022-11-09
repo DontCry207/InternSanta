@@ -1,27 +1,43 @@
 import React from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import reindeerRed from '../../assets/images/reindeerRed.png';
 
-const dialog = {
+const Images = {
+  reindeerRed: reindeerRed,
+};
 
-}
+const Dialog = {
+  reindeerRed: '안녕 나는 루돌프야\n뭘봐 저리가',
+};
 
-const npcImages = {
-  
-}
+const Name = {
+  reindeerRed: '빨간코 루돌프',
+};
 
 const ChatModal = (props) => {
+  useEffect(() => {
+    console.log(props);
+  }, [props]);
+
+  const getName = (e) => {
+    return <p className="name">{Name[e]}</p>;
+  };
+  const getDialog = (e) => {
+    return <p className="dialog">{Dialog[e]}</p>;
+  };
+
   return (
     <Modal>
       <NpcImage>
-        <img src={reindeerRed} alt="" />
+        <img src={Images[props.modal]} alt="" />
       </NpcImage>
       <ChatBox>
-        <p className="name">안녕 나는 루돌프야</p>
-        <p className="name">뭘봐 저리가</p>
+        {getName(props.modal)}
+        {getDialog(props.modal)}
         <button
           onClick={() => {
-            props.setModal();
+            props.setModal(null);
           }}>
           닫기
         </button>
@@ -39,7 +55,7 @@ const Modal = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.404);
-  z-index: 1;
+  z-index: 4;
 `;
 
 const ChatBox = styled.div`
@@ -50,18 +66,22 @@ const ChatBox = styled.div`
   max-width: 1000px;
   height: 30%;
   background-color: white;
-  z-index: 2;
+  z-index: 5;
 
   .name {
+    font-size: 40px;
+  }
+
+  .dialog {
     font-size: 30px;
   }
 `;
 
 const NpcImage = styled.div`
   position: absolute;
-  top: 60px;
+  bottom: 150px;
   img {
-    width: 300px;
+    width: 230px;
   }
 `;
 
