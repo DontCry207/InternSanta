@@ -12,9 +12,8 @@ public class MemberTokenRes {
     String refreshToken;
 
     public static MemberTokenRes of(Map<String, String> tokens) {
-        MemberTokenRes res = MemberTokenRes.builder()
+        return MemberTokenRes.builder()
                 .accessToken(tokens.get("accessToken"))
                 .refreshToken(tokens.get("refreshToken")).build();
-        return res;
     }
 }

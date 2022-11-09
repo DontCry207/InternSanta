@@ -11,11 +11,10 @@ public class MemberProgressRes {
     int memberCheckpoint;
 
     public static MemberProgressRes of(Member member) {
-        MemberProgressRes res = MemberProgressRes.builder()
+        return MemberProgressRes.builder()
                 .memberChapter(member.getMemberChapter())
                 .memberCheckpoint(member.getMemberCheckpoint())
                 .build();
-        return res;
     }
 
 }
