@@ -14,10 +14,8 @@ public class MemberSealTicketRes {
     private int memberTicket;
 
     public static MemberSealTicketRes of(Member member, List<MemberSealRes> memberSealResList) {
-        MemberSealTicketRes res = MemberSealTicketRes.builder()
+        return MemberSealTicketRes.builder()
                 .memberSealResList(memberSealResList)
                 .memberTicket(member.getMemberTicket()).build();
-
-        return res;
     }
 }

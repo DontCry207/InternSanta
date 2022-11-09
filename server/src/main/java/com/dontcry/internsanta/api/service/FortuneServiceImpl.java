@@ -15,7 +15,6 @@ public class FortuneServiceImpl implements FortuneService{
 
     @Override
     public Fortune getRandomFortune() {
-        Fortune fortune = fortuneRepository.findRandomFortune().orElseThrow(() -> new FortuneNotFoundException("fortune not found", ErrorCode.FORTUNE_NOT_FOUND));
-        return fortune;
+        return fortuneRepository.findRandomFortune().orElseThrow(() -> new FortuneNotFoundException("fortune not found", ErrorCode.FORTUNE_NOT_FOUND));
     }
 }

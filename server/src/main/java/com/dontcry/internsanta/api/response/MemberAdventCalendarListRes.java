@@ -1,6 +1,5 @@
 package com.dontcry.internsanta.api.response;
 
-import com.dontcry.internsanta.db.entity.AdventCalendar;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -17,9 +16,8 @@ public class MemberAdventCalendarListRes {
         for(Integer date : adventCalendarList){
             list.add(date);
         }
-        MemberAdventCalendarListRes res = MemberAdventCalendarListRes.builder()
+        return MemberAdventCalendarListRes.builder()
                 .memberAdventCalendarList(list)
                 .build();
-        return res;
     }
 }
