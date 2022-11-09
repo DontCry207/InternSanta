@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import Block from './block';
 
-const BlockStack = () => {
+const BlockStack = (props) => {
+  const { setPage } = props;
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -12,23 +14,18 @@ const BlockStack = () => {
 
   const play = () => {
     return (
-      <div className="App">
-        <div id="results">
+      <>
+        <Results id="results">
           <div className="content">
             <p>You missed the block</p>
             <p>To reset the game press R</p>
-            <p>
-              Follow me
-              <a href="https://twitter.com/HunorBorbely" target="_blank">
-                @HunorBorbely
-              </a>
-            </p>
+            <button onClick={() => setPage(1)}>처음으로</button>
           </div>
-        </div>
+        </Results>
         <div id="score">0</div>
 
         <div id="game"></div>
-      </div>
+      </>
     );
   };
   return (
@@ -46,5 +43,7 @@ const BlockStack = () => {
     </>
   );
 };
-
+const Results = styled.div`
+  display: none;
+`;
 export default BlockStack;

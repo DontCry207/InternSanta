@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import game from './road.js';
 // import './game.css';
-const CrossRoad = () => {
+const CrossRoad = (props) => {
+  const { setPage } = props;
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,42 +17,10 @@ const CrossRoad = () => {
       <>
         <div id="counter">0</div>
 
-        <div id="controlls">
-          <div>
-            <button id="forward">
-              <svg width="30" height="30" viewBox="0 0 10 10">
-                <g transform="rotate(0, 5,5)">
-                  <path d="M5,4 L7,6 L3,6 L5,4" />
-                </g>
-              </svg>
-            </button>
-            <button id="left">
-              <svg width="30" height="30" viewBox="0 0 10 10">
-                <g transform="rotate(-90, 5,5)">
-                  <path d="M5,4 L7,6 L3,6 L5,4" />
-                </g>
-              </svg>
-            </button>
-            <button id="backward">
-              <svg width="30" height="30" viewBox="0 0 10 10">
-                <g transform="rotate(180, 5,5)">
-                  <path d="M5,4 L7,6 L3,6 L5,4" />
-                </g>
-              </svg>
-            </button>
-            <button id="right">
-              <svg width="30" height="30" viewBox="0 0 10 10">
-                <g transform="rotate(90, 5,5)">
-                  <path d="M5,4 L7,6 L3,6 L5,4" />
-                </g>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <div id="end">
-          <button id="retry">Retry</button>
-        </div>
+        <Results id="end">
+          {/* <button id="retry">Retry</button> */}
+          <button onClick={() => setPage(1)}>처음으로</button>
+        </Results>
 
         <div id="cr"></div>
       </>
@@ -72,5 +42,7 @@ const CrossRoad = () => {
     </>
   );
 };
-
+const Results = styled.div`
+  display: none;
+`;
 export default CrossRoad;

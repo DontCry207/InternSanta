@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import * as CANNON from 'cannon';
-
+import snow from '../../assets/images/snow1.png'
+import { fetchData } from '../../utils/apis/api';
 const Block = () => {
     
 
@@ -70,9 +71,9 @@ function addSnowflakes() {
       Math.floor(Math.random() * maxRange-minRange));
 
       velocities.push(
-        (Math.random() * 6-3)*0.07,
-        (Math.random() * 3+0.12) * 0.02,
-        (Math.random() * 6-3)*0.07);
+        (Math.random() * 6-3)*0.003,
+        (Math.random() * 3+0.12) * 0.006,
+        (Math.random() * 6-3)*0.003);
   }
 
   geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
@@ -80,7 +81,7 @@ function addSnowflakes() {
 
   const flakeMaterial = new THREE.PointsMaterial({
     size: 13,
-    map: textureLoader.load('./img/snow.png'),
+    map: textureLoader.load(snow),
     blending: THREE.AdditiveBlending,
     depthTest: false,
     transparent: true,
@@ -138,7 +139,7 @@ function init() {
 
   // Set up renderer
   renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(window.innerWidth*0.6, window.innerHeight*0.7);
   renderer.setAnimationLoop(animation);
   const bs = document.getElementById("game");
   bs.appendChild(renderer.domElement);
@@ -259,11 +260,11 @@ window.addEventListener("keydown", function (event) {
     eventHandler();
     return;
   }
-  if (event.key == "R" || event.key == "r") {
-    event.preventDefault();
-    startGame();
-    return;
-  }
+  // if (event.key == "R" || event.key == "r") {
+  //   event.preventDefault();
+  //   startGame();
+  //   return;
+  // }
 });
 
 function eventHandler() {
@@ -331,6 +332,10 @@ function missedTheSpot() {
   scene.remove(topLayer.threejs);
 
   gameEnded = true;
+  // api 호출 stack.length
+  fetchData.patch('/api/v1/member/coin',{
+    memberCoin: stack.length - 2
+    }).then((res)=>{console.log(res.data);})
   if (resultsElement) resultsElement.style.display = "flex";
 }
 
@@ -377,16 +382,16 @@ function updatePhysics(timePassed) {
 
 window.addEventListener("resize", () => {
   // Adjust camera
-  console.log("resize", window.innerWidth, window.innerHeight);
+  // console.log("resize", window.innerWidth*0.6, window.innerHeight*0.7);
   const aspect = window.innerWidth / window.innerHeight;
   const width = 10;
   const height = width / aspect;
 
   camera.top = height / 2;
   camera.bottom = height / -2;
-
+  // console.log(width, height);
   // Reset renderer
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(window.innerWidth*0.6, window.innerHeight*0.7);
   renderer.render(scene, camera);
 });
 

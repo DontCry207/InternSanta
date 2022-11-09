@@ -54,6 +54,8 @@ const HomePage = () => {
       {loggedIn ? (
         <div>
           {userInfo.memberNickname}님 안녕하세요
+          <br />
+          보유코인: {userInfo.memberCoin}
           <button onClick={logout}>로그아웃</button>
           <button
             onClick={() => {

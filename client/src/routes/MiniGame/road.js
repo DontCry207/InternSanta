@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { fetchData } from '../../utils/apis/api';
 
 const game = () => {
   const counterDOM = document.getElementById('counter');  
@@ -7,7 +8,7 @@ const game = () => {
   const scene = new THREE.Scene();
   
   const distance = 500;
-  const camera = new THREE.OrthographicCamera( window.innerWidth/-2, window.innerWidth/2, window.innerHeight / 2, window.innerHeight / -2, 0.1, 10000 );
+  const camera = new THREE.OrthographicCamera( window.innerWidth*0.6/-2, window.innerWidth*0.6/2, window.innerHeight*0.7 / 2, window.innerHeight*0.7 / -2, 0.1, 10000 );
   
   camera.rotation.x = 50*Math.PI/180;
   camera.rotation.y = 20*Math.PI/180;
@@ -37,7 +38,7 @@ const game = () => {
   let startMoving;
   let moves;
   let stepStartTimestamp;
-  
+  let callApi = false;
   const carFrontTexture = new Texture(40,80,[{x: 0, y: 10, w: 30, h: 60 }]);
   const carBackTexture = new Texture(40,80,[{x: 10, y: 10, w: 30, h: 60 }]);
   const carRightSideTexture = new Texture(110,40,[{x: 10, y: 0, w: 50, h: 30 }, {x: 70, y: 0, w: 30, h: 30 }]);
@@ -100,7 +101,7 @@ const game = () => {
   
   const initaliseValues = () => {
     lanes = generateLanes()
-  
+    // endDOM.style.display = 'none';
     currentLane = 0;
     currentColumn = Math.floor(columns/2);
   
@@ -128,7 +129,7 @@ const game = () => {
   });
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.setSize( window.innerWidth, window.innerHeight );
+  renderer.setSize( window.innerWidth*0.6, window.innerHeight*0.7 );
   const cr = document.getElementById("cr");
   cr.appendChild(renderer.domElement);
   
@@ -148,7 +149,7 @@ const game = () => {
   
   function Wheel() {
     const wheel = new THREE.Mesh( 
-      new THREE.BoxBufferGeometry( 12*zoom, 33*zoom, 12*zoom ), 
+      new THREE.BoxGeometry( 12*zoom, 33*zoom, 12*zoom ), 
       new THREE.MeshLambertMaterial( { color: 0x333333, flatShading: true } ) 
     );
     wheel.position.z = 6*zoom;
@@ -160,7 +161,7 @@ const game = () => {
     const color = vechicleColors[Math.floor(Math.random() * vechicleColors.length)];
     
     const main = new THREE.Mesh(
-      new THREE.BoxBufferGeometry( 60*zoom, 30*zoom, 15*zoom ), 
+      new THREE.BoxGeometry( 60*zoom, 30*zoom, 15*zoom ), 
       new THREE.MeshPhongMaterial( { color, flatShading: true } )
     );
     main.position.z = 12*zoom;
@@ -169,7 +170,7 @@ const game = () => {
     car.add(main)
     
     const cabin = new THREE.Mesh(
-      new THREE.BoxBufferGeometry( 33*zoom, 24*zoom, 12*zoom ), 
+      new THREE.BoxGeometry( 33*zoom, 24*zoom, 12*zoom ), 
       [
         new THREE.MeshPhongMaterial( { color: 0xcccccc, flatShading: true, map: carBackTexture } ),
         new THREE.MeshPhongMaterial( { color: 0xcccccc, flatShading: true, map: carFrontTexture } ),
@@ -205,14 +206,14 @@ const game = () => {
   
   
     const base = new THREE.Mesh(
-      new THREE.BoxBufferGeometry( 100*zoom, 25*zoom, 5*zoom ), 
+      new THREE.BoxGeometry( 100*zoom, 25*zoom, 5*zoom ), 
       new THREE.MeshLambertMaterial( { color: 0xb4c6fc, flatShading: true } )
     );
     base.position.z = 10*zoom;
     truck.add(base)
   
     const cargo = new THREE.Mesh(
-      new THREE.BoxBufferGeometry( 75*zoom, 35*zoom, 40*zoom ), 
+      new THREE.BoxGeometry( 75*zoom, 35*zoom, 40*zoom ), 
       new THREE.MeshPhongMaterial( { color: 0xb4c6fc, flatShading: true } )
     );
     cargo.position.x = 15*zoom;
@@ -222,7 +223,7 @@ const game = () => {
     truck.add(cargo)
   
     const cabin = new THREE.Mesh(
-      new THREE.BoxBufferGeometry( 25*zoom, 30*zoom, 30*zoom ), 
+      new THREE.BoxGeometry( 25*zoom, 30*zoom, 30*zoom ), 
       [
         new THREE.MeshPhongMaterial( { color, flatShading: true } ), // back
         new THREE.MeshPhongMaterial( { color, flatShading: true, map: truckFrontTexture } ),
@@ -257,7 +258,7 @@ const game = () => {
     const three = new THREE.Group();
   
     const trunk = new THREE.Mesh(
-      new THREE.BoxBufferGeometry( 15*zoom, 15*zoom, 20*zoom ), 
+      new THREE.BoxGeometry( 15*zoom, 15*zoom, 20*zoom ), 
       new THREE.MeshPhongMaterial( { color: 0x4d2926, flatShading: true } )
     );
     trunk.position.z = 10*zoom;
@@ -268,7 +269,7 @@ const game = () => {
     let height = threeHeights[Math.floor(Math.random()*threeHeights.length)];
   
     const crown = new THREE.Mesh(
-      new THREE.BoxBufferGeometry( 30*zoom, 30*zoom, height*zoom ), 
+      new THREE.BoxGeometry( 30*zoom, 30*zoom, height*zoom ), 
       new THREE.MeshLambertMaterial( { color: 0x7aa21d, flatShading: true } )
     );
     crown.position.z = (height/2+20)*zoom;
@@ -277,7 +278,7 @@ const game = () => {
     three.add(crown);
   
     const snow = new THREE.Mesh(
-      new THREE.BoxBufferGeometry( 30*zoom, 30*zoom, 6 ), 
+      new THREE.BoxGeometry( 30*zoom, 30*zoom, 6 ), 
       new THREE.MeshLambertMaterial( { color: 0xeeeeee, flatShading: true } )
     );
     snow.position.z = (height+22)*zoom;
@@ -292,7 +293,7 @@ const game = () => {
     const snowman = new THREE.Group();
   
     const body = new THREE.Mesh(
-      new THREE.SphereBufferGeometry( snowmanSize*zoom, 64, 32 ), 
+      new THREE.SphereGeometry( snowmanSize*zoom, 64, 32 ), 
       new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } )
     );
     body.position.z = 10*zoom;
@@ -301,7 +302,7 @@ const game = () => {
     snowman.add(body);
   
     const head = new THREE.Mesh(
-      new THREE.SphereBufferGeometry( snowmanSize*zoom * 0.75, 64, 32 ), 
+      new THREE.SphereGeometry( snowmanSize*zoom * 0.75, 64, 32 ), 
       new THREE.MeshLambertMaterial( { color: 0xffffff, flatShading: true } )
     );
     head.position.z = 21*zoom;
@@ -312,7 +313,7 @@ const game = () => {
     
 
     const hat = new THREE.Mesh(
-      new THREE.ConeBufferGeometry( 7, 20, 64 ), 
+      new THREE.ConeGeometry( 7, 20, 64 ), 
       new THREE.MeshLambertMaterial( { color: 0xff0000, flatShading: true } )
     );
 
@@ -323,7 +324,7 @@ const game = () => {
     snowman.add(hat);
 
     const ball = new THREE.Mesh(
-      new THREE.SphereBufferGeometry( 3, 32, 32 ), 
+      new THREE.SphereGeometry( 3, 32, 32 ), 
       new THREE.MeshLambertMaterial( { color: 0xffffff, flatShading: true } )
     );
     ball.position.z = 38*zoom;
@@ -332,7 +333,7 @@ const game = () => {
     snowman.add(ball);
   
     const torus = new THREE.Mesh(
-      new THREE.TorusBufferGeometry( 6, 3, 15, 35 ), 
+      new THREE.TorusGeometry( 6, 3, 15, 35 ), 
       new THREE.MeshLambertMaterial( { color: 0xffffff, flatShading: true } )
     );
     torus.position.z = 28*zoom;
@@ -343,7 +344,7 @@ const game = () => {
 
 
     const leftArm = new THREE.Mesh(
-      new THREE.CylinderBufferGeometry( 1, 1, 25, 64 ), 
+      new THREE.CylinderGeometry( 1, 1, 25, 64 ), 
       new THREE.MeshLambertMaterial( { color: 0x663300, flatShading: true } )
     );
     leftArm.rotation.z = 80;
@@ -355,7 +356,7 @@ const game = () => {
     snowman.add(leftArm);  
 
     const rightArm = new THREE.Mesh(
-      new THREE.CylinderBufferGeometry( 1.2, 1.2, 25, 64 ), 
+      new THREE.CylinderGeometry( 1.2, 1.2, 25, 64 ), 
       new THREE.MeshLambertMaterial( { color: 0x663300, flatShading: true } )
     );
     rightArm.rotation.z = 80;
@@ -373,7 +374,7 @@ const game = () => {
     const road = new THREE.Group();
   
     const createSection = color => new THREE.Mesh(
-      new THREE.PlaneBufferGeometry( boardWidth*zoom, positionWidth*zoom ), 
+      new THREE.PlaneGeometry( boardWidth*zoom, positionWidth*zoom ), 
       new THREE.MeshPhongMaterial( { color } )
     );
   
@@ -396,7 +397,7 @@ const game = () => {
     const grass = new THREE.Group();
   
     const createSection = color => new THREE.Mesh(
-      new THREE.BoxBufferGeometry( boardWidth*zoom, positionWidth*zoom, 3*zoom ), 
+      new THREE.BoxGeometry( boardWidth*zoom, positionWidth*zoom, 3*zoom ), 
       new THREE.MeshPhongMaterial( { color } )
     );
   
@@ -489,36 +490,36 @@ const game = () => {
   }
   
   // retry 클릭
-  document.querySelector("#retry").addEventListener("click", () => {
-    lanes.forEach(lane => scene.remove( lane.mesh ));
-    initaliseValues();
-    endDOM.style.visibility = 'hidden';
-    counterDOM.innerHTML = 0;
-    window.addEventListener("keydown", keydownEventHandler);
-  });
+  // document.querySelector("#retry").addEventListener("click", () => {
+  //   lanes.forEach(lane => scene.remove( lane.mesh ));
+  //   initaliseValues();
+  //   endDOM.style.visibility = 'hidden';
+  //   counterDOM.innerHTML = 0;
+  //   window.addEventListener("keydown", keydownEventHandler);
+  // });
   
-  document.getElementById('forward').addEventListener("click", () => move('forward'));
+  // document.getElementById('forward').addEventListener("click", () => move('forward'));
   
-  document.getElementById('backward').addEventListener("click", () => move('backward'));
+  // document.getElementById('backward').addEventListener("click", () => move('backward'));
   
-  document.getElementById('left').addEventListener("click", () => move('left'));
+  // document.getElementById('left').addEventListener("click", () => move('left'));
   
-  document.getElementById('right').addEventListener("click", () => move('right'));
+  // document.getElementById('right').addEventListener("click", () => move('right'));
   
 const keydownEventHandler = (event) => {
-  if (event.keyCode == '38') {
+  if (event.keyCode == '38' || event.keyCode == '87') {
     // up arrow
     move('forward');
   }
-  else if (event.keyCode == '40') {
+  else if (event.keyCode == '40' || event.keyCode == '83' ) {
     // down arrow
     move('backward');
   }
-  else if (event.keyCode == '37') {
+  else if (event.keyCode == '37'  || event.keyCode == '65') {
     // left arrow
     move('left');
   }
-  else if (event.keyCode == '39') {
+  else if (event.keyCode == '39'  || event.keyCode == '68') {
     // right arrow
     move('right');
   }
@@ -653,8 +654,8 @@ const keydownEventHandler = (event) => {
       }
     }
   
-    // Hit test
-    if(lanes[currentLane].type === 'car' || lanes[currentLane].type === 'truck') {
+    // hit
+    if(lanes[currentLane].type === 'car' || lanes[currentLane].type === 'truck') {  
       const snowmanMinX = snowman.position.x - snowmanSize*zoom/2;
       const snowmanMaxX = snowman.position.x + snowmanSize*zoom/2;
       const vechicleLength = { car: 60, truck: 105}[lanes[currentLane].type]; 
@@ -662,13 +663,16 @@ const keydownEventHandler = (event) => {
         const carMinX = vechicle.position.x - vechicleLength*zoom/2;
         const carMaxX = vechicle.position.x + vechicleLength*zoom/2;
         // 게임 끝
-        if(snowmanMaxX > carMinX && snowmanMinX < carMaxX) {
-          // api 호출 (currentLane / 5 만큼 코인 증가)
-          
+        if(callApi == false && snowmanMaxX > carMinX && snowmanMinX < carMaxX) {
+          // api 호출 (currentLane 만큼 코인 증가)
+          fetchData.patch('/api/v1/member/coin',{
+            memberCoin: Number(currentLane/4.5)
+            }).then((res)=>{console.log(res.data);})
           // 방향키 조작 X
           window.removeEventListener("keydown", keydownEventHandler);
           // retry 버튼 등장
-          endDOM.style.visibility = 'visible';
+          endDOM.style.display = 'block';
+          callApi = true
         }
       });
   
