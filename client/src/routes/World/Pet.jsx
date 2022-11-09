@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
-import pet from '../../assets/Cat_Walk.gltf';
+import PetGltf from '../../assets/pet/Tortoise.gltf';
 import { RigidBody, CuboidCollider } from '@react-three/rapier';
 import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
 
@@ -17,7 +17,7 @@ const Pet = () => {
   const [location2, setLocation2] = useState([10, 10, 10]);
 
   const group = useRef();
-  const { nodes, animations } = useGLTF(pet);
+  const { nodes, animations } = useGLTF(PetGltf);
   const { actions } = useAnimations(animations, group);
   nodes.Rig.rotation.copy(camera.rotation);
 
@@ -31,19 +31,16 @@ const Pet = () => {
     setLocation2([
       player.position.x,
       player.position.y,
-      player.position.z - 0.3,
+      player.position.z + 0.3,
     ]);
 
-    // nodes.Rig.position.set(
-    //   player.position.x,
-    //   player.position.y - 0.2,
-    //   player.position.z - 0.3,
-    // );
-
     if (forward || backward || left || right) {
-      actions.Animation.play().setEffectiveTimeScale(1.3);
+      // Walk, Run , Roll
+      actions.Sit.stop();
+      actions.Walk.play().setEffectiveTimeScale(0.9);
     } else {
-      actions.Animation.stop();
+      actions.Walk.stop();
+      actions.Sit.play().setEffectiveTimeScale(1);
     }
 
     nodes.Rig.rotateY(Math.PI);
@@ -63,7 +60,6 @@ const Pet = () => {
       nodes.Rig.rotateY(Math.PI);
     }
   });
-  console.log(scene);
 
   return (
     <>
@@ -85,6 +81,6 @@ const Pet = () => {
   );
 };
 
-useGLTF.preload(pet);
+useGLTF.preload(PetGltf);
 
 export default Pet;
