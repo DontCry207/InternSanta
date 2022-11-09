@@ -1,13 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import { useThree, useFrame, extend, render } from '@react-three/fiber';
+import { useRef, useState } from 'react';
+import { useThree, useFrame } from '@react-three/fiber';
 import pet from '../../assets/Cat_Walk.gltf';
 import { RigidBody, CuboidCollider } from '@react-three/rapier';
-import {
-  OrbitControls,
-  MapControls,
-} from 'three/examples/jsm/controls/OrbitControls';
 import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
-extend({ OrbitControls, MapControls });
 
 const Pet = () => {
   const ref = useRef();
@@ -18,8 +13,8 @@ const Pet = () => {
     scene,
   } = useThree();
   const [, get] = useKeyboardControls();
-  const [location, setLocation] = useState([10, 10, -2]);
-  const [location2, setLocation2] = useState([10, 10, -1]);
+  const [location, setLocation] = useState([10, 10, 10]);
+  const [location2, setLocation2] = useState([10, 10, 10]);
 
   const group = useRef();
   const { nodes, animations } = useGLTF(pet);
@@ -28,19 +23,22 @@ const Pet = () => {
 
   useFrame((state, delta) => {
     const { forward, backward, left, right } = get();
+    const player = scene.children[8];
 
     // update camera
     const [x, y, z] = [...ref.current.translation()];
     setLocation([x, y + 0.6, z]);
-    setLocation2([x, y - 0.1, z]);
-
-    const player = scene.children[3];
-
-    nodes.Rig.position.set(
+    setLocation2([
       player.position.x,
-      player.position.y - 0.2,
+      player.position.y,
       player.position.z - 0.3,
-    );
+    ]);
+
+    // nodes.Rig.position.set(
+    //   player.position.x,
+    //   player.position.y - 0.2,
+    //   player.position.z - 0.3,
+    // );
 
     if (forward || backward || left || right) {
       actions.Animation.play().setEffectiveTimeScale(1.3);
@@ -65,6 +63,7 @@ const Pet = () => {
       nodes.Rig.rotateY(Math.PI);
     }
   });
+  console.log(scene);
 
   return (
     <>
@@ -79,8 +78,8 @@ const Pet = () => {
         mass={1}
         type="dynamic"
         colliders={false}
-        position={[0, 1, 0]}>
-        <CuboidCollider args={[0.1, 0.1, 0.1]} />
+        position={[-15.7, 4, 21.4]}>
+        <CuboidCollider args={[0.3, 0.3, 0.3]} />
       </RigidBody>
     </>
   );

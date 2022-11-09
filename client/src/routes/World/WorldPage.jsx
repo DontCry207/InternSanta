@@ -1,31 +1,65 @@
-import { KeyboardControls, Sky } from '@react-three/drei';
+import { KeyboardControls, Sky, Stars } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ChristmasTown from './ChristmasTown';
+import Npc from './Npc';
 import Player from './Player';
 import Pet from './Pet';
+import ReinDeer from './ReinDeer/ReinDeer';
+import ReinDeerRed from './ReinDeer/ReinDeerRed';
+import Snow from './Snow';
+import ChatModal from './ChatModal';
+import PlayUi from './PlayUi';
+import LazyLoading from './LazyLoading';
+import LoadingPage from './LoadingPage';
 
 const WorldPage = () => {
+  const [modal, setModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   return (
     <Container>
+      {loading ? <LoadingPage /> : null}
+      {modal ? <ChatModal setModal={() => setModal(!modal)} /> : null}
+      <PlayUi />
       <KeyboardControls
         map={[
           { name: 'forward', keys: ['ArrowUp', 'w', 'W'] },
           { name: 'backward', keys: ['ArrowDown', 's', 'S'] },
-          { name: 'left', keys: ['ArrowLeft', 'a', 'A'] },
+          { name: 'left', keys: ['ArrowLweft', 'a', 'A'] },
           { name: 'right', keys: ['ArrowRight', 'd', 'D'] },
         ]}>
         <Canvas camera={{ fov: 70 }}>
-          <Sky sunPosition={[30, 10, 10]} />
-          <ambientLight intensity={0.3} />
-          <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
-          <Suspense fallback={null}>
-            <Physics gravity={[0, -20, 0]}>
-              <Player />
-              <Pet />
+          <Snow />
+          <Stars
+            radius={50}
+            depth={10}
+            count={1000}
+            factor={4}
+            saturation={1}
+            fade
+            speed={5}
+          />
+          <Sky sunPosition={[-100, -100, 2800]} />
+          <ambientLight intensity={0.5} color={'#c8cce7'} />
+          <pointLight castShadow intensity={0.5} position={[0, 10, 0]} />
+          <Suspense
+            fallback={
+              <LazyLoading
+                setLoading={() => {
+                  setLoading(!loading);
+                }}
+              />
+            }>
+            <Physics gravity={[0, -30, 0]}>
               <ChristmasTown />
+              <Pet />
+              <Player loading={loading} />
+              <Npc />
+              <ReinDeer />
+              <ReinDeerRed setModal={() => setModal(!modal)} />
             </Physics>
           </Suspense>
         </Canvas>
