@@ -13,7 +13,7 @@ const InfoGuy = (props) => {
   nodes.Scene.rotation.set(0, 4 * Math.PI, 0);
   nodes.Scene.scale.set(0.6, 0.6, 0.6);
   const location1 = [-15.301273727416992, 0.2, 19.988668060302734];
-  const location2 = [-15.301273727416992, 1.6, 19.988668060302734];
+  const location2 = [-15.301273727416992, 1.2, 19.988668060302734];
   const [hovered, setHover] = useState(false);
   const [clicked, setClick] = useState(false);
 
@@ -30,11 +30,7 @@ const InfoGuy = (props) => {
     }
   }, [clicked]);
 
-  const {
-    camera,
-    gl: { domElement },
-    scene,
-  } = useThree();
+  const { camera } = useThree();
 
   useEffect(() => {
     actions['Idle'].play().setEffectiveTimeScale(1.3);
@@ -46,9 +42,9 @@ const InfoGuy = (props) => {
         ref={group}
         object={nodes.Scene}
         position={location1}
-        onClick={(event) => setClick(!clicked)}
-        onPointerOver={(event) => setHover(true)}
-        onPointerOut={(event) => setHover(false)}
+        onClick={() => setClick(!clicked)}
+        onPointerOver={() => setHover(true)}
+        onPointerOut={() => setHover(false)}
       />
       {hovered ? (
         <primitive

@@ -26,8 +26,7 @@ const Player = (props) => {
   } = useThree();
 
   const [, get] = useKeyboardControls();
-  const [location, setLocation] = useState([10, 10, 10]);
-  const [location2, setLocation2] = useState([10, 10, 10]);
+  const [location, setLocation] = useState([-15.7, 3, 21.4]);
   const [maxPolarAngle, setMaxPolarAngle] = useState(1.8);
   const { nodes, materials, animations } = useGLTF(character);
   const { actions } = useAnimations(animations, group);
@@ -41,6 +40,8 @@ const Player = (props) => {
     if (!props.loading) {
       controls.current.minAzimuthAngle = 0;
       controls.current.maxAzimuthAngle = Infinity;
+      const [x, y, z] = [...ref.current.translation()];
+      setLocation([x, y + 0.4, z]);
     }
   }, [props]);
 
@@ -53,7 +54,6 @@ const Player = (props) => {
 
     if (forward || backward || left || right) {
       setLocation([x, y + 0.4, z]);
-      setLocation2([x, y - 0.3, z]);
       actions.Idle.stop();
       actions.Run.play().setEffectiveTimeScale(1.3);
       if (maxPolarAngle < 2.45) {
@@ -112,7 +112,7 @@ const Player = (props) => {
       <primitive
         ref={group}
         object={nodes.Scene}
-        position={location2}
+        position={[location[0], location[1] - 0.7, location[2]]}
         scale={(0.55, 0.55, 0.55)}
       />
       <RigidBody
@@ -120,7 +120,7 @@ const Player = (props) => {
         mass={1}
         type="dynamic"
         colliders={false}
-        position={[-15.7, 4, 21.4]}>
+        position={[-15.7, 3, 21.4]}>
         <CuboidCollider args={[0.3, 0.3, 0.3]} />
       </RigidBody>
     </>
