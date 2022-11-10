@@ -57,23 +57,13 @@ const HomePage = () => {
           <br />
           보유코인: {userInfo.memberCoin}
           <button onClick={logout}>로그아웃</button>
-          <button
-            onClick={() => {
-              navigate('/game');
-            }}>
-            게임
-          </button>
+          <button onClick={() => navigate('/game')}>게임</button>
           <button onClick={() => setOnSantaFourCutModal(true)}>산타네컷</button>
           <button onClick={() => setOnMiniGameModal(true)}>미니게임</button>
           {openModal()}
         </div>
       ) : (
-        <button
-          onClick={() => {
-            navigate('/main');
-          }}>
-          접속
-        </button>
+        <button onClick={() => navigate('/main')}>접속</button>
       )}
     </div>
   );

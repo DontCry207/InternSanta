@@ -71,7 +71,7 @@ instance.interceptors.response.use(
           const { accessToken, refreshToken } = response.data;
           sessionStorage.setItem('accessToken', accessToken);
           setRefreshToken(refreshToken);
-          console.log(accessToken, refreshToken);
+          // console.log(accessToken, refreshToken);
           instance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
           return instance(originalConfig);
         } catch (err) {
@@ -82,7 +82,7 @@ instance.interceptors.response.use(
             removeAccessToken();
             removeRefreshToken();
             setTimeout(() => {
-              window.location.href = '/main';
+              window.location.href = '/';
             }, 100);
             return;
           }
