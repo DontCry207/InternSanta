@@ -7,7 +7,12 @@ import {
   MapControls,
 } from 'three/examples/jsm/controls/OrbitControls';
 import * as THREE from 'three';
-import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
+import {
+  useKeyboardControls,
+  useGLTF,
+  useAnimations,
+  SpotLight,
+} from '@react-three/drei';
 extend({ OrbitControls, MapControls });
 
 const Player = (props) => {
@@ -18,6 +23,7 @@ const Player = (props) => {
   const ref = useRef();
   const controls = useRef();
   const group = useRef();
+  const light = useRef();
 
   const {
     camera,
@@ -35,6 +41,11 @@ const Player = (props) => {
     controls.current.enableRotate = true;
     controls.current.rotateSpeed = 0.4;
     nodes.Scene.name = 'player';
+    light.current.target.position.set(
+      -6.012689590454102,
+      0.4022400856018066,
+      1.0203404426574707,
+    );
   }, []);
 
   useEffect(() => {
@@ -47,16 +58,29 @@ const Player = (props) => {
   }, [props]);
 
   useFrame((state, delta) => {
-    const { forward, backward, left, right, dash } = get();
+    const { forward, backward, left, right, dash, position, dance } = get();
     const velocity = ref.current.linvel();
     // update camera
     const [x, y, z] = [...ref.current.translation()];
 
+    if (position) {
+      console.log([x, y, z]);
+    }
+
+    if (dance) {
+      actions.Idle.stop();
+      actions['Song Jump'].play().setEffectiveTimeScale(1.3);
+    } else {
+      actions['Song Jump'].stop();
+      actions.Idle.play().setEffectiveTimeScale(2);
+    }
+
     nodes.Scene.rotation.copy(camera.rotation);
     if (forward || backward || left || right) {
       setLocation([x, y + 0.4, z]);
-      //console.log(location);
       actions.Idle.stop();
+      light.current.target.position.set(location[0], location[1], location[2]);
+      light.current.target.updateMatrixWorld();
       if (dash) {
         setSpeed(8);
         actions.Run.play().setEffectiveTimeScale(2.6);
@@ -103,6 +127,16 @@ const Player = (props) => {
 
   return (
     <>
+      <SpotLight
+        ref={light}
+        position={[location[0], location[1] + 2, location[2]]}
+        distance={4}
+        angle={0.15}
+        attenuation={2}
+        anglePower={3}
+        color={'white'}
+        visible={false}
+      />
       <orbitControls
         ref={controls}
         makeDefaults
@@ -120,6 +154,7 @@ const Player = (props) => {
       <primitive
         ref={group}
         object={nodes.Scene}
+        receiveShadow
         position={[location[0], location[1] - 0.7, location[2]]}
         scale={(0.55, 0.55, 0.55)}
       />

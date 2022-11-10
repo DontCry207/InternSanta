@@ -4,7 +4,6 @@ import { Physics } from '@react-three/rapier';
 import React, { Suspense, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ChristmasTown from './ChristmasTown';
-import YellowGuy from './Npc/YellowGuy';
 import Player from './Player';
 import Pet from './Pet';
 import ReinDeer from './ReinDeer';
@@ -13,12 +12,14 @@ import ChatModal from './ChatModal';
 import PlayUi from './PlayUi';
 import LazyLoading from './LazyLoading';
 import LoadingPage from './LoadingPage';
-import InfoGuy from './NPC/InfoGuy';
+import Npc from './Npc';
 import Shop from './Shop';
+import BoneFire from './BoneFire';
 
 const WorldPage = () => {
   const [modal, setModal] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [ambient, setAmbient] = useState(true);
 
   return (
     <Container>
@@ -32,6 +33,8 @@ const WorldPage = () => {
           { name: 'left', keys: ['ArrowLweft', 'a', 'A'] },
           { name: 'right', keys: ['ArrowRight', 'd', 'D'] },
           { name: 'dash', keys: ['ShiftLeft'] },
+          { name: 'position', keys: ['q', 'Q'] },
+          { name: 'dance', keys: ['f', 'F'] },
         ]}>
         <Canvas camera={{ fov: 70 }}>
           <Snow />
@@ -45,8 +48,16 @@ const WorldPage = () => {
             speed={6}
           />
           <Sky sunPosition={[-100, -100, 2800]} />
-          <ambientLight intensity={0.5} color={'#c8cce7'} />
-          <pointLight castShadow intensity={0.5} position={[0, 10, 0]} />
+          <ambientLight
+            intensity={ambient ? 0.5 : 0.05}
+            color={'#c8cce7'}
+            penumbra={2}
+          />
+          <pointLight
+            intensity={ambient ? 0.5 : 0.05}
+            position={[0, 10, 0]}
+            shadow={0.1}
+          />
           <Suspense
             fallback={
               <LazyLoading
@@ -57,11 +68,17 @@ const WorldPage = () => {
             }>
             <Physics gravity={[0, -30, 0]}>
               <ChristmasTown />
-              <Pet />
               <Player loading={loading} />
-              <InfoGuy setModal={(e) => setModal(e)} />
-              <YellowGuy />
+              <Pet />
               <Shop />
+              <BoneFire setAmbient={() => setAmbient(!ambient)} />
+              <Npc type={'infoGuy'} setModal={(e) => setModal(e)} />
+              <Npc type={'storeGuy'} setModal={(e) => setModal(e)} />
+              <Npc type={'trainGuy'} setModal={(e) => setModal(e)} />
+              <Npc type={'yellowGuy'} setModal={(e) => setModal(e)} />
+              <Npc type={'greenGuy'} setModal={(e) => setModal(e)} />
+              <Npc type={'minSeo'} setModal={(e) => setModal(e)} />
+              <Npc type={'yb'} setModal={(e) => setModal(e)} />
               <ReinDeer type={'reindeer'} setModal={(e) => setModal(e)} />
               <ReinDeer type={'reindeerRed'} setModal={(e) => setModal(e)} />
               <ReinDeer type={'reindeerOrange'} setModal={(e) => setModal(e)} />

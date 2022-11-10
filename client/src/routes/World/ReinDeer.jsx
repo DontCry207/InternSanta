@@ -16,17 +16,17 @@ import { useGLTF } from '@react-three/drei';
 
 const DeerLocation = {
   reindeer: [-2.722, 0.1, 19.57],
-  reindeerRed: [-1.057051181793213, 0.1891165792942047, 8.159258842468262],
-  reindeerOrange: [0.625369131565094, 0.2155776143074036, -1.4708287715911865],
-  reindeerYellow: [-18.077816009521484, 0.0630310499668122, 10.820121765136719],
-  reindeerGreen: [15.034184455871582, 2.4461227416992187, 0.8214784860610962],
-  reindeerBlue: [10.7400541305542, 0, 12.818519592285156],
-  reindeerPurple: [-5.882803821563721, 1.3245592832565307, -6.936524868011475],
-  reindeerWhite: [-5.882803821563721, 1.3245592832565307, -6.936524868011475],
-  reindeerPink: [-7.679970741271973, 1.521248912811279, 26.733945846557617],
+  reindeerRed: [-1.0570511817, 0.18911657929, 8.15925],
+  reindeerOrange: [0.6253691315, 0.21557761430, -1.4708287715],
+  reindeerYellow: [-18.0778160095, 0.06303104996, 10.8201217651],
+  reindeerGreen: [15.0341844558, 2.44612274169, 0.82147848606],
+  reindeerBlue: [10.74005413, 0, 12.8185195922],
+  reindeerPurple: [-5.8828038215, 1.32455928325, -6.9365248680],
+  reindeerWhite: [-5.8828038215, 1.32455928325, -6.9365248680],
+  reindeerPink: [-7.6799707412, 1.5212489128, 26.7339458465],
 };
 
-const DeerLotation = {
+const DeerRotation = {
   reindeer: [0, 0.9 * Math.PI, 0],
   reindeerRed: [0, 1.2 * Math.PI, 0],
   reindeerOrange: [0, 1.85 * Math.PI, 0],
@@ -52,13 +52,13 @@ const DeerModel = {
 
 const ReinDeer = (props) => {
   const { nodes } = useGLTF(DeerModel[props.type]);
-  nodes.Scene.children[0].scale.set(0.16, 0.16, 0.16);
-  const [x, y, z] = DeerLotation[props.type];
+  nodes.Scene.children[0].scale.set(0.14, 0.14, 0.14);
+  const [x, y, z] = DeerRotation[props.type];
   nodes.Scene.rotation.set(x, y, z);
   const location = DeerLocation[props.type];
   const location2 = [
     DeerLocation[props.type][0],
-    DeerLocation[props.type][1] + 1.6,
+    DeerLocation[props.type][1] + 1.9,
     DeerLocation[props.type][2],
   ];
   const [hovered, setHover] = useState(false);
@@ -100,7 +100,7 @@ const ReinDeer = (props) => {
             object={buble.scene}
             position={location2}
             rotation={camera.rotation}
-            scale={[0.45, 0.45, 0.45]}
+            scale={[0.55, 0.55, 0.55]}
           />
         ) : null}
       </RigidBody>

@@ -19,7 +19,7 @@ const Shop = () => {
         <mesh
           position={[-12.43786334991455, 1.21, 4.422557353973389]}
           rotation={[0, 0.37 * Math.PI, 0]}>
-          <boxGeometry args={[2.1, 2.1, 2.1]} />
+          <boxGeometry args={[2, 2, 2]} />
           <meshStandardMaterial
             color={(0, 0, 0, 0)}
             opacity={0}

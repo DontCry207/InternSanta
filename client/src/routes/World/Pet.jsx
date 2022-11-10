@@ -17,13 +17,13 @@ const Pet = () => {
   const [location2, setLocation2] = useState([10, 10, 10]);
 
   const group = useRef();
+  const player = scene.children[7];
   const { nodes, animations } = useGLTF(PetGltf);
   const { actions } = useAnimations(animations, group);
   nodes.Rig.rotation.copy(camera.rotation);
 
   useFrame((state, delta) => {
     const { forward, backward, left, right } = get();
-    const player = scene.children[8];
 
     // update camera
     const [x, y, z] = [...ref.current.translation()];
