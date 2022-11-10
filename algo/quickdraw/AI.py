@@ -3,6 +3,9 @@ import numpy as np
 import cv2
 import keras
 
+cnn = keras.models.load_model('quickdraw/ai/model.h5')
+label_lookup_df = pd.read_csv('quickdraw/ai/pathlabel_lookup.csv')
+
 def AIfunction(vector, key):
   if key == '1': answer = "나무"
   elif key == '2': answer = "망치"
@@ -35,7 +38,7 @@ def AIfunction(vector, key):
   for i, row in test.iterrows():
     test_imgs[i,:,:,0] = img_to_np(row.drawing, 64, 64, 1, 2) / 255
 
-  cnn = keras.models.load_model('quickdraw/ai/model.h5')
+  # cnn = keras.models.load_model('quickdraw/ai/model.h5')
   probs = cnn.predict(test_imgs)
   N_train = probs.shape[0]
 
@@ -46,7 +49,7 @@ def AIfunction(vector, key):
     top_classes = np.flip(top_classes)
   
   topFive = top_classes
-  label_lookup_df = pd.read_csv('quickdraw/ai/pathlabel_lookup.csv')
+  # label_lookup_df = pd.read_csv('quickdraw/ai/pathlabel_lookup.csv')
   label_lookup = {k:v for k,v in zip(label_lookup_df.index.values, label_lookup_df.label.values)}
   labels = [label_lookup[topFive[0]], label_lookup[topFive[1]], label_lookup[topFive[2]], label_lookup[topFive[3]], label_lookup[topFive[4]]]
 
