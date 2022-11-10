@@ -6,10 +6,27 @@ import styled from 'styled-components';
 import { loggedInState, userInfoState } from '../../Atom';
 import { fetchData } from '../../utils/apis/api';
 import MainModal from '../Common/MainModal';
+import SantaFourCutPage from '../SantaFourCut/SantaFourCutPage';
 const HomePage = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [loggedIn, setloggedIn] = useRecoilState(loggedInState);
+  const [onSantaFourCutModal, setOnSantaFourCutModal] = useState(false);
   const navigate = useNavigate();
+
+  const santaFourCutModalOpen = () => {
+    setOnSantaFourCutModal(true);
+  };
+
+  const SantaFourCutModal = () => {
+    if (onSantaFourCutModal) {
+      return (
+        <MainModal closeBtnControl={setOnSantaFourCutModal} bgColor="#30314B">
+          <SantaFourCutPage />
+        </MainModal>
+      );
+    }
+  };
+
   // const test = () => {
   //   fetchData.get('/api/v1/quest').then((res) => {
   //     console.log(res);
@@ -20,9 +37,7 @@ const HomePage = () => {
       memberNickname: '',
       memberCoin: -1,
       memberTicket: -1,
-      memberGender: -1,
-      memberTop: '',
-      memberBottom: '',
+      memberTop: null,
       memberPet: -1,
       memberChapter: -1,
       memberCheckpoint: -1,
@@ -45,6 +60,13 @@ const HomePage = () => {
             }}>
             게임
           </button>
+          <button
+            onClick={() => {
+              santaFourCutModalOpen();
+            }}>
+            산타네컷
+          </button>
+          {SantaFourCutModal()}
         </div>
       ) : (
         <button

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import reindeerRed from '../../assets/reindeerRed.glb';
-import speech from '../../assets/speech.glb';
+import reindeerRed from '../../../assets/reindeer/reindeerRed.glb';
+import speech from '../../../assets/speech.glb';
 import { useLoader, useThree } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { RigidBody } from '@react-three/rapier';
@@ -10,12 +10,10 @@ const ReinDeerRed = (props) => {
   gltf.scene.children[0].scale.set(0.13, 0.13, 0.13);
   const location = [-0.4390983581542969, 0.1, 7.885971546173096];
   const location2 = [-0.8364703059196472, 1.6, 8.023627281188965];
-  const location3 = [-0.6808354258537292, 0, 8.28701400756836];
   gltf.scene.rotation.set(0, (1.9 * Math.PI) / 2, 0);
   const [hovered, setHover] = useState(false);
   const [clicked, setClick] = useState(false);
   const ref = useRef();
-  const box = useRef();
 
   const {
     camera,
@@ -25,9 +23,7 @@ const ReinDeerRed = (props) => {
 
   const buble = useLoader(GLTFLoader, speech);
 
-  useEffect(() => {
-    console.log(box);
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     document.body.style.cursor = hovered ? 'pointer' : 'auto';
