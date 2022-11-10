@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
+import AlertModal from '../Common/AlertModal';
 import UseInterval from '../Common/UseInterval';
 
-const FortunePage = () => {
+const FortunePage = (props) => {
   const [fortuneText, setFortuneText] = useState('...');
   const [result, setResult] = useState('');
   const [Loading, setLoading] = useState(true);
@@ -25,6 +26,10 @@ const FortunePage = () => {
     return fortune;
   };
 
+  const close = () => {
+    props.setOnFortuneModal();
+  };
+
   useEffect(() => {
     // console.log(fortuneText);
     // if (fortuneText == '...') {
@@ -43,11 +48,13 @@ const FortunePage = () => {
   }, []);
 
   return (
-    <>
-      <div>
-        <SubTitle>{Loading ? fortuneText : result}</SubTitle>
-      </div>
-    </>
+    // <AlertModal
+    //   title="오늘의 운세"
+    //   rightBtnName="닫기"
+    //   setRightBtnControl={close()}>
+    //   {/* <SubTitle>{Loading ? fortuneText : result}</SubTitle> */}
+    // </AlertModal>
+    <AlertModal></AlertModal>
   );
 };
 const SubTitle = styled.div`

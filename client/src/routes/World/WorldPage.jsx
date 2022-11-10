@@ -19,6 +19,7 @@ import MainModal from '../Common/MainModal';
 import AlertModal from '../Common/AlertModal';
 import MovieRecPage from '../CarolZone/MovieRecPage';
 import FortunePage from '../CarolZone/FortunePage';
+import Tree from '../CarolZone/Tree';
 
 const WorldPage = () => {
   const [modal, setModal] = useState(null);
@@ -26,41 +27,12 @@ const WorldPage = () => {
   const [onFortuneModal, setOnFortuneModal] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const movieModalOpen = () => {
-    setOnMovieModal(true);
-  };
-
-  const MovieModal = () => {
-    if (onMovieModal) {
-      return (
-        <MainModal closeBtnControl={setOnMovieModal} bgColor="'#c8cce7'">
-          <MovieRecPage></MovieRecPage>
-        </MainModal>
-      );
-    }
-  };
-
-  const fortuneModalOpen = () => {
-    setOnFortuneModal(true);
-  };
-
-  const FortuneModal = () => {
-    if (onFortuneModal) {
-      return (
-        <AlertModal
-          title="오늘의 운세"
-          rightBtnName="닫기"
-          setRightBtnControl={setOnFortuneModal}>
-          <FortunePage></FortunePage>
-        </AlertModal>
-      );
-    }
-  };
-
   return (
     <Container>
       {loading ? <LoadingPage /> : null}
       {modal ? <ChatModal modal={modal} setModal={(e) => setModal(e)} /> : null}
+      {onMovieModal ? console.log('hi2') : null}
+      {onFortuneModal ? console.log('hi') : null}
       <PlayUi />
       <KeyboardControls
         map={[
@@ -94,8 +66,8 @@ const WorldPage = () => {
             <Physics gravity={[0, -30, 0]}>
               <ChristmasTown />
               <CarolZone
-                movieModalOpen={(e) => movieModalOpen(e)}
-                fortuneModalOpen={(e) => fortuneModalOpen(e)}
+                movieModalOpen={() => setOnMovieModal(true)}
+                fortuneModalOpen={() => setOnFortuneModal(true)}
               />
               <Player loading={loading} />
               <InfoGuy setModal={(e) => setModal(e)} />
@@ -106,8 +78,6 @@ const WorldPage = () => {
           </Suspense>
         </Canvas>
       </KeyboardControls>
-      {MovieModal()}
-      {FortuneModal()}
     </Container>
   );
 };
