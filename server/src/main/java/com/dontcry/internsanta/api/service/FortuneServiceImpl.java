@@ -7,6 +7,9 @@ import com.dontcry.internsanta.db.repository.FortuneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Random;
+
 @Service
 public class FortuneServiceImpl implements FortuneService{
 
@@ -14,7 +17,12 @@ public class FortuneServiceImpl implements FortuneService{
     FortuneRepository fortuneRepository;
 
     @Override
-    public Fortune getRandomFortune() {
-        return fortuneRepository.findRandomFortune().orElseThrow(() -> new FortuneNotFoundException("fortune not found", ErrorCode.FORTUNE_NOT_FOUND));
+    public Fortune getRandomFortune(Long memberId) {
+        int fortuneCnt = fortuneRepository.countFortunes();
+        Long seed = (LocalDateTime.now().getMonthValue() + LocalDateTime.now().getDayOfMonth() + memberId) % fortuneCnt;
+        Random random = new Random(seed.intValue());
+        int fortuneId = random.nextInt(seed.intValue());
+        System.out.println(fortuneId);
+        return fortuneRepository.findByFortuneId(new Long(fortuneId)).orElseThrow(() -> new FortuneNotFoundException("fortune not found", ErrorCode.FORTUNE_NOT_FOUND));
     }
 }

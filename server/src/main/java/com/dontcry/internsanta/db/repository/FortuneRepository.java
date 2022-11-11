@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface FortuneRepository extends JpaRepository<Fortune, Long> {
-    @Query(value = "SELECT * FROM fortune ORDER BY RAND() LIMIT 1", nativeQuery = true)
-    Optional<Fortune> findRandomFortune();
+    Optional<Fortune> findByFortuneId(Long fortuneId);
+    @Query("SELECT COUNT(f) FROM Fortune f")
+    int countFortunes();
 }
