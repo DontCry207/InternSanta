@@ -6,18 +6,17 @@ import styled from 'styled-components';
 import { loggedInState, userInfoState } from '../../Atom';
 import { fetchData } from '../../utils/apis/api';
 import MainModal from '../Common/MainModal';
+import MiniGamePage from '../MiniGame/MiniGamePage';
 import SantaFourCutPage from '../SantaFourCut/SantaFourCutPage';
 const HomePage = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [loggedIn, setloggedIn] = useRecoilState(loggedInState);
-  const [onSantaFourCutModal, setOnSantaFourCutModal] = useState(false);
   const navigate = useNavigate();
 
-  const santaFourCutModalOpen = () => {
-    setOnSantaFourCutModal(true);
-  };
+  const [onSantaFourCutModal, setOnSantaFourCutModal] = useState(false);
+  const [onMiniGameModal, setOnMiniGameModal] = useState(false);
 
-  const SantaFourCutModal = () => {
+  const openModal = () => {
     if (onSantaFourCutModal) {
       return (
         <MainModal closeBtnControl={setOnSantaFourCutModal} bgColor="#30314B">
@@ -25,13 +24,15 @@ const HomePage = () => {
         </MainModal>
       );
     }
+    if (onMiniGameModal) {
+      return (
+        <MainModal closeBtnControl={setOnMiniGameModal} bgColor="#56668E">
+          <MiniGamePage />
+        </MainModal>
+      );
+    }
   };
 
-  // const test = () => {
-  //   fetchData.get('/api/v1/quest').then((res) => {
-  //     console.log(res);
-  //   });
-  // };
   const logout = () => {
     setUserInfo({
       memberNickname: '',
@@ -53,28 +54,16 @@ const HomePage = () => {
       {loggedIn ? (
         <div>
           {userInfo.memberNickname}님 안녕하세요
+          <br />
+          보유코인: {userInfo.memberCoin}
           <button onClick={logout}>로그아웃</button>
-          <button
-            onClick={() => {
-              navigate('/game');
-            }}>
-            게임
-          </button>
-          <button
-            onClick={() => {
-              santaFourCutModalOpen();
-            }}>
-            산타네컷
-          </button>
-          {SantaFourCutModal()}
+          <button onClick={() => navigate('/game')}>게임</button>
+          <button onClick={() => setOnSantaFourCutModal(true)}>산타네컷</button>
+          <button onClick={() => setOnMiniGameModal(true)}>미니게임</button>
+          {openModal()}
         </div>
       ) : (
-        <button
-          onClick={() => {
-            navigate('/main');
-          }}>
-          접속
-        </button>
+        <button onClick={() => navigate('/main')}>접속</button>
       )}
     </div>
   );
