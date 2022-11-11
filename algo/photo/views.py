@@ -45,10 +45,10 @@ def photo(request):
     
     width, height, channel = img1.shape
     
-    frame[168:width + 168, 476:height + 476] = img1
-    frame[552:width + 552, 476:height + 476] = img2
-    frame[933:width + 933, 476:height + 476] = img3
-    frame[1316:width + 1316, 476:height + 476] = img4
+    frame[17:width + 17, 25:height + 25] = img1
+    frame[400:width + 400, 25:height + 25] = img2
+    frame[783:width + 783, 25:height + 25] = img3
+    frame[1166:width + 1166, 25:height + 25] = img4
     
     # # BGR -> RGB 변환
     frameRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
