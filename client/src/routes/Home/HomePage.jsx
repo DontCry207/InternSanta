@@ -5,6 +5,7 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { loggedInState, userInfoState } from '../../Atom';
 import { fetchData } from '../../utils/apis/api';
+import ClothesPage from '../Clothes/ClothesPage';
 import MainModal from '../Common/MainModal';
 import MiniGamePage from '../MiniGame/MiniGamePage';
 import SantaFourCutPage from '../SantaFourCut/SantaFourCutPage';
@@ -15,6 +16,7 @@ const HomePage = () => {
 
   const [onSantaFourCutModal, setOnSantaFourCutModal] = useState(false);
   const [onMiniGameModal, setOnMiniGameModal] = useState(false);
+  const [onClothModal, setOnClothModal] = useState(false);
 
   const openModal = () => {
     if (onSantaFourCutModal) {
@@ -28,6 +30,13 @@ const HomePage = () => {
       return (
         <MainModal closeBtnControl={setOnMiniGameModal} bgColor="#56668E">
           <MiniGamePage />
+        </MainModal>
+      );
+    }
+    if (onClothModal) {
+      return (
+        <MainModal closeBtnControl={setOnClothModal} bgColor="#8A8A8A">
+          <ClothesPage />
         </MainModal>
       );
     }
@@ -60,6 +69,7 @@ const HomePage = () => {
           <button onClick={() => navigate('/game')}>게임</button>
           <button onClick={() => setOnSantaFourCutModal(true)}>산타네컷</button>
           <button onClick={() => setOnMiniGameModal(true)}>미니게임</button>
+          <button onClick={() => setOnClothModal(true)}>옷텍스쳐</button>
           {openModal()}
         </div>
       ) : (

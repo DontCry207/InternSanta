@@ -82,6 +82,7 @@ const Title = styled.div`
 const MainContents = styled.div`
   padding: 50px 20px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
 `;
 const BtnSet = styled.div`
