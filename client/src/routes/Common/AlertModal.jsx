@@ -83,7 +83,7 @@ const MainContents = styled.div`
   padding: 50px 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
 `;
 const BtnSet = styled.div`
   display: flex;

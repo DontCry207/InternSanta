@@ -94,25 +94,32 @@ const ClothesCut = (props) => {
   //   }
   // }
   return (
-    <AlertModal title="앞면">
+    <AlertModal
+      title="앞면"
+      leftBtnName="닫기"
+      rightBtnName="적용"
+      setLeftBtnControl={closeModal}
+      setRightBtnControl={res}>
       <div className="Crop-Controls">
         <input type="file" accept="image/*" onChange={onSelectFile} />
       </div>
-      {imgSrc && (
-        <ReactCrop
-          crop={crop}
-          onChange={(_, percentCrop) => setCrop(percentCrop)}
-          onComplete={(c) => setCompletedCrop(c)}
-          aspect={aspect}>
-          <img
-            ref={imgRef}
-            alt="Crop me"
-            src={imgSrc}
-            style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
-            onLoad={onImageLoad}
-          />
-        </ReactCrop>
-      )}
+      <div>
+        {imgSrc && (
+          <ReactCrop
+            crop={crop}
+            onChange={(_, percentCrop) => setCrop(percentCrop)}
+            onComplete={(c) => setCompletedCrop(c)}
+            aspect={aspect}>
+            <img
+              ref={imgRef}
+              alt="Crop me"
+              src={imgSrc}
+              style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
+              onLoad={onImageLoad}
+            />
+          </ReactCrop>
+        )}
+      </div>
       <div style={{ display: 'none' }}>
         {completedCrop && (
           <canvas
@@ -127,7 +134,6 @@ const ClothesCut = (props) => {
           />
         )}
       </div>
-      <button onClick={() => res()}>적용</button>
     </AlertModal>
   );
 };

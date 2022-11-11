@@ -47,7 +47,7 @@ const ModalBox = styled.div`
     ${(props) => `${props.bgColor}`} 25%,
     #f3f3f3 100%
   );
-
+  overflow: hidden;
   .close {
     position: absolute;
     right: 10px;
