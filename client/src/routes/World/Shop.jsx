@@ -1,17 +1,34 @@
 import React, { useState } from 'react';
-import { useLoader } from '@react-three/fiber';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { useLoader, useThree } from '@react-three/fiber';
 import ShopModel from '../../assets/Shop.glb';
 import { RigidBody } from '@react-three/rapier';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 
 const Shop = () => {
-  const gltf = useLoader(GLTFLoader, ShopModel);
-  gltf.scene.rotation.set(0, 0.37 * Math.PI, 0);
+  const { camera, gl, scene } = useThree();
+  const ktxLoader = new KTX2Loader();
+  const shopGltf = useLoader(GLTFLoader, ShopModel, (loader) => {
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath(
+      '../node_modules/three/examples/js/libs/draco/gltf/',
+    );
+    dracoLoader.setDecoderConfig({ type: 'js' });
+    loader.setDRACOLoader(dracoLoader);
+
+    ktxLoader
+      .setTranscoderPath('../node_modules/three/examples/js/libs/basis/')
+      .detectSupport(gl);
+    loader.setKTX2Loader(ktxLoader);
+    ktxLoader.dispose();
+  });
+  shopGltf.scene.rotation.set(0, 0.37 * Math.PI, 0);
 
   return (
     <>
       <primitive
-        object={gltf.scene}
+        object={shopGltf.scene}
         scale={[0.7, 0.7, 0.7]}
         position={[-12.43786334991455, 0.21, 4.422557353973389]}
       />

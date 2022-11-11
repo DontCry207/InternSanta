@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { useFrame, useLoader, useThree } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import boneFire from '../../assets/boneFire.glb';
 import { RigidBody } from '@react-three/rapier';
 import { useRecoilState } from 'recoil';
@@ -9,10 +11,25 @@ import { useEffect } from 'react';
 import * as THREE from 'three';
 
 const BoneFire = () => {
-  const gltf = useLoader(GLTFLoader, boneFire);
-  gltf.scene.rotation.set(0, 0.37 * Math.PI, 0);
   const [ambient, setAmbient] = useRecoilState(ambientState);
   const [hovered, setHover] = useState(false);
+  const { camera, gl, scene } = useThree();
+  const ktxLoader = new KTX2Loader();
+  const boneFireGltf = useLoader(GLTFLoader, boneFire, (loader) => {
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath(
+      '../node_modules/three/examples/js/libs/draco/gltf/',
+    );
+    dracoLoader.setDecoderConfig({ type: 'js' });
+    loader.setDRACOLoader(dracoLoader);
+
+    ktxLoader
+      .setTranscoderPath('../node_modules/three/examples/js/libs/basis/')
+      .detectSupport(gl);
+    loader.setKTX2Loader(ktxLoader);
+    ktxLoader.dispose();
+  });
+  boneFireGltf.scene.rotation.set(0, 0.37 * Math.PI, 0);
 
   useEffect(() => {
     document.body.style.cursor = hovered ? 'pointer' : 'auto';
@@ -26,7 +43,7 @@ const BoneFire = () => {
     <>
       <RigidBody type="fixed" colliders={'hull'}>
         <primitive
-          object={gltf.scene}
+          object={boneFireGltf.scene}
           scale={[0.7, 0.7, 0.7]}
           onClick={() => click()}
           onPointerOver={() => setHover(true)}
