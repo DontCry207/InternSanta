@@ -17,3 +17,13 @@ export const userInfoState = atom({
     memberCheckpoint: -1,
   },
 });
+
+export const fortuneModalState = atom({
+  key: `fortuneModalState`,
+  default: false,
+});
+
+export const movieModalState = atom({
+  key: `movieModal`,
+  default: false,
+});
