@@ -139,7 +139,7 @@ function init() {
 
   // Set up renderer
   renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(window.innerWidth*0.6, window.innerHeight*0.7);
+  renderer.setSize(window.innerWidth*0.6, window.innerHeight*0.75);
   renderer.setAnimationLoop(animation);
   const bs = document.getElementById("game");
   bs.appendChild(renderer.domElement);
@@ -337,6 +337,8 @@ function missedTheSpot() {
     memberCoin: stack.length - 2
     }).then((res)=>{console.log(res.data);})
   if (resultsElement) resultsElement.style.display = "flex";
+  document.getElementById("result-score").innerText = stack.length - 2;
+  document.getElementById("result-coin").innerText = stack.length - 2;
 }
 
 function animation(time) {
@@ -382,7 +384,7 @@ function updatePhysics(timePassed) {
 
 window.addEventListener("resize", () => {
   // Adjust camera
-  // console.log("resize", window.innerWidth*0.6, window.innerHeight*0.7);
+  // console.log("resize", window.innerWidth*0.6, window.innerHeight*0.75);
   const aspect = window.innerWidth / window.innerHeight;
   const width = 10;
   const height = width / aspect;
@@ -391,7 +393,7 @@ window.addEventListener("resize", () => {
   camera.bottom = height / -2;
   // console.log(width, height);
   // Reset renderer
-  renderer.setSize(window.innerWidth*0.6, window.innerHeight*0.7);
+  renderer.setSize(window.innerWidth*0.6, window.innerHeight*0.75);
   renderer.render(scene, camera);
 });
 

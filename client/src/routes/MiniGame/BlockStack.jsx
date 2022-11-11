@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Block from './block';
 import { IoIosArrowBack } from 'react-icons/io';
 import game1 from '../../assets/images/blockstack.png';
+import coin from '../../assets/images/coin.png';
 const BlockStack = (props) => {
   const { setPage } = props;
   const [loading, setLoading] = useState(true);
@@ -15,16 +16,26 @@ const BlockStack = (props) => {
 
   const play = () => {
     return (
-      <>
-        <Results id="results">
-          <div className="content">
-            <button onClick={() => setPage(1)}>처음으로</button>
-          </div>
-        </Results>
-        <div id="score">0</div>
-
-        <div id="game"></div>
-      </>
+      <BlockGame>
+        <div id="game">
+          <Score id="score">0</Score>
+          <Results id="results">
+            <div className="content">
+              <h3>GAME OVER</h3>
+              <p>
+                score : <b id="result-score"></b>
+              </p>
+              <div className="coin">
+                <img src={coin} alt="" />
+                <span>
+                  <b id="result-coin"></b>코인 획득
+                </span>
+              </div>
+              <PlayBtn onClick={() => setPage(1)}>처음으로</PlayBtn>
+            </div>
+          </Results>
+        </div>
+      </BlockGame>
     );
   };
   const guide = () => {
@@ -55,6 +66,29 @@ const BlockStack = (props) => {
   };
   return <>{loading ? guide() : play()}</>;
 };
+
+const BlockGame = styled.div`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  #game {
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+`;
+
+const Score = styled.div`
+  position: absolute;
+  font-size: 30px;
+  color: white;
+  top: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+`;
 const Title = styled.h2`
   display: block;
   font-size: 80px;
@@ -92,6 +126,53 @@ const GameImg = styled.img`
 const Results = styled.div`
   display: none;
   position: absolute;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  &::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    opacity: 0.3;
+    position: absolute;
+  }
+  .content {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    background-color: #fff;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    h3 {
+      font-size: 50px;
+      font-weight: 700;
+      color: #de6363;
+    }
+    & > p {
+      font-size: 30px;
+      padding-bottom: 20px;
+    }
+    .coin {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 10px;
+      img {
+        width: 30px;
+        margin-right: 5px;
+      }
+      span {
+        font-size: 30px;
+      }
+    }
+    button {
+    }
+  }
 `;
 export default BlockStack;

@@ -8,7 +8,7 @@ const game = () => {
   const scene = new THREE.Scene();
   
   const distance = 500;
-  const camera = new THREE.OrthographicCamera( window.innerWidth*0.6/-2, window.innerWidth*0.6/2, window.innerHeight*0.7 / 2, window.innerHeight*0.7 / -2, 0.1, 10000 );
+  const camera = new THREE.OrthographicCamera( window.innerWidth*0.6/-2, window.innerWidth*0.6/2, window.innerHeight*0.75 / 2, window.innerHeight*0.75 / -2, 0.1, 10000 );
   
   camera.rotation.x = 50*Math.PI/180;
   camera.rotation.y = 20*Math.PI/180;
@@ -31,7 +31,7 @@ const game = () => {
   const stepTime = 200; // Miliseconds it takes for the snowman to take a step forward, backward, left or right
   
   let lanes;
-  let currentLane;
+  let currentLane = 0;
   let currentColumn;
   
   let previousTimestamp;
@@ -129,7 +129,7 @@ const game = () => {
   });
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.setSize( window.innerWidth*0.6, window.innerHeight*0.7 );
+  renderer.setSize( window.innerWidth*0.6, window.innerHeight*0.75 );
   const cr = document.getElementById("cr");
   cr.appendChild(renderer.domElement);
   
@@ -462,7 +462,7 @@ const game = () => {
           return vechicle;
         })
   
-        this.speed = laneSpeeds[Math.floor(Math.random()*laneSpeeds.length)];
+        this.speed = laneSpeeds[Math.floor(Math.random()*laneSpeeds.length)] * parseInt((currentLane + 1) / 15 + 1);
         break;
       }
       case 'truck' : {
@@ -483,7 +483,7 @@ const game = () => {
           return vechicle;
         })
   
-        this.speed = laneSpeeds[Math.floor(Math.random()*laneSpeeds.length)];
+        this.speed = laneSpeeds[Math.floor(Math.random()*laneSpeeds.length)]* parseInt((currentLane + 1) / 25 + 1);
         break;
       }
     }
@@ -664,14 +664,16 @@ const keydownEventHandler = (event) => {
         const carMaxX = vechicle.position.x + vechicleLength*zoom/2;
         // 게임 끝
         if(callApi == false && snowmanMaxX > carMinX && snowmanMinX < carMaxX) {
+          document.getElementById("result-score").innerText = parseInt(currentLane);
+  document.getElementById("result-coin").innerText = parseInt(currentLane/2);
           // api 호출 (currentLane 만큼 코인 증가)
           fetchData.patch('/api/v1/member/coin',{
-            memberCoin: Number(currentLane/4.5)
+            memberCoin: parseInt(currentLane/2)
             }).then((res)=>{console.log(res.data);})
           // 방향키 조작 X
           window.removeEventListener("keydown", keydownEventHandler);
           // retry 버튼 등장
-          endDOM.style.display = 'block';
+          endDOM.style.display = 'flex';
           callApi = true
         }
       });
