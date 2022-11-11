@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useFrame, useLoader, useThree } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -49,7 +49,7 @@ const CarolZone = (props) => {
       <FirePlace />
       <Television />
       <TeddyBear />
-      <Tree /> 
+      <Tree />
     </>
   );
 };

@@ -14,8 +14,32 @@ const Television = () => {
   const scale = [0.8, 0.8, 0.8];
   const location = [0, -100, 0];
   const [clicked, setClicked] = useState(false);
-  const [hovered, setHover] = useState(false);
   const { camera, gl, scene } = useThree();
+
+  const [hovered, setHover] = useState(false);
+  const hover = (e) => {
+    e.stopPropagation();
+    setHover(true);
+  };
+
+  const unhover = (e) => {
+    e.stopPropagation();
+    setHover(false);
+  };
+
+  const click = (e) => {
+    e.stopPropagation();
+    setClicked(!clicked);
+  };
+
+  useEffect(() => {
+    console.log('clicked');
+  }, [clicked]);
+
+  useEffect(() => {
+    console.log('hover');
+    document.body.style.cursor = hovered ? 'pointer' : 'auto';
+  }, [hovered]);
 
   const televisionGltf = useLoader(GLTFLoader, television, (loader) => {
     const dracoLoader = new DRACOLoader();
@@ -35,7 +59,12 @@ const Television = () => {
   return (
     <>
       <RigidBody type="fixed" colliders={'hull'}>
-        <mesh position={boxLocation} rotation={[0, 1.05, 0]}>
+        <mesh
+          position={boxLocation}
+          rotation={[0, 1.05, 0]}
+          onClick={(e) => click(e)}
+          onPointerOver={(e) => hover(e)}
+          onPointerOut={(e) => unhover(e)}>
           <boxGeometry args={[0.3, 1.7, 0.65]} />
           <meshStandardMaterial
             color={[0, 0, 0, 0]}

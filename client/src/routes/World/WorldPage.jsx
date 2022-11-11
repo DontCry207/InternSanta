@@ -1,7 +1,13 @@
 import { KeyboardControls, Sky, Stars } from '@react-three/drei';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, render } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import ChristmasTown from './ChristmasTown';
 import YellowGuy from './Npc/YellowGuy';
@@ -15,24 +21,19 @@ import LazyLoading from './LazyLoading';
 import LoadingPage from './LoadingPage';
 import InfoGuy from './NPC/InfoGuy';
 import CarolZone from './CarolZone';
-import MainModal from '../Common/MainModal';
-import AlertModal from '../Common/AlertModal';
-import MovieRecPage from '../CarolZone/MovieRecPage';
-import FortunePage from '../CarolZone/FortunePage';
-import Tree from '../CarolZone/Tree';
+import FortuneModal from './FortuneModal';
 
 const WorldPage = () => {
   const [modal, setModal] = useState(null);
-  const [onMovieModal, setOnMovieModal] = useState(null);
-  const [onFortuneModal, setOnFortuneModal] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  console.log('world');
 
   return (
     <Container>
       {loading ? <LoadingPage /> : null}
       {modal ? <ChatModal modal={modal} setModal={(e) => setModal(e)} /> : null}
-      {onMovieModal ? console.log('hi2') : null}
-      {onFortuneModal ? console.log('hi') : null}
+      <FortuneModal />
       <PlayUi />
       <KeyboardControls
         map={[
@@ -63,12 +64,9 @@ const WorldPage = () => {
                 }}
               />
             }>
-            <Physics gravity={[0, -30, 0]}>
+            <Physics gravity={[0, -30, 0]} colliders={false}>
               <ChristmasTown />
-              <CarolZone
-                movieModalOpen={() => setOnMovieModal(true)}
-                fortuneModalOpen={() => setOnFortuneModal(true)}
-              />
+              <CarolZone />
               <Player loading={loading} />
               <InfoGuy setModal={(e) => setModal(e)} />
               <YellowGuy />
@@ -85,6 +83,15 @@ const WorldPage = () => {
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
+`;
+
+const Modal = styled.div`
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  position: absolute;
+  z-index: 200;
 `;
 
 export default WorldPage;
