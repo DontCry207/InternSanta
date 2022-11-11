@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import ChristmasTown from './ChristmasTown';
 import YellowGuy from './Npc/YellowGuy';
 import Player from './Player';
+import Pet from './Pet';
 import ReinDeer from './ReinDeer/ReinDeer';
 import ReinDeerRed from './ReinDeer/ReinDeerRed';
 import Snow from './Snow';
@@ -66,6 +67,7 @@ const WorldPage = () => {
             }>
             <Physics gravity={[0, -30, 0]} colliders={false}>
               <ChristmasTown />
+              <Pet />
               <CarolZone />
               <Player loading={loading} />
               <InfoGuy setModal={(e) => setModal(e)} />
