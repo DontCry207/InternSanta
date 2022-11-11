@@ -3,6 +3,7 @@ import { useThree, useFrame } from '@react-three/fiber';
 import PetGltf from '../../assets/pet/Tortoise.gltf';
 import { RigidBody, CuboidCollider } from '@react-three/rapier';
 import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
+import { useEffect } from 'react';
 
 const Pet = () => {
   const ref = useRef();
@@ -13,21 +14,27 @@ const Pet = () => {
     scene,
   } = useThree();
   const [, get] = useKeyboardControls();
-  const [location, setLocation] = useState([10, 10, 10]);
   const [location2, setLocation2] = useState([10, 10, 10]);
-
+  const [playerIdx, setPlayerIdx] = useState(0);
   const group = useRef();
+  const player = scene.children[playerIdx];
   const { nodes, animations } = useGLTF(PetGltf);
   const { actions } = useAnimations(animations, group);
   nodes.Rig.rotation.copy(camera.rotation);
 
+  useEffect(() => {
+    const result = scene.children.findIndex((data) => {
+      return data.name === 'player';
+    });
+    console.log(result);
+    setPlayerIdx(result);
+    return () => {};
+  }, []);
+
   useFrame((state, delta) => {
     const { forward, backward, left, right } = get();
-    const player = scene.children[8];
 
     // update camera
-    const [x, y, z] = [...ref.current.translation()];
-    setLocation([x, y + 0.6, z]);
     setLocation2([
       player.position.x,
       player.position.y,

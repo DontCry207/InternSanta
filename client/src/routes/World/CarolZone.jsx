@@ -38,8 +38,6 @@ const CarolZone = (props) => {
   roomGltf.scene.add(fireLight);
   roomGltf.scene.rotation.y = -0.5;
 
-  console.log('CAROLZONE');
-
   return (
     <>
       <pointLight castShadow intensity={0.25} position={[-2, -98, 1]} />
