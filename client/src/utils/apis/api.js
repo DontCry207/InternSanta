@@ -26,6 +26,7 @@ export const removeAccessToken = () => {
 
 const getNewAccessToken = async () => {
   const refreshtoken = getLocalRefreshToken();
+  console.log(123);
   const result = await axios.get(`${baseURL}/api/v1/member/refresh`, {
     headers: {
       'REFRESH-TOKEN': `${refreshtoken}`,
@@ -70,7 +71,7 @@ instance.interceptors.response.use(
           const { accessToken, refreshToken } = response.data;
           sessionStorage.setItem('accessToken', accessToken);
           setRefreshToken(refreshToken);
-          console.log(accessToken, refreshToken);
+          // console.log(accessToken, refreshToken);
           instance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
           return instance(originalConfig);
         } catch (err) {
@@ -81,7 +82,7 @@ instance.interceptors.response.use(
             removeAccessToken();
             removeRefreshToken();
             setTimeout(() => {
-              window.location.href = '/main';
+              window.location.href = '/';
             }, 100);
             return;
           }

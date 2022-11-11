@@ -10,9 +10,11 @@ function App() {
   const token = sessionStorage.getItem('accessToken');
   useEffect(() => {
     if (token) {
-      fetchData.get('/api/v1/member').then((res) => {
-        serUserInfo(res.data);
-      });
+      try {
+        fetchData.get('/api/v1/member').then((res) => {
+          serUserInfo(res.data);
+        });
+      } catch (e) {}
     }
   }, []);
 
