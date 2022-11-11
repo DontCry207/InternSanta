@@ -1,13 +1,19 @@
 import React, { useEffect } from 'react';
-import { useState } from 'react';
 import christmasTown from '../../assets/images/christmasTown.jpg';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { loadingState } from '../../Atom';
 
 const LoadingPage = () => {
+  const [loading, setLoading] = useRecoilState(loadingState);
   return (
-    <Container christmasTown={christmasTown}>
-      <p>로딩중...</p>
-    </Container>
+    <>
+      {loading ? (
+        <Container christmasTown={christmasTown}>
+          <p>로딩중...</p>
+        </Container>
+      ) : null}
+    </>
   );
 };
 

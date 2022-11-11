@@ -1,15 +1,18 @@
 import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+import { loadingState } from '../../Atom';
 
-const Loading = (props) => {
+const LazyLoading = () => {
+  const [loading, setLoading] = useRecoilState(loadingState);
   useEffect(() => {
     return () => {
       setTimeout(() => {
-        props.setLoading();
-      }, 200);
+        setLoading(false);
+      }, 500);
     };
   }, []);
 
   return;
 };
 
-export default Loading;
+export default LazyLoading;

@@ -7,17 +7,26 @@ import {
   MapControls,
 } from 'three/examples/jsm/controls/OrbitControls';
 import * as THREE from 'three';
-import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
+import {
+  useKeyboardControls,
+  useGLTF,
+  useAnimations,
+  SpotLight,
+} from '@react-three/drei';
+import { useRecoilState } from 'recoil';
+import { loadingState } from '../../Atom';
 extend({ OrbitControls, MapControls });
 
-const Player = (props) => {
-  const SPEED = 4;
+const Player = () => {
+  const [SPEED, setSpeed] = useState(4);
+  const [loading, setLoading] = useRecoilState(loadingState);
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();
   const sideVector = new THREE.Vector3();
   const ref = useRef();
   const controls = useRef();
   const group = useRef();
+  const light = useRef();
 
   const {
     camera,
@@ -26,7 +35,7 @@ const Player = (props) => {
   } = useThree();
 
   const [, get] = useKeyboardControls();
-  const [location, setLocation] = useState([-2.52, -98, 0.17]); // 캐롤존 [-2.52, -98, 0.17]
+  const [location, setLocation] = useState([-15.7, 3, 21.4]); // 캐롤존 [-2.52, -98, 0.17]
   const [maxPolarAngle, setMaxPolarAngle] = useState(1.8);
   const { nodes, materials, animations } = useGLTF(character);
   const { actions } = useAnimations(animations, group);
@@ -35,29 +44,51 @@ const Player = (props) => {
     controls.current.enableRotate = true;
     controls.current.rotateSpeed = 0.4;
     nodes.Scene.name = 'player';
-    console.log(scene);
+    light.current.target.position.set(
+      -6.012689590454102,
+      0.4022400856018066,
+      1.0203404426574707,
+    );
   }, []);
 
   useEffect(() => {
-    if (!props.loading) {
+    if (!loading) {
       controls.current.minAzimuthAngle = 0;
       controls.current.maxAzimuthAngle = Infinity;
-      const [x, y, z] = [...ref.current.translation()];
-      setLocation([x, y + 0.4, z]);
     }
-  }, [props]);
+  }, [loading]);
 
   useFrame((state, delta) => {
-    const { forward, backward, left, right } = get();
+    const { forward, backward, left, right, dash, position, dance } = get();
     const velocity = ref.current.linvel();
     // update camera
     const [x, y, z] = [...ref.current.translation()];
+    setLocation([x, y + 0.4, z]);
+
+    if (position) {
+      console.log([x, y, z]);
+    }
+
+    if (dance) {
+      actions.Idle.stop();
+      actions['Song Jump'].play().setEffectiveTimeScale(1.3);
+    } else {
+      actions['Song Jump'].stop();
+      actions.Idle.play().setEffectiveTimeScale(2);
+    }
 
     nodes.Scene.rotation.copy(camera.rotation);
     if (forward || backward || left || right) {
-      setLocation([x, y + 0.4, z]);
       actions.Idle.stop();
-      actions.Run.play().setEffectiveTimeScale(1.3);
+      light.current.target.position.set(location[0], location[1], location[2]);
+      light.current.target.updateMatrixWorld();
+      if (dash) {
+        setSpeed(8);
+        actions.Run.play().setEffectiveTimeScale(2.6);
+      } else {
+        setSpeed(4);
+        actions.Run.play().setEffectiveTimeScale(1.3);
+      }
       if (maxPolarAngle < 2.45) {
         setMaxPolarAngle(maxPolarAngle + 0.1);
       }
@@ -97,13 +128,23 @@ const Player = (props) => {
 
   return (
     <>
+      <SpotLight
+        ref={light}
+        position={[location[0], location[1] + 2, location[2]]}
+        distance={4}
+        angle={0.15}
+        attenuation={2}
+        anglePower={3}
+        color={'white'}
+        visible={false}
+      />
       <orbitControls
         ref={controls}
         makeDefaults
         args={[camera, domElement]}
         target={location}
-        minDistance={0.8}
-        maxDistance={0.8}
+        minDistance={1.6}
+        maxDistance={1.6}
         minAzimuthAngle={-Math.PI * 0.25}
         maxAzimuthAngle={-Math.PI * 0.25}
         maxPolarAngle={Math.PI / maxPolarAngle}
@@ -114,6 +155,7 @@ const Player = (props) => {
       <primitive
         ref={group}
         object={nodes.Scene}
+        receiveShadow
         position={[location[0], location[1] - 0.7, location[2]]}
         scale={(0.55, 0.55, 0.55)}
       />
@@ -122,7 +164,7 @@ const Player = (props) => {
         mass={1}
         type="dynamic"
         colliders={false}
-        position={[-2.52, -98, 0.17]}>
+        position={[-15.7, 3, 21.4]}>
         <CuboidCollider args={[0.3, 0.3, 0.3]} />
       </RigidBody>
     </>
