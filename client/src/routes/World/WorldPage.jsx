@@ -1,7 +1,13 @@
 import { KeyboardControls, Sky, Stars } from '@react-three/drei';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, render } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import ChristmasTown from './ChristmasTown';
 import YellowGuy from './Npc/YellowGuy';
@@ -15,15 +21,20 @@ import PlayUi from './PlayUi';
 import LazyLoading from './LazyLoading';
 import LoadingPage from './LoadingPage';
 import InfoGuy from './NPC/InfoGuy';
+import CarolZone from './CarolZone';
+import FortuneModal from './FortuneModal';
 
 const WorldPage = () => {
   const [modal, setModal] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  console.log('world');
+
   return (
     <Container>
       {loading ? <LoadingPage /> : null}
       {modal ? <ChatModal modal={modal} setModal={(e) => setModal(e)} /> : null}
+      <FortuneModal />
       <PlayUi />
       <KeyboardControls
         map={[
@@ -54,9 +65,10 @@ const WorldPage = () => {
                 }}
               />
             }>
-            <Physics gravity={[0, -30, 0]}>
+            <Physics gravity={[0, -30, 0]} colliders={false}>
               <ChristmasTown />
               <Pet />
+              <CarolZone />
               <Player loading={loading} />
               <InfoGuy setModal={(e) => setModal(e)} />
               <YellowGuy />
@@ -73,6 +85,15 @@ const WorldPage = () => {
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
+`;
+
+const Modal = styled.div`
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  position: absolute;
+  z-index: 200;
 `;
 
 export default WorldPage;

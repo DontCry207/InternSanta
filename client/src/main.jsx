@@ -6,11 +6,11 @@ import { Theme } from './style/Theme';
 import { RecoilRoot } from 'recoil';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // <React.StrictMode>
-  <ThemeProvider theme={Theme}>
-    <RecoilRoot>
-      <App />
-    </RecoilRoot>
-  </ThemeProvider>,
-  // </React.StrictMode>,
+  <React.StrictMode>
+    <ThemeProvider theme={Theme}>
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>
+    </ThemeProvider>
+  </React.StrictMode>,
 );

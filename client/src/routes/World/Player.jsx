@@ -26,7 +26,7 @@ const Player = (props) => {
   } = useThree();
 
   const [, get] = useKeyboardControls();
-  const [location, setLocation] = useState([-15.7, 3, 21.4]);
+  const [location, setLocation] = useState([-2.52, -98, 0.17]); // 캐롤존 [-2.52, -98, 0.17]
   const [maxPolarAngle, setMaxPolarAngle] = useState(1.8);
   const { nodes, materials, animations } = useGLTF(character);
   const { actions } = useAnimations(animations, group);
@@ -102,8 +102,8 @@ const Player = (props) => {
         makeDefaults
         args={[camera, domElement]}
         target={location}
-        minDistance={1.6}
-        maxDistance={1.6}
+        minDistance={0.8}
+        maxDistance={0.8}
         minAzimuthAngle={-Math.PI * 0.25}
         maxAzimuthAngle={-Math.PI * 0.25}
         maxPolarAngle={Math.PI / maxPolarAngle}
@@ -122,7 +122,7 @@ const Player = (props) => {
         mass={1}
         type="dynamic"
         colliders={false}
-        position={[-15.7, 3, 21.4]}>
+        position={[-2.52, -98, 0.17]}>
         <CuboidCollider args={[0.3, 0.3, 0.3]} />
       </RigidBody>
     </>
