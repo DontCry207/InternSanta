@@ -3,6 +3,8 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import reindeerRed from '../../assets/images/reindeerRed.png';
 import infoGuy from '../../assets/images/infoGuy.png';
+import { useRecoilState } from 'recoil';
+import { modalState } from '../../Atom';
 
 const Images = {
   reindeerRed: reindeerRed,
@@ -25,13 +27,10 @@ const Name = {
   infoGuy: '제시카',
 };
 
-const ChatModal = (props) => {
+const ChatModal = () => {
   const [chapter, setChapter] = useState(0);
   const [num, setNum] = useState(0);
-
-  useEffect(() => {
-    console.log(props);
-  }, [props]);
+  const [modal, setModal] = useRecoilState(modalState);
 
   const getName = (e) => {
     return <p className="name">{Name[e]}</p>;
@@ -41,27 +40,31 @@ const ChatModal = (props) => {
   };
 
   return (
-    <Modal>
-      <NpcImage>
-        <img src={Images[props.modal]} alt="" />
-      </NpcImage>
-      <ChatBox>
-        {getName(props.modal)}
-        {getDialog(props.modal)}
-        <button
-          onClick={() => {
-            props.setModal(null);
-          }}>
-          닫기
-        </button>
-        <button
-          onClick={() => {
-            setNum(num + 1);
-          }}>
-          다음
-        </button>
-      </ChatBox>
-    </Modal>
+    <>
+      {modal ? (
+        <Modal>
+          <NpcImage>
+            <img src={Images[modal]} alt="" />
+          </NpcImage>
+          <ChatBox>
+            {getName(modal)}
+            {getDialog(modal)}
+            <button
+              onClick={() => {
+                setModal(null);
+              }}>
+              닫기
+            </button>
+            <button
+              onClick={() => {
+                setNum(num + 1);
+              }}>
+              다음
+            </button>
+          </ChatBox>
+        </Modal>
+      ) : null}
+    </>
   );
 };
 

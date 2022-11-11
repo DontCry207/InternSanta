@@ -22,6 +22,7 @@ const ChristmasTown = () => {
       .setTranscoderPath('../node_modules/three/examples/js/libs/basis/')
       .detectSupport(gl);
     loader.setKTX2Loader(ktxLoader);
+    ktxLoader.dispose();
   });
 
   return (

@@ -11,6 +11,8 @@ import greenGuy from '../../assets/npc/greenGuy.glb';
 import minSeo from '../../assets/npc/minSeo.glb';
 import yb from '../../assets/npc/yb.glb';
 import speech from '../../assets/speech.glb';
+import { useRecoilState } from 'recoil';
+import { modalState } from '../../Atom';
 
 const NpcLocation = {
   infoGuy: [-14.68914, 0.28, 19.2158622],
@@ -62,6 +64,7 @@ const Npc = (props) => {
   const location3 = [location1[0], location1[1] + 0.4, location1[2]];
   const [hovered, setHover] = useState(false);
   const [clicked, setClick] = useState(false);
+  const [modal, setModal] = useRecoilState(modalState);
   const buble = useLoader(GLTFLoader, speech);
 
   useEffect(() => {
@@ -70,7 +73,7 @@ const Npc = (props) => {
 
   useEffect(() => {
     if (clicked) {
-      props.setModal(props.type);
+      setModal(props.type);
       setClick(!clicked);
     }
   }, [clicked]);

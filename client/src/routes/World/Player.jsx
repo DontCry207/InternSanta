@@ -13,10 +13,13 @@ import {
   useAnimations,
   SpotLight,
 } from '@react-three/drei';
+import { useRecoilState } from 'recoil';
+import { loadingState } from '../../Atom';
 extend({ OrbitControls, MapControls });
 
-const Player = (props) => {
+const Player = () => {
   const [SPEED, setSpeed] = useState(4);
+  const [loading, setLoading] = useRecoilState(loadingState);
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();
   const sideVector = new THREE.Vector3();
@@ -32,7 +35,7 @@ const Player = (props) => {
   } = useThree();
 
   const [, get] = useKeyboardControls();
-  const [location, setLocation] = useState([-2.52, -98, 0.17]); // 캐롤존 [-2.52, -98, 0.17]
+  const [location, setLocation] = useState([-15.7, 3, 21.4]); // 캐롤존 [-2.52, -98, 0.17]
   const [maxPolarAngle, setMaxPolarAngle] = useState(1.8);
   const { nodes, materials, animations } = useGLTF(character);
   const { actions } = useAnimations(animations, group);
@@ -49,19 +52,18 @@ const Player = (props) => {
   }, []);
 
   useEffect(() => {
-    if (!props.loading) {
+    if (!loading) {
       controls.current.minAzimuthAngle = 0;
       controls.current.maxAzimuthAngle = Infinity;
-      const [x, y, z] = [...ref.current.translation()];
-      setLocation([x, y + 0.4, z]);
     }
-  }, [props]);
+  }, [loading]);
 
   useFrame((state, delta) => {
     const { forward, backward, left, right, dash, position, dance } = get();
     const velocity = ref.current.linvel();
     // update camera
     const [x, y, z] = [...ref.current.translation()];
+    setLocation([x, y + 0.4, z]);
 
     if (position) {
       console.log([x, y, z]);
@@ -77,7 +79,6 @@ const Player = (props) => {
 
     nodes.Scene.rotation.copy(camera.rotation);
     if (forward || backward || left || right) {
-      setLocation([x, y + 0.4, z]);
       actions.Idle.stop();
       light.current.target.position.set(location[0], location[1], location[2]);
       light.current.target.updateMatrixWorld();
@@ -142,8 +143,8 @@ const Player = (props) => {
         makeDefaults
         args={[camera, domElement]}
         target={location}
-        minDistance={0.8}
-        maxDistance={0.8}
+        minDistance={1.6}
+        maxDistance={1.6}
         minAzimuthAngle={-Math.PI * 0.25}
         maxAzimuthAngle={-Math.PI * 0.25}
         maxPolarAngle={Math.PI / maxPolarAngle}
@@ -163,7 +164,7 @@ const Player = (props) => {
         mass={1}
         type="dynamic"
         colliders={false}
-        position={[-2.52, -98, 0.17]}>
+        position={[-15.7, 3, 21.4]}>
         <CuboidCollider args={[0.3, 0.3, 0.3]} />
       </RigidBody>
     </>

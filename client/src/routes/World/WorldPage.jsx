@@ -1,13 +1,7 @@
 import { KeyboardControls, Sky, Stars } from '@react-three/drei';
 import { Canvas, render } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
-import React, {
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { Suspense, useState } from 'react';
 import styled from 'styled-components';
 import ChristmasTown from './ChristmasTown';
 import Player from './Player';
@@ -23,18 +17,14 @@ import Shop from './Shop';
 import BoneFire from './BoneFire';
 import CarolZone from './CarolZone';
 import FortuneModal from './FortuneModal';
+import MainLight from './MainLight';
+import DanceLight from './SpotLight';
 
 const WorldPage = () => {
-  const [modal, setModal] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [ambient, setAmbient] = useState(true);
-
-  console.log('world');
-
   return (
     <Container>
-      {loading ? <LoadingPage /> : null}
-      {modal ? <ChatModal modal={modal} setModal={(e) => setModal(e)} /> : null}
+      <LoadingPage />
+      <ChatModal />
       <FortuneModal />
       <PlayUi />
       <KeyboardControls
@@ -59,47 +49,32 @@ const WorldPage = () => {
             speed={6}
           />
           <Sky sunPosition={[-100, -100, 2800]} />
-          <ambientLight
-            intensity={ambient ? 0.5 : 0.05}
-            color={'#c8cce7'}
-            penumbra={2}
-          />
-          <pointLight
-            intensity={ambient ? 0.5 : 0.05}
-            position={[0, 10, 0]}
-            shadow={0.1}
-          />
-          <Suspense
-            fallback={
-              <LazyLoading
-                setLoading={() => {
-                  setLoading(!loading);
-                }}
-              />
-            }>
+          <MainLight />
+          <DanceLight />
+          <Suspense fallback={<LazyLoading />}>
             <Physics gravity={[0, -30, 0]} colliders={false}>
               <ChristmasTown />
-              <Player loading={loading} />
+              <Player />
               <Pet />
               <CarolZone />
               <Shop />
-              <BoneFire setAmbient={() => setAmbient(!ambient)} />
-              <Npc type={'infoGuy'} setModal={(e) => setModal(e)} />
-              <Npc type={'storeGuy'} setModal={(e) => setModal(e)} />
-              <Npc type={'trainGuy'} setModal={(e) => setModal(e)} />
-              <Npc type={'yellowGuy'} setModal={(e) => setModal(e)} />
-              <Npc type={'greenGuy'} setModal={(e) => setModal(e)} />
-              <Npc type={'minSeo'} setModal={(e) => setModal(e)} />
-              <Npc type={'yb'} setModal={(e) => setModal(e)} />
-              <ReinDeer type={'reindeer'} setModal={(e) => setModal(e)} />
-              <ReinDeer type={'reindeerRed'} setModal={(e) => setModal(e)} />
-              <ReinDeer type={'reindeerOrange'} setModal={(e) => setModal(e)} />
-              <ReinDeer type={'reindeerYellow'} setModal={(e) => setModal(e)} />
-              <ReinDeer type={'reindeerGreen'} setModal={(e) => setModal(e)} />
-              <ReinDeer type={'reindeerBlue'} setModal={(e) => setModal(e)} />
-              <ReinDeer type={'reindeerPurple'} setModal={(e) => setModal(e)} />
-              <ReinDeer type={'reindeerWhite'} setModal={(e) => setModal(e)} />
-              <ReinDeer type={'reindeerPink'} setModal={(e) => setModal(e)} />
+              <BoneFire />
+              <Npc type={'infoGuy'} />
+              <Npc type={'storeGuy'} />
+              <Npc type={'trainGuy'} />
+              <Npc type={'yellowGuy'} />
+              <Npc type={'greenGuy'} />
+              <Npc type={'minSeo'} />
+              <Npc type={'yb'} />
+              <ReinDeer type={'reindeer'} />
+              <ReinDeer type={'reindeerRed'} />
+              <ReinDeer type={'reindeerOrange'} />
+              <ReinDeer type={'reindeerYellow'} />
+              <ReinDeer type={'reindeerGreen'} />
+              <ReinDeer type={'reindeerBlue'} />
+              <ReinDeer type={'reindeerPurple'} />
+              <ReinDeer type={'reindeerWhite'} />
+              <ReinDeer type={'reindeerPink'} />
             </Physics>
           </Suspense>
         </Canvas>
@@ -111,15 +86,6 @@ const WorldPage = () => {
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-`;
-
-const Modal = styled.div`
-  background-color: black;
-  width: 100%;
-  height: 100%;
-  opacity: 0.5;
-  position: absolute;
-  z-index: 200;
 `;
 
 export default WorldPage;
