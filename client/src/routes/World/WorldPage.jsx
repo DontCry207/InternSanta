@@ -55,8 +55,7 @@ const WorldPage = () => {
             <Physics gravity={[0, -30, 0]} colliders={false}>
               <ChristmasTown />
               <Player />
-              <Pet />
-              <CarolZone />
+              {/* <CarolZone /> */}
               <Shop />
               <BoneFire />
               <Npc type={'infoGuy'} />

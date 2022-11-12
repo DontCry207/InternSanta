@@ -15,6 +15,7 @@ import {
 } from '@react-three/drei';
 import { useRecoilState } from 'recoil';
 import { loadingState } from '../../Atom';
+import Pet from './Pet';
 extend({ OrbitControls, MapControls });
 
 const Player = () => {
@@ -43,12 +44,6 @@ const Player = () => {
   useEffect(() => {
     controls.current.enableRotate = true;
     controls.current.rotateSpeed = 0.4;
-    nodes.Scene.name = 'player';
-    light.current.target.position.set(
-      -6.012689590454102,
-      0.4022400856018066,
-      1.0203404426574707,
-    );
   }, []);
 
   useEffect(() => {
@@ -80,8 +75,6 @@ const Player = () => {
     nodes.Scene.rotation.copy(camera.rotation);
     if (forward || backward || left || right) {
       actions.Idle.stop();
-      light.current.target.position.set(location[0], location[1], location[2]);
-      light.current.target.updateMatrixWorld();
       if (dash) {
         setSpeed(8);
         actions.Run.play().setEffectiveTimeScale(2.6);
@@ -128,16 +121,6 @@ const Player = () => {
 
   return (
     <>
-      <SpotLight
-        ref={light}
-        position={[location[0], location[1] + 2, location[2]]}
-        distance={4}
-        angle={0.15}
-        attenuation={2}
-        anglePower={3}
-        color={'white'}
-        visible={false}
-      />
       <orbitControls
         ref={controls}
         makeDefaults
@@ -167,10 +150,9 @@ const Player = () => {
         position={[-15.7, 3, 21.4]}>
         <CuboidCollider args={[0.3, 0.3, 0.3]} />
       </RigidBody>
+      <Pet location={location} />
     </>
   );
 };
-
-useGLTF.preload(character);
 
 export default Player;
