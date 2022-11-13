@@ -7,7 +7,7 @@ import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 
 const Shop = () => {
-  const { camera, gl, scene } = useThree();
+  const { gl } = useThree();
   const ktxLoader = new KTX2Loader();
   const shopGltf = useLoader(GLTFLoader, ShopModel, (loader) => {
     const dracoLoader = new DRACOLoader();
@@ -32,11 +32,11 @@ const Shop = () => {
         scale={[0.7, 0.7, 0.7]}
         position={[-12.43786334991455, 0.21, 4.422557353973389]}
       />
-      <RigidBody type="fixed" colliders={'trimesh'}>
+      <RigidBody type="fixed" colliders={'hull'}>
         <mesh
-          position={[-12.43786334991455, 1.21, 4.422557353973389]}
+          position={[-12.43786334991455, 0.51, 4.422557353973389]}
           rotation={[0, 0.37 * Math.PI, 0]}>
-          <boxGeometry args={[2, 2, 2]} />
+          <boxGeometry args={[2, 0.8, 2]} />
           <meshStandardMaterial
             color={(0, 0, 0, 0)}
             opacity={0}

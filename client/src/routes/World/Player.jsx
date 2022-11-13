@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useThree, useFrame, extend } from '@react-three/fiber';
 import character from '../../assets/character.glb';
 import { RigidBody, CuboidCollider } from '@react-three/rapier';
@@ -7,19 +7,12 @@ import {
   MapControls,
 } from 'three/examples/jsm/controls/OrbitControls';
 import * as THREE from 'three';
-import {
-  useKeyboardControls,
-  useGLTF,
-  useAnimations,
-  SpotLight,
-} from '@react-three/drei';
+import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
 import { useRecoilState } from 'recoil';
 import { loadingState } from '../../Atom';
-import Pet from './Pet';
 extend({ OrbitControls, MapControls });
 
 const Player = () => {
-  const [SPEED, setSpeed] = useState(4);
   const [loading, setLoading] = useRecoilState(loadingState);
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();
@@ -27,7 +20,6 @@ const Player = () => {
   const ref = useRef();
   const controls = useRef();
   const group = useRef();
-  const light = useRef();
 
   const {
     camera,
@@ -36,14 +28,13 @@ const Player = () => {
   } = useThree();
 
   const [, get] = useKeyboardControls();
-  const [location, setLocation] = useState([-15.7, 3, 21.4]); // 캐롤존 [-2.52, -98, 0.17]
-  const [maxPolarAngle, setMaxPolarAngle] = useState(1.8);
-  const { nodes, materials, animations } = useGLTF(character);
+  const { nodes, animations } = useGLTF(character);
   const { actions } = useAnimations(animations, group);
 
   useEffect(() => {
     controls.current.enableRotate = true;
     controls.current.rotateSpeed = 0.4;
+    nodes.Scene.name = 'player';
   }, []);
 
   useEffect(() => {
@@ -54,11 +45,11 @@ const Player = () => {
   }, [loading]);
 
   useFrame((state, delta) => {
+    let SPEED = 4;
     const { forward, backward, left, right, dash, position, dance } = get();
     const velocity = ref.current.linvel();
-    // update camera
     const [x, y, z] = [...ref.current.translation()];
-    setLocation([x, y + 0.4, z]);
+    nodes.Scene.rotation.copy(camera.rotation);
 
     if (position) {
       console.log([x, y, z]);
@@ -72,23 +63,24 @@ const Player = () => {
       actions.Idle.play().setEffectiveTimeScale(2);
     }
 
-    nodes.Scene.rotation.copy(camera.rotation);
     if (forward || backward || left || right) {
       actions.Idle.stop();
       if (dash) {
-        setSpeed(8);
+        SPEED = 8;
         actions.Run.play().setEffectiveTimeScale(2.6);
       } else {
-        setSpeed(4);
+        SPEED = 4;
         actions.Run.play().setEffectiveTimeScale(1.3);
       }
-      if (maxPolarAngle < 2.45) {
-        setMaxPolarAngle(maxPolarAngle + 0.1);
+      if (controls.current.maxPolarAngle > Math.PI * 0.42) {
+        controls.current.maxPolarAngle -= Math.PI * 0.02;
+      } else {
+        controls.current.maxPolarAngle = Math.PI * 0.42;
       }
     } else {
       actions.Run.stop();
       actions.Idle.play().setEffectiveTimeScale(2);
-      setMaxPolarAngle(1.7);
+      controls.current.maxPolarAngle = Math.PI * 0.65;
     }
 
     if (forward && left) {
@@ -107,7 +99,6 @@ const Player = () => {
       nodes.Scene.rotateY(Math.PI);
     }
 
-    controls.current.update();
     // movement
     frontVector.set(0, 0, backward - forward);
     sideVector.set(left - right, 0, 0);
@@ -117,6 +108,9 @@ const Player = () => {
       .multiplyScalar(SPEED)
       .applyEuler(camera.rotation);
     ref.current.setLinvel({ x: direction.x, y: velocity.y, z: direction.z });
+    group.current.position.set(x, y - 0.3, z);
+    controls.current.target.set(x, y + 0.6, z);
+    controls.current.update();
   });
 
   return (
@@ -125,23 +119,16 @@ const Player = () => {
         ref={controls}
         makeDefaults
         args={[camera, domElement]}
-        target={location}
         minDistance={1.6}
         maxDistance={1.6}
         minAzimuthAngle={-Math.PI * 0.25}
         maxAzimuthAngle={-Math.PI * 0.25}
-        maxPolarAngle={Math.PI / maxPolarAngle}
-        minPolarAngle={Math.PI / 2.45}
+        maxPolarAngle={Math.PI * 0.42}
+        minPolarAngle={Math.PI * 0.42}
         enableRotate={false}
         enablePan={false}
       />
-      <primitive
-        ref={group}
-        object={nodes.Scene}
-        receiveShadow
-        position={[location[0], location[1] - 0.7, location[2]]}
-        scale={(0.55, 0.55, 0.55)}
-      />
+      <primitive ref={group} object={nodes.Scene} scale={(0.6, 0.6, 0.6)} />
       <RigidBody
         ref={ref}
         mass={1}
@@ -150,7 +137,6 @@ const Player = () => {
         position={[-15.7, 3, 21.4]}>
         <CuboidCollider args={[0.3, 0.3, 0.3]} />
       </RigidBody>
-      <Pet location={location} />
     </>
   );
 };
