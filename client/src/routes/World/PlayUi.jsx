@@ -10,7 +10,13 @@ import { userInfoState } from '../../Atom';
 const PlayUi = () => {
   const [prog, setProg] = useState(false);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-
+  const {
+    memberChapter,
+    memberCheckpoint,
+    memberCoin,
+    memberNickname,
+    memberTicket,
+  } = userInfo;
   console.log(userInfo);
 
   return (

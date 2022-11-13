@@ -8,11 +8,13 @@ import {
 } from 'three/examples/jsm/controls/OrbitControls';
 import * as THREE from 'three';
 import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
-import { useRecoilState } from 'recoil';
-import { loadingState } from '../../Atom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { loadingState, userInfoState } from '../../Atom';
 extend({ OrbitControls, MapControls });
 
 const Player = () => {
+  const userInfo = useRecoilValue(userInfoState);
+  const { memberTop } = userInfo;
   const [loading, setLoading] = useRecoilState(loadingState);
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();

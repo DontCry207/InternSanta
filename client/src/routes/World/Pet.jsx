@@ -3,6 +3,8 @@ import { useThree, useFrame } from '@react-three/fiber';
 import PetGltf from '../../assets/pet/Tortoise.gltf';
 import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
 import { useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../Atom';
 
 const Pet = () => {
   const { scene } = useThree();
@@ -13,6 +15,8 @@ const Pet = () => {
   const { actions } = useAnimations(animations, group);
   const player = scene.children[playerIdx];
   nodes.Rig.scale.setZ(-0.1);
+  const userInfo = useRecoilValue(userInfoState);
+  const { memberPet } = userInfo;
 
   useEffect(() => {
     const result = scene.children.findIndex((data) => {

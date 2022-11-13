@@ -20,7 +20,7 @@ const Moon = () => {
   }, [hovered]);
 
   useEffect(() => {
-    logo.nodes.Scene.lookAt(-8.671, 0.631, 4.4962);
+    logo.nodes.Scene.lookAt(-6.59, 0.484, 3.92);
   }, [ambient]);
 
   const click = (e) => {
@@ -35,7 +35,7 @@ const Moon = () => {
       />
       <primitive
         object={logo.nodes.Scene}
-        position={ambient ? [0, -10, 0] : [92, 66, 22]}
+        position={ambient ? [0, -10, 0] : [92, 70, 22]}
       />
       <mesh
         position={[80, 90, 130]}
