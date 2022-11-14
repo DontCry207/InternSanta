@@ -2,18 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a7dbab29-ae17-4f55-8b23-2b7e9db25258" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/response/MemberLoginRes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/response/MemberTokenRes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algo/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/algo/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algo/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/algo/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algo/clothes/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/algo/clothes/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/controller/MemberController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/request/MemberRegistReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/request/MemberRegistReq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/response/MemberInfoRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/response/MemberInfoRes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/service/MemberService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/service/MemberServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/service/MemberServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/db/entity/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/db/entity/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/config/WebMvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/config/WebMvcConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +71,7 @@
       <workItem from="1667781884288" duration="12000" />
       <workItem from="1667781911991" duration="163000" />
       <workItem from="1667795006218" duration="46000" />
+      <workItem from="1668402032104" duration="169000" />
     </task>
     <servers />
   </component>
