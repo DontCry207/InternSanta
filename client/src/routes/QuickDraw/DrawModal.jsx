@@ -108,7 +108,9 @@ const DrawModal = (props) => {
               <div className="success">{drawing[chap]}</div>
             </Success>
             <Button>
-              <button onClick={() => complete()}>종료하기</button>
+              <button className="complete" onClick={() => complete()}>
+                종료하기
+              </button>
             </Button>
           </>
         )
@@ -237,7 +239,8 @@ const Button = styled.div`
     box-shadow: 1px 1px 3px 1px gray;
     color: white;
   }
-  .drawBtn {
+  .complete {
+    color: gray;
   }
   .submitBtn {
     background-color: orange;

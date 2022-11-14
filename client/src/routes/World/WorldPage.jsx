@@ -93,8 +93,8 @@ const WorldPage = () => {
               <ReinDeer type={'reindeerPink'} />
               {/*  */}
               <Npc3 setAnimalPet={setAnimalPet} />
-              <Npc2 setQuickDraw={setQuickDraw} />
-              {/* <Npc2 setMiniDraw={setMiniDraw} /> */}
+              {/* <Npc2 setQuickDraw={setQuickDraw} /> */}
+              <Npc2 setMiniDraw={setMiniDraw} />
               {/*  */}
             </Physics>
           </Suspense>

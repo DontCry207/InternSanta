@@ -19,8 +19,8 @@ const Npc2 = (props) => {
   }, []);
 
   async function Npc2Touch() {
-    props.setQuickDraw(true);
-    // props.setMiniDraw(true);
+    // props.setQuickDraw(true);
+    props.setMiniDraw(true);
   }
 
   return (

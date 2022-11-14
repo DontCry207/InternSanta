@@ -4,6 +4,7 @@ import Webcam from 'react-webcam';
 import * as tmImage from '@teachablemachine/image';
 import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
+import Animal_Pet from '../../assets/images/Animal_Pet.png';
 import MainModal from '../Common/MainModal';
 
 const AnimalModal = (props) => {
@@ -99,6 +100,11 @@ const AnimalModal = (props) => {
             나와 닮은 펫을 받아봅시다!
           </div>
         </Title>
+        <Image>
+          <div>
+            <img src={Animal_Pet} />
+          </div>
+        </Image>
         <Button>
           <div>
             <button onClick={go}>분석하기</button>
@@ -209,6 +215,10 @@ const Title = styled.div`
   .resultReady {
     margin-top: 27%;
     font-size: 60px;
+  }
+`;
+const Image = styled.div`
+  margin-top: 130px;
   }
 `;
 const Camera = styled.div`

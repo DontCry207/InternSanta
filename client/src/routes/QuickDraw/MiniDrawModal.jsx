@@ -298,16 +298,12 @@ const Button = styled.div`
     background-color: #60c783;
   }
   .reTryBtn {
+    left: 40%;
     background-color: #de6363;
   }
   .run {
-    top: 66%;
-    left: 80%;
-    width: 80px;
-    height: 40px;
-    border-radius: 5px;
+    left: 60%;
     background-color: black;
-    font-size: 20px;
   }
 `;
 export default MiniDrawModal;
