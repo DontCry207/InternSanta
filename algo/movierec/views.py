@@ -56,9 +56,17 @@ def recommend(request):
   for i in movie_indices:
     movie = {}
     
-    movie["title"] = CONST_MOVIES["title"][i]
+    if CONST_MOVIES["title_kr"][i] :
+      movie["title"] = CONST_MOVIES["title_kr"][i]
+    else:
+      movie["title"] = CONST_MOVIES["title"][i]
+
+    if CONST_MOVIES["overview_kr"][i]:
+      movie["overview"] = CONST_MOVIES["overview_kr"][i]
+    else:
+      movie["overview"] = CONST_MOVIES["overview"][i]
+
     movie["poster_path"] = CONST_MOVIES["poster_path"][i]
-    movie["overview"] = CONST_MOVIES["overview"][i]
     movie["release_date"] = CONST_MOVIES["release_date"][i]
     
     result.append(movie)
