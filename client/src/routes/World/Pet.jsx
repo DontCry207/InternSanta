@@ -20,7 +20,9 @@ const Pet = () => {
     async (loader) => {
       await loader.setMeshoptDecoder(MeshoptDecoder);
       ktxLoader
-        .setTranscoderPath('/node_modules/three/examples/js/libs/basis/')
+        .setTranscoderPath(
+          `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
+        )
         .detectSupport(gl);
       await loader.setKTX2Loader(ktxLoader);
       ktxLoader.dispose();
