@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLoader, useThree } from '@react-three/fiber';
-import ShopModel from '../../assets/Shop.glb';
+import ShopModel from '../../assets/shop.glb';
 import { RigidBody } from '@react-three/rapier';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
