@@ -14,6 +14,20 @@ class MovieInit(AppConfig):
   CONST_MOVIES = pickle.load(open('movies.pickle', 'rb'))
   CONST_COSINE_SIM = pickle.load(open('cosine_sim.pickle', 'rb'))
 
+@api_view(["GET"])
+def getMovieList(request):
+  global CONST_MOVIES
+
+  result = []
+  for i in range(len(CONST_MOVIES)):
+    movie_res = {}
+    
+    movie_res["title"] = CONST_MOVIES["title"][i]
+    movie_res["poster_path"] = CONST_MOVIES["poster_path"][i]
+    
+    result.append(movie_res)
+    
+  return Response(result, status=status.HTTP_200_OK)
 
 @api_view(["GET"])
 def recommend(request):
