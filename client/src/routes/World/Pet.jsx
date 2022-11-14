@@ -17,7 +17,7 @@ const Pet = () => {
   const { nodes, animations } = useLoader(GLTFLoader, PetGltf, (loader) => {
     loader.setMeshoptDecoder(MeshoptDecoder);
     ktxLoader
-      .setTranscoderPath('../node_modules/three/examples/js/libs/basis/')
+      .setTranscoderPath('/node_modules/three/examples/js/libs/basis/')
       .detectSupport(gl);
     loader.setKTX2Loader(ktxLoader);
     ktxLoader.dispose();
