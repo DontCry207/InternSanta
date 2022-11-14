@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import MainModal from '../Common/MainModal';
 import QuickDraw from './QuickDraw';
@@ -9,7 +8,7 @@ import { useRecoilState } from 'recoil';
 import { userInfoState } from '../../Atom';
 
 const DrawModal = (props) => {
-  const { closeBtnControl } = props;
+  const { closeBtnControl, quickDraw } = props;
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [page, setPage] = useState(1); // 페이지 넘기기 변수
   const [chap, setChap] = useState(1); // 챕터 변수
@@ -34,6 +33,9 @@ const DrawModal = (props) => {
       setLoading(true);
       setChap(4);
     }
+  }
+  async function complete() {
+    props.setQuickDraw(false);
   }
   useEffect(() => {
     if (!loading) {
@@ -87,7 +89,6 @@ const DrawModal = (props) => {
                         vector: drawVector,
                       })
                       .then((res) => {
-                        // console.log(userInfo.memberCheckpoint);
                         setLab(res.data.draw);
                         setCorrect(res.data.result);
                       })
@@ -102,9 +103,14 @@ const DrawModal = (props) => {
             </div>
           </Button>
         ) : (
-          <Success>
-            <div className="success">{drawing[chap]}</div>
-          </Success>
+          <>
+            <Success>
+              <div className="success">{drawing[chap]}</div>
+            </Success>
+            <Button>
+              <button onClick={() => complete()}>종료하기</button>
+            </Button>
+          </>
         )
       ) : correct ? (
         <>
@@ -119,13 +125,13 @@ const DrawModal = (props) => {
             <div>
               <button
                 onClick={() => {
-                  setTimeout(chapter, 0);
                   drawReload
                     .then(() => {
                       setLoading(true);
                     })
                     .then(() => {
                       setLoading(false);
+                      chapter();
                     })
                     .then(() => {
                       setPage(1);

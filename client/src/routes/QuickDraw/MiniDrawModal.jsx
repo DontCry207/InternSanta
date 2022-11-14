@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import MainModal from '../Common/MainModal';
 import QuickDraw from './QuickDraw';
@@ -43,6 +42,9 @@ const MiniDrawModal = (props) => {
       setLoading(true);
       setCount(6);
     }
+  }
+  async function complete() {
+    props.setMiniDraw(false);
   }
   useEffect(() => {
     if (!loading) {
@@ -121,10 +123,15 @@ const MiniDrawModal = (props) => {
             </div>
           </Button>
         ) : (
-          <Success>
-            <div className="success">5연속 정답!! 축하해요!!</div>
-            <div className="coin">50코인 획득!!</div>
-          </Success>
+          <>
+            <Success>
+              <div className="success">5연속 정답!! 축하해요!!</div>
+              <div className="coin">50코인 획득!!</div>
+            </Success>
+            <Button>
+              <button onClick={() => complete()}>종료하기</button>
+            </Button>
+          </>
         )
       ) : correct ? (
         <>
@@ -143,13 +150,13 @@ const MiniDrawModal = (props) => {
             <div>
               <button
                 onClick={() => {
-                  setTimeout(relay, 0);
                   drawReload
                     .then(() => {
                       setLoading(true);
                     })
                     .then(() => {
                       setLoading(false);
+                      relay();
                     })
                     .then(() => {
                       setNotDraw(false);
@@ -167,9 +174,11 @@ const MiniDrawModal = (props) => {
           <Answer>
             <div>이건 {lab}이네요…</div>
           </Answer>
-          <div>
-            총 {count - 1} 문제 정답!! {coin[count - 1]} 코인 획득!!
-          </div>
+          <Result>
+            <div>
+              총 {count - 1} 문제 정답!! {coin[count - 1]} 코인 획득!!
+            </div>
+          </Result>
           <Button>
             <div>
               <button
@@ -189,6 +198,13 @@ const MiniDrawModal = (props) => {
                 }}
                 className="reTryBtn">
                 재도전!!
+              </button>
+            </div>
+          </Button>
+          <Button>
+            <div>
+              <button className="run" onClick={() => complete()}>
+                종료하기
               </button>
             </div>
           </Button>
@@ -257,6 +273,11 @@ const Answer = styled.div`
   vertical-align: middle;
   font-size: 30px;
 `;
+const Result = styled.div`
+  top: 83%;
+  position: absolute;
+  font-size: 20px;
+`;
 const Button = styled.div`
   button {
     position: absolute;
@@ -278,6 +299,15 @@ const Button = styled.div`
   }
   .reTryBtn {
     background-color: #de6363;
+  }
+  .run {
+    top: 66%;
+    left: 80%;
+    width: 80px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: black;
+    font-size: 20px;
   }
 `;
 export default MiniDrawModal;

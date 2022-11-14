@@ -85,7 +85,9 @@ const AnimalModal = (props) => {
     setPage(1);
     setOnOff(true);
   };
-
+  async function complete() {
+    props.setAnimalPet(false);
+  }
   if (page == 1)
     return (
       <MainModal bgColor="#639bb2" closeBtnControl={closeBtnControl}>
@@ -175,6 +177,7 @@ const AnimalModal = (props) => {
                       memberPet: animalKey,
                     })
                     .then((res) => {
+                      complete();
                       console.log(res);
                     });
                 }

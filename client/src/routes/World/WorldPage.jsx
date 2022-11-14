@@ -93,8 +93,8 @@ const WorldPage = () => {
               <ReinDeer type={'reindeerPink'} />
               {/*  */}
               <Npc3 setAnimalPet={setAnimalPet} />
-              {/* <Npc2 setQuickDraw={setQuickDraw} /> */}
-              <Npc2 setQuickDraw={setMiniDraw} />
+              <Npc2 setQuickDraw={setQuickDraw} />
+              {/* <Npc2 setMiniDraw={setMiniDraw} /> */}
               {/*  */}
             </Physics>
           </Suspense>
@@ -102,12 +102,20 @@ const WorldPage = () => {
       </KeyboardControls>
       {/*  */}
       {miniDraw == false ? null : (
-        <MiniDrawModal closeBtnControl={setMiniDraw} />
+        <MiniDrawModal
+          closeBtnControl={setMiniDraw}
+          setMiniDraw={setMiniDraw}
+        />
       )}
       {animalPet == false ? null : (
-        <AnimalModal closeBtnControl={setAnimalPet} />
+        <AnimalModal
+          closeBtnControl={setAnimalPet}
+          setAnimalPet={setAnimalPet}
+        />
       )}
-      {quickDraw == false ? null : <DrawModal closeBtnControl={setQuickDraw} />}
+      {quickDraw == false ? null : (
+        <DrawModal closeBtnControl={setQuickDraw} setQuickDraw={setQuickDraw} />
+      )}
       {/*  */}
     </Container>
   );
