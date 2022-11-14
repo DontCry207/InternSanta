@@ -23,5 +23,5 @@ public interface MemberService {
     Member getMemberByEmailAndPwd(String memberEmail, String memberPwd);
 
     Map<String, String> modifyRefreshToken(String refreshToken);
-    String updateMemberTop(List<MultipartFile> memberTopList, Member member) throws IOException;
+    String updateMemberTop(String clothesFront, String clothesBack, Member member) throws IOException;
 }
