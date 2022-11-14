@@ -5,7 +5,6 @@ import React, { Suspense } from 'react';
 import styled from 'styled-components';
 import ChristmasTown from './ChristmasTown';
 import Player from './Player';
-import Pet from './Pet';
 import ReinDeer from './ReinDeer';
 import Snow from './Snow';
 import ChatModal from './ChatModal';
@@ -15,12 +14,13 @@ import LoadingPage from './LoadingPage';
 import Npc from './Npc';
 import Shop from './Shop';
 import BoneFire from './BoneFire';
-import CarolZone from './CarolZone';
 import FortuneModal from './FortuneModal';
 import MainLight from './MainLight';
 import DanceLight from './SpotLight';
 import Moon from './Moon';
 import BubbleModal from './BubbleModal';
+import CarolZone from './CarolZone';
+import Pet from './Pet';
 
 const WorldPage = () => {
   return (

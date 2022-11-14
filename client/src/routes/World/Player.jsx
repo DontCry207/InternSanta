@@ -51,24 +51,19 @@ const Player = () => {
     const { forward, backward, left, right, dash, position, dance } = get();
     const velocity = ref.current.linvel();
     const [x, y, z] = [...ref.current.translation()];
-    nodes.Scene.rotation.copy(camera.rotation);
+
+    if (!dance) {
+      nodes.Scene.rotation.copy(camera.rotation);
+    }
 
     if (position) {
       console.log([x, y, z]);
     }
 
-    if (dance) {
-      actions.Idle.stop();
-      actions['Song Jump'].play().setEffectiveTimeScale(1.3);
-    } else {
-      actions['Song Jump'].stop();
-      actions.Idle.play().setEffectiveTimeScale(2);
-    }
-
     if (forward || backward || left || right) {
       actions.Idle.stop();
       if (dash) {
-        SPEED = 8;
+        SPEED = 6;
         actions.Run.play().setEffectiveTimeScale(2.6);
       } else {
         SPEED = 4;
@@ -79,8 +74,12 @@ const Player = () => {
       } else {
         controls.current.maxPolarAngle = Math.PI * 0.42;
       }
+    } else if (dance) {
+      actions.Idle.stop();
+      actions['Song Jump'].play().setEffectiveTimeScale(1.3);
     } else {
       actions.Run.stop();
+      actions['Song Jump'].stop();
       actions.Idle.play().setEffectiveTimeScale(2);
       controls.current.maxPolarAngle = Math.PI * 0.65;
     }

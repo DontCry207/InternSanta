@@ -14,6 +14,7 @@ const Images = {
 };
 
 const Dialog = {
+  null: ['초기값'],
   reindeerRed: [
     '안녕 너가 새로온 인턴이구나? 나는 인사팀장 루돌프야.',
     '산타 정직원이 되기 위해 너는 순록 여덟 마리를 설득해서 너랑 같이 일할 수 있게 해야 해.',
@@ -155,16 +156,16 @@ const Buttons = styled.div`
 `;
 
 const CloseBtn = styled.div`
-  width: 12%;
+  width: 15%;
   height: 100%;
-  border-radius: 20px;
+  border-radius: 30px;
   background-color: #60c783;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   color: white;
-  font-size: 20px;
+  font-size: 26px;
   cursor: pointer;
 `;
 

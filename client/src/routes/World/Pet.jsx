@@ -1,16 +1,28 @@
 import { useRef, useState } from 'react';
-import { useThree, useFrame } from '@react-three/fiber';
-import PetGltf from '../../assets/pet/Tortoise.gltf';
+import { useThree, useFrame, useLoader } from '@react-three/fiber';
+import PetGltf from '../../assets/pet/Tortoise.glb';
+import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
 import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../Atom';
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 const Pet = () => {
-  const { scene } = useThree();
+  const { scene, gl } = useThree();
   const group = useRef();
+  const ktxLoader = new KTX2Loader();
   const [, get] = useKeyboardControls();
-  const { nodes, animations } = useGLTF(PetGltf);
+  const { nodes, animations } = useLoader(GLTFLoader, PetGltf, (loader) => {
+    loader.setMeshoptDecoder(MeshoptDecoder);
+    ktxLoader
+      .setTranscoderPath('../node_modules/three/examples/js/libs/basis/')
+      .detectSupport(gl);
+    loader.setKTX2Loader(ktxLoader);
+    ktxLoader.dispose();
+  });
+
   const [playerIdx, setPlayerIdx] = useState(0);
   const { actions } = useAnimations(animations, group);
   const player = scene.children[playerIdx];
@@ -27,8 +39,10 @@ const Pet = () => {
   }, []);
 
   useFrame((state, delta) => {
-    const { forward, backward, left, right } = get();
-    group.current.rotation.copy(player.rotation);
+    const { forward, backward, left, right, dash, dance } = get();
+    if (!dance) {
+      group.current.rotation.copy(player.rotation);
+    }
     group.current.position.set(
       player.position.x,
       player.position.y - 0.02,
@@ -38,9 +52,20 @@ const Pet = () => {
     if (forward || backward || left || right) {
       // Walk, Run , Roll
       actions.Sit.stop();
-      actions.Walk.play().setEffectiveTimeScale(0.9);
+      if (dash) {
+        actions.Run.stop();
+        actions.Roll.play().setEffectiveTimeScale(0.6);
+      } else {
+        actions.Roll.stop();
+        actions.Run.play().setEffectiveTimeScale(1);
+      }
+    } else if (dance) {
+      actions.Sit.stop();
+      actions.Spin.play().setEffectiveTimeScale(0.7);
     } else {
-      actions.Walk.stop();
+      actions.Roll.stop();
+      actions.Spin.stop();
+      actions.Run.stop();
       actions.Sit.play().setEffectiveTimeScale(1);
     }
   });

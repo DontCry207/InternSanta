@@ -8,7 +8,7 @@ const LazyLoading = () => {
     return () => {
       setTimeout(() => {
         setLoading(false);
-      }, 500);
+      }, 200);
     };
   }, []);
 

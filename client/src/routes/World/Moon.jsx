@@ -31,11 +31,11 @@ const Moon = () => {
     <>
       <primitive
         object={nodes.Scene}
-        position={ambient ? [0, -10, 0] : [82, 93, 112]}
+        position={ambient ? [0, -20, 0] : [82, 93, 112]}
       />
       <primitive
         object={logo.nodes.Scene}
-        position={ambient ? [0, -10, 0] : [92, 70, 22]}
+        position={ambient ? [0, -20, 0] : [92, 70, 22]}
       />
       <mesh
         position={[80, 90, 130]}
