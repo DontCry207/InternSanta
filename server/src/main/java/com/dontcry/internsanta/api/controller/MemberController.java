@@ -15,6 +15,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
@@ -103,10 +104,10 @@ public class MemberController {
         return ResponseEntity.status(200).body(MemberProgressRes.of(updateMember));
     }
 
-    @PatchMapping("/top")
-    public ResponseEntity<MemberTopRes> updateMemberTop(@RequestBody List<MultipartFile> memberTopList, @ApiIgnore Authentication authentication) throws IOException {
+    @PostMapping("/top")
+    public ResponseEntity<MemberTopRes> updateMemberTop(@RequestParam(value = "clothesFront") String clothesFront, @RequestParam(value = "clothesBack") String clothesBack, @ApiIgnore Authentication authentication) throws IOException {
         Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
-        String memberTopUrl = memberService.updateMemberTop(memberTopList, member);
+        String memberTopUrl = memberService.updateMemberTop(clothesFront, clothesBack, member);
             return ResponseEntity.status(200).body(MemberTopRes.of(memberTopUrl));
     }
 
