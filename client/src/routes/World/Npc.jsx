@@ -12,7 +12,7 @@ import {
 } from '../../utils/constants/constants';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { useLoader, useThree } from '@react-three/fiber';
-import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module';
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 
 const Npc = (props) => {
   const { scene, gl } = useThree();
@@ -21,12 +21,12 @@ const Npc = (props) => {
   const { nodes, animations } = useLoader(
     GLTFLoader,
     NpcModel[props.type],
-    (loader) => {
-      loader.setMeshoptDecoder(MeshoptDecoder);
+    async (loader) => {
+      await loader.setMeshoptDecoder(MeshoptDecoder);
       ktxLoader
         .setTranscoderPath('/node_modules/three/examples/js/libs/basis/')
         .detectSupport(gl);
-      loader.setKTX2Loader(ktxLoader);
+      await loader.setKTX2Loader(ktxLoader);
       ktxLoader.dispose();
     },
   );

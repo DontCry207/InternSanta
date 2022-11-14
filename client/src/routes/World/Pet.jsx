@@ -14,14 +14,18 @@ const Pet = () => {
   const group = useRef();
   const ktxLoader = new KTX2Loader();
   const [, get] = useKeyboardControls();
-  const { nodes, animations } = useLoader(GLTFLoader, PetGltf, (loader) => {
-    loader.setMeshoptDecoder(MeshoptDecoder);
-    ktxLoader
-      .setTranscoderPath('/node_modules/three/examples/js/libs/basis/')
-      .detectSupport(gl);
-    loader.setKTX2Loader(ktxLoader);
-    ktxLoader.dispose();
-  });
+  const { nodes, animations } = useLoader(
+    GLTFLoader,
+    PetGltf,
+    async (loader) => {
+      await loader.setMeshoptDecoder(MeshoptDecoder);
+      ktxLoader
+        .setTranscoderPath('/node_modules/three/examples/js/libs/basis/')
+        .detectSupport(gl);
+      await loader.setKTX2Loader(ktxLoader);
+      ktxLoader.dispose();
+    },
+  );
 
   const [playerIdx, setPlayerIdx] = useState(0);
   const { actions } = useAnimations(animations, group);

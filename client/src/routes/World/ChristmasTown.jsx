@@ -8,20 +8,19 @@ import { RigidBody } from '@react-three/rapier';
 
 const ChristmasTown = () => {
   const ktxLoader = new KTX2Loader();
+  const dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath(
+    '/node_modules/three/examples/js/libs/draco/gltf/',
+  );
+  dracoLoader.setDecoderConfig({ type: 'js' });
   const { gl } = useThree();
 
-  const gltf = useLoader(GLTFLoader, Town, (loader) => {
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath(
-      '/node_modules/three/examples/js/libs/draco/gltf/',
-    );
-    dracoLoader.setDecoderConfig({ type: 'js' });
-    loader.setDRACOLoader(dracoLoader);
-
+  const gltf = useLoader(GLTFLoader, Town, async (loader) => {
+    await loader.setDRACOLoader(dracoLoader);
     ktxLoader
       .setTranscoderPath('/node_modules/three/examples/js/libs/basis/')
       .detectSupport(gl);
-    loader.setKTX2Loader(ktxLoader);
+    await loader.setKTX2Loader(ktxLoader);
     ktxLoader.dispose();
   });
 
