@@ -167,36 +167,22 @@ public class MemberServiceImpl implements MemberService {
 
 
     @Override
-    public String updateMemberTop(List<MultipartFile> memberTopList, Member member) throws IOException {
-        if (memberTopList.size() != 2) {
+    public String updateMemberTop(String clothesFront, String clothesBack, Member member) throws IOException {
+        if (clothesFront.isEmpty() || clothesBack.isEmpty()) {
             throw new MemberTopUpdateException("이미지 파일의 개수가 2개가 아닙니다.", ErrorCode.MEMBER_TOP_IMAGE_ERROR);
         }
         Long memberId = member.getMemberId();
-        // MultipartFIle -> ByteArray 변환
-        ByteArrayResource frontImg = new ByteArrayResource(memberTopList.get(0).getBytes()) {
-            // 기존 ByteArrayResource의 getFilename 메서드 override
-            @Override
-            public String getFilename() {
-                return "front" + memberId + ".jpg";
-            }
-        };
-        ByteArrayResource backImg = new ByteArrayResource(memberTopList.get(1).getBytes()) {
-            // 기존 ByteArrayResource의 getFilename 메서드 override
-            @Override
-            public String getFilename() {
-                return "back" + memberId + ".jpg";
-            }
-        };
         // Header MediaType 설정
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("front", frontImg);
-        body.add("back", backImg);
+        body.add("front", clothesFront);
+        body.add("back", clothesBack);
         body.add("member", memberId);
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+//        String url = "http://localhost:8000/api/v2/cloth/top/";
         String url = "https://k7a207.p.ssafy.io/api/v2/cloth/top/";
         // 2. RestTemplate 객체를 생성합니다.
         RestTemplate restTemplate = new RestTemplate();
