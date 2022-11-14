@@ -11,6 +11,7 @@ import com.dontcry.internsanta.db.repository.SealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,22 +21,35 @@ public class MemberSealServiceImpl implements MemberSealService {
     SealRepository sealRepository;
     @Autowired
     MemberSealRepository memberSealRepository;
-
     @Autowired
     MemberRepository memberRepository;
 
     @Override
-    public void updateSeal(MemberSeal memberSeal, Seal seal) {
-        List<Integer> seals = memberSeal.getMemberSeals();
-        int idx = (int) (seal.getSealId() - 1);
-        seals.set(idx,seals.get(idx)+1);
+    public void updateSeal(MemberSeal memberSeal, List<Seal> seals) {
+        List<Integer> memberSeals = memberSeal.getMemberSeals();
+        for(Seal seal: seals) {
+            int idx = (int) (seal.getSealId() - 1);
+            memberSeals.set(idx,memberSeals.get(idx)+1);
+        }
         memberSealRepository.save(memberSeal);
     }
 
     @Override
-    public Seal getSeal() {
-        return sealRepository.findRandomSeal();
+    public List<Seal> getSeals(int count) {
+        List<Seal> sealInfo = sealRepository.findAll();
+        List<Seal> seals = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            int sealId = (int) (Math.random() * 12 + 1);
+            Seal seal = Seal.builder()
+                    .sealId(sealInfo.get(sealId - 1).getSealId())
+                    .sealName(sealInfo.get(sealId - 1).getSealName())
+                    .sealUrl(sealInfo.get(sealId - 1).getSealUrl())
+                    .build();
+            seals.add(seal);
+        }
+        return seals;
     }
+
 
     @Override
     public List<Seal> getAllSealList() {
