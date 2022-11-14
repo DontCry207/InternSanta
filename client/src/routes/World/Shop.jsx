@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLoader, useThree } from '@react-three/fiber';
 import ShopModel from '../../assets/shop.glb';
+import * as THREE from 'three';
 import { RigidBody } from '@react-three/rapier';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
@@ -11,13 +12,15 @@ const Shop = () => {
   const ktxLoader = new KTX2Loader();
   const dracoLoader = new DRACOLoader();
   dracoLoader.setDecoderPath(
-    '/node_modules/three/examples/js/libs/draco/gltf/',
+    'https://www.gstatic.com/draco/versioned/decoders/1.5.5/',
   );
   dracoLoader.setDecoderConfig({ type: 'js' });
   const shopGltf = useLoader(GLTFLoader, ShopModel, async (loader) => {
     await loader.setDRACOLoader(dracoLoader);
     ktxLoader
-      .setTranscoderPath('/node_modules/three/examples/js/libs/basis/')
+      .setTranscoderPath(
+        `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
+      )
       .detectSupport(gl);
     await loader.setKTX2Loader(ktxLoader);
     ktxLoader.dispose();
