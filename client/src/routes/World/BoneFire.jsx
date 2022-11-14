@@ -12,13 +12,13 @@ const BoneFire = () => {
   const boneFireGltf = useLoader(GLTFLoader, boneFire, (loader) => {
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath(
-      '../node_modules/three/examples/js/libs/draco/gltf/',
+      '/node_modules/three/examples/js/libs/draco/gltf/',
     );
     dracoLoader.setDecoderConfig({ type: 'js' });
     loader.setDRACOLoader(dracoLoader);
 
     ktxLoader
-      .setTranscoderPath('../node_modules/three/examples/js/libs/basis/')
+      .setTranscoderPath('/node_modules/three/examples/js/libs/basis/')
       .detectSupport(gl);
     loader.setKTX2Loader(ktxLoader);
     ktxLoader.dispose();
