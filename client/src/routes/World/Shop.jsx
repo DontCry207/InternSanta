@@ -9,18 +9,17 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 const Shop = () => {
   const { gl } = useThree();
   const ktxLoader = new KTX2Loader();
-  const shopGltf = useLoader(GLTFLoader, ShopModel, (loader) => {
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath(
-      '/node_modules/three/examples/js/libs/draco/gltf/',
-    );
-    dracoLoader.setDecoderConfig({ type: 'js' });
-    loader.setDRACOLoader(dracoLoader);
-
+  const dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath(
+    '/node_modules/three/examples/js/libs/draco/gltf/',
+  );
+  dracoLoader.setDecoderConfig({ type: 'js' });
+  const shopGltf = useLoader(GLTFLoader, ShopModel, async (loader) => {
+    await loader.setDRACOLoader(dracoLoader);
     ktxLoader
       .setTranscoderPath('/node_modules/three/examples/js/libs/basis/')
       .detectSupport(gl);
-    loader.setKTX2Loader(ktxLoader);
+    await loader.setKTX2Loader(ktxLoader);
     ktxLoader.dispose();
   });
   shopGltf.scene.rotation.set(0, 0.37 * Math.PI, 0);

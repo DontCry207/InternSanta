@@ -16,21 +16,20 @@ import { useLoader, useThree } from '@react-three/fiber';
 const ReinDeer = (props) => {
   const { scene, gl } = useThree();
   const ktxLoader = new KTX2Loader();
+  const dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath(
+    '/node_modules/three/examples/js/libs/draco/gltf/',
+  );
+  dracoLoader.setDecoderConfig({ type: 'js' });
   const { nodes, animations } = useLoader(
     GLTFLoader,
     NpcModel[props.type],
-    (loader) => {
-      const dracoLoader = new DRACOLoader();
-      dracoLoader.setDecoderPath(
-        '/node_modules/three/examples/js/libs/draco/gltf/',
-      );
-      dracoLoader.setDecoderConfig({ type: 'js' });
-      loader.setDRACOLoader(dracoLoader);
-
+    async (loader) => {
+      await loader.setDRACOLoader(dracoLoader);
       ktxLoader
         .setTranscoderPath('/node_modules/three/examples/js/libs/basis/')
         .detectSupport(gl);
-      loader.setKTX2Loader(ktxLoader);
+      await loader.setKTX2Loader(ktxLoader);
       ktxLoader.dispose();
     },
   );
