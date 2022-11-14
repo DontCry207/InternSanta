@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useLoader, useThree } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
@@ -27,7 +27,7 @@ const ChristmasTown = () => {
 
   return (
     <RigidBody type="fixed" colliders={'trimesh'}>
-      <primitive receiveShadow object={gltf.scene} scale={[9, 9, 9]} />
+      <primitive object={gltf.scene} scale={[9, 9, 9]} />
     </RigidBody>
   );
 };
