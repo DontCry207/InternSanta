@@ -1,7 +1,7 @@
 import { KeyboardControls, Sky, Stars } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import styled from 'styled-components';
 import ChristmasTown from './ChristmasTown';
 import Player from './Player';
@@ -21,8 +21,20 @@ import Moon from './Moon';
 import BubbleModal from './BubbleModal';
 import CarolZone from './CarolZone';
 import Pet from './Pet';
+///
+import Npc3 from './Npc3';
+import Npc2 from './Npc2';
+import AnimalModal from '../AnimalPet/AnimalModal';
+import DrawModal from '../QuickDraw/DrawModal';
+import MiniDrawModal from '../QuickDraw/MiniDrawModal';
+///
 
 const WorldPage = () => {
+  ///
+  const [animalPet, setAnimalPet] = useState(false);
+  const [quickDraw, setQuickDraw] = useState(false);
+  const [miniDraw, setMiniDraw] = useState(false);
+  ///
   return (
     <Container>
       <LoadingPage />
@@ -79,10 +91,24 @@ const WorldPage = () => {
               <ReinDeer type={'reindeerPurple'} />
               <ReinDeer type={'reindeerWhite'} />
               <ReinDeer type={'reindeerPink'} />
+              {/*  */}
+              <Npc3 setAnimalPet={setAnimalPet} />
+              {/* <Npc2 setQuickDraw={setQuickDraw} /> */}
+              <Npc2 setQuickDraw={setMiniDraw} />
+              {/*  */}
             </Physics>
           </Suspense>
         </Canvas>
       </KeyboardControls>
+      {/*  */}
+      {miniDraw == false ? null : (
+        <MiniDrawModal closeBtnControl={setMiniDraw} />
+      )}
+      {animalPet == false ? null : (
+        <AnimalModal closeBtnControl={setAnimalPet} />
+      )}
+      {quickDraw == false ? null : <DrawModal closeBtnControl={setQuickDraw} />}
+      {/*  */}
     </Container>
   );
 };
