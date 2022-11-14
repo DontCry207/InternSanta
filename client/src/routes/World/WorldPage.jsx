@@ -39,7 +39,7 @@ const WorldPage = () => {
           { name: 'position', keys: ['q', 'Q'] },
           { name: 'dance', keys: ['f', 'F'] },
         ]}>
-        <Canvas performance={{ current: 0.5 }} camera={{ fov: 70 }}>
+        <Canvas camera={{ fov: 70 }}>
           <Snow />
           <Stars
             radius={30}
@@ -51,16 +51,16 @@ const WorldPage = () => {
             speed={6}
           />
           <Sky sunPosition={[-10, -10, 0]} />
+          <Moon />
+          <BubbleModal />
           <MainLight />
           <DanceLight />
           <Suspense fallback={<LazyLoading />}>
             <Physics gravity={[0, -30, 0]} colliders={false}>
-              <Moon />
               <ChristmasTown />
-              <BubbleModal />
+              {/* <CarolZone /> */}
               <Player />
               <Pet />
-              {/* <CarolZone /> */}
               <Shop />
               <BoneFire />
               <Npc type={'infoGuy'} />

@@ -11,23 +11,19 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 const Pet = () => {
   const { scene, gl } = useThree();
+  const [, get] = useKeyboardControls();
   const group = useRef();
   const ktxLoader = new KTX2Loader();
-  const [, get] = useKeyboardControls();
-  const { nodes, animations } = useLoader(
-    GLTFLoader,
-    PetGltf,
-    async (loader) => {
-      await loader.setMeshoptDecoder(MeshoptDecoder);
-      ktxLoader
-        .setTranscoderPath(
-          `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
-        )
-        .detectSupport(gl);
-      await loader.setKTX2Loader(ktxLoader);
-      ktxLoader.dispose();
-    },
-  );
+  ktxLoader
+    .setTranscoderPath(
+      `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
+    )
+    .detectSupport(gl);
+  const { nodes, animations } = useLoader(GLTFLoader, PetGltf, (loader) => {
+    loader.setMeshoptDecoder(MeshoptDecoder);
+    loader.setKTX2Loader(ktxLoader);
+    ktxLoader.dispose();
+  });
 
   const [playerIdx, setPlayerIdx] = useState(0);
   const { actions } = useAnimations(animations, group);
@@ -46,7 +42,7 @@ const Pet = () => {
 
   useFrame((state, delta) => {
     const { forward, backward, left, right, dash, dance } = get();
-    if (!dance) {
+    if (!dance && playerIdx) {
       group.current.rotation.copy(player.rotation);
     }
     group.current.position.set(
