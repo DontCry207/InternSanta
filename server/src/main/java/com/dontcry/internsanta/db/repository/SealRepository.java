@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface SealRepository extends JpaRepository<Seal, Long> {
-
-    @Query(value = "SELECT * FROM seal order by RAND() limit 1",nativeQuery = true)
-    public Seal findRandomSeal();
+    List<Seal> findAll();
 }

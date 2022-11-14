@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface MemberSealService {
 
-    void updateSeal(MemberSeal memberSeal, Seal seal);
+    void updateSeal(MemberSeal memberSeal, List<Seal> seals);
 
-    Seal getSeal();
+    List<Seal> getSeals(int count);
     List<Seal> getAllSealList();
 
     void updateMemberTicket(Member member);
