@@ -1,7 +1,9 @@
 package com.dontcry.internsanta.api.controller;
 
+import com.dontcry.internsanta.api.request.MemberSealUpdateReq;
 import com.dontcry.internsanta.api.response.MemberSealRes;
 import com.dontcry.internsanta.api.response.MemberSealTicketRes;
+import com.dontcry.internsanta.api.response.SealListRes;
 import com.dontcry.internsanta.api.response.SealRes;
 import com.dontcry.internsanta.api.service.MemberSealService;
 import com.dontcry.internsanta.api.service.MemberService;
@@ -12,10 +14,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.ArrayList;
@@ -36,16 +35,14 @@ public class MemberSealController {
     MemberService memberService;
 
     @PatchMapping
-    public ResponseEntity<SealRes> updateMemberSeal(@ApiIgnore Authentication authentication) {
+    public ResponseEntity<?> updateMemberSeal(@RequestBody MemberSealUpdateReq memberSealUpdateReq, @ApiIgnore Authentication authentication) {
         Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
 
-        memberService.updateMemberCoin(member, -100);
 
-        Seal seal = memberSealService.getSeal();
-
-        memberSealService.updateSeal(member.getMemberSeal(), seal);
-
-        return ResponseEntity.status(200).body(SealRes.of(seal));
+        List<Seal> seals = memberSealService.getSeals(memberSealUpdateReq.getCount());
+        memberSealService.updateSeal(member.getMemberSeal(), seals);
+        memberService.updateMemberCoin(member, (-100 * memberSealUpdateReq.getCount()));
+        return ResponseEntity.status(200).body(SealListRes.of(seals));
     }
 
     @GetMapping
