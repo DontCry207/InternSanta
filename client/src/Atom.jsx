@@ -42,3 +42,8 @@ export const ambientState = atom({
   key: `ambient`,
   default: true,
 });
+
+export const npcHoverState = atom({
+  key: `npcHover`,
+  default: null,
+});

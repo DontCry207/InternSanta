@@ -4,9 +4,21 @@ import styled from 'styled-components';
 import { BsFillTreeFill } from 'react-icons/bs';
 import { BiSmile } from 'react-icons/bi';
 import { HiVolumeUp } from 'react-icons/hi';
+import { useRecoilState } from 'recoil';
+import { userInfoState } from '../../Atom';
 
 const PlayUi = () => {
   const [prog, setProg] = useState(false);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const {
+    memberChapter,
+    memberCheckpoint,
+    memberCoin,
+    memberNickname,
+    memberTicket,
+  } = userInfo;
+  console.log(userInfo);
+
   return (
     <ContainerUi>
       <LeftTopBox>
@@ -131,7 +143,5 @@ const IconBorder = styled.div`
   cursor: pointer;
 `;
 
-const MissionProgress = styled.div`
-  
-`
+const MissionProgress = styled.div``;
 export default PlayUi;
