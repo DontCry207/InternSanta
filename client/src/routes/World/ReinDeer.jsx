@@ -14,7 +14,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { useLoader, useThree } from '@react-three/fiber';
 
 const ReinDeer = (props) => {
-  const { scene, gl } = useThree();
+  const { gl } = useThree();
   const ktxLoader = new KTX2Loader();
   const dracoLoader = new DRACOLoader();
   dracoLoader.setDecoderPath(
@@ -26,32 +26,22 @@ const ReinDeer = (props) => {
       `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
     )
     .detectSupport(gl);
-  const { nodes, animations } = useLoader(
-    GLTFLoader,
-    NpcModel[props.type],
-    (loader) => {
-      loader.setDRACOLoader(dracoLoader);
-      loader.setKTX2Loader(ktxLoader);
-      ktxLoader.dispose();
-      dracoLoader.dispose();
-    },
-  );
+  const { nodes } = useLoader(GLTFLoader, NpcModel[props.type], (loader) => {
+    loader.setDRACOLoader(dracoLoader);
+    loader.setKTX2Loader(ktxLoader);
+    ktxLoader.dispose();
+    dracoLoader.dispose();
+  });
   nodes.Scene.children[0].scale.set(0.14, 0.14, 0.14);
 
   const [x, y, z] = NpcRotation[props.type];
   nodes.Scene.rotation.set(x, y, z);
 
+  const ref = useRef();
   const location = NpcLocation[props.type];
-  const location3 = [
-    NpcLocation[props.type][0],
-    NpcLocation[props.type][1] + 2.9,
-    NpcLocation[props.type][2],
-  ];
-
   const setHover = useSetRecoilState(npcHoverState);
   const setModal = useSetRecoilState(modalState);
   const ambient = useRecoilValue(ambientState);
-  const ref = useRef();
   const light = useRef();
 
   // useEffect(() => {

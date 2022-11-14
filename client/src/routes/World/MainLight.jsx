@@ -43,7 +43,7 @@ const MainLight = () => {
         intensity={ambient ? 0 : 1.8}
         position={[-9.65, 4, 12.69]}
         distance={7}
-        decay={1}
+        decay={3}
         color={'#FFF7C2'}
       />
       <pointLight

@@ -14,6 +14,16 @@ import yellowGuy from '../../assets/npc/yellowGuy.glb';
 import greenGuy from '../../assets/npc/greenGuy.glb';
 import minSeo from '../../assets/npc/minSeo.glb';
 import yb from '../../assets/npc/yb.glb';
+import reindeerImg from '../../assets/images/reindeer.png';
+import reindeerRedImg from '../../assets/images/reindeerRed.png';
+import reindeerOrangeImg from '../../assets/images/reindeerOrange.png';
+import reindeerYellowImg from '../../assets/images/reindeerYellow.png';
+import reindeerGreenImg from '../../assets/images/reindeerGreen.png';
+import reindeerBlueImg from '../../assets/images/reindeerBlue.png';
+import reindeerPurpleImg from '../../assets/images/reindeerPurple.png';
+import reindeerWhiteImg from '../../assets/images/reindeerWhite.png';
+import reindeerPinkImg from '../../assets/images/reindeerPink.png';
+import infoGuyImg from '../../assets/images/infoGuy.png';
 
 export const NpcLocation = {
   null: [0, -10, 0],
@@ -80,4 +90,65 @@ export const NpcAnimation = {
   greenGuy: 'Song Jump',
   minSeo: 'Song Jump',
   yb: 'Song Jump',
+};
+
+export const NpcImages = {
+  reindeer: reindeerImg,
+  reindeerRed: reindeerRedImg,
+  reindeerOrange: reindeerOrangeImg,
+  reindeerYellow: reindeerYellowImg,
+  reindeerGreen: reindeerGreenImg,
+  reindeerBlue: reindeerBlueImg,
+  reindeerPurple: reindeerPurpleImg,
+  reindeerPink: reindeerPinkImg,
+  reindeerWhite: reindeerWhiteImg,
+  infoGuy: infoGuyImg,
+  storeGuy: null,
+  trainGuy: null,
+  yellowGuy: null,
+  greenGuy: null,
+  minSeo: null,
+  yb: null,
+};
+
+export const NpcNames = {
+  reindeer: '프랜서',
+  reindeerRed: '루돌프 인사팀장',
+  reindeerOrange: '도너',
+  reindeerYellow: '빅슨',
+  reindeerGreen: '블리즌',
+  reindeerBlue: '코멧',
+  reindeerPurple: '큐피드',
+  reindeerPink: '댄서',
+  reindeerWhite: '대셔',
+  infoGuy: '박아영 정보과장',
+  storeGuy: '정민호 상점주인',
+  trainGuy: '양경섭 역무장',
+  yellowGuy: '노랭이',
+  greenGuy: '초록이',
+  minSeo: '강민서 동네누나',
+  yb: '김영범 박사',
+};
+
+export const NormalDialog = {
+  null: ['초기값'],
+  reindeer: ['안녕'],
+  reindeerRed: ['안녕 너가 새로온 인턴이구나? 나는 인사팀장 루돌프야.'],
+  reindeerOrange: ['안녕'],
+  reindeerYellow: ['안녕'],
+  reindeerGreen: ['안녕'],
+  reindeerBlue: ['안녕'],
+  reindeerPurple: ['안녕'],
+  reindeerPink: ['안녕'],
+  reindeerWhite: ['안녕'],
+  infoGuy: [
+    '안녕! 우리마을에 온걸 환영해!',
+    '인사팀장 루돌프님이 기다리고 계셔! 그분께 가봐.',
+  ],
+  storeGuy: ['안녕'],
+  trainGuy: ['안녕'],
+  yellowGuy: ['안녕'],
+  greenGuy: ['안녕'],
+  minSeo: ['안녕'],
+  yb: ['안녕'],
 };
