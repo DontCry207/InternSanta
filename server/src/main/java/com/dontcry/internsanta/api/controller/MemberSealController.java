@@ -3,7 +3,6 @@ package com.dontcry.internsanta.api.controller;
 import com.dontcry.internsanta.api.request.MemberSealUpdateReq;
 import com.dontcry.internsanta.api.response.MemberSealRes;
 import com.dontcry.internsanta.api.response.MemberSealTicketRes;
-import com.dontcry.internsanta.api.response.SealListRes;
 import com.dontcry.internsanta.api.response.SealRes;
 import com.dontcry.internsanta.api.service.MemberSealService;
 import com.dontcry.internsanta.api.service.MemberService;
@@ -42,7 +41,14 @@ public class MemberSealController {
         List<Seal> seals = memberSealService.getSeals(memberSealUpdateReq.getCount());
         memberSealService.updateSeal(member.getMemberSeal(), seals);
         memberService.updateMemberCoin(member, (-100 * memberSealUpdateReq.getCount()));
-        return ResponseEntity.status(200).body(SealListRes.of(seals));
+        List<SealRes> sealResList = new ArrayList<>();
+        for (Seal seal: seals) {
+            sealResList.add(SealRes.builder()
+                    .sealName(seal.getSealName())
+                    .sealUrl(seal.getSealUrl())
+                    .build());
+        }
+        return ResponseEntity.status(200).body(sealResList);
     }
 
     @GetMapping
