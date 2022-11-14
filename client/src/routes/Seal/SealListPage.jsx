@@ -12,7 +12,6 @@ const SealListPage = () => {
   }, []);
 
   const render = () => {
-    console.log('dfs');
     return (
       <div>
         {sealList?.map((item, i) => {
@@ -22,6 +21,7 @@ const SealListPage = () => {
             </div>
           );
         })}
+        <button onClick={() => {}}>티켓 교환</button>
       </div>
     );
   };
