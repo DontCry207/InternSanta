@@ -35,7 +35,7 @@ const Player = () => {
   } = useThree();
 
   const [, get] = useKeyboardControls();
-  const [location, setLocation] = useState([-15.7, 3, 21.4]); // 캐롤존 [-2.52, -98, 0.17]
+  const [location, setLocation] = useState([-2.52, -98, 0.17]); // 캐롤존 [-2.52, -98, 0.17]
   const [maxPolarAngle, setMaxPolarAngle] = useState(1.8);
   const { nodes, materials, animations } = useGLTF(character);
   const { actions } = useAnimations(animations, group);
@@ -164,7 +164,7 @@ const Player = () => {
         mass={1}
         type="dynamic"
         colliders={false}
-        position={[-15.7, 3, 21.4]}>
+        position={[-2.52, -98, 0.17]}>
         <CuboidCollider args={[0.3, 0.3, 0.3]} />
       </RigidBody>
     </>

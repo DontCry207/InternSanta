@@ -17,6 +17,7 @@ import Shop from './Shop';
 import BoneFire from './BoneFire';
 import CarolZone from './CarolZone';
 import FortuneModal from './FortuneModal';
+import MovieModal from './MovieModal';
 import MainLight from './MainLight';
 import DanceLight from './SpotLight';
 
@@ -26,6 +27,7 @@ const WorldPage = () => {
       <LoadingPage />
       <ChatModal />
       <FortuneModal />
+      <MovieModal />
       <PlayUi />
       <KeyboardControls
         map={[
