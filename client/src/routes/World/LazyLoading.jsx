@@ -4,6 +4,7 @@ import { loadingState } from '../../Atom';
 
 const LazyLoading = () => {
   const setLoading = useSetRecoilState(loadingState);
+
   useEffect(() => {
     return () => {
       setTimeout(() => {
@@ -12,7 +13,7 @@ const LazyLoading = () => {
     };
   }, []);
 
-  return;
+  return <></>;
 };
 
 export default LazyLoading;

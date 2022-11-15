@@ -11,14 +11,16 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 const Pet = () => {
   const { scene, gl } = useThree();
+  const [, get] = useKeyboardControls();
   const group = useRef();
   const ktxLoader = new KTX2Loader();
-  const [, get] = useKeyboardControls();
+  ktxLoader
+    .setTranscoderPath(
+      `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
+    )
+    .detectSupport(gl);
   const { nodes, animations } = useLoader(GLTFLoader, PetGltf, (loader) => {
     loader.setMeshoptDecoder(MeshoptDecoder);
-    ktxLoader
-      .setTranscoderPath('../node_modules/three/examples/js/libs/basis/')
-      .detectSupport(gl);
     loader.setKTX2Loader(ktxLoader);
     ktxLoader.dispose();
   });
@@ -40,7 +42,7 @@ const Pet = () => {
 
   useFrame((state, delta) => {
     const { forward, backward, left, right, dash, dance } = get();
-    if (!dance) {
+    if (!dance && playerIdx) {
       group.current.rotation.copy(player.rotation);
     }
     group.current.position.set(

@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { useThree, useFrame, extend } from '@react-three/fiber';
+import { useEffect, useRef, useState } from 'react';
+import { useThree, useFrame, extend, useLoader } from '@react-three/fiber';
 import character from '../../assets/character.glb';
 import { RigidBody, CuboidCollider } from '@react-three/rapier';
 import {
@@ -10,18 +10,22 @@ import * as THREE from 'three';
 import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { loadingState, userInfoState } from '../../Atom';
+import { TextureLoader } from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 extend({ OrbitControls, MapControls });
 
 const Player = () => {
   const userInfo = useRecoilValue(userInfoState);
-  const { memberTop } = userInfo;
   const [loading, setLoading] = useRecoilState(loadingState);
+  const [sponPosition, setSponPosition] = useState(true);
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();
   const sideVector = new THREE.Vector3();
   const ref = useRef();
   const controls = useRef();
   const group = useRef();
+  let textureLoader = new THREE.TextureLoader();
+  let texture = textureLoader.load(userInfo.memberTop);
 
   const {
     camera,
@@ -30,13 +34,28 @@ const Player = () => {
   } = useThree();
 
   const [, get] = useKeyboardControls();
-  const { nodes, animations } = useGLTF(character);
+  const { nodes, animations } = useLoader(GLTFLoader, character, (object) => {
+    // object.Scene.Mesh017.material.map = texture;
+    // object.Scene.Mesh017.material.needsUpdate = true;
+  });
   const { actions } = useAnimations(animations, group);
+  let inDebounce;
+
+  const debounce = (func, delay) => {
+    return () => {
+      if (inDebounce) {
+        clearTimeout(inDebounce);
+      }
+      inDebounce = setTimeout(() => func(), delay);
+    };
+  };
 
   useEffect(() => {
     controls.current.enableRotate = true;
     controls.current.rotateSpeed = 0.4;
     nodes.Scene.name = 'player';
+    console.log(nodes);
+    console.log(texture);
   }, []);
 
   useEffect(() => {
@@ -48,7 +67,17 @@ const Player = () => {
 
   useFrame((state, delta) => {
     let SPEED = 4;
-    const { forward, backward, left, right, dash, position, dance } = get();
+    const {
+      forward,
+      backward,
+      left,
+      right,
+      dash,
+      position,
+      dance,
+      carol,
+      world,
+    } = get();
     const velocity = ref.current.linvel();
     const [x, y, z] = [...ref.current.translation()];
 
@@ -57,7 +86,15 @@ const Player = () => {
     }
 
     if (position) {
-      console.log([x, y, z]);
+      debounce(console.log([x, y, z]), 1000);
+    }
+
+    if (carol) {
+      debounce(setSponPosition(false), 1000);
+    }
+
+    if (world) {
+      debounce(setSponPosition(true), 1000);
     }
 
     if (forward || backward || left || right) {
@@ -135,7 +172,7 @@ const Player = () => {
         mass={1}
         type="dynamic"
         colliders={false}
-        position={[-15.7, 3, 21.4]}>
+        position={sponPosition ? [-15.7, 3, 21.4] : [22.34, 3, -13.59]}>
         <CuboidCollider args={[0.3, 0.3, 0.3]} />
       </RigidBody>
     </>
