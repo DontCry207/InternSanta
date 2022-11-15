@@ -34,9 +34,8 @@ public class MemberSealController {
     MemberService memberService;
 
     @PatchMapping
-    public ResponseEntity<?> updateMemberSeal(@RequestBody MemberSealUpdateReq memberSealUpdateReq, @ApiIgnore Authentication authentication) {
+    public ResponseEntity<List<SealRes>> updateMemberSeal(@RequestBody MemberSealUpdateReq memberSealUpdateReq, @ApiIgnore Authentication authentication) {
         Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
-
 
         List<Seal> seals = memberSealService.getSeals(memberSealUpdateReq.getCount());
         memberSealService.updateSeal(member.getMemberSeal(), seals);
