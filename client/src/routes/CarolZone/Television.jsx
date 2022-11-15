@@ -1,11 +1,13 @@
 import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useFrame, useLoader, useThree } from '@react-three/fiber';
+import { useRecoilState } from 'recoil';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import television from '../../assets/television.glb';
 import { RigidBody } from '@react-three/rapier';
+import { movieModalState } from '../../Atom';
 import * as THREE from 'three';
 
 const Television = () => {
@@ -13,10 +15,10 @@ const Television = () => {
   const boxLocation = [-1.9, -100, -1.85];
   const scale = [0.8, 0.8, 0.8];
   const location = [0, -100, 0];
-  const [clicked, setClicked] = useState(false);
+  const [modal, setModal] = useRecoilState(movieModalState);
+  const [hovered, setHover] = useState(false);
   const { camera, gl, scene } = useThree();
 
-  const [hovered, setHover] = useState(false);
   const hover = (e) => {
     e.stopPropagation();
     setHover(true);
@@ -29,12 +31,8 @@ const Television = () => {
 
   const click = (e) => {
     e.stopPropagation();
-    setClicked(!clicked);
+    setModal(!modal);
   };
-
-  useEffect(() => {
-    console.log('clicked');
-  }, [clicked]);
 
   useEffect(() => {
     console.log('hover');
