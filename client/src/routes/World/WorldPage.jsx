@@ -69,6 +69,8 @@ const WorldPage = () => {
               <Television />
               <Tree />
               <TeddyBear />
+              <Player />
+              <Pet />
               <Shop />
               <BoneFire />
               <Npc type={'infoGuy'} />
@@ -88,8 +90,6 @@ const WorldPage = () => {
               <ReinDeer type={'reindeerPurple'} />
               <ReinDeer type={'reindeerWhite'} />
               <ReinDeer type={'reindeerPink'} />
-              <Player />
-              <Pet />
             </Physics>
           </Suspense>
         </Canvas>

@@ -12,6 +12,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { loadingState, userInfoState } from '../../Atom';
 import { TextureLoader } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import defaultTexture from '../../assets/images/textureResult.png';
 extend({ OrbitControls, MapControls });
 
 const Player = () => {
@@ -26,6 +27,8 @@ const Player = () => {
   const group = useRef();
   let textureLoader = new THREE.TextureLoader();
   let texture = textureLoader.load(userInfo.memberTop);
+  texture.encoding = THREE.sRGBEncoding;
+  texture.flipY = false;
 
   const {
     camera,
@@ -34,10 +37,7 @@ const Player = () => {
   } = useThree();
 
   const [, get] = useKeyboardControls();
-  const { nodes, animations } = useLoader(GLTFLoader, character, (object) => {
-    // object.Scene.Mesh017.material.map = texture;
-    // object.Scene.Mesh017.material.needsUpdate = true;
-  });
+  const { nodes, animations, materials } = useGLTF(character);
   const { actions } = useAnimations(animations, group);
 
   const debounce = (func, delay) => {
@@ -54,8 +54,10 @@ const Player = () => {
     controls.current.enableRotate = true;
     controls.current.rotateSpeed = 0.4;
     nodes.Scene.name = 'player';
-    console.log(nodes);
-    console.log(texture);
+    materials.characters.map.copy(texture);
+    materials.characters.map.encoding = THREE.sRGBEncoding;
+    materials.characters.map.flipY = false;
+    materials.characters.map.updateMatrix();
   }, []);
 
   useEffect(() => {
