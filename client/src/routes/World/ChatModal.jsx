@@ -4,20 +4,36 @@ import { useEffect } from 'react';
 import { BsFillCaretDownFill } from 'react-icons/bs';
 import { BsThreeDots } from 'react-icons/bs';
 import { useRecoilState } from 'recoil';
-import { modalState } from '../../Atom';
+import { modalState, userInfoState } from '../../Atom';
 import {
   NormalDialog,
+  NpcFeatButton,
   NpcImages,
   NpcNames,
 } from '../../utils/constants/constants';
+import { fetchData } from '../../utils/apis/api';
 
 const ChatModal = () => {
   const [dialogCnt, setDialogCnt] = useState(0);
+  const [scripts, setScripts] = useState([]);
   const [lengthDialog, setLengthDialog] = useState(0);
   const [modal, setModal] = useRecoilState(modalState);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const { memberChapter, memberCheckpoint, memberCoin, memberNickname } =
+    userInfo;
+
+  const getScript = async () => {
+    const res = await fetchData.get('/api/v1/quest/script');
+    setScripts(res.data.questScriptList);
+  };
+
+  useEffect(() => {
+    getScript();
+  }, []);
 
   useEffect(() => {
     if (modal) {
+      console.log(scripts);
       setLengthDialog(NormalDialog[modal].length - 1);
     }
   }, [modal]);
@@ -36,6 +52,9 @@ const ChatModal = () => {
             <p className="name">{NpcNames[modal]}</p>
             <p className="dialog">{NormalDialog[modal][dialogCnt]}</p>
             <Buttons>
+              {NpcFeatButton[modal] ? (
+                <FeatBtn>{NpcFeatButton[modal]}</FeatBtn>
+              ) : null}
               {lengthDialog === dialogCnt ? (
                 <CloseBtn
                   onClick={() => {
@@ -121,7 +140,8 @@ const NpcImage = styled.div`
   align-items: center;
   padding: 40px;
   img {
-    width: 220px;
+    height: 450px;
+    object-fit: cover;
   }
 `;
 
@@ -132,10 +152,10 @@ const Buttons = styled.div`
   flex-direction: row;
   justify-content: end;
   align-items: end;
+  gap: 10px;
 `;
 
 const CloseBtn = styled.div`
-  width: 15%;
   height: 100%;
   border-radius: 30px;
   background-color: #60c783;
@@ -146,6 +166,21 @@ const CloseBtn = styled.div`
   color: white;
   font-size: 26px;
   cursor: pointer;
+  padding: 0 20px;
+`;
+
+const FeatBtn = styled.div`
+  height: 100%;
+  border-radius: 30px;
+  background: ${(props) => props.theme.colors.gradientOrange};
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 26px;
+  cursor: pointer;
+  padding: 0 20px;
 `;
 
 const ChatBoxIcon = styled.div`

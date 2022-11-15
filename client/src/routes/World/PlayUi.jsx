@@ -1,15 +1,18 @@
 import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { BsFillTreeFill } from 'react-icons/bs';
+import { BsFillTreeFill, BsExclamationLg } from 'react-icons/bs';
 import { BiSmile } from 'react-icons/bi';
 import { HiVolumeUp } from 'react-icons/hi';
 import { useRecoilState } from 'recoil';
 import { userInfoState } from '../../Atom';
+import { useEffect } from 'react';
+import { fetchData } from '../../utils/apis/api';
 
 const PlayUi = () => {
   const [prog, setProg] = useState(false);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [quest, setQuests] = useState({});
   const {
     memberChapter,
     memberCheckpoint,
@@ -17,7 +20,17 @@ const PlayUi = () => {
     memberNickname,
     memberTicket,
   } = userInfo;
-  console.log(userInfo);
+
+  const getQuest = async () => {
+    const res = await fetchData.get('/api/v1/quest');
+    setQuests(res.data);
+    console.log(res.data);
+  };
+
+  useEffect(() => {
+    getQuest();
+    console.log(userInfo);
+  }, []);
 
   return (
     <ContainerUi>
@@ -31,18 +44,18 @@ const PlayUi = () => {
           onClick={() => {
             setProg(!prog);
           }}>
-          HI
+          <BsExclamationLg size={30} color={'#DE6363'} />
         </ProgressButton>
       </LeftTopBox>
       <RightTopBox>
         <IconBorder>
-          <BsFillTreeFill size={46} color={'white'} />
+          <BsFillTreeFill size={40} color={'white'} />
         </IconBorder>
         <IconBorder>
-          <BiSmile size={60} color={'white'} />
+          <BiSmile size={44} color={'white'} />
         </IconBorder>
         <IconBorder>
-          <HiVolumeUp size={46} color={'white'} />
+          <HiVolumeUp size={40} color={'white'} />
         </IconBorder>
       </RightTopBox>
       <RightBottomBox>HI</RightBottomBox>
@@ -70,13 +83,12 @@ const LeftTopBox = styled.div`
 `;
 
 const RightTopBox = styled.div`
-  width: 360px;
   height: 120px;
   position: absolute;
   right: 0px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
   padding: 20px;
   gap: 20px;
@@ -134,13 +146,17 @@ const IconBorder = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   border-radius: 50px;
   background-color: transparent;
   border: solid 4px #ffffff;
   pointer-events: auto;
   cursor: pointer;
+
+  &:hover {
+    scale: 1.1;
+  }
 `;
 
 const MissionProgress = styled.div``;

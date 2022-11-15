@@ -21,6 +21,10 @@ import Moon from './Moon';
 import BubbleModal from './BubbleModal';
 import CarolZone from './CarolZone';
 import Pet from './Pet';
+import FirePlace from '../CarolZone/FirePlace';
+import Television from '../CarolZone/Television';
+import Tree from '../CarolZone/Tree';
+import TeddyBear from '../CarolZone/TeddyBear';
 
 const WorldPage = () => {
   return (
@@ -38,6 +42,8 @@ const WorldPage = () => {
           { name: 'dash', keys: ['ShiftLeft'] },
           { name: 'position', keys: ['q', 'Q'] },
           { name: 'dance', keys: ['f', 'F'] },
+          { name: 'carol', keys: ['p', 'P'] },
+          { name: 'world', keys: ['o', 'O'] },
         ]}>
         <Canvas camera={{ fov: 70 }}>
           <Snow />
@@ -57,10 +63,12 @@ const WorldPage = () => {
           <DanceLight />
           <Suspense fallback={<LazyLoading />}>
             <Physics gravity={[0, -30, 0]} colliders={false}>
+              <CarolZone />
               <ChristmasTown />
-              {/* <CarolZone /> */}
-              <Player />
-              <Pet />
+              <FirePlace />
+              <Television />
+              <Tree />
+              <TeddyBear />
               <Shop />
               <BoneFire />
               <Npc type={'infoGuy'} />
@@ -70,6 +78,7 @@ const WorldPage = () => {
               <Npc type={'greenGuy'} />
               <Npc type={'minSeo'} />
               <Npc type={'yb'} />
+              <Npc type={'commet'} />
               <ReinDeer type={'reindeer'} />
               <ReinDeer type={'reindeerRed'} />
               <ReinDeer type={'reindeerOrange'} />
@@ -79,6 +88,8 @@ const WorldPage = () => {
               <ReinDeer type={'reindeerPurple'} />
               <ReinDeer type={'reindeerWhite'} />
               <ReinDeer type={'reindeerPink'} />
+              <Player />
+              <Pet />
             </Physics>
           </Suspense>
         </Canvas>
