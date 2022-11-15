@@ -11,14 +11,16 @@ import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module';
 
 const Tree = () => {
   const ktxLoader = new KTX2Loader();
-  const boxLocation = [100, 1.7, 99.97];
+  const location = [24, 1, -14.5];
+  const boxLocation = [
+    23.930875778198242, 1.7282228994369507, -14.514251708984375,
+  ];
   const scale = [0.8, 0.8, 0.8];
-  const location = [100, 1, 100];
   const { camera, gl, scene } = useThree();
   const treeGltf = useLoader(GLTFLoader, tree, (loader) => {
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath(
-      '../node_modules/three/examples/js/libs/draco/gltf/',
+      'https://www.gstatic.com/draco/versioned/decoders/1.5.5/',
     );
     dracoLoader.setDecoderConfig({ type: 'js' });
     loader.setDRACOLoader(dracoLoader);
@@ -36,7 +38,7 @@ const Tree = () => {
       <primitive object={treeGltf.scene} position={location} scale={scale} />
       <RigidBody type="fixed" colliders={'hull'}>
         <mesh position={boxLocation} rotation={[0, 0.3, 0]}>
-          <cylinderGeometry args={[0.5, 0.5, 1.2, 10]} />
+          <cylinderGeometry args={[0.7, 0.7, 1.4, 10]} />
           <meshStandardMaterial
             color={[0, 0, 0, 0]}
             opacity={0}

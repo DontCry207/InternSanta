@@ -4,9 +4,6 @@ import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import room from '../../assets/room.glb';
 import { RigidBody } from '@react-three/rapier';
-import * as THREE from 'three';
-import { useRef } from 'react';
-import { useEffect } from 'react';
 
 const CarolZone = () => {
   const { gl } = useThree();
@@ -29,8 +26,7 @@ const CarolZone = () => {
     dracoLoader.dispose();
   });
 
-  const location = [100, 1, 100]; //[0, -100, 0];
-  const location2 = [98.4, 1, 100.85]; //[0, -100, 0];
+  const location = [24, 1, -14.5];
   const scale = [0.8, 0.8, 0.8];
 
   return (

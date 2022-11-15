@@ -13,10 +13,10 @@ import * as THREE from 'three';
 const Television = () => {
   const ktxLoader = new KTX2Loader();
   const boxLocation = [
-    97.42610168457031, 1.2989263534545898, 99.24563293457031,
+    21.429622268676758, 1.3018462657928467, -15.259762954711914,
   ];
   const scale = [0.8, 0.8, 0.8];
-  const location = [0, -100, 0];
+  const location = [24, 1, -14.5];
   const [modal, setModal] = useRecoilState(movieModalState);
   const [hovered, setHover] = useState(false);
   const { camera, gl, scene } = useThree();
