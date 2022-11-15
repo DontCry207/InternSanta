@@ -1,111 +1,87 @@
-import React, { useEffect, useRef, useState } from 'react';
-import reindeer from '../../assets/reindeer/reindeer.glb';
-import reindeerRed from '../../assets/reindeer/reindeerRed.glb';
-import reindeerOrange from '../../assets/reindeer/reindeerOrange.glb';
-import reindeerYellow from '../../assets/reindeer/reindeerYellow.glb';
-import reindeerGreen from '../../assets/reindeer/reindeerGreen.glb';
-import reindeerBlue from '../../assets/reindeer/reindeerBlue.glb';
-import reindeerPurple from '../../assets/reindeer/reindeerPurple.glb';
-import reindeerWhite from '../../assets/reindeer/reindeerWhite.glb';
-import reindeerPink from '../../assets/reindeer/reindeerPink.glb';
-import speech from '../../assets/speech.glb';
-import { useLoader, useThree } from '@react-three/fiber';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import React, { useEffect, useRef } from 'react';
 import { RigidBody } from '@react-three/rapier';
-import { useGLTF } from '@react-three/drei';
-import { useRecoilState } from 'recoil';
-import { modalState } from '../../Atom';
-
-const DeerLocation = {
-  reindeer: [-2.722, 0.1, 19.57],
-  reindeerRed: [-1.0570511817, 0.18911657929, 8.15925],
-  reindeerOrange: [0.6253691315, 0.2155776143, -1.4708287715],
-  reindeerYellow: [-18.0778160095, 0.06303104996, 10.8201217651],
-  reindeerGreen: [15.0341844558, 2.44612274169, 0.82147848606],
-  reindeerBlue: [10.74005413, 0, 12.8185195922],
-  reindeerPurple: [-5.8828038215, 1.32455928325, -6.936524868],
-  reindeerWhite: [-5.8828038215, 1.32455928325, -6.936524868],
-  reindeerPink: [-7.6799707412, 1.5212489128, 26.7339458465],
-};
-
-const DeerRotation = {
-  reindeer: [0, 0.9 * Math.PI, 0],
-  reindeerRed: [0, 1.2 * Math.PI, 0],
-  reindeerOrange: [0, 1.85 * Math.PI, 0],
-  reindeerYellow: [0, 0.5 * Math.PI, 0],
-  reindeerGreen: [0, 1.35 * Math.PI, 0],
-  reindeerBlue: [0, 1.35 * Math.PI, 0],
-  reindeerPurple: [0, 2.05 * Math.PI, 0],
-  reindeerWhite: [0, 2.05 * Math.PI, 0],
-  reindeerPink: [0, 0.66 * Math.PI, 0],
-};
-
-const DeerModel = {
-  reindeer: reindeer,
-  reindeerRed: reindeerRed,
-  reindeerOrange: reindeerOrange,
-  reindeerYellow: reindeerYellow,
-  reindeerGreen: reindeerGreen,
-  reindeerBlue: reindeerBlue,
-  reindeerPurple: reindeerPurple,
-  reindeerWhite: reindeerWhite,
-  reindeerPink: reindeerPink,
-};
+import { SpotLight, useGLTF } from '@react-three/drei';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { modalState, ambientState, npcHoverState } from '../../Atom';
+import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
+import {
+  NpcLocation,
+  NpcRotation,
+  NpcModel,
+} from '../../utils/constants/constants';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { useLoader, useThree } from '@react-three/fiber';
 
 const ReinDeer = (props) => {
-  const { nodes } = useGLTF(DeerModel[props.type]);
+  const { scene, gl } = useThree();
+  const ktxLoader = new KTX2Loader();
+  const dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath(
+    'https://www.gstatic.com/draco/versioned/decoders/1.5.5/',
+  );
+  dracoLoader.setDecoderConfig({ type: 'js' });
+  const { nodes, animations } = useLoader(
+    GLTFLoader,
+    NpcModel[props.type],
+    async (loader) => {
+      await loader.setDRACOLoader(dracoLoader);
+      ktxLoader
+        .setTranscoderPath(
+          `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
+        )
+        .detectSupport(gl);
+      await loader.setKTX2Loader(ktxLoader);
+      ktxLoader.dispose();
+    },
+  );
   nodes.Scene.children[0].scale.set(0.14, 0.14, 0.14);
-  const [x, y, z] = DeerRotation[props.type];
+
+  const [x, y, z] = NpcRotation[props.type];
   nodes.Scene.rotation.set(x, y, z);
-  const location = DeerLocation[props.type];
-  const location2 = [
-    DeerLocation[props.type][0],
-    DeerLocation[props.type][1] + 1.9,
-    DeerLocation[props.type][2],
+
+  const location = NpcLocation[props.type];
+  const location3 = [
+    NpcLocation[props.type][0],
+    NpcLocation[props.type][1] + 2.9,
+    NpcLocation[props.type][2],
   ];
-  const [hovered, setHover] = useState(false);
-  const [clicked, setClick] = useState(false);
-  const [modal, setModal] = useRecoilState(modalState);
+
+  const setHover = useSetRecoilState(npcHoverState);
+  const setModal = useSetRecoilState(modalState);
+  const ambient = useRecoilValue(ambientState);
   const ref = useRef();
+  const light = useRef();
 
-  const {
-    camera,
-    gl: { domElement },
-    scene,
-  } = useThree();
-
-  const buble = useLoader(GLTFLoader, speech);
-
-  useEffect(() => {
-    document.body.style.cursor = hovered ? 'pointer' : 'auto';
-  }, [hovered]);
-
-  useEffect(() => {
-    if (clicked) {
-      setModal(props.type);
-      setClick(!clicked);
-    }
-  }, [clicked]);
+  // useEffect(() => {
+  //   light.current.target.position.set(location[0], location[1], location[2]);
+  // }, []);
 
   return (
     <>
-      <RigidBody type="fixed" colliders={false}>
-        <primitive
-          ref={ref}
-          object={nodes.Scene}
+      {/* <SpotLight
+        ref={light}
+        position={location3}
+        distance={5}
+        angle={0.35}
+        attenuation={ambient ? 0 : 2}
+        intensity={ambient ? 0 : 2}
+        color={'white'}
+      /> */}
+      <primitive ref={ref} object={nodes.Scene} position={location} />
+      <RigidBody type="fixed" colliders={'hull'}>
+        <mesh
           position={location}
-          onClick={(event) => setClick(!clicked)}
-          onPointerOver={(event) => setHover(true)}
-          onPointerOut={(event) => setHover(false)}
-        />
-        {hovered ? (
-          <primitive
-            object={buble.scene}
-            position={location2}
-            rotation={camera.rotation}
-            scale={[0.55, 0.55, 0.55]}
+          onClick={() => setModal(props.type)}
+          onPointerOver={() => setHover(props.type)}
+          onPointerOut={() => setHover(null)}>
+          <cylinderGeometry args={[0.5, 0.5, 2.4, 10]} />
+          <meshStandardMaterial
+            color={(0, 0, 0, 0)}
+            opacity={0}
+            transparent={true}
           />
-        ) : null}
+        </mesh>
       </RigidBody>
     </>
   );

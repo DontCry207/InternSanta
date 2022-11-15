@@ -1,11 +1,10 @@
 import { KeyboardControls, Sky, Stars } from '@react-three/drei';
-import { Canvas, render } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
-import React, { Suspense, useState } from 'react';
+import React, { Suspense } from 'react';
 import styled from 'styled-components';
 import ChristmasTown from './ChristmasTown';
 import Player from './Player';
-import Pet from './Pet';
 import ReinDeer from './ReinDeer';
 import Snow from './Snow';
 import ChatModal from './ChatModal';
@@ -15,11 +14,14 @@ import LoadingPage from './LoadingPage';
 import Npc from './Npc';
 import Shop from './Shop';
 import BoneFire from './BoneFire';
-import CarolZone from './CarolZone';
 import FortuneModal from './FortuneModal';
 import MovieModal from './MovieModal';
 import MainLight from './MainLight';
 import DanceLight from './SpotLight';
+import Moon from './Moon';
+import BubbleModal from './BubbleModal';
+import CarolZone from './CarolZone';
+import Pet from './Pet';
 
 const WorldPage = () => {
   return (
@@ -39,7 +41,7 @@ const WorldPage = () => {
           { name: 'position', keys: ['q', 'Q'] },
           { name: 'dance', keys: ['f', 'F'] },
         ]}>
-        <Canvas camera={{ fov: 70 }}>
+        <Canvas performance={{ current: 0.5 }} camera={{ fov: 70 }}>
           <Snow />
           <Stars
             radius={30}
@@ -50,15 +52,17 @@ const WorldPage = () => {
             fade
             speed={6}
           />
-          <Sky sunPosition={[-100, -100, 2800]} />
+          <Sky sunPosition={[-10, -10, 0]} />
           <MainLight />
           <DanceLight />
           <Suspense fallback={<LazyLoading />}>
             <Physics gravity={[0, -30, 0]} colliders={false}>
+              <Moon />
               <ChristmasTown />
+              <BubbleModal />
               <Player />
               <Pet />
-              <CarolZone />
+              {/* <CarolZone /> */}
               <Shop />
               <BoneFire />
               <Npc type={'infoGuy'} />
@@ -88,6 +92,7 @@ const WorldPage = () => {
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
+  user-select: none;
 `;
 
 export default WorldPage;

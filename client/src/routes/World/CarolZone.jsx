@@ -1,6 +1,4 @@
-import React, { useMemo } from 'react';
-import { useEffect, useRef, useState } from 'react';
-import { useFrame, useLoader, useThree } from '@react-three/fiber';
+import { useLoader, useThree } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
@@ -12,8 +10,8 @@ import TeddyBear from '../CarolZone/TeddyBear';
 import Television from '../CarolZone/Television';
 import FirePlace from '../CarolZone/FirePlace';
 
-const CarolZone = (props) => {
-  const { camera, gl, scene } = useThree();
+const CarolZone = () => {
+  const { gl } = useThree();
   const ktxLoader = new KTX2Loader();
   const roomGltf = useLoader(GLTFLoader, room, (loader) => {
     const dracoLoader = new DRACOLoader();
