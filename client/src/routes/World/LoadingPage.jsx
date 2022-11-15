@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
 import christmasTown from '../../assets/images/christmasTown.jpg';
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { loadingState } from '../../Atom';
 
 const LoadingPage = () => {
-  const [loading, setLoading] = useRecoilState(loadingState);
+  const loading = useRecoilValue(loadingState);
   return (
     <>
       {loading ? (
