@@ -5,7 +5,6 @@ import * as tmImage from '@teachablemachine/image';
 import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
 import Animal_Pet from '../../assets/images/Animal_Pet.png';
-import MainModal from '../Common/MainModal';
 
 const AnimalModal = (props) => {
   const [page, setPage] = useState(1); // 페이지 넘기기 변수
@@ -14,7 +13,6 @@ const AnimalModal = (props) => {
   const [onOff, setOnOff] = useState(true); // 카메라 OnOff 변수
   const webcamRef = React.useRef(null);
   const [imgSrc, setImgSrc] = React.useState(null);
-  const { closeBtnControl, bgColor } = props;
 
   // Teachable machine 클라우드 URL
   const URL = 'https://teachablemachine.withgoogle.com/models/46rTWJ4Ls/';
@@ -87,11 +85,11 @@ const AnimalModal = (props) => {
     setOnOff(true);
   };
   async function complete() {
-    props.setAnimalPet(false);
+    props.setOnAnimalPet(false);
   }
   if (page == 1)
     return (
-      <MainModal bgColor="#639bb2" closeBtnControl={closeBtnControl}>
+      <>
         {/* Page 01 - 메인 화면 */}
         <Title>
           <div className="mainTitle">
@@ -110,11 +108,11 @@ const AnimalModal = (props) => {
             <button onClick={go}>분석하기</button>
           </div>
         </Button>
-      </MainModal>
+      </>
     );
   if (page == 2)
     return (
-      <MainModal bgColor="#639bb2" closeBtnControl={closeBtnControl}>
+      <>
         {/* Page 02 - 촬영 화면 */}
         <Title>
           {onOff === true ? (
@@ -124,22 +122,27 @@ const AnimalModal = (props) => {
           )}
         </Title>
         {onOff === true ? (
-          <Camera>
-            <div>
-              <Webcam
-                video="false"
-                audio={false}
-                ref={webcamRef}
-                screenshotFormat="image/jpeg"
-                style={{
-                  position: 'absolute',
-                  width: 768,
-                  height: 575,
-                  bottom: 0,
-                }}
-              />
-            </div>
-          </Camera>
+          <>
+            <Comment>
+              <div>카메라를 활성화하고 다시 시도해 주세요!!</div>
+            </Comment>
+            <Camera>
+              <div>
+                <Webcam
+                  video="false"
+                  audio={false}
+                  ref={webcamRef}
+                  screenshotFormat="image/jpeg"
+                  style={{
+                    position: 'absolute',
+                    width: 768,
+                    height: 575,
+                    bottom: 0,
+                  }}
+                />
+              </div>
+            </Camera>
+          </>
         ) : (
           <img
             src={imgSrc}
@@ -163,12 +166,12 @@ const AnimalModal = (props) => {
             <></>
           )}
         </Button>
-      </MainModal>
+      </>
     );
   if (page == 3)
     return (
-      <MainModal bgColor="#639bb2" closeBtnControl={closeBtnControl}>
-        {/* Page 03 - 결과 발표 */}
+      // Page 03 - 결과 발표
+      <>
         <End>
           <div>{animal}</div>
         </End>
@@ -192,7 +195,7 @@ const AnimalModal = (props) => {
             </button>
           </div>
         </Button>
-      </MainModal>
+      </>
     );
 };
 const Title = styled.div`
@@ -229,6 +232,11 @@ const Camera = styled.div`
   left: 15%;
   overflow: hidden;
   border-radius: 40px;
+`;
+const Comment = styled.div`
+  position: absolute;
+  top: 45%;
+  font-size: 32px;
 `;
 const Button = styled.div`
   button {

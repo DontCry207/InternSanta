@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import MainModal from '../Common/MainModal';
 import QuickDraw from './QuickDraw';
 import { submit } from './QuickDraw';
 import { fetchData } from '../../utils/apis/api';
-import { useRecoilState } from 'recoil';
-import { userInfoState } from '../../Atom';
 
 const DrawModal = (props) => {
-  const { closeBtnControl, quickDraw } = props;
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [page, setPage] = useState(1); // 페이지 넘기기 변수
   const [chap, setChap] = useState(1); // 챕터 변수
   const [loading, setLoading] = useState(false); // 캔버스 유무 변수
@@ -45,7 +40,7 @@ const DrawModal = (props) => {
   }, [loading]);
 
   return (
-    <MainModal bgColor="#3E8887" closeBtnControl={closeBtnControl}>
+    <>
       {page == 1 ? (
         chap < 4 ? (
           <Title>
@@ -183,7 +178,7 @@ const DrawModal = (props) => {
           </Button>
         </>
       )}
-    </MainModal>
+    </>
   );
 };
 

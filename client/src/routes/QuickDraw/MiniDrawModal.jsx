@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import MainModal from '../Common/MainModal';
 import QuickDraw from './QuickDraw';
 import { submit } from './QuickDraw';
 import { randNum } from './QuickDataSet';
 import { fetchData } from '../../utils/apis/api';
-import { useRecoilState } from 'recoil';
-import { userInfoState } from '../../Atom';
 import Quick from '../../assets/images/Quick.png';
 
 const MiniDrawModal = (props) => {
-  const { closeBtnControl } = props;
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [page, setPage] = useState(0); // 페이지 넘기기 변수
   const [count, setCount] = useState(1); // 연속 정답 횟수 기록 변수
   const [loading, setLoading] = useState(true); // 캔버스 유무 변수
@@ -45,7 +40,7 @@ const MiniDrawModal = (props) => {
     }
   }
   async function complete() {
-    props.setMiniDraw(false);
+    props.setOnMiniDraw(false);
   }
   useEffect(() => {
     if (!loading) {
@@ -54,7 +49,7 @@ const MiniDrawModal = (props) => {
   }, [loading]);
 
   return (
-    <MainModal bgColor="#56668E" closeBtnControl={closeBtnControl}>
+    <>
       {page == 1 ? (
         count < 6 ? (
           <Title>
@@ -100,8 +95,6 @@ const MiniDrawModal = (props) => {
                         vector: drawVector,
                       })
                       .then((res) => {
-                        // console.log(draw);
-                        // console.log(drawVector);
                         setLab(res.data.draw);
                         setCorrect(res.data.result);
                       })
@@ -219,7 +212,7 @@ const MiniDrawModal = (props) => {
           </Button>
         </>
       )}
-    </MainModal>
+    </>
   );
 };
 
