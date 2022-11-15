@@ -7,13 +7,14 @@ import { randNum } from './QuickDataSet';
 import { fetchData } from '../../utils/apis/api';
 import { useRecoilState } from 'recoil';
 import { userInfoState } from '../../Atom';
+import Quick from '../../assets/images/Quick.png';
 
 const MiniDrawModal = (props) => {
   const { closeBtnControl } = props;
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-  const [page, setPage] = useState(1); // 페이지 넘기기 변수
+  const [page, setPage] = useState(0); // 페이지 넘기기 변수
   const [count, setCount] = useState(1); // 연속 정답 횟수 기록 변수
-  const [loading, setLoading] = useState(false); // 캔버스 유무 변수
+  const [loading, setLoading] = useState(true); // 캔버스 유무 변수
   const [notDraw, setNotDraw] = useState(false); // 캔버스 덮개 유무, getPointer null 에러 방지 위함
   const [correct, setCorrect] = useState(''); // 정답 기록 변수
   const [lab, setLab] = useState(''); // 정답지 기록 변수
@@ -59,10 +60,8 @@ const MiniDrawModal = (props) => {
           <Title>
             <div>{drawing[1]}</div>
           </Title>
-        ) : (
-          <></>
-        )
-      ) : correct ? (
+        ) : null
+      ) : page == 0 ? null : correct ? (
         <Title>
           <div>정답!!</div>
         </Title>
@@ -75,12 +74,8 @@ const MiniDrawModal = (props) => {
         <CanvasCover>
           <div></div>
         </CanvasCover>
-      ) : (
-        <></>
-      )}
-      {loading ? (
-        <></>
-      ) : (
+      ) : null}
+      {loading ? null : (
         <Canvas>
           <div className="App">
             <canvas
@@ -105,8 +100,8 @@ const MiniDrawModal = (props) => {
                         vector: drawVector,
                       })
                       .then((res) => {
-                        console.log(draw);
-                        console.log(drawVector);
+                        // console.log(draw);
+                        // console.log(drawVector);
                         setLab(res.data.draw);
                         setCorrect(res.data.result);
                       })
@@ -133,6 +128,20 @@ const MiniDrawModal = (props) => {
             </Button>
           </>
         )
+      ) : page == 0 ? (
+        <Thumnail>
+          <div>
+            <img
+              src={Quick}
+              alt="시작하기"
+              onClick={() => {
+                setPage(1);
+                setLoading(false);
+              }}
+            />
+            <p>드로잉 테스트</p>
+          </div>
+        </Thumnail>
       ) : correct ? (
         <>
           <Answer>
@@ -226,6 +235,20 @@ const Title = styled.div`
   vertical-align: middle;
   color: white;
   font-size: 60px;
+`;
+const Thumnail = styled.div`
+  margin-top: 100px;
+  img {
+    width: 340px;
+    height: 340px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  p {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 28px;
+  }
 `;
 const Success = styled.div`
   width: 1000px;

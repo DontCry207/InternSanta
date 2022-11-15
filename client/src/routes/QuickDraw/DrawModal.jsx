@@ -13,6 +13,7 @@ const DrawModal = (props) => {
   const [page, setPage] = useState(1); // 페이지 넘기기 변수
   const [chap, setChap] = useState(1); // 챕터 변수
   const [loading, setLoading] = useState(false); // 캔버스 유무 변수
+  const [notDraw, setNotDraw] = useState(false); // 캔버스 덮개 유무, getPointer null 에러 방지 위함
   const [correct, setCorrect] = useState(''); // 정답 기록 변수
   const [lab, setLab] = useState(''); // 정답지 기록 변수
   const word = { 1: '나무', 2: '망치', 3: '못' };
@@ -62,6 +63,13 @@ const DrawModal = (props) => {
           <div>오답…</div>
         </Title>
       )}
+      {notDraw ? (
+        <CanvasCover>
+          <div></div>
+        </CanvasCover>
+      ) : (
+        <></>
+      )}
       {loading ? (
         <></>
       ) : (
@@ -94,6 +102,7 @@ const DrawModal = (props) => {
                       })
                       .then(() => {
                         setTimeout(setPage(2), 0);
+                        setNotDraw(true);
                       });
                   }
                 }}
@@ -136,6 +145,7 @@ const DrawModal = (props) => {
                       chapter();
                     })
                     .then(() => {
+                      setNotDraw(false);
                       setPage(1);
                     });
                 }}
@@ -162,6 +172,7 @@ const DrawModal = (props) => {
                       setLoading(false);
                     })
                     .then(() => {
+                      setNotDraw(false);
                       setPage(1);
                     });
                 }}
@@ -203,7 +214,12 @@ const Success = styled.div`
   color: white;
   font-size: 60px;
 `;
-
+const CanvasCover = styled.div`
+  position: absolute;
+  width: 840px;
+  height: 480px;
+  z-index: 999;
+`;
 const Canvas = styled.div`
   margin-top: 70px;
   width: 810px;
