@@ -271,7 +271,7 @@ const Canvas = styled.div`
   margin-top: 70px;
   width: 810px;
   height: 405px;
-  border: 4px solid #56668e;
+  border: 2px solid #56668e;
   border-radius: 40px;
   overflow: hidden;
   box-shadow: 1px 1px 3px 1px gray;

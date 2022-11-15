@@ -124,7 +124,7 @@ const AnimalModal = (props) => {
         {onOff === true ? (
           <>
             <Comment>
-              <div>카메라를 활성화하고 다시 시도해 주세요!!</div>
+              <div>카메라 활성화 중……</div>
             </Comment>
             <Camera>
               <div>
@@ -235,8 +235,14 @@ const Camera = styled.div`
 `;
 const Comment = styled.div`
   position: absolute;
-  top: 45%;
+  top: 20%;
+  width: 750px;
+  height: 400px;
+  border: 3px solid #56668e;
+  border-radius: 40px;
   font-size: 32px;
+  text-align: center;
+  padding-top: 150px;
 `;
 const Button = styled.div`
   button {
