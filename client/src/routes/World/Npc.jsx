@@ -18,17 +18,17 @@ const Npc = (props) => {
   const { scene, gl } = useThree();
   const group = useRef();
   const ktxLoader = new KTX2Loader();
+  ktxLoader
+    .setTranscoderPath(
+      `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
+    )
+    .detectSupport(gl);
   const { nodes, animations } = useLoader(
     GLTFLoader,
     NpcModel[props.type],
-    async (loader) => {
-      await loader.setMeshoptDecoder(MeshoptDecoder);
-      ktxLoader
-        .setTranscoderPath(
-          `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
-        )
-        .detectSupport(gl);
-      await loader.setKTX2Loader(ktxLoader);
+    (loader) => {
+      loader.setMeshoptDecoder(MeshoptDecoder);
+      loader.setKTX2Loader(ktxLoader);
       ktxLoader.dispose();
     },
   );

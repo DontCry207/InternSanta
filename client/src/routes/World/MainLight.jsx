@@ -43,7 +43,7 @@ const MainLight = () => {
         intensity={ambient ? 0 : 1.8}
         position={[-9.65, 4, 12.69]}
         distance={7}
-        decay={1}
+        decay={3}
         color={'#FFF7C2'}
       />
       <pointLight
@@ -66,6 +66,22 @@ const MainLight = () => {
         distance={7}
         decay={2}
         color={'#FFF7C2'}
+      />
+      <pointLight
+        className="carolZone"
+        intensity={2.2}
+        distance={10}
+        decay={2.5}
+        position={[98.34, 4, 100.62]}
+        color={'#af8169'}
+      />
+      <pointLight
+        className="fire"
+        intensity={2}
+        distance={10}
+        decay={2.5}
+        position={[99.1, 1.3, 99.24]}
+        color={'#ff5500'}
       />
     </>
   );

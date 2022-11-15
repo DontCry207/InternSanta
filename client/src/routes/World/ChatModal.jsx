@@ -1,45 +1,40 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { useEffect } from 'react';
 import { BsFillCaretDownFill } from 'react-icons/bs';
 import { BsThreeDots } from 'react-icons/bs';
-import styled from 'styled-components';
-import reindeerRed from '../../assets/images/reindeerRed.png';
-import infoGuy from '../../assets/images/infoGuy.png';
 import { useRecoilState } from 'recoil';
-import { modalState } from '../../Atom';
-
-const Images = {
-  reindeerRed: reindeerRed,
-  infoGuy: infoGuy,
-};
-
-const Dialog = {
-  null: ['초기값'],
-  reindeerRed: [
-    '안녕 너가 새로온 인턴이구나? 나는 인사팀장 루돌프야.',
-    '산타 정직원이 되기 위해 너는 순록 여덟 마리를 설득해서 너랑 같이 일할 수 있게 해야 해.',
-    '너가 순록들 부탁을 하나씩 들어주면 너의 편이 될거야.',
-    '옷 가게에 가면 너가 만들고 싶은 옷을 만들 수 있어',
-  ],
-  infoGuy: [
-    '안녕! 우리마을에 온걸 환영해!',
-    '인사팀장 루돌프님이 기다리고 계셔! 그분께 가봐.',
-  ],
-};
-
-const Name = {
-  reindeerRed: '루돌프 인사팀장',
-  infoGuy: '박아영 정보과장',
-};
+import { modalState, userInfoState } from '../../Atom';
+import {
+  NormalDialog,
+  NpcFeatButton,
+  NpcImages,
+  NpcNames,
+} from '../../utils/constants/constants';
+import { fetchData } from '../../utils/apis/api';
 
 const ChatModal = () => {
   const [dialogCnt, setDialogCnt] = useState(0);
+  const [scripts, setScripts] = useState([]);
   const [lengthDialog, setLengthDialog] = useState(0);
   const [modal, setModal] = useRecoilState(modalState);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const { memberChapter, memberCheckpoint, memberCoin, memberNickname } =
+    userInfo;
+
+  const getScript = async () => {
+    const res = await fetchData.get('/api/v1/quest/script');
+    setScripts(res.data.questScriptList);
+  };
+
+  useEffect(() => {
+    getScript();
+  }, []);
 
   useEffect(() => {
     if (modal) {
-      setLengthDialog(Dialog[modal].length - 1);
+      console.log(scripts);
+      setLengthDialog(NormalDialog[modal].length - 1);
     }
   }, [modal]);
 
@@ -48,15 +43,18 @@ const ChatModal = () => {
       {modal ? (
         <Modal>
           <NpcImage>
-            <img src={Images[modal]} alt="" />
+            <img src={NpcImages[modal]} alt="" />
           </NpcImage>
           <ChatBox>
             <ChatBoxIcon>
               <BsThreeDots color="white" size={30} />
             </ChatBoxIcon>
-            <p className="name">{Name[modal]}</p>
-            <p className="dialog">{Dialog[modal][dialogCnt]}</p>
+            <p className="name">{NpcNames[modal]}</p>
+            <p className="dialog">{NormalDialog[modal][dialogCnt]}</p>
             <Buttons>
+              {NpcFeatButton[modal] ? (
+                <FeatBtn>{NpcFeatButton[modal]}</FeatBtn>
+              ) : null}
               {lengthDialog === dialogCnt ? (
                 <CloseBtn
                   onClick={() => {
@@ -142,7 +140,8 @@ const NpcImage = styled.div`
   align-items: center;
   padding: 40px;
   img {
-    scale: 1;
+    height: 450px;
+    object-fit: cover;
   }
 `;
 
@@ -153,10 +152,10 @@ const Buttons = styled.div`
   flex-direction: row;
   justify-content: end;
   align-items: end;
+  gap: 10px;
 `;
 
 const CloseBtn = styled.div`
-  width: 15%;
   height: 100%;
   border-radius: 30px;
   background-color: #60c783;
@@ -167,6 +166,21 @@ const CloseBtn = styled.div`
   color: white;
   font-size: 26px;
   cursor: pointer;
+  padding: 0 20px;
+`;
+
+const FeatBtn = styled.div`
+  height: 100%;
+  border-radius: 30px;
+  background: ${(props) => props.theme.colors.gradientOrange};
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 26px;
+  cursor: pointer;
+  padding: 0 20px;
 `;
 
 const ChatBoxIcon = styled.div`
