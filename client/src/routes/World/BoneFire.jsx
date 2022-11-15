@@ -14,15 +14,16 @@ const BoneFire = () => {
     'https://www.gstatic.com/draco/versioned/decoders/1.5.5/',
   );
   dracoLoader.setDecoderConfig({ type: 'js' });
-  const boneFireGltf = useLoader(GLTFLoader, boneFire, async (loader) => {
-    await loader.setDRACOLoader(dracoLoader);
-    ktxLoader
-      .setTranscoderPath(
-        `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
-      )
-      .detectSupport(gl);
-    await loader.setKTX2Loader(ktxLoader);
+  ktxLoader
+    .setTranscoderPath(
+      `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
+    )
+    .detectSupport(gl);
+  const boneFireGltf = useLoader(GLTFLoader, boneFire, (loader) => {
+    loader.setDRACOLoader(dracoLoader);
+    loader.setKTX2Loader(ktxLoader);
     ktxLoader.dispose();
+    dracoLoader.dispose();
   });
   boneFireGltf.scene.rotation.set(0, 0.37 * Math.PI, 0);
 
