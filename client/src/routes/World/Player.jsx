@@ -39,14 +39,14 @@ const Player = () => {
   const [, get] = useKeyboardControls();
   const { nodes, animations, materials } = useGLTF(character);
   const { actions } = useAnimations(animations, group);
+  let inDebounce;
 
   const debounce = (func, delay) => {
-    let inDebounce;
-    return function (...args) {
+    return () => {
       if (inDebounce) {
         clearTimeout(inDebounce);
       }
-      inDebounce = setTimeout(() => func(...args), delay);
+      inDebounce = setTimeout(() => func(), delay);
     };
   };
 
@@ -88,7 +88,7 @@ const Player = () => {
     }
 
     if (position) {
-      console.log([x, y, z]);
+      debounce(console.log([x, y, z]), 1000);
     }
 
     if (carol) {
@@ -174,7 +174,7 @@ const Player = () => {
         mass={1}
         type="dynamic"
         colliders={false}
-        position={sponPosition ? [-15.7, 3, 21.4] : [98.4, 3, 100.85]}>
+        position={sponPosition ? [-15.7, 3, 21.4] : [22.34, 3, -13.59]}>
         <CuboidCollider args={[0.3, 0.3, 0.3]} />
       </RigidBody>
     </>

@@ -11,7 +11,7 @@ import * as THREE from 'three';
 const TeddyBear = () => {
   const ktxLoader = new KTX2Loader();
   const scale = [0.8, 0.8, 0.8];
-  const location = [100.05, 1, 99.96];
+  const location = [24.05, 1, -14.54];
   const { camera, gl, scene } = useThree();
   const teddybearGltf = useLoader(GLTFLoader, teddybear, (loader) => {
     const dracoLoader = new DRACOLoader();
