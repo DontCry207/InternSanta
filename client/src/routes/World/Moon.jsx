@@ -27,6 +27,8 @@ const Moon = () => {
     setAmbient(!ambient);
   };
 
+  console.log(logo);
+
   return (
     <>
       <primitive
