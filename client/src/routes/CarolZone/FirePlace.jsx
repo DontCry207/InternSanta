@@ -14,9 +14,9 @@ import { fortuneModalState } from '../../Atom';
 
 const FirePlace = () => {
   const ktxLoader = new KTX2Loader();
-  const boxLocation = [99.1, 1.3, 99.2];
+  const location = [24, 1, -14.5];
+  const boxLocation = [23, 1.5158779382705688, -15.257784843444824];
   const scale = [0.8, 0.8, 0.8];
-  const location = [100, 1, 100];
   const [hovered, setHover] = useState(false);
   const [modal, setModal] = useRecoilState(fortuneModalState);
 
@@ -65,7 +65,7 @@ const FirePlace = () => {
           onClick={(e) => click(e)}
           onPointerOver={(e) => hover(e)}
           onPointerOut={(e) => unhover(e)}>
-          <boxGeometry args={[0.17, 1.7, 1.4]} />
+          <boxGeometry args={[0.17, 1, 1.4]} />
           <meshStandardMaterial
             color={[0, 0, 0, 0]}
             opacity={0}
