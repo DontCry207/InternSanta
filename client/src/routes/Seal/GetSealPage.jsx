@@ -7,12 +7,27 @@ import AlertModal from '../Common/AlertModal';
 const GetSealPage = () => {
   const [sealResult, setSealResult] = useState([]);
   const [modal, setModal] = useState(false);
+  const [openToggle, setOpenToggle] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (openToggle) {
+      timer = setTimeout(() => {
+        setModal(true);
+        setOpenToggle(!openToggle);
+        console.log('g');
+      }, 3000);
+    }
+  }, [openToggle]);
+
   const getOneSeal = (num) => {
     fetchData.patch('/api/v1/seal', { count: num }).then((res) => {
       setSealResult(res.data);
+      console.log(res.data);
     });
-    setModal(true);
+    setOpenToggle(true);
   };
+
   const openModal = () => {
     if (modal) {
       return (
@@ -20,10 +35,10 @@ const GetSealPage = () => {
           title="뽑기 결과"
           rightBtnName="닫기"
           setRightBtnControl={() => setModal(false)}>
-          {sealResult?.map((item) => {
+          {sealResult?.map((item, i) => {
             return (
-              <div>
-                {/* <img src={item.sealUrl} alt="" /> */}
+              <div key={i}>
+                <img src={item.sealUrl} alt="" width="200px" />
                 <p>{item.sealName}</p>
               </div>
             );
@@ -34,8 +49,16 @@ const GetSealPage = () => {
   };
   return (
     <div>
-      <button onClick={() => getOneSeal(1)}>1번 씰뽑기</button>
-      <button onClick={() => getOneSeal(11)}>10+1번 씰뽑기</button>
+      <button
+        onClick={() => getOneSeal(1)}
+        disabled={openToggle ? true : false}>
+        1번 씰뽑기
+      </button>
+      <button
+        onClick={() => getOneSeal(11)}
+        disabled={openToggle ? true : false}>
+        10+1번 씰뽑기
+      </button>
       {openModal()}
     </div>
   );
