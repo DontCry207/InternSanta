@@ -8,7 +8,6 @@ import { fetchData } from '../../utils/apis/api';
 import ClothesPage from '../Clothes/ClothesPage';
 import AnimalModal from '../AnimalPet/AnimalModal';
 import MainModal from '../Common/MainModal';
-import ClothesPage from '../Clothes/ClothesPage';
 import MiniGamePage from '../MiniGame/MiniGamePage';
 import DrawModal from '../QuickDraw/DrawModal';
 import MiniDrawModal from '../QuickDraw/MiniDrawModal';
@@ -41,7 +40,7 @@ const HomePage = () => {
       );
     }
     if (onClothesModal) {
-      return <ClothesPage closeBtnControl={setOnClothModal} />;
+      return <ClothesPage closeBtnControl={setOnClothesModal} />;
     }
     if (onAnimalPet) {
       return (
