@@ -3,38 +3,55 @@ import styled from 'styled-components';
 import { useEffect } from 'react';
 import { BsFillCaretDownFill } from 'react-icons/bs';
 import { BsThreeDots } from 'react-icons/bs';
-import { useRecoilState } from 'recoil';
-import { modalState, userInfoState } from '../../Atom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  missionModalState,
+  modalState,
+  npcScriptState,
+  questInfoState,
+  userInfoState,
+} from '../../Atom';
 import {
   NormalDialog,
   NpcFeatButton,
   NpcImages,
   NpcNames,
+  NpcQuest,
 } from '../../utils/constants/constants';
 import { fetchData } from '../../utils/apis/api';
 
 const ChatModal = () => {
-  const [dialogCnt, setDialogCnt] = useState(0);
-  const [scripts, setScripts] = useState([]);
-  const [lengthDialog, setLengthDialog] = useState(0);
+  const [cnt, setCnt] = useState(0);
+  const [lengthScript, setLengthScript] = useState(0);
   const [modal, setModal] = useRecoilState(modalState);
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-  const { memberChapter, memberCheckpoint, memberCoin, memberNickname } =
-    userInfo;
+  const [missionModal, setMissionModal] = useRecoilState(missionModalState);
+  const scripts = useRecoilValue(npcScriptState);
+  const quest = useRecoilValue(questInfoState);
+  const userInfo = useRecoilValue(userInfoState);
+  const targetNpc = NpcQuest[quest.questNpc];
+  const chapter = userInfo.memberChapter;
+  const checkPoint = userInfo.memberCheckpoint;
 
-  const getScript = async () => {
-    const res = await fetchData.get('/api/v1/quest/script');
-    setScripts(res.data.questScriptList);
+  const clearQuest = async () => {
+    const res = await fetchData.patch('/api/v1/member/chapter');
+    console.log(res.data);
+  };
+
+  const check = () => {
+    if (modal === targetNpc) {
+      if (chapter === 0 && checkPoint === 0) {
+        setMissionModal(modal);
+        clearQuest();
+      }
+    }
   };
 
   useEffect(() => {
-    getScript();
-  }, []);
-
-  useEffect(() => {
-    if (modal) {
-      console.log(scripts);
-      setLengthDialog(NormalDialog[modal].length - 1);
+    setCnt(0);
+    if (targetNpc === modal) {
+      setLengthScript(scripts.length - 1);
+    } else {
+      setLengthScript(NormalDialog[modal].length - 1);
     }
   }, [modal]);
 
@@ -50,16 +67,23 @@ const ChatModal = () => {
               <BsThreeDots color="white" size={30} />
             </ChatBoxIcon>
             <p className="name">{NpcNames[modal]}</p>
-            <p className="dialog">{NormalDialog[modal][dialogCnt]}</p>
+            {(targetNpc === modal && (
+              <p className="dialog">{scripts[cnt]}</p>
+            )) ||
+              (targetNpc !== modal && (
+                <p className="dialog">{NormalDialog[modal][cnt]}</p>
+              ))}
             <Buttons>
               {NpcFeatButton[modal] ? (
                 <FeatBtn>{NpcFeatButton[modal]}</FeatBtn>
               ) : null}
-              {lengthDialog === dialogCnt ? (
+              {lengthScript === cnt ? (
                 <CloseBtn
                   onClick={() => {
-                    setDialogCnt(0);
                     setModal(null);
+                    setTimeout(() => {
+                      check();
+                    }, 500);
                   }}>
                   닫기
                 </CloseBtn>
@@ -69,7 +93,7 @@ const ChatModal = () => {
                   color="#DE6363"
                   size={30}
                   onClick={() => {
-                    setDialogCnt(dialogCnt + 1);
+                    setCnt(cnt + 1);
                   }}
                 />
               )}

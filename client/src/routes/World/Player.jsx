@@ -7,12 +7,11 @@ import {
   MapControls,
 } from 'three/examples/jsm/controls/OrbitControls';
 import * as THREE from 'three';
-import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
+import { useKeyboardControls, useAnimations } from '@react-three/drei';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { loadingState, userInfoState } from '../../Atom';
-import { TextureLoader } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import defaultTexture from '../../assets/images/textureResult.png';
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module';
 extend({ OrbitControls, MapControls });
 
 const Player = () => {
@@ -37,7 +36,16 @@ const Player = () => {
   } = useThree();
 
   const [, get] = useKeyboardControls();
-  const { nodes, animations, materials } = useGLTF(character);
+  //const { nodes, animations, materials } = useGLTF(character);
+  const { nodes, animations, materials } = useLoader(
+    GLTFLoader,
+    character,
+    (loader) => {
+      loader.setMeshoptDecoder(MeshoptDecoder);
+    },
+  );
+  nodes.Scene.scale.setZ(-0.6);
+
   const { actions } = useAnimations(animations, group);
   let inDebounce;
 

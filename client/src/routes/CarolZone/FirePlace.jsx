@@ -35,7 +35,6 @@ const FirePlace = () => {
   };
 
   useEffect(() => {
-    console.log('hover');
     document.body.style.cursor = hovered ? 'pointer' : 'auto';
   }, [hovered]);
 

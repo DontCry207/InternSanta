@@ -26,6 +26,8 @@ import FirePlace from '../CarolZone/FirePlace';
 import Television from '../CarolZone/Television';
 import Tree from '../CarolZone/Tree';
 import TeddyBear from '../CarolZone/TeddyBear';
+import QuestBubbleModal from './QuestBubbleModal';
+import MissionModal from './MissionModal';
 
 const WorldPage = () => {
   return (
@@ -33,6 +35,7 @@ const WorldPage = () => {
       <LoadingPage />
       <ChatModal />
       <FortuneModal />
+      <MissionModal />
       <MovieModal />
       <PlayUi />
       <KeyboardControls
@@ -61,6 +64,7 @@ const WorldPage = () => {
           <Sky sunPosition={[-10, -10, 0]} />
           <Moon />
           <BubbleModal />
+          <QuestBubbleModal />
           <MainLight />
           <DanceLight />
           <Suspense fallback={<LazyLoading />}>

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import msg from '../../assets/msg.glb';
-import speech from '../../assets/speech.glb';
 import { useThree } from '@react-three/fiber';
 import { NpcLocation } from '../../utils/constants/constants';
 import { useRecoilValue } from 'recoil';
@@ -10,7 +9,6 @@ import { useGLTF } from '@react-three/drei';
 const BubbleModal = () => {
   const { camera } = useThree();
   const buble = useGLTF(msg);
-  const quest = useGLTF(speech);
   const hovered = useRecoilValue(npcHoverState);
   buble.nodes.Scene.rotation.copy(camera.rotation);
 
@@ -37,7 +35,5 @@ const BubbleModal = () => {
     </>
   );
 };
-
-useGLTF.preload(msg, speech);
 
 export default BubbleModal;

@@ -18,6 +18,16 @@ export const userInfoState = atom({
   },
 });
 
+export const questInfoState = atom({
+  key: 'questInfo',
+  default: {
+    questId: 0,
+    questTitle: '',
+    questSub: '',
+    questNpc: 0,
+  },
+});
+
 export const fortuneModalState = atom({
   key: `fortuneModalState`,
   default: false,
@@ -25,6 +35,11 @@ export const fortuneModalState = atom({
 
 export const movieModalState = atom({
   key: `movieModal`,
+  default: false,
+});
+
+export const missionModalState = atom({
+  key: `missionModal`,
   default: false,
 });
 
@@ -46,4 +61,9 @@ export const ambientState = atom({
 export const npcHoverState = atom({
   key: `npcHover`,
   default: null,
+});
+
+export const npcScriptState = atom({
+  key: 'npcScript',
+  default: [],
 });

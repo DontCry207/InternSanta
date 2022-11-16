@@ -5,14 +5,15 @@ import { BsFillTreeFill, BsExclamationLg } from 'react-icons/bs';
 import { BiSmile } from 'react-icons/bi';
 import { HiVolumeUp } from 'react-icons/hi';
 import { useRecoilState } from 'recoil';
-import { userInfoState } from '../../Atom';
+import { npcScriptState, questInfoState, userInfoState } from '../../Atom';
 import { useEffect } from 'react';
 import { fetchData } from '../../utils/apis/api';
 
 const PlayUi = () => {
   const [prog, setProg] = useState(false);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-  const [quest, setQuests] = useState({});
+  const [questInfo, setQuestInfo] = useRecoilState(questInfoState);
+  const [script, setScript] = useRecoilState(npcScriptState);
   const {
     memberChapter,
     memberCheckpoint,
@@ -21,15 +22,28 @@ const PlayUi = () => {
     memberTicket,
   } = userInfo;
 
+  const getScript = async () => {
+    const res = await fetchData.get('/api/v1/quest/script');
+    setScript(res.data.questScriptList);
+    return;
+  };
+
   const getQuest = async () => {
     const res = await fetchData.get('/api/v1/quest');
-    setQuests(res.data);
+    setQuestInfo(res.data);
+    console.log(res.data);
+  };
+
+  const getUserInfo = async () => {
+    const res = await fetchData.get('/api/v1/member');
+    setUserInfo(res.data);
     console.log(res.data);
   };
 
   useEffect(() => {
+    getUserInfo();
     getQuest();
-    console.log(userInfo);
+    getScript();
   }, []);
 
   return (
@@ -44,7 +58,16 @@ const PlayUi = () => {
           onClick={() => {
             setProg(!prog);
           }}>
-          <BsExclamationLg size={30} color={'#DE6363'} />
+          <IconBox>
+            {!userInfo.memberCheckpoint ? (
+              <BsExclamationLg size={30} color={'#DE6363'} />
+            ) : null}
+          </IconBox>
+          <QuestDescription>
+            <p className="qtitle">{questInfo.questTitle}</p>
+            <p className="qsub">{questInfo.questSub}</p>
+          </QuestDescription>
+          <IconBox></IconBox>
         </ProgressButton>
       </LeftTopBox>
       <RightTopBox>
@@ -126,10 +149,10 @@ const Logo = styled.div`
 `;
 
 const ProgressButton = styled.div`
-  width: ${(props) => (props.prog ? '500px' : '80px')};
+  width: ${(props) => (props.prog ? '400px' : '80px')};
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   height: 80px;
   background-color: rgba(255, 255, 255, 0.9);
@@ -137,7 +160,8 @@ const ProgressButton = styled.div`
   border: solid 1px grey;
   pointer-events: auto;
   cursor: pointer;
-  transition: ease-in 0.1s;
+  transition: all 0.1s;
+  overflow: hidden;
 `;
 
 const IconBorder = styled.div`
@@ -157,6 +181,36 @@ const IconBorder = styled.div`
   &:hover {
     scale: 1.1;
   }
+`;
+
+const QuestDescription = styled.div`
+  width: 240px;
+  min-width: 240px;
+  height: 80px;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  p {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .qtitle {
+    font-size: 24px;
+    color: #0d005c;
+  }
+`;
+
+const IconBox = styled.div`
+  width: 80px;
+  min-width: 80px;
+  height: 80px;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const MissionProgress = styled.div``;

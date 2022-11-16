@@ -189,5 +189,14 @@ export const NpcFeatButton = {
 };
 
 export const NpcQuest = {
-  reindeerRed: 0,
+  0: 'reindeerRed',
+  1: 'reindeer',
+  2: 'reindeerGreen',
+  3: 'reindeerOrange',
+  4: 'reindeerYellow',
+  5: 'reindeerPurple',
+  6: 'reindeerBlue',
+  7: 'reindeerWhite',
+  8: 'reindeerPink',
+  9: 'reindeerRed',
 };
