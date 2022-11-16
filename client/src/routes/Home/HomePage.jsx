@@ -34,11 +34,7 @@ const HomePage = () => {
       );
     }
     if (onClothModal) {
-      return (
-        <MainModal closeBtnControl={setOnClothModal} bgColor="#8A8A8A">
-          <ClothesPage />
-        </MainModal>
-      );
+      return <ClothesPage closeBtnControl={setOnClothModal} />;
     }
   };
 
