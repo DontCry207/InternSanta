@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useThree, useFrame, extend } from '@react-three/fiber';
+import { useThree, useFrame, extend, useLoader } from '@react-three/fiber';
 import character from '../../assets/character.glb';
 import { RigidBody, CuboidCollider } from '@react-three/rapier';
 import {
@@ -8,16 +8,24 @@ import {
 } from 'three/examples/jsm/controls/OrbitControls';
 import * as THREE from 'three';
 import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { loadingState, userInfoState } from '../../Atom';
+import { TextureLoader } from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 extend({ OrbitControls, MapControls });
 
-const Player = (props) => {
-  const SPEED = 4;
+const Player = () => {
+  const userInfo = useRecoilValue(userInfoState);
+  const [loading, setLoading] = useRecoilState(loadingState);
+  const [sponPosition, setSponPosition] = useState(true);
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();
   const sideVector = new THREE.Vector3();
   const ref = useRef();
   const controls = useRef();
   const group = useRef();
+  let textureLoader = new THREE.TextureLoader();
+  let texture = textureLoader.load(userInfo.memberTop);
 
   const {
     camera,
@@ -26,45 +34,91 @@ const Player = (props) => {
   } = useThree();
 
   const [, get] = useKeyboardControls();
-  const [location, setLocation] = useState([-2.52, -98, 0.17]); // 캐롤존 [-2.52, -98, 0.17]
-  const [maxPolarAngle, setMaxPolarAngle] = useState(1.8);
-  const { nodes, materials, animations } = useGLTF(character);
+  const { nodes, animations } = useLoader(GLTFLoader, character, (object) => {
+    // object.Scene.Mesh017.material.map = texture;
+    // object.Scene.Mesh017.material.needsUpdate = true;
+  });
   const { actions } = useAnimations(animations, group);
+  let inDebounce;
+
+  const debounce = (func, delay) => {
+    return () => {
+      if (inDebounce) {
+        clearTimeout(inDebounce);
+      }
+      inDebounce = setTimeout(() => func(), delay);
+    };
+  };
 
   useEffect(() => {
     controls.current.enableRotate = true;
     controls.current.rotateSpeed = 0.4;
     nodes.Scene.name = 'player';
-    console.log(scene);
+    console.log(nodes);
+    console.log(texture);
   }, []);
 
   useEffect(() => {
-    if (!props.loading) {
+    if (!loading) {
       controls.current.minAzimuthAngle = 0;
       controls.current.maxAzimuthAngle = Infinity;
-      const [x, y, z] = [...ref.current.translation()];
-      setLocation([x, y + 0.4, z]);
     }
-  }, [props]);
+  }, [loading]);
 
   useFrame((state, delta) => {
-    const { forward, backward, left, right } = get();
+    let SPEED = 4;
+    const {
+      forward,
+      backward,
+      left,
+      right,
+      dash,
+      position,
+      dance,
+      carol,
+      world,
+    } = get();
     const velocity = ref.current.linvel();
-    // update camera
     const [x, y, z] = [...ref.current.translation()];
 
-    nodes.Scene.rotation.copy(camera.rotation);
+    if (!dance) {
+      nodes.Scene.rotation.copy(camera.rotation);
+    }
+
+    if (position) {
+      debounce(console.log([x, y, z]), 1000);
+    }
+
+    if (carol) {
+      debounce(setSponPosition(false), 1000);
+    }
+
+    if (world) {
+      debounce(setSponPosition(true), 1000);
+    }
+
     if (forward || backward || left || right) {
-      setLocation([x, y + 0.4, z]);
       actions.Idle.stop();
-      actions.Run.play().setEffectiveTimeScale(1.3);
-      if (maxPolarAngle < 2.45) {
-        setMaxPolarAngle(maxPolarAngle + 0.1);
+      if (dash) {
+        SPEED = 6;
+        actions.Run.play().setEffectiveTimeScale(2.6);
+      } else {
+        SPEED = 4;
+        actions.Run.play().setEffectiveTimeScale(1.3);
       }
+      if (controls.current.maxPolarAngle > Math.PI * 0.42) {
+        controls.current.maxPolarAngle -= Math.PI * 0.02;
+      } else {
+        controls.current.maxPolarAngle = Math.PI * 0.42;
+      }
+    } else if (dance) {
+      actions.Idle.stop();
+      actions['Song Jump'].play().setEffectiveTimeScale(1.3);
     } else {
       actions.Run.stop();
+      actions['Song Jump'].stop();
       actions.Idle.play().setEffectiveTimeScale(2);
-      setMaxPolarAngle(1.7);
+      controls.current.maxPolarAngle = Math.PI * 0.65;
     }
 
     if (forward && left) {
@@ -83,7 +137,6 @@ const Player = (props) => {
       nodes.Scene.rotateY(Math.PI);
     }
 
-    controls.current.update();
     // movement
     frontVector.set(0, 0, backward - forward);
     sideVector.set(left - right, 0, 0);
@@ -93,6 +146,9 @@ const Player = (props) => {
       .multiplyScalar(SPEED)
       .applyEuler(camera.rotation);
     ref.current.setLinvel({ x: direction.x, y: velocity.y, z: direction.z });
+    group.current.position.set(x, y - 0.3, z);
+    controls.current.target.set(x, y + 0.6, z);
+    controls.current.update();
   });
 
   return (
@@ -101,34 +157,26 @@ const Player = (props) => {
         ref={controls}
         makeDefaults
         args={[camera, domElement]}
-        target={location}
-        minDistance={0.8}
-        maxDistance={0.8}
+        minDistance={1.6}
+        maxDistance={1.6}
         minAzimuthAngle={-Math.PI * 0.25}
         maxAzimuthAngle={-Math.PI * 0.25}
-        maxPolarAngle={Math.PI / maxPolarAngle}
-        minPolarAngle={Math.PI / 2.45}
+        maxPolarAngle={Math.PI * 0.42}
+        minPolarAngle={Math.PI * 0.42}
         enableRotate={false}
         enablePan={false}
       />
-      <primitive
-        ref={group}
-        object={nodes.Scene}
-        position={[location[0], location[1] - 0.7, location[2]]}
-        scale={(0.55, 0.55, 0.55)}
-      />
+      <primitive ref={group} object={nodes.Scene} scale={(0.6, 0.6, 0.6)} />
       <RigidBody
         ref={ref}
         mass={1}
         type="dynamic"
         colliders={false}
-        position={[-2.52, -98, 0.17]}>
+        position={sponPosition ? [-15.7, 3, 21.4] : [22.34, 3, -13.59]}>
         <CuboidCollider args={[0.3, 0.3, 0.3]} />
       </RigidBody>
     </>
   );
 };
-
-useGLTF.preload(character);
 
 export default Player;

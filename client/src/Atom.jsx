@@ -27,3 +27,23 @@ export const movieModalState = atom({
   key: `movieModal`,
   default: false,
 });
+
+export const modalState = atom({
+  key: `modal`,
+  default: null,
+});
+
+export const loadingState = atom({
+  key: `loading`,
+  default: true,
+});
+
+export const ambientState = atom({
+  key: `ambient`,
+  default: true,
+});
+
+export const npcHoverState = atom({
+  key: `npcHover`,
+  default: null,
+});

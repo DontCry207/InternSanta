@@ -11,7 +11,7 @@ const MainModal = (props) => {
           <IoIosCloseCircle
             color={'white'}
             size={50}
-            onClick={() => closeBtnControl()}
+            onClick={() => closeBtnControl(false)}
           />
         </CloseBtn>
         <MainContents>{props.children}</MainContents>
