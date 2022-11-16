@@ -67,3 +67,8 @@ export const npcScriptState = atom({
   key: 'npcScript',
   default: [],
 });
+
+export const infoUpdateState = atom({
+  key: 'infoUpdate',
+  default: true,
+});

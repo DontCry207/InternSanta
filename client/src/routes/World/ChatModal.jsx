@@ -18,7 +18,6 @@ import {
   NpcNames,
   NpcQuest,
 } from '../../utils/constants/constants';
-import { fetchData } from '../../utils/apis/api';
 
 const ChatModal = () => {
   const [cnt, setCnt] = useState(0);
@@ -29,24 +28,15 @@ const ChatModal = () => {
   const quest = useRecoilValue(questInfoState);
   const userInfo = useRecoilValue(userInfoState);
   const targetNpc = NpcQuest[quest.questNpc];
-  const chapter = userInfo.memberChapter;
-  const checkPoint = userInfo.memberCheckpoint;
 
-  const clearQuest = async () => {
-    const res = await fetchData.patch('/api/v1/member/chapter');
-    console.log(res.data);
-  };
-
-  const check = () => {
-    if (modal === targetNpc) {
-      if (chapter === 0 && checkPoint === 0) {
-        setMissionModal(modal);
-        clearQuest();
-      }
+  const check = (e) => {
+    if (e === targetNpc) {
+      setMissionModal(e);
     }
   };
 
   useEffect(() => {
+    console.log(modal, targetNpc);
     setCnt(0);
     if (targetNpc === modal) {
       setLengthScript(scripts.length - 1);
@@ -80,10 +70,10 @@ const ChatModal = () => {
               {lengthScript === cnt ? (
                 <CloseBtn
                   onClick={() => {
-                    setModal(null);
                     setTimeout(() => {
-                      check();
+                      check(modal);
                     }, 500);
+                    setModal(null);
                   }}>
                   닫기
                 </CloseBtn>

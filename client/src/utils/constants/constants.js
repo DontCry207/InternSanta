@@ -32,6 +32,14 @@ import greenGuyImg from '../../assets/images/greenGuy.png';
 import minSeoImg from '../../assets/images/minSeo.png';
 import ybImg from '../../assets/images/yb.png';
 import commetImg from '../../assets/images/commet.png';
+import Tortoise from '../../assets/pet/Tortoise.glb';
+import Cat from '../../assets/pet/Cat.glb';
+import Dog from '../../assets/pet/Dog.glb';
+import Fox from '../../assets/pet/Fox.glb';
+import PolarBear from '../../assets/pet/PolarBear.glb';
+import Rabbit from '../../assets/pet/Rabbit.glb';
+import Reindeer from '../../assets/pet/Reindeer.glb';
+import Rhino from '../../assets/pet/Rhino.glb';
 
 export const NpcLocation = {
   null: [0, -10, 0],
@@ -49,7 +57,7 @@ export const NpcLocation = {
   reindeerYellow: [-18.0778160095, 0.06303104996, 10.8201217651],
   reindeerGreen: [15.0341844558, 2.44612274169, 0.82147848606],
   reindeerBlue: [10.74005413, 0, 12.8185195922],
-  reindeerPurple: [-5.8828038215, 1.32455928325, -6.936524868],
+  reindeerPurple: [-11.200315, 0.279665, 2.5480184],
   reindeerWhite: [-5.8828038215, 1.32455928325, -6.936524868],
   reindeerPink: [-7.6799707412, 1.5212489128, 26.7339458465],
 };
@@ -68,7 +76,7 @@ export const NpcRotation = {
   reindeerYellow: [0, 0.5 * Math.PI, 0],
   reindeerGreen: [0, 1.35 * Math.PI, 0],
   reindeerBlue: [0, 1.35 * Math.PI, 0],
-  reindeerPurple: [0, 2.05 * Math.PI, 0],
+  reindeerPurple: [0, 2.3 * Math.PI, 0],
   reindeerWhite: [0, 2.05 * Math.PI, 0],
   reindeerPink: [0, 0.66 * Math.PI, 0],
 };
@@ -135,7 +143,7 @@ export const NpcNames = {
   reindeerPink: '댄서',
   reindeerWhite: '대셔',
   infoGuy: '박아영 정보과장',
-  storeGuy: '정민호 상점주인',
+  storeGuy: '정민호 (27/남/문방구 아저씨)',
   trainGuy: '양경섭 역무장',
   yellowGuy: '원재호 단무지',
   greenGuy: '최하영 착한누나',
@@ -199,4 +207,16 @@ export const NpcQuest = {
   7: 'reindeerWhite',
   8: 'reindeerPink',
   9: 'reindeerRed',
+};
+
+export const UserPet = {
+  0: null,
+  1: Dog,
+  2: Cat,
+  3: Rabbit,
+  4: Fox,
+  5: Reindeer,
+  6: PolarBear,
+  7: Tortoise,
+  8: Rhino,
 };

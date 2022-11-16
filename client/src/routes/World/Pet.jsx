@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
 import { useThree, useFrame, useLoader } from '@react-three/fiber';
-import PetGltf from '../../assets/pet/Tortoise.glb';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
 import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
 import { useEffect } from 'react';
@@ -8,11 +7,14 @@ import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../Atom';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { UserPet } from '../../utils/constants/constants';
 
 const Pet = () => {
+  const userInfo = useRecoilValue(userInfoState);
   const { scene, gl } = useThree();
   const [, get] = useKeyboardControls();
   const group = useRef();
+  const PetGltf = UserPet[userInfo.memberPet];
   const ktxLoader = new KTX2Loader();
   ktxLoader
     .setTranscoderPath(
@@ -29,8 +31,6 @@ const Pet = () => {
   const { actions } = useAnimations(animations, group);
   const player = scene.children[playerIdx];
   nodes.Rig.scale.setZ(-0.1);
-  const userInfo = useRecoilValue(userInfoState);
-  const { memberPet } = userInfo;
 
   useEffect(() => {
     const result = scene.children.findIndex((data) => {

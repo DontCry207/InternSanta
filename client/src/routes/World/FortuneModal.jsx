@@ -12,7 +12,6 @@ const FortuneModal = () => {
 
   const getFortune = async () => {
     const res = await fetchData.get('/api/v1/fortune');
-    console.log(res);
     const { fortune } = res.data;
     setFortuneText(fortune);
     return fortune;

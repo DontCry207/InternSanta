@@ -1,11 +1,22 @@
 import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { BsFillTreeFill, BsExclamationLg } from 'react-icons/bs';
+import {
+  BsFillTreeFill,
+  BsExclamationLg,
+  BsQuestionLg,
+  BsCheckLg,
+  BsFillStarFill,
+} from 'react-icons/bs';
 import { BiSmile } from 'react-icons/bi';
 import { HiVolumeUp } from 'react-icons/hi';
-import { useRecoilState } from 'recoil';
-import { npcScriptState, questInfoState, userInfoState } from '../../Atom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  infoUpdateState,
+  npcScriptState,
+  questInfoState,
+  userInfoState,
+} from '../../Atom';
 import { useEffect } from 'react';
 import { fetchData } from '../../utils/apis/api';
 
@@ -14,13 +25,7 @@ const PlayUi = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [questInfo, setQuestInfo] = useRecoilState(questInfoState);
   const [script, setScript] = useRecoilState(npcScriptState);
-  const {
-    memberChapter,
-    memberCheckpoint,
-    memberCoin,
-    memberNickname,
-    memberTicket,
-  } = userInfo;
+  const update = useRecoilValue(infoUpdateState);
 
   const getScript = async () => {
     const res = await fetchData.get('/api/v1/quest/script');
@@ -31,20 +36,18 @@ const PlayUi = () => {
   const getQuest = async () => {
     const res = await fetchData.get('/api/v1/quest');
     setQuestInfo(res.data);
-    console.log(res.data);
   };
 
   const getUserInfo = async () => {
     const res = await fetchData.get('/api/v1/member');
     setUserInfo(res.data);
-    console.log(res.data);
   };
 
   useEffect(() => {
     getUserInfo();
     getQuest();
     getScript();
-  }, []);
+  }, [update]);
 
   return (
     <ContainerUi>
@@ -59,8 +62,18 @@ const PlayUi = () => {
             setProg(!prog);
           }}>
           <IconBox>
-            {!userInfo.memberCheckpoint ? (
+            {userInfo.memberChapter !== 10 &&
+            userInfo.memberCheckpoint === 0 ? (
               <BsExclamationLg size={30} color={'#DE6363'} />
+            ) : null}
+            {userInfo.memberCheckpoint === 1 ? (
+              <BsQuestionLg size={30} color={'#666666'} />
+            ) : null}
+            {userInfo.memberCheckpoint === 2 ? (
+              <BsCheckLg size={30} color={'#59864C'} />
+            ) : null}
+            {userInfo.memberChapter === 10 ? (
+              <BsFillStarFill size={40} color={'#FFC827'} />
             ) : null}
           </IconBox>
           <QuestDescription>
@@ -149,7 +162,7 @@ const Logo = styled.div`
 `;
 
 const ProgressButton = styled.div`
-  width: ${(props) => (props.prog ? '400px' : '80px')};
+  width: ${(props) => (props.prog ? '460px' : '80px')};
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -162,6 +175,7 @@ const ProgressButton = styled.div`
   cursor: pointer;
   transition: all 0.1s;
   overflow: hidden;
+  box-sizing: border-box;
 `;
 
 const IconBorder = styled.div`
@@ -184,8 +198,8 @@ const IconBorder = styled.div`
 `;
 
 const QuestDescription = styled.div`
-  width: 240px;
-  min-width: 240px;
+  width: 300px;
+  min-width: 300px;
   height: 80px;
   min-height: 80px;
   display: flex;
@@ -199,6 +213,9 @@ const QuestDescription = styled.div`
   .qtitle {
     font-size: 24px;
     color: #0d005c;
+  }
+  .qsub {
+    font-size: 18px;
   }
 `;
 
