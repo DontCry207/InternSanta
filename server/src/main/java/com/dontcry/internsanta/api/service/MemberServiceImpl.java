@@ -192,7 +192,7 @@ public class MemberServiceImpl implements MemberService {
         String memberTopUrl = response.getBody();
         if (memberTopUrl == null)
             throw new MemberTopUpdateException("상의 업데이트 중 에러가 발생했습니다.", ErrorCode.MEMBER_TOP_UPDATE_ERROR);
-        memberTopUrl = memberTopUrl.substring(1, memberTopUrl.length() - 1); // " " 자르기
+        memberTopUrl = "https://" + memberTopUrl.substring(1, memberTopUrl.length() - 1); // " " 자르기
         member.updateMemberTop(memberTopUrl);
         memberRepository.save(member);
         return memberTopUrl;
