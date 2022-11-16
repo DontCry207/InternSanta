@@ -8,6 +8,7 @@ import { fetchData } from '../../utils/apis/api';
 import ClothesPage from '../Clothes/ClothesPage';
 import AnimalModal from '../AnimalPet/AnimalModal';
 import MainModal from '../Common/MainModal';
+import ClothesPage from '../Clothes/ClothesPage';
 import MiniGamePage from '../MiniGame/MiniGamePage';
 import DrawModal from '../QuickDraw/DrawModal';
 import MiniDrawModal from '../QuickDraw/MiniDrawModal';
@@ -19,10 +20,10 @@ const HomePage = () => {
 
   const [onSantaFourCutModal, setOnSantaFourCutModal] = useState(false);
   const [onMiniGameModal, setOnMiniGameModal] = useState(false);
-  const [onClothModal, setOnClothModal] = useState(false);
   const [onAnimalPet, setOnAnimalPet] = useState(false);
   const [onQuickDraw, setOnQuickDraw] = useState(false);
   const [onMiniDraw, setOnMiniDraw] = useState(false);
+  const [onClothesModal, setOnClothesModal] = useState(false);
 
   const openModal = () => {
     if (onSantaFourCutModal) {
@@ -39,8 +40,7 @@ const HomePage = () => {
         </MainModal>
       );
     }
-
-    if (onClothModal) {
+    if (onClothesModal) {
       return <ClothesPage closeBtnControl={setOnClothModal} />;
     }
     if (onAnimalPet) {
@@ -93,7 +93,7 @@ const HomePage = () => {
           <button onClick={() => navigate('/game')}>게임</button>
           <button onClick={() => setOnSantaFourCutModal(true)}>산타네컷</button>
           <button onClick={() => setOnMiniGameModal(true)}>미니게임</button>
-          <button onClick={() => setOnClothModal(true)}>옷텍스쳐</button>
+          <button onClick={() => setOnClothesModal(true)}>옷텍스쳐</button>
           <button onClick={() => setOnMiniDraw(true)}>미니게임_퀵드로우</button>
           <button onClick={() => setOnAnimalPet(true)}>Q2. 동물형분별</button>
           <button onClick={() => setOnQuickDraw(true)}>Q4. 썰매재료수급</button>
