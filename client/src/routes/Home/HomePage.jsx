@@ -5,6 +5,7 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { loggedInState, userInfoState } from '../../Atom';
 import { fetchData } from '../../utils/apis/api';
+import ClothesPage from '../Clothes/ClothesPage';
 import AnimalModal from '../AnimalPet/AnimalModal';
 import MainModal from '../Common/MainModal';
 import MiniGamePage from '../MiniGame/MiniGamePage';
@@ -21,6 +22,7 @@ const HomePage = () => {
   const [onAnimalPet, setOnAnimalPet] = useState(false);
   const [onQuickDraw, setOnQuickDraw] = useState(false);
   const [onMiniDraw, setOnMiniDraw] = useState(false);
+  const [onClothesModal, setOnClothesModal] = useState(false);
 
   const openModal = () => {
     if (onSantaFourCutModal) {
@@ -36,6 +38,9 @@ const HomePage = () => {
           <MiniGamePage />
         </MainModal>
       );
+    }
+    if (onClothesModal) {
+      return <ClothesPage closeBtnControl={setOnClothesModal} />;
     }
     if (onAnimalPet) {
       return (
@@ -87,6 +92,7 @@ const HomePage = () => {
           <button onClick={() => navigate('/game')}>게임</button>
           <button onClick={() => setOnSantaFourCutModal(true)}>산타네컷</button>
           <button onClick={() => setOnMiniGameModal(true)}>미니게임</button>
+          <button onClick={() => setOnClothesModal(true)}>옷텍스쳐</button>
           <button onClick={() => setOnMiniDraw(true)}>미니게임_퀵드로우</button>
           <button onClick={() => setOnAnimalPet(true)}>Q2. 동물형분별</button>
           <button onClick={() => setOnQuickDraw(true)}>Q4. 썰매재료수급</button>
