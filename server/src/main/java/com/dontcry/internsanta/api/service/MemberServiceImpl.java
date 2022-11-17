@@ -178,6 +178,7 @@ public class MemberServiceImpl implements MemberService {
         body.add("front", clothesFront);
         body.add("back", clothesBack);
         body.add("member", memberId);
+        body.add("filePath", member.getMemberTop());
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 //        String url = "http://localhost:8000/api/v2/cloth/top/";
