@@ -66,8 +66,8 @@ public class MemberSealController {
     }
 
     @PatchMapping("/ticket")
-        public ResponseEntity<MemberSealTicketRes> updateMemberTicket(@ApiIgnore Authentication authentication) {
-            Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
+    public ResponseEntity<MemberSealTicketRes> updateMemberTicket(@ApiIgnore Authentication authentication) {
+        Member member = jwtAuthenticationUtil.jwtTokenAuth(authentication);
 
         memberSealService.updateMemberTicket(member);
 
@@ -81,5 +81,4 @@ public class MemberSealController {
 
         return ResponseEntity.status(200).body(MemberSealTicketRes.of(member,memberSealResList));
     }
-
 }
