@@ -20,9 +20,9 @@ public class FortuneServiceImpl implements FortuneService{
     public Fortune getRandomFortune(Long memberId) {
         int fortuneCnt = fortuneRepository.countFortunes();
         Long seed = (LocalDateTime.now().getMonthValue() + LocalDateTime.now().getDayOfMonth() + memberId) % fortuneCnt;
-        Random random = new Random(seed.intValue());
-        int fortuneId = random.nextInt(seed.intValue());
-        System.out.println(fortuneId);
+        Random random = new Random(Math.abs(seed.intValue()));
+        int fortuneId = random.nextInt(Math.abs(seed.intValue()));
+        if(fortuneId == 0) fortuneId = 1;
         return fortuneRepository.findByFortuneId(new Long(fortuneId)).orElseThrow(() -> new FortuneNotFoundException("fortune not found", ErrorCode.FORTUNE_NOT_FOUND));
     }
 }
