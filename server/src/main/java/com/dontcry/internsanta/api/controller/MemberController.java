@@ -118,4 +118,11 @@ public class MemberController {
 
         return ResponseEntity.status(200).body(MemberTokenRes.of(tokens));
     }
+
+
+    @GetMapping("/rank/{count}")
+    public ResponseEntity<List<MemberTicketRes>> getMemberTicketRank(@PathVariable("count") int count) {
+        return ResponseEntity.status(200).body(memberService.getMemberTicketRank(count));
+    }
+
 }

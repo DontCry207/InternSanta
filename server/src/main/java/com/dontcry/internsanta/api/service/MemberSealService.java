@@ -1,5 +1,6 @@
 package com.dontcry.internsanta.api.service;
 
+import com.dontcry.internsanta.api.response.MemberTicketRes;
 import com.dontcry.internsanta.db.entity.Member;
 import com.dontcry.internsanta.db.entity.MemberSeal;
 import com.dontcry.internsanta.db.entity.Seal;
@@ -14,4 +15,5 @@ public interface MemberSealService {
     List<Seal> getAllSealList();
 
     void updateMemberTicket(Member member);
+
 }

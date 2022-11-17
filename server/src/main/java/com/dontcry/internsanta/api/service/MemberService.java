@@ -1,6 +1,7 @@
 package com.dontcry.internsanta.api.service;
 
 import com.dontcry.internsanta.api.request.MemberRegistReq;
+import com.dontcry.internsanta.api.response.MemberTicketRes;
 import com.dontcry.internsanta.db.entity.Member;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,4 +25,6 @@ public interface MemberService {
 
     Map<String, String> modifyRefreshToken(String refreshToken);
     String updateMemberTop(String clothesFront, String clothesBack, Member member) throws IOException;
+
+    List<MemberTicketRes> getMemberTicketRank(int count);
 }
