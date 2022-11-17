@@ -165,7 +165,11 @@ const SubTitle = styled.p`
 const ClothCut = styled.div`
   display: flex;
   gap: 80px;
+  padding: 0 15%;
   & > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     p {
       text-align: center;
       padding-bottom: 20px;
@@ -173,9 +177,10 @@ const ClothCut = styled.div`
       color: white;
     }
     & > img {
-      width: 450px;
+      width: 100%;
       border-radius: 40px;
       cursor: pointer;
+      margin: 0 auto;
     }
     .front {
       border: 5px solid #de6363;
