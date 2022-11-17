@@ -202,7 +202,7 @@ export const NpcFeatButton = {
   reindeerRed: null,
   reindeerOrange: null,
   reindeerYellow: null,
-  reindeerGreen: null,
+  reindeerGreen: '펫분양',
   reindeerBlue: null,
   reindeerPurple: null,
   reindeerPink: null,
@@ -231,13 +231,24 @@ export const NpcQuest = {
 };
 
 export const UserPet = {
-  0: null,
-  1: Dog,
-  2: Cat,
-  3: Rabbit,
-  4: Fox,
-  5: Reindeer,
-  6: PolarBear,
-  7: Tortoise,
-  8: Rhino,
+  Dog: Dog,
+  Cat: Cat,
+  Rabbit: Rabbit,
+  Fox: Fox,
+  Reindeer: Reindeer,
+  PolarBear: PolarBear,
+  Tortoise: Tortoise,
+  Rhino: Rhino,
+};
+
+export const PetIndex = {
+  0: 'null',
+  1: 'Dog',
+  2: 'Cat',
+  3: 'Rabbit',
+  4: 'Fox',
+  5: 'Reindeer',
+  6: 'PolarBear',
+  7: 'Tortoise',
+  8: 'Rhino',
 };

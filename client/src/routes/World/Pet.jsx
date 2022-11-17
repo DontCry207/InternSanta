@@ -1,21 +1,21 @@
 import { useRef, useState } from 'react';
 import { useThree, useFrame, useLoader } from '@react-three/fiber';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
-import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
+import { useKeyboardControls, useAnimations } from '@react-three/drei';
 import { useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
-import { userInfoState } from '../../Atom';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { UserPet } from '../../utils/constants/constants';
+import { PetIndex, UserPet } from '../../utils/constants/constants';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { userInfoState } from '../../Atom';
 
-const Pet = () => {
-  const userInfo = useRecoilValue(userInfoState);
+const Pet = (props) => {
   const { scene, gl } = useThree();
   const [, get] = useKeyboardControls();
-  const group = useRef();
-  const PetGltf = UserPet[userInfo.memberPet];
+  const group = useRef(null);
+  const PetGltf = UserPet[props.type];
   const ktxLoader = new KTX2Loader();
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   ktxLoader
     .setTranscoderPath(
       `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
@@ -30,7 +30,12 @@ const Pet = () => {
   const [playerIdx, setPlayerIdx] = useState(0);
   const { actions } = useAnimations(animations, group);
   const player = scene.children[playerIdx];
-  nodes.Rig.scale.setZ(-0.1);
+  nodes.Rig.scale.set(0.1, 0.1, -0.1);
+  if (props.type !== PetIndex[userInfo.memberPet]) {
+    nodes.Rig.visible = false;
+  } else {
+    nodes.Rig.visible = true;
+  }
 
   useEffect(() => {
     const result = scene.children.findIndex((data) => {
@@ -38,7 +43,7 @@ const Pet = () => {
     });
     setPlayerIdx(result);
     return () => {};
-  }, [userInfo]);
+  }, []);
 
   useFrame((state, delta) => {
     const { forward, backward, left, right, dash, dance } = get();
@@ -47,7 +52,7 @@ const Pet = () => {
     }
     group.current.position.set(
       player.position.x,
-      player.position.y - 0.02,
+      player.position.y,
       player.position.z + 0.3,
     );
 
@@ -56,30 +61,29 @@ const Pet = () => {
       actions.Sit.stop();
       if (dash) {
         actions.Run.stop();
-        actions.Roll.play().setEffectiveTimeScale(0.6);
+        if (props.type === 'Rhino') {
+          actions.Roll.play().setEffectiveTimeScale(3.6);
+        } else {
+          actions.Roll.play().setEffectiveTimeScale(0.6);
+        }
       } else {
         actions.Roll.stop();
-        actions.Run.play().setEffectiveTimeScale(1);
+        actions.Run.play().setEffectiveTimeScale(3);
       }
     } else if (dance) {
       actions.Sit.stop();
-      actions.Spin.play().setEffectiveTimeScale(0.7);
+      actions.Spin.play().setEffectiveTimeScale(3);
     } else {
       actions.Roll.stop();
       actions.Spin.stop();
       actions.Run.stop();
-      actions.Sit.play().setEffectiveTimeScale(1);
+      actions.Sit.play().setEffectiveTimeScale(3);
     }
   });
 
   return (
     <>
-      <primitive
-        ref={group}
-        object={nodes.Rig}
-        position={[0, 0, 0]}
-        scale={(0.1, 0.1, 0.1)}
-      />
+      <primitive ref={group} object={nodes.Rig} />
     </>
   );
 };

@@ -59,11 +59,10 @@ const Player = () => {
 
   useEffect(() => {
     const texture = new THREE.TextureLoader().load(
-      `${userInfo.memberTop}?1`,
+      `${userInfo.memberTop}`,
       (obj) => textureInsert(obj),
     );
-    texture.dispose();
-  }, [userInfo]);
+  }, [userInfo.memberTop]);
 
   useEffect(() => {
     if (!loading) {

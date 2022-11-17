@@ -5,6 +5,7 @@ import { BsFillCaretDownFill } from 'react-icons/bs';
 import { BsThreeDots } from 'react-icons/bs';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
+  animalModalState,
   missionModalState,
   modalState,
   npcScriptState,
@@ -24,6 +25,7 @@ const ChatModal = () => {
   const [lengthScript, setLengthScript] = useState(0);
   const [modal, setModal] = useRecoilState(modalState);
   const [missionModal, setMissionModal] = useRecoilState(missionModalState);
+  const [animalModal, setAnimalModal] = useRecoilState(animalModalState);
   const scripts = useRecoilValue(npcScriptState);
   const quest = useRecoilValue(questInfoState);
   const userInfo = useRecoilValue(userInfoState);
@@ -33,6 +35,14 @@ const ChatModal = () => {
     if (e === targetNpc) {
       setMissionModal(e);
     }
+  };
+
+  const featureModal = (e) => {
+    console.log(e);
+    if (e === 'reindeerGreen') {
+      setAnimalModal(true);
+    }
+    setModal(null);
   };
 
   useEffect(() => {
@@ -64,7 +74,12 @@ const ChatModal = () => {
               ))}
             <Buttons>
               {NpcFeatButton[modal] ? (
-                <FeatBtn>{NpcFeatButton[modal]}</FeatBtn>
+                <FeatBtn
+                  onClick={() => {
+                    featureModal(modal);
+                  }}>
+                  {NpcFeatButton[modal]}
+                </FeatBtn>
               ) : null}
               {lengthScript === cnt ? (
                 <CloseBtn

@@ -48,6 +48,11 @@ export const missionModalState = atom({
   default: false,
 });
 
+export const animalModalState = atom({
+  key: `animalModal`,
+  default: false,
+});
+
 export const modalState = atom({
   key: `modal`,
   default: null,

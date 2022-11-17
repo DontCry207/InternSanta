@@ -5,6 +5,9 @@ import * as tmImage from '@teachablemachine/image';
 import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
 import Animal_Pet from '../../assets/images/Animal_Pet.png';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { animalModalState, infoUpdateState } from '../../Atom';
+import MainModal from '../Common/MainModal';
 
 const AnimalModal = (props) => {
   const [page, setPage] = useState(1); // 페이지 넘기기 변수
@@ -13,6 +16,8 @@ const AnimalModal = (props) => {
   const [onOff, setOnOff] = useState(true); // 카메라 OnOff 변수
   const webcamRef = React.useRef(null);
   const [imgSrc, setImgSrc] = React.useState(null);
+  const [modal, setModal] = useRecoilState(animalModalState);
+  const [update, setUpdate] = useRecoilState(infoUpdateState);
 
   // Teachable machine 클라우드 URL
   const URL = 'https://teachablemachine.withgoogle.com/models/46rTWJ4Ls/';
@@ -27,17 +32,17 @@ const AnimalModal = (props) => {
   }, [webcamRef, setImgSrc]);
 
   // 클라우드의 Tensorflow 모델 호출하여 대기
-  async function initMan() {
+  const initMan = async () => {
     const modelURL = URL + 'model.json';
     const metadataURL = URL + 'metadata.json';
     model = await tmImage.load(modelURL, metadataURL);
     maxPredictions = model.getTotalClasses();
     // 이하 Predict 함수
     setTimeout(predict, 0);
-  }
+  };
 
   // 캡쳐한 사진으로 결과값 산출하는 함수
-  async function predict() {
+  const predict = async () => {
     var image = document.getElementById('canvas');
     const prediction = await model.predict(image, false);
     let percent = 0;
@@ -75,7 +80,7 @@ const AnimalModal = (props) => {
     }
     setAnimal(() => animal);
     setTimeout(go, 0);
-  }
+  };
 
   const go = () => {
     setPage((page) => page + 1);
@@ -84,120 +89,136 @@ const AnimalModal = (props) => {
     setPage(1);
     setOnOff(true);
   };
-  async function complete() {
-    props.setOnAnimalPet(false);
-  }
-  if (page == 1)
+  const complete = () => {
+    setModal(false);
+    setPage(1);
+    setOnOff(true);
+    setUpdate(!update);
+  };
+
+  const fetchPet = async () => {
+    start();
+    await fetchData.patch('/api/v1/member/pet', {
+      memberPet: animalKey,
+    });
+    complete();
+  };
+
+  const render = () => {
     return (
-      <>
-        {/* Page 01 - 메인 화면 */}
-        <Title>
-          <div className="mainTitle">
-            얼굴형 분석으로
-            <br />
-            나와 닮은 펫을 받아봅시다!
-          </div>
-        </Title>
-        <Image>
-          <div>
-            <img src={Animal_Pet} />
-          </div>
-        </Image>
-        <Button>
-          <div>
-            <button onClick={go}>분석하기</button>
-          </div>
-        </Button>
-      </>
-    );
-  if (page == 2)
-    return (
-      <>
-        {/* Page 02 - 촬영 화면 */}
-        <Title>
-          {onOff === true ? (
-            <div>정면을 바라보고 사진을 찍어주세요</div>
-          ) : (
-            <div className="resultReady">분석 중…</div>
-          )}
-        </Title>
-        {onOff === true ? (
+      <MainModal closeBtnControl={setModal} bgColor="#8A8A8A">
+        {(page == 1 && (
           <>
-            <Comment>
-              <div>카메라 활성화 중……</div>
-            </Comment>
-            <Camera>
+            {/* Page 01 - 메인 화면 */}
+            <Title>
+              <div className="mainTitle">
+                얼굴형 분석으로
+                <br />
+                나와 닮은 펫을 받아봅시다!
+              </div>
+            </Title>
+            <Image>
               <div>
-                <Webcam
-                  video="false"
-                  audio={false}
-                  ref={webcamRef}
-                  screenshotFormat="image/jpeg"
+                <img src={Animal_Pet} />
+              </div>
+            </Image>
+            <Button>
+              <div>
+                <button onClick={go}>분석하기</button>
+              </div>
+            </Button>
+          </>
+        )) ||
+          (page == 2 && (
+            <>
+              {/* Page 02 - 촬영 화면 */}
+              <Title>
+                {onOff === true ? (
+                  <div>정면을 바라보고 사진을 찍어주세요</div>
+                ) : (
+                  <div className="resultReady">분석 중…</div>
+                )}
+              </Title>
+              {onOff === true ? (
+                <>
+                  <Comment>
+                    <div>카메라 활성화 중……</div>
+                  </Comment>
+                  <Camera>
+                    <div>
+                      <Webcam
+                        video="false"
+                        audio={false}
+                        ref={webcamRef}
+                        screenshotFormat="image/jpeg"
+                        style={{
+                          position: 'absolute',
+                          width: 768,
+                          height: 575,
+                          bottom: 0,
+                        }}
+                      />
+                    </div>
+                  </Camera>
+                </>
+              ) : (
+                <img
+                  src={imgSrc}
+                  id="canvas"
                   style={{
                     position: 'absolute',
-                    width: 768,
-                    height: 575,
-                    bottom: 0,
+                    width: 480,
+                    height: 360,
+                    borderRadius: '40px',
+                    display: 'none',
+                    transform: 'translate(44.5%, 10%)',
                   }}
                 />
-              </div>
-            </Camera>
-          </>
-        ) : (
-          <img
-            src={imgSrc}
-            id="canvas"
-            style={{
-              position: 'absolute',
-              width: 480,
-              height: 360,
-              borderRadius: '40px',
-              display: 'none',
-              transform: 'translate(44.5%, 10%)',
-            }}
-          />
-        )}
-        <Button>
-          {onOff === true ? (
-            <div>
-              <button onClick={capture}>사진 찍기</button>
-            </div>
-          ) : (
-            <></>
-          )}
-        </Button>
-      </>
+              )}
+              <Button>
+                {onOff === true ? (
+                  <div>
+                    <button onClick={capture}>사진 찍기</button>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </Button>
+            </>
+          )) ||
+          (page == 3 && ( // Page 03 - 결과 발표
+            <>
+              <End>
+                <div>{animal}</div>
+              </End>
+              <Button>
+                <div>
+                  <button
+                    onClick={() => {
+                      {
+                        fetchPet();
+                      }
+                    }}>
+                    펫 받기
+                  </button>
+                </div>
+              </Button>
+            </>
+          ))}
+      </MainModal>
     );
-  if (page == 3)
-    return (
-      // Page 03 - 결과 발표
-      <>
-        <End>
-          <div>{animal}</div>
-        </End>
-        <Button>
-          <div>
-            <button
-              onClick={() => {
-                {
-                  start;
-                  fetchData
-                    .patch('/api/v1/member/pet', {
-                      memberPet: animalKey,
-                    })
-                    .then((res) => {
-                      complete();
-                      console.log(res);
-                    });
-                }
-              }}>
-              펫 받기
-            </button>
-          </div>
-        </Button>
-      </>
-    );
+  };
+
+  return <>{modal ? <ModalBox>{render()}</ModalBox> : null}</>;
 };
+
+const ModalBox = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+`;
+
 const Title = styled.div`
   width: 800px;
   height: 60px;

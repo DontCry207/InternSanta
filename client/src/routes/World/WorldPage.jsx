@@ -30,6 +30,8 @@ import QuestBubbleModal from './QuestBubbleModal';
 import MissionModal from './MissionModal';
 import ClothesPage from '../Clothes/ClothesPage';
 import PortalDoor from './PortalDoor';
+import AnimalModal from '../AnimalPet/AnimalModal';
+import PetSelector from './PetSelector';
 
 const WorldPage = () => {
   return (
@@ -37,6 +39,7 @@ const WorldPage = () => {
       <LoadingPage />
       <ChatModal />
       <ClothesPage />
+      <AnimalModal />
       <FortuneModal />
       <MissionModal />
       <MovieModal />
@@ -78,7 +81,7 @@ const WorldPage = () => {
               <Tree />
               <TeddyBear />
               <Player />
-              <Pet />
+              <PetSelector />
               <Shop />
               <BoneFire />
               <Npc type={'infoGuy'} />
