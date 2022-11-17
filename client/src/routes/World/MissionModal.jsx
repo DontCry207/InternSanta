@@ -2,13 +2,20 @@ import React from 'react';
 import styled from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { infoUpdateState, missionModalState, userInfoState } from '../../Atom';
+import {
+  chapterConditionState,
+  infoUpdateState,
+  missionModalState,
+  userInfoState,
+} from '../../Atom';
 import AlertModal from '../Common/AlertModal';
 import { fetchData } from '../../utils/apis/api';
 
 const MissionModal = () => {
   const [modal, setModal] = useRecoilState(missionModalState);
   const [update, setUpdate] = useRecoilState(infoUpdateState);
+  const [condition, setCondition] = useRecoilState(chapterConditionState);
+  const [clear, setClear] = useState(false);
   const userInfo = useRecoilValue(userInfoState);
   const chapter = userInfo.memberChapter;
   const checkPoint = userInfo.memberCheckpoint;
@@ -24,68 +31,28 @@ const MissionModal = () => {
   };
 
   const check = () => {
-    if (chapter === 0 && checkPoint === 0) {
+    if (chapter === 0) {
       clearQuest();
-      setModal(modal);
-    } else if (chapter === 1 && checkPoint === 0) {
+    } else if (chapter === 10) {
+      console.log('스토리 끝');
+    } else if (checkPoint === 0) {
       proceedCheckPoint();
-    } else if (chapter === 1 && checkPoint === 1) {
+    }
+    if (checkPoint === 1 && condition[chapter]) {
       proceedCheckPoint();
-    } else if (chapter === 1 && checkPoint === 2) {
+    }
+    if (checkPoint === 2) {
       clearQuest();
-    } else if (chapter === 2 && checkPoint === 0) {
-      proceedCheckPoint();
-    } else if (chapter === 2 && checkPoint === 1) {
-      proceedCheckPoint();
-    } else if (chapter === 2 && checkPoint === 2) {
-      clearQuest();
-    } else if (chapter === 3 && checkPoint === 0) {
-      proceedCheckPoint();
-    } else if (chapter === 3 && checkPoint === 1) {
-      proceedCheckPoint();
-    } else if (chapter === 3 && checkPoint === 2) {
-      clearQuest();
-    } else if (chapter === 4 && checkPoint === 0) {
-      proceedCheckPoint();
-    } else if (chapter === 4 && checkPoint === 1) {
-      proceedCheckPoint();
-    } else if (chapter === 4 && checkPoint === 2) {
-      clearQuest();
-    } else if (chapter === 5 && checkPoint === 0) {
-      proceedCheckPoint();
-    } else if (chapter === 5 && checkPoint === 1) {
-      proceedCheckPoint();
-    } else if (chapter === 5 && checkPoint === 2) {
-      clearQuest();
-    } else if (chapter === 6 && checkPoint === 0) {
-      proceedCheckPoint();
-    } else if (chapter === 6 && checkPoint === 1) {
-      proceedCheckPoint();
-    } else if (chapter === 6 && checkPoint === 2) {
-      clearQuest();
-    } else if (chapter === 7 && checkPoint === 0) {
-      proceedCheckPoint();
-    } else if (chapter === 7 && checkPoint === 1) {
-      proceedCheckPoint();
-    } else if (chapter === 7 && checkPoint === 2) {
-      clearQuest();
-    } else if (chapter === 8 && checkPoint === 0) {
-      proceedCheckPoint();
-    } else if (chapter === 8 && checkPoint === 1) {
-      proceedCheckPoint();
-    } else if (chapter === 8 && checkPoint === 2) {
-      clearQuest();
-    } else if (chapter === 9 && checkPoint === 0) {
-      clearQuest();
+      setClear(true);
     }
   };
 
   const close = () => {
-    setModal(null);
+    setClear(false);
+    setModal(false);
   };
 
   useEffect(() => {
-    console.log('mission');
     if (modal) {
       check();
     }
@@ -93,7 +60,7 @@ const MissionModal = () => {
 
   return (
     <>
-      {modal ? (
+      {clear ? (
         <Modal>
           <AlertModal
             title={'퀘스트 성공'}

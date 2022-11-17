@@ -28,12 +28,15 @@ import Tree from '../CarolZone/Tree';
 import TeddyBear from '../CarolZone/TeddyBear';
 import QuestBubbleModal from './QuestBubbleModal';
 import MissionModal from './MissionModal';
+import ClothesPage from '../Clothes/ClothesPage';
+import PortalDoor from './PortalDoor';
 
 const WorldPage = () => {
   return (
     <Container>
       <LoadingPage />
       <ChatModal />
+      <ClothesPage />
       <FortuneModal />
       <MissionModal />
       <MovieModal />
@@ -42,13 +45,11 @@ const WorldPage = () => {
         map={[
           { name: 'forward', keys: ['ArrowUp', 'w', 'W'] },
           { name: 'backward', keys: ['ArrowDown', 's', 'S'] },
-          { name: 'left', keys: ['ArrowLweft', 'a', 'A'] },
+          { name: 'left', keys: ['ArrowLeft', 'a', 'A'] },
           { name: 'right', keys: ['ArrowRight', 'd', 'D'] },
           { name: 'dash', keys: ['ShiftLeft'] },
           { name: 'position', keys: ['q', 'Q'] },
           { name: 'dance', keys: ['f', 'F'] },
-          { name: 'carol', keys: ['p', 'P'] },
-          { name: 'world', keys: ['o', 'O'] },
         ]}>
         <Canvas camera={{ fov: 70 }}>
           <Snow />
@@ -71,6 +72,7 @@ const WorldPage = () => {
             <Physics gravity={[0, -30, 0]} colliders={false}>
               <CarolZone />
               <ChristmasTown />
+              <PortalDoor />
               <FirePlace />
               <Television />
               <Tree />

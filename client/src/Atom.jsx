@@ -28,6 +28,11 @@ export const questInfoState = atom({
   },
 });
 
+export const clothesModalState = atom({
+  key: 'clothesModal',
+  default: false,
+});
+
 export const fortuneModalState = atom({
   key: `fortuneModalState`,
   default: false,
@@ -70,5 +75,24 @@ export const npcScriptState = atom({
 
 export const infoUpdateState = atom({
   key: 'infoUpdate',
-  default: true,
+  default: false,
+});
+
+export const sponPositionState = atom({
+  key: 'sponPosition',
+  default: 'start',
+});
+
+export const chapterConditionState = atom({
+  key: 'chapterCondition',
+  default: {
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+    6: false,
+    7: false,
+    8: false,
+  },
 });

@@ -8,10 +8,11 @@ import {
   BsCheckLg,
   BsFillStarFill,
 } from 'react-icons/bs';
-import { BiSmile } from 'react-icons/bi';
+import { FaTshirt } from 'react-icons/fa';
 import { HiVolumeUp } from 'react-icons/hi';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
+  clothesModalState,
   infoUpdateState,
   npcScriptState,
   questInfoState,
@@ -19,6 +20,7 @@ import {
 } from '../../Atom';
 import { useEffect } from 'react';
 import { fetchData } from '../../utils/apis/api';
+import { NpcProfileImages, NpcQuest } from '../../utils/constants/constants';
 
 const PlayUi = () => {
   const [prog, setProg] = useState(false);
@@ -26,6 +28,7 @@ const PlayUi = () => {
   const [questInfo, setQuestInfo] = useRecoilState(questInfoState);
   const [script, setScript] = useRecoilState(npcScriptState);
   const update = useRecoilValue(infoUpdateState);
+  const [modal, setModal] = useRecoilState(clothesModalState);
 
   const getScript = async () => {
     const res = await fetchData.get('/api/v1/quest/script');
@@ -80,15 +83,17 @@ const PlayUi = () => {
             <p className="qtitle">{questInfo.questTitle}</p>
             <p className="qsub">{questInfo.questSub}</p>
           </QuestDescription>
-          <IconBox></IconBox>
+          <ProfileBox>
+            <img src={[NpcProfileImages[NpcQuest[questInfo.questNpc]]]} />
+          </ProfileBox>
         </ProgressButton>
       </LeftTopBox>
       <RightTopBox>
         <IconBorder>
           <BsFillTreeFill size={40} color={'white'} />
         </IconBorder>
-        <IconBorder>
-          <BiSmile size={44} color={'white'} />
+        <IconBorder onClick={() => setModal(true)}>
+          <FaTshirt size={40} color={'white'} />
         </IconBorder>
         <IconBorder>
           <HiVolumeUp size={40} color={'white'} />
@@ -230,5 +235,21 @@ const IconBox = styled.div`
   align-items: center;
 `;
 
-const MissionProgress = styled.div``;
+const ProfileBox = styled.div`
+  width: 80px;
+  min-width: 80px;
+  height: 80px;
+  min-height: 80px;
+  border-radius: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 72px;
+    border-radius: 60px;
+    border: #9991b1 2px solid;
+  }
+`;
+
 export default PlayUi;

@@ -40,6 +40,15 @@ import PolarBear from '../../assets/pet/PolarBear.glb';
 import Rabbit from '../../assets/pet/Rabbit.glb';
 import Reindeer from '../../assets/pet/Reindeer.glb';
 import Rhino from '../../assets/pet/Rhino.glb';
+import reindeerProfileImg from '../../assets/images/profiles/reindeer.png';
+import reindeerRedProfileImg from '../../assets/images/profiles/reindeerRed.png';
+import reindeerOrangeProfileImg from '../../assets/images/profiles/reindeerOrange.png';
+import reindeerYellowProfileImg from '../../assets/images/profiles/reindeerYellow.png';
+import reindeerGreenProfileImg from '../../assets/images/profiles/reindeerGreen.png';
+import reindeerBlueProfileImg from '../../assets/images/profiles/reindeerBlue.png';
+import reindeerPurpleProfileImg from '../../assets/images/profiles/reindeerPurple.png';
+import reindeerWhiteProfileImg from '../../assets/images/profiles/reindeerWhite.png';
+import reindeerPinkProfileImg from '../../assets/images/profiles/reindeerPink.png';
 
 export const NpcLocation = {
   null: [0, -10, 0],
@@ -130,6 +139,18 @@ export const NpcImages = {
   minSeo: minSeoImg,
   yb: ybImg,
   commet: commetImg,
+};
+
+export const NpcProfileImages = {
+  reindeer: reindeerProfileImg,
+  reindeerRed: reindeerRedProfileImg,
+  reindeerOrange: reindeerOrangeProfileImg,
+  reindeerYellow: reindeerYellowProfileImg,
+  reindeerGreen: reindeerGreenProfileImg,
+  reindeerBlue: reindeerBlueProfileImg,
+  reindeerPurple: reindeerPurpleProfileImg,
+  reindeerPink: reindeerPinkProfileImg,
+  reindeerWhite: reindeerWhiteProfileImg,
 };
 
 export const NpcNames = {

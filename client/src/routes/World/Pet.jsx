@@ -38,7 +38,7 @@ const Pet = () => {
     });
     setPlayerIdx(result);
     return () => {};
-  }, []);
+  }, [userInfo]);
 
   useFrame((state, delta) => {
     const { forward, backward, left, right, dash, dance } = get();

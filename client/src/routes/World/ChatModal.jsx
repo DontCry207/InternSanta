@@ -36,7 +36,6 @@ const ChatModal = () => {
   };
 
   useEffect(() => {
-    console.log(modal, targetNpc);
     setCnt(0);
     if (targetNpc === modal) {
       setLengthScript(scripts.length - 1);
@@ -150,11 +149,11 @@ const NpcImage = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: top;
+  justify-content: center;
   align-items: center;
-  padding: 40px;
+  padding-bottom: 60px;
   img {
-    height: 450px;
+    width: 300px;
     object-fit: cover;
   }
 `;
