@@ -222,7 +222,6 @@ const Title = styled.div`
 `;
 const Image = styled.div`
   margin-top: 130px;
-  }
 `;
 const Camera = styled.div`
   position: absolute;
@@ -270,7 +269,7 @@ const End = styled.div`
   line-height: 60px;
   vertical-align: middle;
   color: white;
-  fontweight: 'bold';
+  /* fontweight: 'bold'; */
   font-size: 50px;
 `;
 export default AnimalModal;
