@@ -1,9 +1,11 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
 import AlertModal from '../Common/AlertModal';
-
+import machine from '../../assets/images/machine.png';
+import turn from '../../assets/images/turn.png';
 const GetSealPage = () => {
   const [sealResult, setSealResult] = useState([]);
   const [modal, setModal] = useState(false);
@@ -48,20 +50,75 @@ const GetSealPage = () => {
     }
   };
   return (
-    <div>
-      <button
-        onClick={() => getOneSeal(1)}
-        disabled={openToggle ? true : false}>
-        1번 씰뽑기
-      </button>
-      <button
-        onClick={() => getOneSeal(11)}
-        disabled={openToggle ? true : false}>
-        10+1번 씰뽑기
-      </button>
+    <>
+      <Title>
+        <p>크리스마스 씰 뽑기</p>
+        <small>코인을 이용해 12가지 씰을 모두 모아보세요!</small>
+      </Title>
+      <Machine>
+        {/* <img src={} alt="" /> */}
+        <img className="turn" src={turn} alt="" />
+      </Machine>
+      <BtnSet>
+        <button
+          onClick={() => getOneSeal(1)}
+          disabled={openToggle ? true : false}>
+          1번 씰뽑기
+        </button>
+        <button
+          onClick={() => getOneSeal(11)}
+          disabled={openToggle ? true : false}>
+          10번 씰뽑기
+        </button>
+      </BtnSet>
       {openModal()}
-    </div>
+    </>
   );
 };
 
+const Title = styled.div`
+  text-align: center;
+  p {
+    font-size: 80px;
+    color: white;
+  }
+  small {
+    display: block;
+    font-size: 24px;
+    color: white;
+    padding: 10px 0;
+  }
+`;
+const Machine = styled.div`
+  /* width: 40%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url(${machine}) no-repeat;
+  /* height: 100%; */
+  background-size: 100% 100%;
+  flex-grow: 1;
+  position: relative;
+  aspect-ratio: 2/3;
+  .turn {
+    position: absolute;
+    top: 67%;
+    left: 39%;
+    width: 20%;
+  }
+  margin: 20px 0;
+`;
+const BtnSet = styled.div`
+  button {
+    width: 140px;
+    height: 50px;
+    background-color: #60c783;
+    border-radius: 70px;
+    font-size: 24px;
+    color: white;
+    &:last-child {
+      background-color: #de6363;
+    }
+  }
+`;
 export default GetSealPage;
