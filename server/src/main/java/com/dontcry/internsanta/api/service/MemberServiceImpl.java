@@ -1,14 +1,11 @@
 package com.dontcry.internsanta.api.service;
 
 import com.dontcry.internsanta.api.request.MemberRegistReq;
+import com.dontcry.internsanta.api.response.MemberTicketRes;
 import com.dontcry.internsanta.common.JwtTokenUtil;
 import com.dontcry.internsanta.common.exception.adventcalendar.AdventCalendarNotFoundException;
 import com.dontcry.internsanta.common.exception.code.ErrorCode;
-import com.dontcry.internsanta.common.exception.member.MemberCoinNegativeException;
-import com.dontcry.internsanta.common.exception.member.MemberEmailDuplicationException;
-import com.dontcry.internsanta.common.exception.member.MemberNotFoundException;
-import com.dontcry.internsanta.common.exception.member.MemberUnauthorizedException;
-import com.dontcry.internsanta.common.exception.member.MemberTopUpdateException;
+import com.dontcry.internsanta.common.exception.member.*;
 import com.dontcry.internsanta.db.entity.AdventCalendar;
 import com.dontcry.internsanta.db.entity.Member;
 import com.dontcry.internsanta.db.entity.MemberSeal;
@@ -29,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -180,6 +178,7 @@ public class MemberServiceImpl implements MemberService {
         body.add("front", clothesFront);
         body.add("back", clothesBack);
         body.add("member", memberId);
+        body.add("filePath", member.getMemberTop());
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 //        String url = "http://localhost:8000/api/v2/cloth/top/";
@@ -196,5 +195,20 @@ public class MemberServiceImpl implements MemberService {
         member.updateMemberTop(memberTopUrl);
         memberRepository.save(member);
         return memberTopUrl;
+    }
+
+    @Override
+    public List<MemberTicketRes> getMemberTicketRank(int count) {
+        if (count <= 0)
+            throw new MemberCountException("count 값이 유효하지 않습니다.", ErrorCode.MEMBER_COUNT_ERROR);
+        List<Member> members = memberRepository.findByMemberOrderByTicket(count);
+        List<MemberTicketRes> memberTicketRes = new ArrayList<>();
+        for(Member member: members) {
+            memberTicketRes.add(MemberTicketRes.builder()
+                    .memberNickname(member.getMemberNickname())
+                    .memberTicket(member.getMemberTicket())
+                    .build());
+        }
+        return memberTicketRes;
     }
 }

@@ -86,4 +86,11 @@ public class GlobalControllerAdvice {
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
 
+    @ExceptionHandler(MemberCountException.class)
+    public ResponseEntity<ErrorResponse> handleMemberCountException(MemberCountException e) {
+        log.error("handleMemberCountException", e);
+        ErrorResponse response = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
 }
