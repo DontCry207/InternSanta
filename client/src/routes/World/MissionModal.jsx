@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
-  chapterConditionState,
+  chapter1ConditionState,
+  chapter2ConditionState,
   infoUpdateState,
   missionModalState,
   userInfoState,
@@ -14,11 +15,14 @@ import { fetchData } from '../../utils/apis/api';
 const MissionModal = () => {
   const [modal, setModal] = useRecoilState(missionModalState);
   const [update, setUpdate] = useRecoilState(infoUpdateState);
-  const [condition, setCondition] = useRecoilState(chapterConditionState);
+  const condition1 = useRecoilValue(chapter1ConditionState);
+  const condition2 = useRecoilValue(chapter2ConditionState);
   const [clear, setClear] = useState(false);
   const userInfo = useRecoilValue(userInfoState);
   const chapter = userInfo.memberChapter;
   const checkPoint = userInfo.memberCheckpoint;
+
+  const condition = [null, condition1, condition2];
 
   const clearQuest = async () => {
     const res = await fetchData.patch('/api/v1/member/chapter');

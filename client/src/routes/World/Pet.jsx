@@ -68,16 +68,28 @@ const Pet = (props) => {
         }
       } else {
         actions.Roll.stop();
-        actions.Run.play().setEffectiveTimeScale(3);
+        if (props.type === 'Rhino') {
+          actions.Run.play().setEffectiveTimeScale(3);
+        } else {
+          actions.Run.play().setEffectiveTimeScale(1);
+        }
       }
     } else if (dance) {
       actions.Sit.stop();
-      actions.Spin.play().setEffectiveTimeScale(3);
+      if (props.type === 'Rhino') {
+        actions.Spin.play().setEffectiveTimeScale(3);
+      } else {
+        actions.Spin.play().setEffectiveTimeScale(1);
+      }
     } else {
       actions.Roll.stop();
       actions.Spin.stop();
       actions.Run.stop();
-      actions.Sit.play().setEffectiveTimeScale(3);
+      if (props.type === 'Rhino') {
+        actions.Sit.play().setEffectiveTimeScale(3);
+      } else {
+        actions.Sit.play().setEffectiveTimeScale(1);
+      }
     }
   });
 

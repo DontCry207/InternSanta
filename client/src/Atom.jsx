@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import { atom, selectorFamily } from 'recoil';
 
 export const loggedInState = atom({
   key: `loggedIn`,
@@ -88,16 +88,35 @@ export const sponPositionState = atom({
   default: 'start',
 });
 
-export const chapterConditionState = atom({
-  key: 'chapterCondition',
-  default: {
-    1: false,
-    2: false,
-    3: false,
-    4: false,
-    5: false,
-    6: false,
-    7: false,
-    8: false,
-  },
+export const chapter1ConditionState = atom({
+  key: 'chapter1Condition',
+  default: false,
+});
+export const chapter2ConditionState = atom({
+  key: 'chapter2Condition',
+  default: false,
+});
+export const chapter3ConditionState = atom({
+  key: 'chapter3Condition',
+  default: false,
+});
+export const chapter4ConditionState = atom({
+  key: 'chapter4Condition',
+  default: false,
+});
+export const chapter5ConditionState = atom({
+  key: 'chapter5Condition',
+  default: false,
+});
+export const chapter6ConditionState = atom({
+  key: 'chapter6Condition',
+  default: false,
+});
+export const chapter7ConditionState = atom({
+  key: 'chapter7Condition',
+  default: false,
+});
+export const chapter8ConditionState = atom({
+  key: 'chapter8Condition',
+  default: false,
 });

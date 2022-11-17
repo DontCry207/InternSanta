@@ -9,7 +9,7 @@ const LazyLoading = () => {
     return () => {
       setTimeout(() => {
         setLoading(false);
-      }, 400);
+      }, 500);
     };
   }, []);
 

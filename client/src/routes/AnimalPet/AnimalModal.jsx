@@ -6,7 +6,12 @@ import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
 import Animal_Pet from '../../assets/images/Animal_Pet.png';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { animalModalState, infoUpdateState } from '../../Atom';
+import {
+  animalModalState,
+  chapter2ConditionState,
+  infoUpdateState,
+  missionModalState,
+} from '../../Atom';
 import MainModal from '../Common/MainModal';
 
 const AnimalModal = (props) => {
@@ -18,6 +23,8 @@ const AnimalModal = (props) => {
   const [imgSrc, setImgSrc] = React.useState(null);
   const [modal, setModal] = useRecoilState(animalModalState);
   const [update, setUpdate] = useRecoilState(infoUpdateState);
+  const [condition, setCondition] = useRecoilState(chapter2ConditionState);
+  const [missionModal, setMissionModal] = useRecoilState(missionModalState);
 
   // Teachable machine 클라우드 URL
   const URL = 'https://teachablemachine.withgoogle.com/models/46rTWJ4Ls/';
@@ -94,6 +101,7 @@ const AnimalModal = (props) => {
     setPage(1);
     setOnOff(true);
     setUpdate(!update);
+    missionClear();
   };
 
   const fetchPet = async () => {
@@ -102,6 +110,14 @@ const AnimalModal = (props) => {
       memberPet: animalKey,
     });
     complete();
+  };
+
+  const missionClear = () => {
+    console.log(condition);
+    if (!condition) {
+      setCondition(true);
+      setMissionModal(true);
+    }
   };
 
   const render = () => {

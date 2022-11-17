@@ -5,10 +5,10 @@ import ClothesCut from './ClothesCut';
 import clothesEmpty from '../../assets/images/clothesEmpty.png';
 import { useRecoilState } from 'recoil';
 import {
-  chapterConditionState,
   clothesModalState,
   missionModalState,
   userInfoState,
+  chapter1ConditionState,
 } from '../../Atom';
 import AlertModal from '../Common/AlertModal';
 import MainModal from '../Common/MainModal';
@@ -21,7 +21,7 @@ const ClothesPage = () => {
   const [backModal, setBackModal] = useState(false);
   const [resultModal, setResultModal] = useState(false);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-  const [condition, setCondition] = useRecoilState(chapterConditionState);
+  const [condition, setCondition] = useRecoilState(chapter1ConditionState);
   const [missionModal, setMissionModal] = useRecoilState(missionModalState);
 
   const openModal = () => {
@@ -61,10 +61,8 @@ const ClothesPage = () => {
 
   const missionClear = () => {
     console.log(condition);
-    const temp = condition;
-    if (!temp[2]) {
-      temp[2] = true;
-      setCondition(temp);
+    if (!condition) {
+      setCondition(true);
       setMissionModal(true);
     }
   };
