@@ -37,13 +37,13 @@ def AIfunction(vector, word):
 
   for i in range(N_train):
     p = probs[i, :]
-    top_classes = np.argpartition(p, -5)[-5:]
+    top_classes = np.argpartition(p, -8)[-8:]
     top_classes = top_classes[np.argsort(p[top_classes])]
     top_classes = np.flip(top_classes)
   
   topFive = top_classes
   label_lookup = {k:v for k,v in zip(label_lookup_df.index.values, label_lookup_df.label.values)}
-  labels = [label_lookup[topFive[0]], label_lookup[topFive[1]], label_lookup[topFive[2]], label_lookup[topFive[3]], label_lookup[topFive[4]]]
+  labels = [label_lookup[topFive[0]], label_lookup[topFive[1]], label_lookup[topFive[2]], label_lookup[topFive[3]], label_lookup[topFive[4]], label_lookup[topFive[5]], label_lookup[topFive[6]], label_lookup[topFive[7]]]
 
   draw = labels[0]
   for label in labels:
