@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a7dbab29-ae17-4f55-8b23-2b7e9db25258" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/algo/clothes/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/algo/clothes/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/controller/MemberController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/service/MemberService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/service/MemberServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/api/service/MemberServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/config/WebMvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dontcry/internsanta/config/WebMvcConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application.properties" afterDir="false" />
-    </list>
+    <list default="true" id="a7dbab29-ae17-4f55-8b23-2b7e9db25258" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,6 +65,7 @@
       <workItem from="1667781911991" duration="163000" />
       <workItem from="1667795006218" duration="46000" />
       <workItem from="1668402032104" duration="169000" />
+      <workItem from="1668643958791" duration="218000" />
     </task>
     <servers />
   </component>

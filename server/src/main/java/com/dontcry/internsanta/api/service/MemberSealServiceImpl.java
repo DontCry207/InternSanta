@@ -1,5 +1,6 @@
 package com.dontcry.internsanta.api.service;
 
+import com.dontcry.internsanta.api.response.MemberTicketRes;
 import com.dontcry.internsanta.common.exception.code.ErrorCode;
 import com.dontcry.internsanta.common.exception.seal.SealNotStretchException;
 import com.dontcry.internsanta.db.entity.Member;
@@ -72,4 +73,5 @@ public class MemberSealServiceImpl implements MemberSealService {
         member.updateMemberTicket();
         memberRepository.save(member);
     }
+
 }
