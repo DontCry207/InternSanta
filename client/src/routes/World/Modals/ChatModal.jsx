@@ -73,15 +73,15 @@ const ChatModal = () => {
   };
 
   const featureModal = (e) => {
-    if (e === 'reindeerGreen') {
+    if (e === 'greenGuy') {
       setAnimalModal(true);
     } else if (e === 'storeGuy') {
       setGotchaModal(true);
-    } else if (e === 'reindeerWhite') {
+    } else if (e === 'yellowGuy') {
       setGameModal(true);
-    } else if (e === 'reindeerPink') {
+    } else if (e === 'commet') {
       setPhotoModal(true);
-    } else if (e === 'reindeerYellow') {
+    } else if (e === 'trainGuy') {
       setQuickDrawModal(true);
     }
     setModal(null);

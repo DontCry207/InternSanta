@@ -61,8 +61,16 @@ const Modal = styled.div`
   height: 100%;
   z-index: 10;
 `;
+
 const Fortune = styled.div`
   font-size: 25px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
 `;
 
 export default FortuneModal;

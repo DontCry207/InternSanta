@@ -15,7 +15,6 @@ const DanceLight = () => {
   const light8 = useRef();
   const light9 = useRef();
   const light10 = useRef();
-  const light11 = useRef();
 
   useEffect(() => {
     light.current.target.position.set(-7.47, 0.6, 0.99);
@@ -28,7 +27,6 @@ const DanceLight = () => {
     light8.current.target.position.set(13.137, 9.85, -3.09);
     light9.current.target.position.set(-3.17, 4.808, 20.6039);
     light10.current.target.position.set(92, 66, 22);
-    light11.current.target.position.set(-14.3, 0, 19.96);
   }, []);
 
   return (
@@ -39,7 +37,7 @@ const DanceLight = () => {
         distance={5}
         angle={0.55}
         attenuation={ambient ? 0 : 2}
-        intensity={ambient ? 0 : 2}
+        intensity={ambient ? 0 : 1}
         color={'hotpink'}
       />
       <SpotLight
@@ -48,13 +46,13 @@ const DanceLight = () => {
         distance={5}
         angle={0.55}
         attenuation={ambient ? 0 : 2}
-        intensity={ambient ? 0 : 2}
+        intensity={ambient ? 0 : 1}
         color={'#8DAB1D'}
       />
       <SpotLight
         ref={light3}
         position={[-5.295711898803711, 2.5, 2.49038553237915]}
-        distance={4}
+        distance={5}
         angle={0.55}
         attenuation={ambient ? 0 : 2}
         intensity={ambient ? 0 : 1}
@@ -120,16 +118,7 @@ const DanceLight = () => {
         distance={103}
         angle={0.4}
         attenuation={0}
-        intensity={ambient ? 0 : 4}
-        color={'white'}
-      />
-      <SpotLight
-        ref={light11}
-        position={[-15.7, 2, 21.4]}
-        distance={4}
-        angle={0.7}
-        attenuation={0}
-        intensity={ambient ? 0 : 0.8}
+        intensity={ambient ? 0 : 3}
         color={'white'}
       />
     </>

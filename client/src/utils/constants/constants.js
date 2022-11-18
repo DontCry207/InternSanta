@@ -172,7 +172,7 @@ export const NpcNames = {
   reindeerPink: '댄서',
   reindeerWhite: '대셔',
   infoGuy: '박아영 정보과장',
-  storeGuy: '정민호 (27/남/문방구 아저씨)',
+  storeGuy: '정민호 문방구아저씨',
   trainGuy: '양경섭 역무장',
   yellowGuy: '원재호 단무지',
   greenGuy: '최하영 착한누나',
@@ -197,32 +197,32 @@ export const NormalDialog = {
     '인사팀장 루돌프님이 기다리고 계셔! 그분께 가봐.',
   ],
   storeGuy: ['안녕, 오늘도 뽑기하러왔니? 호호호'],
-  trainGuy: ['안녕'],
-  yellowGuy: ['안녕'],
-  greenGuy: ['안녕'],
+  trainGuy: ['이번에 마을로 가져온 재료가 참많답니다~'],
+  yellowGuy: ['신난다! 게임이 최고야 유후우우'],
+  greenGuy: ['동물들을 보호해야해...'],
   minSeo: ['강민서'],
   yb: ['안녕'],
-  commet: ['안녕'],
+  commet: ['너, 나랑같이 사진찍을래?'],
 };
 
 export const NpcFeatButton = {
   reindeer: null,
   reindeerRed: null,
   reindeerOrange: null,
-  reindeerYellow: '나무 얻기',
-  reindeerGreen: '펫분양',
+  reindeerYellow: null,
+  reindeerGreen: null,
   reindeerBlue: null,
   reindeerPurple: null,
-  reindeerPink: '산타네컷',
-  reindeerWhite: '미니게임',
+  reindeerPink: null,
+  reindeerWhite: null,
   infoGuy: null,
   storeGuy: '뽑기',
-  trainGuy: null,
-  yellowGuy: null,
-  greenGuy: null,
+  trainGuy: '나무 얻기',
+  yellowGuy: '미니게임',
+  greenGuy: '펫분양',
   minSeo: null,
   yb: null,
-  commet: null,
+  commet: '산타네컷',
 };
 
 export const NpcQuest = {
@@ -286,4 +286,87 @@ export const PetImage = {
   6: PolarBearImg,
   7: TortoiseImg,
   8: RhinoImg,
+};
+
+export const missionClearText = {
+  1: [
+    '멋진 옷을 입었군요!',
+    '다시 프랜서에게 돌아가',
+    '미션을 클리어 해주세요',
+  ],
+  2: [
+    '똑 닮은 펫을 얻었네요!',
+    '다시 블리즌에게 돌아가',
+    '미션을 클리어 해주세요',
+  ],
+  3: [
+    '오늘은 어떤 운세를 받았나요?',
+    '다시 도너에게 돌아가',
+    '미션을 클리어 해주세요',
+  ],
+  4: [
+    '한 그림솜씨 하시네요!',
+    '다시 빅슨에게 돌아가',
+    '미션을 클리어 해주세요',
+  ],
+  5: [
+    '멋진 씰을 다 모아봅시다!',
+    '다시 큐피드에게 돌아가',
+    '미션을 클리어 해주세요',
+  ],
+  6: [
+    '크리스마스엔 집에서 영화나 한편!',
+    '다시 코멧에게 돌아가',
+    '미션을 클리어 해주세요',
+  ],
+  7: [
+    '더 높이 쌓을때까지 계속 고우~고우~',
+    '다시 대셔에게 돌아가',
+    '미션을 클리어 해주세요',
+  ],
+  8: [
+    '내 캐릭터와 함께 추억으로 남겨봐요~',
+    '다시 댄서에게 돌아가',
+    '미션을 클리어 해주세요',
+  ],
+};
+
+export const reward = {
+  0: 1000,
+  1: 1500,
+  2: 2000,
+  3: 2500,
+  4: 3000,
+  5: 3500,
+  6: 4000,
+  7: 4500,
+  8: 5000,
+  9: 6000,
+  10: 7000,
+};
+
+export const questText = {
+  1: ['옷을 갈아입어 봅시다!', '오른쪽 상단 옷 아이콘을 클릭하세요'],
+  2: [
+    '이제 나와 닮은 펫을 얻을 수 있어요!',
+    '초록옷의 동물보호장을 찾아가세요',
+  ],
+  3: [
+    '산타라면 오늘의 운세정도는 알아야죠',
+    '계단 위집의 캐럴존에서 벽난로를 클릭하세요',
+  ],
+  4: ['그림을 그려 나무를 얻어봅시다!', '기차앞 역무원 아저씨를 찾아가세요'],
+  5: ['씰을 뽑아 카드를 채워볼까요?', '맵중앙 상점을 클릭하세요'],
+  6: [
+    '쉬는 날엔 집에 콕박혀서 영화한편?',
+    '계단 위집의 캐럴존에서 텔레비전을 클릭하세요',
+  ],
+  7: [
+    '선물을 가득 쌓아 코인을 얻어볼까요?',
+    '노란옷의 게임광 원재호를 찾아가세요',
+  ],
+  8: [
+    '내캐릭터와 함께 산타네컷 한장!',
+    '핑크옷의 김혜성 노는언니를 찾아가세요',
+  ],
 };

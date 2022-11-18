@@ -60,8 +60,8 @@ const WorldPage = () => {
           <QuestBubble />
           <MainLight />
           <DanceLight />
-          <Suspense fallback={<LazyLoading />}>
-            <Physics gravity={[0, -30, 0]} colliders={false}>
+          <Physics gravity={[0, -30, 0]} colliders={false}>
+            <Suspense fallback={<LazyLoading />}>
               <ChristmasTown />
               <CarolZone />
               <Player />
@@ -75,8 +75,8 @@ const WorldPage = () => {
               <Television />
               <Tree />
               <TeddyBear />
-            </Physics>
-          </Suspense>
+            </Suspense>
+          </Physics>
         </Canvas>
       </KeyboardControls>
     </Container>

@@ -19,20 +19,17 @@ const Television = () => {
   const location = [24, 1, -14.5];
   const [modal, setModal] = useRecoilState(movieModalState);
   const [hovered, setHover] = useState(false);
-  const { camera, gl, scene } = useThree();
+  const { gl } = useThree();
 
   const hover = (e) => {
-    e.stopPropagation();
     setHover(true);
   };
 
   const unhover = (e) => {
-    e.stopPropagation();
     setHover(false);
   };
 
   const click = (e) => {
-    e.stopPropagation();
     setModal(!modal);
   };
 

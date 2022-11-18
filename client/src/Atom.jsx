@@ -9,12 +9,12 @@ export const userInfoState = atom({
   key: 'userInfo',
   default: {
     memberNickname: '',
-    memberCoin: -1,
-    memberTicket: -1,
+    memberCoin: 0,
+    memberTicket: 0,
     memberTop: null,
-    memberPet: -1,
-    memberChapter: -1,
-    memberCheckpoint: -1,
+    memberPet: 0,
+    memberChapter: 0,
+    memberCheckpoint: 0,
   },
 });
 

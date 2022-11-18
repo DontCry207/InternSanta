@@ -52,7 +52,8 @@ const Player = () => {
 
   useEffect(() => {
     if (userInfo.memberTop) {
-      const texture = new THREE.TextureLoader().load(`${userInfo.memberTop}`);
+      const texture = new THREE.TextureLoader().load(userInfo.memberTop);
+      texture.needsUpdate = true;
       textureInsert(texture);
     }
   }, [userInfo.memberTop]);

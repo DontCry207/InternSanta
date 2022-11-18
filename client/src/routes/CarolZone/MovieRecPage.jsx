@@ -3,8 +3,6 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
 import santa from '../../assets/images/santa.png';
-import { chapterConditionState, missionModalState } from '../../Atom';
-import { useRecoilState, useSetRecoilState } from 'recoil';
 
 const MovieRecPage = () => {
   const [movieList, setMovieList] = useState([]);

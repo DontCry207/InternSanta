@@ -1,4 +1,3 @@
-import React from 'react';
 import Npc from './Npc';
 
 const NpcDistributor = () => {

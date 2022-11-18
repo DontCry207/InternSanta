@@ -6,6 +6,7 @@ import {
   chapterConditionState,
   infoUpdateState,
   missionModalState,
+  petState,
   userInfoState,
 } from '../../../Atom';
 import AnimalPage from '../../AnimalPet/AnimalPage';
@@ -17,6 +18,7 @@ const AnimalModal = () => {
   const setMissionModal = useSetRecoilState(missionModalState);
   const [update, setUpdate] = useRecoilState(infoUpdateState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [petInfo, setPetInfo] = useRecoilState(petState);
 
   const missionClear = () => {
     if (!condition[2]) {

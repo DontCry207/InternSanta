@@ -32,7 +32,6 @@ const PlayUi = () => {
   const [prog, setProg] = useState(false);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [questInfo, setQuestInfo] = useRecoilState(questInfoState);
-  const [petInfo, setPetInfo] = useRecoilState(petState);
   const setScript = useSetRecoilState(npcScriptState);
   const setModal = useSetRecoilState(clothesModalState);
   const setSealModal = useSetRecoilState(sealModalState);
@@ -40,6 +39,7 @@ const PlayUi = () => {
   const update = useRecoilValue(infoUpdateState);
   const [coinNum, setCoinNum] = useState(userInfo.memberCoin);
   const [ticketNum, setTicketNum] = useState(userInfo.memberTicket);
+  const setPetInfo = useSetRecoilState(petState);
 
   const getScript = async () => {
     const res = await fetchData.get('/api/v1/quest/script');
@@ -57,26 +57,21 @@ const PlayUi = () => {
     console.log(res.data);
   };
 
-  const petUpdate = () => {
-    if (userInfo.memberPet !== petInfo) {
-      setPetInfo(userInfo.memberPet);
-    }
-  };
-
   useEffect(() => {
     setCoinNum(userInfo.memberCoin);
     setTicketNum(userInfo.memberTicket);
+    setPetInfo(userInfo.memberPet);
   }, [userInfo]);
 
   useEffect(() => {
-    getUserInfo();
-    getQuest();
-    getScript();
+    try {
+      getUserInfo();
+      getQuest();
+      getScript();
+    } catch (e) {
+      console.log(e);
+    }
   }, [update]);
-
-  useEffect(() => {
-    petUpdate();
-  }, []);
 
   return (
     <ContainerUi>

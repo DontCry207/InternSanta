@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { RigidBody } from '@react-three/rapier';
-import { SpotLight, useGLTF } from '@react-three/drei';
-import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { modalState, ambientState, npcHoverState } from '../../../Atom';
+import { useSetRecoilState } from 'recoil';
+import { modalState, npcHoverState } from '../../../Atom';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import {
@@ -41,24 +40,9 @@ const ReinDeer = (props) => {
   const location = NpcLocation[props.type];
   const setHover = useSetRecoilState(npcHoverState);
   const setModal = useSetRecoilState(modalState);
-  const ambient = useRecoilValue(ambientState);
-  const light = useRef();
-
-  // useEffect(() => {
-  //   light.current.target.position.set(location[0], location[1], location[2]);
-  // }, []);
 
   return (
     <>
-      {/* <SpotLight
-        ref={light}
-        position={location3}
-        distance={5}
-        angle={0.35}
-        attenuation={ambient ? 0 : 2}
-        intensity={ambient ? 0 : 2}
-        color={'white'}
-      /> */}
       <primitive ref={ref} object={nodes.Scene} position={location} />
       <RigidBody type="fixed" colliders={'hull'}>
         <mesh
