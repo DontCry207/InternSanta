@@ -1,90 +1,16 @@
 import React from 'react';
-import { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { loggedInState, userInfoState } from '../../Atom';
-import { fetchData } from '../../utils/apis/api';
-import ClothesPage from '../Clothes/ClothesPage';
-import AnimalModal from '../AnimalPet/AnimalModal';
-import MainModal from '../Common/MainModal';
-import MiniGamePage from '../MiniGame/MiniGamePage';
-import DrawModal from '../QuickDraw/DrawModal';
-import MiniDrawModal from '../QuickDraw/MiniDrawModal';
-import SantaFourCutPage from '../SantaFourCut/SantaFourCutPage';
-import GetSealPage from '../Seal/GetSealPage';
-import SealListPage from '../Seal/SealListPage';
+import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/images/logo.png';
+import section1 from '../../assets/images/landing/section1.png';
+import section3 from '../../assets/images/landing/section3.png';
+import { useRecoilState } from 'recoil';
+import { loggedInState } from '../../Atom';
+import Snowfall from 'react-snowfall';
+import { HiOutlineArrowNarrowRight } from 'react-icons/hi';
 const HomePage = () => {
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [loggedIn, setloggedIn] = useRecoilState(loggedInState);
   const navigate = useNavigate();
-
-  const [onSantaFourCutModal, setOnSantaFourCutModal] = useState(false);
-  const [onMiniGameModal, setOnMiniGameModal] = useState(false);
-
-  const [onSealListModal, setOnSealListModal] = useState(false);
-  const [onGetSealModal, setOnGetSealModal] = useState(false);
-
-  const [onAnimalPet, setOnAnimalPet] = useState(false);
-  const [onQuickDraw, setOnQuickDraw] = useState(false);
-  const [onMiniDraw, setOnMiniDraw] = useState(false);
-  const [onClothesModal, setOnClothesModal] = useState(false);
-
-  const openModal = () => {
-    if (onSantaFourCutModal) {
-      return (
-        <MainModal closeBtnControl={setOnSantaFourCutModal} bgColor="#30314B">
-          <SantaFourCutPage />
-        </MainModal>
-      );
-    }
-    if (onMiniGameModal) {
-      return (
-        <MainModal closeBtnControl={setOnMiniGameModal} bgColor="#56668E">
-          <MiniGamePage />
-        </MainModal>
-      );
-    }
-    if (onSealListModal) {
-      return (
-        <MainModal closeBtnControl={setOnSealListModal} bgColor="#2E2D56">
-          <SealListPage />
-        </MainModal>
-      );
-    }
-    if (onGetSealModal) {
-      return (
-        <MainModal closeBtnControl={setOnGetSealModal} bgColor="#E47B81">
-          <GetSealPage />
-        </MainModal>
-      );
-    }
-    if (onClothesModal) {
-      return <ClothesPage closeBtnControl={setOnClothesModal} />;
-    }
-    if (onAnimalPet) {
-      return (
-        <MainModal closeBtnControl={setOnAnimalPet} bgColor="#639bb2">
-          <AnimalModal setOnAnimalPet={setOnAnimalPet} />
-        </MainModal>
-      );
-    }
-    if (onQuickDraw) {
-      return (
-        <MainModal closeBtnControl={setOnQuickDraw} bgColor="#3E8887">
-          <DrawModal setOnQuickDraw={setOnQuickDraw} />
-        </MainModal>
-      );
-    }
-    if (onMiniDraw) {
-      return (
-        <MainModal closeBtnControl={setOnMiniDraw} bgColor="#56668E">
-          <MiniDrawModal setOnMiniDraw={setOnMiniDraw} />
-        </MainModal>
-      );
-    }
-  };
-
   const logout = () => {
     setUserInfo({
       memberNickname: '',
@@ -100,31 +26,219 @@ const HomePage = () => {
     sessionStorage.removeItem('accessToken');
     console.log('로그아웃');
   };
+
   return (
-    <div>
-      Home
-      {loggedIn ? (
-        <div>
-          {userInfo.memberNickname}님 안녕하세요
-          <br />
-          보유코인: {userInfo.memberCoin}
-          <button onClick={logout}>로그아웃</button>
-          <button onClick={() => navigate('/game')}>게임</button>
-          <button onClick={() => setOnSantaFourCutModal(true)}>산타네컷</button>
-          <button onClick={() => setOnMiniGameModal(true)}>미니게임</button>
-          <button onClick={() => setOnSealListModal(true)}>씰모으기</button>
-          <button onClick={() => setOnGetSealModal(true)}>씰뽑기</button>
-          <button onClick={() => setOnClothesModal(true)}>옷텍스쳐</button>
-          <button onClick={() => setOnMiniDraw(true)}>미니게임_퀵드로우</button>
-          <button onClick={() => setOnAnimalPet(true)}>Q2. 동물형분별</button>
-          <button onClick={() => setOnQuickDraw(true)}>Q4. 썰매재료수급</button>
-          {openModal()}
-        </div>
-      ) : (
-        <button onClick={() => navigate('/main')}>접속</button>
-      )}
-    </div>
+    <Container>
+      <Snowfall
+        style={{ position: 'fixed' }}
+        snowflakeCount={200}
+        wind={[-0.5, 0.5]}
+        radius={[1.0, 3.0]}
+      />
+      <NavBar>
+        <Logo>
+          <a href="#home">
+            <img src={logo} alt="logo" />
+          </a>
+        </Logo>
+        <ul>
+          <li>
+            <a href="#seal">씰 뽑기</a>
+          </li>
+          <li>
+            <a href="#photo">산타네컷</a>
+          </li>
+          <li>
+            <a href="#carol">캐롤존</a>
+          </li>
+        </ul>
+        <ConnectBtn>
+          {loggedIn ? (
+            <>
+              <button onClick={() => navigate('/game')}>게임 시작</button>
+              {/* <button onClick={() => logout()}>로그아웃</button> */}
+            </>
+          ) : (
+            <button onClick={() => navigate('/main')}>접속하기</button>
+          )}
+
+          {/* <button onClick={() => logout()}>로그아웃</button> */}
+        </ConnectBtn>
+      </NavBar>
+      <Main>
+        <TitleBox id="home">
+          <h1>INTERN SANTA</h1>
+        </TitleBox>
+        <SealBox id="seal">
+          <img src={section1} alt="" />
+          <div>
+            <h2>크리스마스 씰을 모으자</h2>
+            <p>미션과 게임을 통해서 얻은 코인으로</p>
+            <p>뽑기를 통해 크리스마스 씰을 모으고,</p>
+            <p>다 모은 씰을 티켓으로 교환하여 선물을 받아보세요</p>
+          </div>
+        </SealBox>
+        <SealBox id="photo">
+          <div>
+            <h2>나만의 캐릭터와 함께 찰칵</h2>
+            <p>내가 직접 만든 옷을 입은 캐릭터와</p>
+            <p>네컷 사진으로 추억을 남겨보세요</p>
+          </div>
+          <img src={section1} alt="" />
+        </SealBox>
+        <CarolBox id="carol">
+          <img src={section3} alt="" />
+          <div>
+            <h2>감성 가득한 캐롤존</h2>
+            <p>크리스마스에 어울리는 영화를 추천 받고</p>
+            <p>오늘의 운세까지 확인해보세요</p>
+          </div>
+        </CarolBox>
+        <GameConnect id="connect">
+          <div>
+            <p>이 모든 콘텐츠를</p>
+            <p>지금 바로 인턴산타에서</p>
+          </div>
+          <a
+            href="javascript:void(0)"
+            onClick={() => (loggedIn ? navigate('/game') : navigate('/main'))}>
+            즐기러 가기&nbsp;
+            <HiOutlineArrowNarrowRight />
+          </a>
+        </GameConnect>
+      </Main>
+      <footer></footer>
+    </Container>
   );
 };
+const Container = styled.div`
+  width: 100%;
+  /* height: 100vh;
+  overflow: hidden;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory; */
+  /* background-color: #55669e; */
+  background: linear-gradient(180deg, #55669e 0%, #b5a4b7 100%);
+`;
+const NavBar = styled.nav`
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    font-size: 24px;
+    color: #edefff;
+  }
+`;
+const Logo = styled.div`
+  padding: 10px;
+  img {
+    width: 60px;
+  }
+`;
+const ConnectBtn = styled.div`
+  padding-right: 30px;
+  button {
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #edefff;
+    color: #55669e;
+    font-size: 18px;
+    /* font-weight: 600; */
+  }
+`;
+const Main = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    /* background-color: lime; */
+    scroll-snap-align: center;
+  }
+`;
+
+const TitleBox = styled.section`
+  h1 {
+    font-size: 120px;
+    color: #edefff;
+  }
+`;
+
+const SealBox = styled.section`
+  display: flex;
+  width: 90%;
+  gap: 50px;
+  img {
+    width: 40%;
+  }
+  div {
+    color: #edefff;
+    h2 {
+      font-size: 52px;
+      font-weight: 700;
+      padding-bottom: 30px;
+    }
+    p {
+      font-size: 28px;
+      padding: 5px 0;
+    }
+  }
+`;
+const CarolBox = styled.section`
+  display: flex;
+  width: 90%;
+  gap: 100px;
+  img {
+    width: 35%;
+  }
+  div {
+    color: #edefff;
+    h2 {
+      font-size: 52px;
+      font-weight: 700;
+      padding-bottom: 30px;
+    }
+    p {
+      font-size: 28px;
+      padding: 5px 0;
+    }
+  }
+`;
+
+const GameConnect = styled.section`
+  flex-direction: column;
+  gap: 80px;
+  & > div {
+    font-size: 80px;
+    text-align: center;
+    color: #edefff;
+    p {
+      padding: 10px;
+    }
+  }
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    border-bottom: 3px solid #353535;
+    color: #353535;
+    padding-bottom: 2px;
+    /* text-decoration: underline; */
+  }
+`;
 export default HomePage;
