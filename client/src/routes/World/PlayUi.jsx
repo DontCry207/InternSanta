@@ -2,39 +2,48 @@ import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import {
-  BsFillTreeFill,
   BsExclamationLg,
   BsQuestionLg,
   BsCheckLg,
   BsFillStarFill,
 } from 'react-icons/bs';
 import { FaTshirt } from 'react-icons/fa';
+import { AiOutlinePoweroff } from 'react-icons/ai';
 import { HiVolumeUp } from 'react-icons/hi';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   clothesModalState,
   infoUpdateState,
+  logoutModalState,
   npcScriptState,
+  petState,
   questInfoState,
+  sealModalState,
   userInfoState,
 } from '../../Atom';
 import { useEffect } from 'react';
 import { fetchData } from '../../utils/apis/api';
 import { NpcProfileImages, NpcQuest } from '../../utils/constants/constants';
 import stickerCard from '../../assets/images/StickerCard.png';
+import ticket from '../../assets/images/ticket.png';
+import coin from '../../assets/images/coin.png';
 
 const PlayUi = () => {
   const [prog, setProg] = useState(false);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [questInfo, setQuestInfo] = useRecoilState(questInfoState);
-  const [script, setScript] = useRecoilState(npcScriptState);
+  const [petInfo, setPetInfo] = useRecoilState(petState);
+  const setScript = useSetRecoilState(npcScriptState);
+  const setModal = useSetRecoilState(clothesModalState);
+  const setSealModal = useSetRecoilState(sealModalState);
+  const setLogoutModal = useSetRecoilState(logoutModalState);
   const update = useRecoilValue(infoUpdateState);
-  const [modal, setModal] = useRecoilState(clothesModalState);
+  const [coinNum, setCoinNum] = useState(userInfo.memberCoin);
+  const [ticketNum, setTicketNum] = useState(userInfo.memberTicket);
 
   const getScript = async () => {
     const res = await fetchData.get('/api/v1/quest/script');
     setScript(res.data.questScriptList);
-    return;
   };
 
   const getQuest = async () => {
@@ -45,13 +54,29 @@ const PlayUi = () => {
   const getUserInfo = async () => {
     const res = await fetchData.get('/api/v1/member');
     setUserInfo(res.data);
+    console.log(res.data);
   };
+
+  const petUpdate = () => {
+    if (userInfo.memberPet !== petInfo) {
+      setPetInfo(userInfo.memberPet);
+    }
+  };
+
+  useEffect(() => {
+    setCoinNum(userInfo.memberCoin);
+    setTicketNum(userInfo.memberTicket);
+  }, [userInfo]);
 
   useEffect(() => {
     getUserInfo();
     getQuest();
     getScript();
   }, [update]);
+
+  useEffect(() => {
+    petUpdate();
+  }, []);
 
   return (
     <ContainerUi>
@@ -90,20 +115,26 @@ const PlayUi = () => {
         </ProgressButton>
       </LeftTopBox>
       <RightTopBox>
-        <IconBorder>
-          <BsFillTreeFill size={40} color={'white'} />
-        </IconBorder>
         <IconBorder onClick={() => setModal(true)}>
           <FaTshirt size={40} color={'white'} />
         </IconBorder>
         <IconBorder>
           <HiVolumeUp size={40} color={'white'} />
         </IconBorder>
+        <IconBorder onClick={() => setLogoutModal(true)}>
+          <AiOutlinePoweroff size={40} color={'white'} />
+        </IconBorder>
       </RightTopBox>
       <RightBottomBox>
-        <StickerBox>
+        <StickerBox onClick={() => setSealModal(true)}>
           <img src={stickerCard} alt="" />
         </StickerBox>
+        <CoinBox>
+          <img src={coin} alt="" />
+          <p>{coinNum}</p>
+          <img src={ticket} alt="" />
+          <p>{ticketNum}</p>
+        </CoinBox>
       </RightBottomBox>
     </ContainerUi>
   );
@@ -177,6 +208,25 @@ const StickerBox = styled.div`
   }
 `;
 
+const CoinBox = styled.div`
+  position: absolute;
+  top: 166px;
+  left: 16px;
+  rotate: 10deg;
+  width: 200px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  p {
+    font-size: 26px;
+  }
+  img {
+    width: 34px;
+  }
+`;
+
 const Logo = styled.div`
   display: flex;
   flex-direction: column;
@@ -191,7 +241,7 @@ const Logo = styled.div`
 `;
 
 const ProgressButton = styled.div`
-  width: ${(props) => (props.prog ? '460px' : '80px')};
+  width: ${(props) => (props.prog ? '500px' : '80px')};
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -227,8 +277,8 @@ const IconBorder = styled.div`
 `;
 
 const QuestDescription = styled.div`
-  width: 300px;
-  min-width: 300px;
+  width: 340px;
+  min-width: 320px;
   height: 80px;
   min-height: 80px;
   display: flex;

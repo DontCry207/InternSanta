@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { useThree, useFrame, extend, useLoader } from '@react-three/fiber';
+import { useEffect, useRef } from 'react';
+import { useThree, useFrame, extend } from '@react-three/fiber';
 import character from '../../assets/character.glb';
 import { RigidBody, CuboidCollider } from '@react-three/rapier';
 import {
@@ -7,11 +7,9 @@ import {
   MapControls,
 } from 'three/examples/jsm/controls/OrbitControls';
 import * as THREE from 'three';
-import { useKeyboardControls, useAnimations } from '@react-three/drei';
+import { useKeyboardControls, useAnimations, useGLTF } from '@react-three/drei';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { loadingState, sponPositionState, userInfoState } from '../../Atom';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module';
 extend({ OrbitControls, MapControls });
 
 const Player = () => {
@@ -28,27 +26,22 @@ const Player = () => {
   const {
     camera,
     gl: { domElement },
-    scene,
   } = useThree();
 
   const [, get] = useKeyboardControls();
 
-  const { nodes, animations, materials } = useLoader(
-    GLTFLoader,
-    character,
-    (loader) => {
-      loader.setMeshoptDecoder(MeshoptDecoder);
-    },
-  );
+  const { nodes, animations, materials } = useGLTF(character);
   nodes.Scene.scale.setZ(-0.6);
   nodes.Scene.scale.setX(-0.6);
   const { actions } = useAnimations(animations, group);
 
   const textureInsert = (obj) => {
-    materials.characters.map.copy(obj);
-    materials.characters.map.encoding = THREE.sRGBEncoding;
-    materials.characters.map.flipY = false;
-    materials.characters.map.updateMatrix();
+    if (materials.characters.map != obj) {
+      materials.characters.map.copy(obj);
+      materials.characters.map.encoding = THREE.sRGBEncoding;
+      materials.characters.map.flipY = false;
+      materials.characters.map.updateMatrix();
+    }
   };
 
   useEffect(() => {
@@ -58,10 +51,10 @@ const Player = () => {
   }, []);
 
   useEffect(() => {
-    const texture = new THREE.TextureLoader().load(
-      `${userInfo.memberTop}`,
-      (obj) => textureInsert(obj),
-    );
+    if (userInfo.memberTop) {
+      const texture = new THREE.TextureLoader().load(`${userInfo.memberTop}`);
+      textureInsert(texture);
+    }
   }, [userInfo.memberTop]);
 
   useEffect(() => {

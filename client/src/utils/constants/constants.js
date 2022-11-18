@@ -49,6 +49,14 @@ import reindeerBlueProfileImg from '../../assets/images/profiles/reindeerBlue.pn
 import reindeerPurpleProfileImg from '../../assets/images/profiles/reindeerPurple.png';
 import reindeerWhiteProfileImg from '../../assets/images/profiles/reindeerWhite.png';
 import reindeerPinkProfileImg from '../../assets/images/profiles/reindeerPink.png';
+import DogImg from '../../assets/images/pets/Dog.png';
+import CatImg from '../../assets/images/pets/Cat.png';
+import RabbitImg from '../../assets/images/pets/Rabbit.png';
+import FoxImg from '../../assets/images/pets/Fox.png';
+import ReindeerImg from '../../assets/images/pets/Reindeer.png';
+import PolarBearImg from '../../assets/images/pets/PolarBear.png';
+import TortoiseImg from '../../assets/images/pets/Tortoise.png';
+import RhinoImg from '../../assets/images/pets/Rhino.png';
 
 export const NpcLocation = {
   null: [0, -10, 0],
@@ -201,7 +209,7 @@ export const NpcFeatButton = {
   reindeer: null,
   reindeerRed: null,
   reindeerOrange: null,
-  reindeerYellow: null,
+  reindeerYellow: '나무 얻기',
   reindeerGreen: '펫분양',
   reindeerBlue: null,
   reindeerPurple: null,
@@ -266,4 +274,16 @@ export const SealImg = [
   'https://internsanta.s3.ap-northeast-2.amazonaws.com/seal/choco_seal.png',
   'https://internsanta.s3.ap-northeast-2.amazonaws.com/seal/socks_seal.png',
   'https://internsanta.s3.ap-northeast-2.amazonaws.com/seal/gift_seal.png',
-]
+];
+
+export const PetImage = {
+  0: null,
+  1: DogImg,
+  2: CatImg,
+  3: RabbitImg,
+  4: FoxImg,
+  5: ReindeerImg,
+  6: PolarBearImg,
+  7: TortoiseImg,
+  8: RhinoImg,
+};

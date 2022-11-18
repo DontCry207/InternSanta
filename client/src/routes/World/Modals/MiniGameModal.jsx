@@ -3,44 +3,44 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import {
   chapterConditionState,
+  gameModalState,
   missionModalState,
-  movieModalState,
-} from '../../Atom';
-import MainModal from '../Common/MainModal';
-import MovieRecPage from '../CarolZone/MovieRecPage';
+} from '../../../Atom';
+import MainModal from '../../Common/MainModal';
+import MiniGamePage from '../../MiniGame/MiniGamePage';
 
-const MovieModal = () => {
-  const [modal, setModal] = useRecoilState(movieModalState);
+const MiniGameModal = () => {
+  const [gameModal, setGameModal] = useRecoilState(gameModalState);
   const [condition, setCondition] = useRecoilState(chapterConditionState);
   const setMissionModal = useSetRecoilState(missionModalState);
 
   const missionClear = () => {
-    if (!condition[6]) {
+    if (!condition[7]) {
       const updatedList = [...condition];
-      updatedList.splice(6, 1, true);
+      updatedList.splice(7, 1, true);
       setCondition(updatedList);
-      setMissionModal(true);
     }
+    setMissionModal(7);
   };
 
   const close = (e) => {
-    setModal(false);
+    setGameModal(false);
     setTimeout(() => {
       missionClear();
     }, 500);
   };
 
-  return (
-    <>
-      {modal ? (
-        <Modal>
-          <MainModal closeBtnControl={close} bgColor="#76b484">
-            <MovieRecPage />
-          </MainModal>
-        </Modal>
-      ) : null}
-    </>
-  );
+  const render = () => {
+    return (
+      <Modal>
+        <MainModal closeBtnControl={close} bgColor="#2E2D56">
+          <MiniGamePage />
+        </MainModal>
+      </Modal>
+    );
+  };
+
+  return <>{gameModal ? render() : null}</>;
 };
 
 const Modal = styled.div`
@@ -50,4 +50,4 @@ const Modal = styled.div`
   z-index: 10;
 `;
 
-export default MovieModal;
+export default MiniGameModal;

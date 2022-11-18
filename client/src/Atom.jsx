@@ -28,6 +28,16 @@ export const questInfoState = atom({
   },
 });
 
+export const quickDrawModalState = atom({
+  key: 'quickDrawModal',
+  default: false,
+});
+
+export const logoutModalState = atom({
+  key: 'logoutModal',
+  default: false,
+});
+
 export const clothesModalState = atom({
   key: 'clothesModal',
   default: false,
@@ -40,6 +50,16 @@ export const fortuneModalState = atom({
 
 export const movieModalState = atom({
   key: `movieModal`,
+  default: false,
+});
+
+export const sealModalState = atom({
+  key: `sealModal`,
+  default: false,
+});
+
+export const gotchaModalState = atom({
+  key: `gotchaModal`,
   default: false,
 });
 

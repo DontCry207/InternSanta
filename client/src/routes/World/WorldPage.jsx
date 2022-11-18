@@ -6,14 +6,11 @@ import styled from 'styled-components';
 import ChristmasTown from './Environment/ChristmasTown';
 import Player from './Player';
 import Snow from './Environment/Snow';
-import ChatModal from './ChatModal';
 import PlayUi from './PlayUi';
 import LazyLoading from './System/LazyLoading';
 import LoadingPage from './LoadingPage';
 import Shop from './Environment/Shop';
 import BoneFire from './Environment/BoneFire';
-import FortuneModal from './FortuneModal';
-import MovieModal from './MovieModal';
 import MainLight from './Environment/MainLight';
 import DanceLight from './Environment/SpotLight';
 import Moon from './Environment/Moon';
@@ -24,31 +21,18 @@ import Television from '../CarolZone/Television';
 import Tree from '../CarolZone/Tree';
 import TeddyBear from '../CarolZone/TeddyBear';
 import QuestBubble from './System/QuestBubble';
-import MissionModal from './MissionModal';
-import ClothesModal from '../Clothes/ClothesPage';
 import PortalDoor from './Environment/PortalDoor';
-import AnimalModal from '../AnimalPet/AnimalModal';
 import PetDistributor from './NPC/PetDistributor';
-import QuestLogic from './System/QuestLogic';
 import NpcDistributor from './NPC/NpcDistributor';
 import ReinDeerDistributor from './NPC/ReinDeerDistributor';
-import MiniGameModal from '../MiniGame/MiniGamePage';
-import SantaFourCutModal from '../SantaFourCut/SantaFourCutPage';
+import ModalDistributor from './Modals/ModalDistributor';
 
 const WorldPage = () => {
   return (
     <Container>
       <LoadingPage />
-      <SantaFourCutModal />
-      <ChatModal />
-      <ClothesModal />
-      <AnimalModal />
-      <FortuneModal />
-      <MissionModal />
-      <MovieModal />
-      <MiniGameModal />
+      <ModalDistributor />
       <PlayUi />
-      <QuestLogic />
       <KeyboardControls
         map={[
           { name: 'forward', keys: ['ArrowUp', 'w', 'W'] },
@@ -79,18 +63,18 @@ const WorldPage = () => {
           <Suspense fallback={<LazyLoading />}>
             <Physics gravity={[0, -30, 0]} colliders={false}>
               <ChristmasTown />
+              <CarolZone />
+              <Player />
               <Shop />
               <BoneFire />
               <PortalDoor />
-              <CarolZone />
+              <PetDistributor />
+              <NpcDistributor />
+              <ReinDeerDistributor />
               <FirePlace />
               <Television />
               <Tree />
               <TeddyBear />
-              <Player />
-              <PetDistributor />
-              <NpcDistributor />
-              <ReinDeerDistributor />
             </Physics>
           </Suspense>
         </Canvas>

@@ -4,25 +4,16 @@ import { fetchData } from '../../utils/apis/api';
 import ClothesCut from './ClothesCut';
 import clothesEmpty from '../../assets/images/clothesEmpty.png';
 import { useRecoilState } from 'recoil';
-import {
-  clothesModalState,
-  missionModalState,
-  userInfoState,
-  chapterConditionState,
-} from '../../Atom';
+import { userInfoState } from '../../Atom';
 import AlertModal from '../Common/AlertModal';
-import MainModal from '../Common/MainModal';
 
 const ClothesPage = () => {
-  const [modal, setModal] = useRecoilState(clothesModalState);
   const [clothesFront, setClothesFront] = useState('');
   const [clothesBack, setClothesBack] = useState('');
   const [frontModal, setFrontModal] = useState(false);
   const [backModal, setBackModal] = useState(false);
   const [resultModal, setResultModal] = useState(false);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-  const [condition, setCondition] = useRecoilState(chapterConditionState);
-  const [missionModal, setMissionModal] = useRecoilState(missionModalState);
 
   const openModal = () => {
     if (frontModal) {
@@ -50,23 +41,10 @@ const ClothesPage = () => {
           rightBtnName="닫기"
           setRightBtnControl={() => {
             setResultModal(false);
-            setModal(false);
-            setTimeout(() => {
-              missionClear();
-            }, 500);
           }}>
           <ResultBox>변경이 완료되었습니다.</ResultBox>
         </AlertModal>
       );
-    }
-  };
-
-  const missionClear = () => {
-    if (!condition[1]) {
-      const updatedList = [...condition];
-      updatedList.splice(1, 1, true);
-      setCondition(updatedList);
-      setMissionModal(true);
     }
   };
 
@@ -95,7 +73,7 @@ const ClothesPage = () => {
 
   const render = () => {
     return (
-      <MainModal closeBtnControl={setModal} bgColor="#8A8A8A">
+      <>
         <Title>
           <h2>나만의 옷 만들기</h2>
           <SubTitle>
@@ -133,19 +111,12 @@ const ClothesPage = () => {
           적용
         </PlayBtn>
         {openModal()}
-      </MainModal>
+      </>
     );
   };
 
-  return <>{modal ? <ModalBox>{render()}</ModalBox> : null}</>;
+  return <>{render()}</>;
 };
-
-const ModalBox = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-`;
 
 const Title = styled.div`
   h2 {

@@ -1,20 +1,20 @@
 import React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { fetchData } from '../../utils/apis/api';
+import { fetchData } from '../../../utils/apis/api';
 import {
   chapterConditionState,
   fortuneModalState,
   missionModalState,
-} from '../../Atom';
-import AlertModal from '../Common/AlertModal';
+} from '../../../Atom';
+import AlertModal from '../../Common/AlertModal';
 
 const FortuneModal = () => {
   const [modal, setModal] = useRecoilState(fortuneModalState);
   const [fortuneText, setFortuneText] = useState('');
   const [condition, setCondition] = useRecoilState(chapterConditionState);
-  const [missionModal, setMissionModal] = useRecoilState(missionModalState);
+  const setMissionModal = useSetRecoilState(missionModalState);
 
   const getFortune = async () => {
     const res = await fetchData.get('/api/v1/fortune');
@@ -28,31 +28,31 @@ const FortuneModal = () => {
       const updatedList = [...condition];
       updatedList.splice(3, 1, true);
       setCondition(updatedList);
-      setMissionModal(true);
     }
+    setMissionModal(3);
   };
 
   useEffect(() => {
     setFortuneText(getFortune());
   }, []);
 
-  return (
-    <>
-      {modal ? (
-        <Modal
-          onClick={() => {
-            setModal(!modal);
-            setTimeout(() => {
-              missionClear();
-            }, 500);
-          }}>
-          <AlertModal title={'오늘의 운세'} rightBtnName={'닫기'}>
-            <Fortune>{fortuneText}</Fortune>
-          </AlertModal>
-        </Modal>
-      ) : null}
-    </>
-  );
+  const render = () => {
+    return (
+      <Modal
+        onClick={() => {
+          setModal(!modal);
+          setTimeout(() => {
+            missionClear();
+          }, 500);
+        }}>
+        <AlertModal title={'오늘의 운세'} rightBtnName={'닫기'}>
+          <Fortune>{fortuneText}</Fortune>
+        </AlertModal>
+      </Modal>
+    );
+  };
+
+  return <>{modal ? render() : null}</>;
 };
 
 const Modal = styled.div`

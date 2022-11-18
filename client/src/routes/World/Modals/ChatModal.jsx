@@ -6,24 +6,25 @@ import { BsThreeDots } from 'react-icons/bs';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   animalModalState,
-  chapterConditionState,
   gameModalState,
+  gotchaModalState,
   infoUpdateState,
   missionModalState,
   modalState,
   npcScriptState,
   photoModalState,
   questInfoState,
+  quickDrawModalState,
   userInfoState,
-} from '../../Atom';
+} from '../../../Atom';
 import {
   NormalDialog,
   NpcFeatButton,
   NpcImages,
   NpcNames,
   NpcQuest,
-} from '../../utils/constants/constants';
-import { fetchData } from '../../utils/apis/api';
+} from '../../../utils/constants/constants';
+import { fetchData } from '../../../utils/apis/api';
 
 const ChatModal = () => {
   const [cnt, setCnt] = useState(0);
@@ -34,7 +35,8 @@ const ChatModal = () => {
   const setAnimalModal = useSetRecoilState(animalModalState);
   const setGameModal = useSetRecoilState(gameModalState);
   const setPhotoModal = useSetRecoilState(photoModalState);
-  const [condition, setCondition] = useRecoilState(chapterConditionState);
+  const setGotchaModal = useSetRecoilState(gotchaModalState);
+  const setQuickDrawModal = useSetRecoilState(quickDrawModalState);
   const scripts = useRecoilValue(npcScriptState);
   const quest = useRecoilValue(questInfoState);
   const userInfo = useRecoilValue(userInfoState);
@@ -56,25 +58,17 @@ const ChatModal = () => {
     if (e === targetNpc) {
       if (chapter === 0 || chapter === 9) {
         clearQuest();
-        setMissionModal(e);
+        setMissionModal('sucess');
       } else if (chapter === 10) {
         console.log('스토리종료');
+        setUpdate(!update);
       } else if (checkPoint === 0) {
         proceedCheckPoint();
-        setMissionModal(e);
-      } else if (checkPoint === 2) {
+        setMissionModal('get');
+      } else if (checkPoint >= 2) {
         clearQuest();
-        setMissionModal(e);
+        setMissionModal('sucess');
       }
-    }
-  };
-
-  const missionClear = () => {
-    if (!condition[5]) {
-      const updatedList = [...condition];
-      updatedList.splice(5, 1, true);
-      setCondition(updatedList);
-      setMissionModal(5);
     }
   };
 
@@ -82,11 +76,13 @@ const ChatModal = () => {
     if (e === 'reindeerGreen') {
       setAnimalModal(true);
     } else if (e === 'storeGuy') {
-      missionClear();
+      setGotchaModal(true);
     } else if (e === 'reindeerWhite') {
       setGameModal(true);
     } else if (e === 'reindeerPink') {
       setPhotoModal(true);
+    } else if (e === 'reindeerYellow') {
+      setQuickDrawModal(true);
     }
     setModal(null);
   };
@@ -100,9 +96,9 @@ const ChatModal = () => {
     }
   }, [modal]);
 
-  return (
-    <>
-      {modal ? (
+  const render = () => {
+    return (
+      <>
         <Modal>
           <NpcImage>
             <img src={NpcImages[modal]} alt="" />
@@ -150,9 +146,11 @@ const ChatModal = () => {
             </Buttons>
           </ChatBox>
         </Modal>
-      ) : null}
-    </>
-  );
+      </>
+    );
+  };
+
+  return <>{modal ? render() : null}</>;
 };
 
 const Modal = styled.div`
@@ -176,7 +174,7 @@ const ChatBox = styled.div`
   border-radius: 20px;
   width: 60%;
   margin: 40px;
-  padding: 20px;
+  padding: 30px;
   max-width: 900px;
   height: 30%;
   background-color: #f3f3f3;
@@ -185,7 +183,7 @@ const ChatBox = styled.div`
   .name {
     width: 100%;
     height: 20%;
-    font-size: 30px;
+    font-size: 40px;
   }
 
   .dialog {
@@ -195,7 +193,7 @@ const ChatBox = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 28px;
+    font-size: 40px;
     color: #0d005c;
   }
 
@@ -221,7 +219,7 @@ const NpcImage = styled.div`
 
 const Buttons = styled.div`
   width: 100%;
-  height: 25%;
+  height: 20%;
   display: flex;
   flex-direction: row;
   justify-content: end;
