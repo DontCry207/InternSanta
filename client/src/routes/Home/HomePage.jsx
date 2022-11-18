@@ -3,7 +3,10 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import section2 from '../../assets/images/landing/section2.png';
+import { useRecoilState } from 'recoil';
+import { loggedInState } from '../../Atom';
 const HomePage = () => {
+  const [loggedIn, setloggedIn] = useRecoilState(loggedInState);
   const navigate = useNavigate();
   const logout = () => {
     setUserInfo({
@@ -25,12 +28,11 @@ const HomePage = () => {
     <Container>
       <NavBar>
         <Logo>
-          <img src={logo} alt="logo" />
+          <a href="#home">
+            <img src={logo} alt="logo" />
+          </a>
         </Logo>
         <ul>
-          <li>
-            <a href="#home">인턴산타</a>
-          </li>
           <li>
             <a href="#seal">씰 뽑기</a>
           </li>
@@ -42,8 +44,16 @@ const HomePage = () => {
           </li>
         </ul>
         <ConnectBtn>
+          {loggedIn ? (
+            <>
+              <button onClick={() => navigate('/game')}>게임 시작</button>
+              {/* <button onClick={() => logout()}>로그아웃</button> */}
+            </>
+          ) : (
+            <button onClick={() => navigate('/main')}>접속하기</button>
+          )}
+
           {/* <button onClick={() => logout()}>로그아웃</button> */}
-          <button onClick={() => navigate('/main')}>접속하기</button>
         </ConnectBtn>
       </NavBar>
       <Main>
