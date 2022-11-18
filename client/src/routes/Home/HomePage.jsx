@@ -1,70 +1,9 @@
 import React from 'react';
-import { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { loggedInState, userInfoState } from '../../Atom';
-import { fetchData } from '../../utils/apis/api';
-import ClothesPage from '../Clothes/ClothesPage';
-import AnimalModal from '../AnimalPet/AnimalModal';
-import MainModal from '../Common/MainModal';
-import MiniGamePage from '../MiniGame/MiniGamePage';
-import DrawModal from '../QuickDraw/DrawModal';
-import MiniDrawModal from '../QuickDraw/MiniDrawModal';
-import SantaFourCutPage from '../SantaFourCut/SantaFourCutPage';
+import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/images/logo.png';
 const HomePage = () => {
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-  const [loggedIn, setloggedIn] = useRecoilState(loggedInState);
   const navigate = useNavigate();
-
-  const [onSantaFourCutModal, setOnSantaFourCutModal] = useState(false);
-  const [onMiniGameModal, setOnMiniGameModal] = useState(false);
-  const [onAnimalPet, setOnAnimalPet] = useState(false);
-  const [onQuickDraw, setOnQuickDraw] = useState(false);
-  const [onMiniDraw, setOnMiniDraw] = useState(false);
-  const [onClothesModal, setOnClothesModal] = useState(false);
-
-  const openModal = () => {
-    if (onSantaFourCutModal) {
-      return (
-        <MainModal closeBtnControl={setOnSantaFourCutModal} bgColor="#30314B">
-          <SantaFourCutPage />
-        </MainModal>
-      );
-    }
-    if (onMiniGameModal) {
-      return (
-        <MainModal closeBtnControl={setOnMiniGameModal} bgColor="#56668E">
-          <MiniGamePage />
-        </MainModal>
-      );
-    }
-    if (onClothesModal) {
-      return <ClothesPage closeBtnControl={setOnClothesModal} />;
-    }
-    if (onAnimalPet) {
-      return (
-        <MainModal closeBtnControl={setOnAnimalPet} bgColor="#639bb2">
-          <AnimalModal setOnAnimalPet={setOnAnimalPet} />
-        </MainModal>
-      );
-    }
-    if (onQuickDraw) {
-      return (
-        <MainModal closeBtnControl={setOnQuickDraw} bgColor="#3E8887">
-          <DrawModal setOnQuickDraw={setOnQuickDraw} />
-        </MainModal>
-      );
-    }
-    if (onMiniDraw) {
-      return (
-        <MainModal closeBtnControl={setOnMiniDraw} bgColor="#56668E">
-          <MiniDrawModal setOnMiniDraw={setOnMiniDraw} />
-        </MainModal>
-      );
-    }
-  };
-
   const logout = () => {
     setUserInfo({
       memberNickname: '',
@@ -80,29 +19,102 @@ const HomePage = () => {
     sessionStorage.removeItem('accessToken');
     console.log('로그아웃');
   };
+
   return (
-    <div>
-      Home
-      {loggedIn ? (
-        <div>
-          {userInfo.memberNickname}님 안녕하세요
-          <br />
-          보유코인: {userInfo.memberCoin}
-          <button onClick={logout}>로그아웃</button>
-          <button onClick={() => navigate('/game')}>게임</button>
-          <button onClick={() => setOnSantaFourCutModal(true)}>산타네컷</button>
-          <button onClick={() => setOnMiniGameModal(true)}>미니게임</button>
-          <button onClick={() => setOnClothesModal(true)}>옷텍스쳐</button>
-          <button onClick={() => setOnMiniDraw(true)}>미니게임_퀵드로우</button>
-          <button onClick={() => setOnAnimalPet(true)}>Q2. 동물형분별</button>
-          <button onClick={() => setOnQuickDraw(true)}>Q4. 썰매재료수급</button>
-          {openModal()}
-        </div>
-      ) : (
-        <button onClick={() => navigate('/main')}>접속</button>
-      )}
-    </div>
+    <Container>
+      <NavBar>
+        <Logo>
+          <img src={logo} alt="logo" />
+        </Logo>
+        <ul>
+          <li>
+            <a href="#home">Home</a>
+          </li>
+          <li>
+            <a href="#about">About</a>
+          </li>
+          <li>
+            <a href="#service">Service</a>
+          </li>
+          <li>
+            <a href="#contact">Contact</a>
+          </li>
+        </ul>
+        <ConnectBtn>
+          {/* <button onClick={() => logout()}>로그아웃</button> */}
+          <button onClick={() => navigate('/main')}>접속하기</button>
+        </ConnectBtn>
+      </NavBar>
+      <Main>
+        <TitleBox id="home">
+          <h1>Intern Santa</h1>
+        </TitleBox>
+        <section id="about">2</section>
+        <section id="service">3</section>
+        <section id="contact">4</section>
+      </Main>
+      <footer></footer>
+    </Container>
   );
 };
+const Container = styled.div`
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  background-color: #55669e;
+`;
+const NavBar = styled.nav`
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    font-size: 24px;
+    color: #edefff;
+  }
+`;
+const Logo = styled.div`
+  padding: 10px;
+  img {
+    width: 60px;
+  }
+`;
+const ConnectBtn = styled.div`
+  padding-right: 30px;
+  button {
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #edefff;
+    color: #55669e;
+    font-size: 18px;
+    /* font-weight: 600; */
+  }
+`;
+const Main = styled.main`
+  section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: lime; */
+    scroll-snap-align: center;
+  }
+`;
 
+const TitleBox = styled.section`
+  h1 {
+    font-size: 120px;
+    color: #edefff;
+  }
+`;
 export default HomePage;
