@@ -40,7 +40,7 @@ const LoginPage = (props) => {
     localStorage.setItem('refreshToken', refreshToken);
     sessionStorage.setItem('accessToken', accessToken);
     setloggedIn(true);
-    navigate('/');
+    navigate('/game');
   };
 
   return (
