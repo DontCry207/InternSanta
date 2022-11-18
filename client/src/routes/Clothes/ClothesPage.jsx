@@ -7,7 +7,7 @@ import { useRecoilState } from 'recoil';
 import { userInfoState } from '../../Atom';
 import AlertModal from '../Common/AlertModal';
 
-const ClothesPage = () => {
+const ClothesPage = (props) => {
   const [clothesFront, setClothesFront] = useState('');
   const [clothesBack, setClothesBack] = useState('');
   const [frontModal, setFrontModal] = useState(false);
@@ -41,6 +41,7 @@ const ClothesPage = () => {
           rightBtnName="닫기"
           setRightBtnControl={() => {
             setResultModal(false);
+            props.close();
           }}>
           <ResultBox>변경이 완료되었습니다.</ResultBox>
         </AlertModal>

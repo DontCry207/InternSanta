@@ -33,7 +33,7 @@ const ClothesModal = () => {
     return (
       <Modal>
         <MainModal closeBtnControl={close} bgColor="#8A8A8A">
-          <ClothesPage />
+          <ClothesPage close={close} />
         </MainModal>
       </Modal>
     );
