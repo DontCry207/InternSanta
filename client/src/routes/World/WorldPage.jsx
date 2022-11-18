@@ -3,49 +3,45 @@ import { Canvas } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
 import React, { Suspense } from 'react';
 import styled from 'styled-components';
-import ChristmasTown from './ChristmasTown';
+import ChristmasTown from './Environment/ChristmasTown';
 import Player from './Player';
-import ReinDeer from './ReinDeer';
-import Snow from './Snow';
-import ChatModal from './ChatModal';
+import Snow from './Environment/Snow';
 import PlayUi from './PlayUi';
-import LazyLoading from './LazyLoading';
+import LazyLoading from './System/LazyLoading';
 import LoadingPage from './LoadingPage';
-import Npc from './Npc';
-import Shop from './Shop';
-import BoneFire from './BoneFire';
-import FortuneModal from './FortuneModal';
-import MovieModal from './MovieModal';
-import MainLight from './MainLight';
-import DanceLight from './SpotLight';
-import Moon from './Moon';
-import BubbleModal from './BubbleModal';
-import CarolZone from './CarolZone';
-import Pet from './Pet';
+import Shop from './Environment/Shop';
+import BoneFire from './Environment/BoneFire';
+import MainLight from './Environment/MainLight';
+import DanceLight from './Environment/SpotLight';
+import Moon from './Environment/Moon';
+import DialogBubble from './System/DialogBubble';
+import CarolZone from './Environment/CarolZone';
 import FirePlace from '../CarolZone/FirePlace';
 import Television from '../CarolZone/Television';
 import Tree from '../CarolZone/Tree';
 import TeddyBear from '../CarolZone/TeddyBear';
+import QuestBubble from './System/QuestBubble';
+import PortalDoor from './Environment/PortalDoor';
+import PetDistributor from './NPC/PetDistributor';
+import NpcDistributor from './NPC/NpcDistributor';
+import ReinDeerDistributor from './NPC/ReinDeerDistributor';
+import ModalDistributor from './Modals/ModalDistributor';
 
 const WorldPage = () => {
   return (
     <Container>
       <LoadingPage />
-      <ChatModal />
-      <FortuneModal />
-      <MovieModal />
+      <ModalDistributor />
       <PlayUi />
       <KeyboardControls
         map={[
           { name: 'forward', keys: ['ArrowUp', 'w', 'W'] },
           { name: 'backward', keys: ['ArrowDown', 's', 'S'] },
-          { name: 'left', keys: ['ArrowLweft', 'a', 'A'] },
+          { name: 'left', keys: ['ArrowLeft', 'a', 'A'] },
           { name: 'right', keys: ['ArrowRight', 'd', 'D'] },
           { name: 'dash', keys: ['ShiftLeft'] },
           { name: 'position', keys: ['q', 'Q'] },
           { name: 'dance', keys: ['f', 'F'] },
-          { name: 'carol', keys: ['p', 'P'] },
-          { name: 'world', keys: ['o', 'O'] },
         ]}>
         <Canvas camera={{ fov: 70 }}>
           <Snow />
@@ -60,40 +56,27 @@ const WorldPage = () => {
           />
           <Sky sunPosition={[-10, -10, 0]} />
           <Moon />
-          <BubbleModal />
+          <DialogBubble />
+          <QuestBubble />
           <MainLight />
           <DanceLight />
-          <Suspense fallback={<LazyLoading />}>
-            <Physics gravity={[0, -30, 0]} colliders={false}>
-              <CarolZone />
+          <Physics gravity={[0, -30, 0]} colliders={false}>
+            <Suspense fallback={<LazyLoading />}>
               <ChristmasTown />
+              <CarolZone />
+              <Player />
+              <Shop />
+              <BoneFire />
+              <PortalDoor />
+              <PetDistributor />
+              <NpcDistributor />
+              <ReinDeerDistributor />
               <FirePlace />
               <Television />
               <Tree />
               <TeddyBear />
-              <Shop />
-              <BoneFire />
-              <Npc type={'infoGuy'} />
-              <Npc type={'storeGuy'} />
-              <Npc type={'trainGuy'} />
-              <Npc type={'yellowGuy'} />
-              <Npc type={'greenGuy'} />
-              <Npc type={'minSeo'} />
-              <Npc type={'yb'} />
-              <Npc type={'commet'} />
-              <ReinDeer type={'reindeer'} />
-              <ReinDeer type={'reindeerRed'} />
-              <ReinDeer type={'reindeerOrange'} />
-              <ReinDeer type={'reindeerYellow'} />
-              <ReinDeer type={'reindeerGreen'} />
-              <ReinDeer type={'reindeerBlue'} />
-              <ReinDeer type={'reindeerPurple'} />
-              <ReinDeer type={'reindeerWhite'} />
-              <ReinDeer type={'reindeerPink'} />
-              <Player />
-              <Pet />
-            </Physics>
-          </Suspense>
+            </Suspense>
+          </Physics>
         </Canvas>
       </KeyboardControls>
     </Container>

@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { fetchData } from '../../utils/apis/api';
-import { userInfoState } from '../../Atom';
+import { infoUpdateState } from '../../Atom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import ticket from '../../assets/images/ticket.png';
@@ -11,12 +11,15 @@ import {
   HiOutlineArrowNarrowLeft,
   HiOutlineArrowNarrowRight,
 } from 'react-icons/hi';
+import AlertModal from '../Common/AlertModal';
 const SealListPage = () => {
   const [sealList, setSealList] = useState([]);
   const [sealRank, setSealRank] = useState([]);
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [openBtn, setOpenBtn] = useState(true);
+  const [update, setUpdate] = useRecoilState(infoUpdateState);
   const [page, setPage] = useState(1);
+  const [modal, setModal] = useState(false);
+
   useEffect(() => {
     fetchData.get('/api/v1/seal').then((res) => {
       setSealList(res.data);
@@ -24,7 +27,7 @@ const SealListPage = () => {
     fetchData.get(`/api/v1/member/rank/${5}`).then((res) => {
       setSealRank(res.data);
     });
-  }, []);
+  }, [update]);
 
   useEffect(() => {
     sealList?.map((item) => {
@@ -34,18 +37,34 @@ const SealListPage = () => {
     });
   }, [sealList]);
 
-  const getTicket = () => {
-    fetchData.patch('/api/v1/seal/ticket').then((res) => {
-      setSealList(res.data.memberSealResList);
-      let newUserInfo = { ...userInfo };
-      newUserInfo['memberTicket'] = res.data.memberTicket;
-      setUserInfo(newUserInfo);
-    });
+  const getTicket = async () => {
+    const res = await fetchData.patch('/api/v1/seal/ticket');
+    setSealList(res.data.memberSealResList);
+    setUpdate(!update);
+    setModal(true);
+  };
+
+  const openModal = () => {
+    if (modal) {
+      return (
+        <Modal>
+          <AlertModal
+            title="뽑기 결과"
+            rightBtnName="닫기"
+            setRightBtnControl={() => setModal(false)}>
+            <Content>
+              <p>티켓 한장 교환 성공</p>
+            </Content>
+          </AlertModal>
+        </Modal>
+      );
+    }
   };
 
   const rander = () => {
     return (
       <>
+        {openModal()}
         <TopBox>
           <MainText>
             크<b>리</b>스<b>마</b>스 <b>씰</b> 모<b>으</b>기
@@ -183,6 +202,24 @@ const SealListPage = () => {
 
   return sealList.length ? rander() : null;
 };
+const Modal = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+`;
+
+const Content = styled.div`
+  font-size: 25px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+`;
+
 const TopBox = styled.div`
   display: flex;
   flex-direction: column;

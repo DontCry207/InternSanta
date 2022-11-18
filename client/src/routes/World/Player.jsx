@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { useThree, useFrame, extend, useLoader } from '@react-three/fiber';
+import { useEffect, useRef } from 'react';
+import { useThree, useFrame, extend } from '@react-three/fiber';
 import character from '../../assets/character.glb';
 import { RigidBody, CuboidCollider } from '@react-three/rapier';
 import {
@@ -7,56 +7,56 @@ import {
   MapControls,
 } from 'three/examples/jsm/controls/OrbitControls';
 import * as THREE from 'three';
-import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
+import { useKeyboardControls, useAnimations, useGLTF } from '@react-three/drei';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { loadingState, userInfoState } from '../../Atom';
-import { TextureLoader } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { loadingState, sponPositionState, userInfoState } from '../../Atom';
 extend({ OrbitControls, MapControls });
 
 const Player = () => {
   const userInfo = useRecoilValue(userInfoState);
   const [loading, setLoading] = useRecoilState(loadingState);
-  const [sponPosition, setSponPosition] = useState(true);
+  const [sponPosition, setSponPosition] = useRecoilState(sponPositionState);
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();
   const sideVector = new THREE.Vector3();
   const ref = useRef();
   const controls = useRef();
   const group = useRef();
-  let textureLoader = new THREE.TextureLoader();
-  let texture = textureLoader.load(userInfo.memberTop);
 
   const {
     camera,
     gl: { domElement },
-    scene,
   } = useThree();
 
   const [, get] = useKeyboardControls();
-  const { nodes, animations } = useLoader(GLTFLoader, character, (object) => {
-    // object.Scene.Mesh017.material.map = texture;
-    // object.Scene.Mesh017.material.needsUpdate = true;
-  });
-  const { actions } = useAnimations(animations, group);
-  let inDebounce;
 
-  const debounce = (func, delay) => {
-    return () => {
-      if (inDebounce) {
-        clearTimeout(inDebounce);
-      }
-      inDebounce = setTimeout(() => func(), delay);
-    };
+  const { nodes, animations, materials } = useGLTF(character);
+  nodes.Scene.scale.setZ(-0.6);
+  nodes.Scene.scale.setX(-0.6);
+  const { actions } = useAnimations(animations, group);
+
+  const textureInsert = (obj) => {
+    if (materials.characters.map != obj) {
+      materials.characters.map.copy(obj);
+      materials.characters.map.encoding = THREE.sRGBEncoding;
+      materials.characters.map.flipY = false;
+      materials.characters.map.updateMatrix();
+    }
   };
 
   useEffect(() => {
     controls.current.enableRotate = true;
     controls.current.rotateSpeed = 0.4;
     nodes.Scene.name = 'player';
-    console.log(nodes);
-    console.log(texture);
   }, []);
+
+  useEffect(() => {
+    if (userInfo.memberTop) {
+      const texture = new THREE.TextureLoader().load(userInfo.memberTop);
+      texture.needsUpdate = true;
+      textureInsert(texture);
+    }
+  }, [userInfo.memberTop]);
 
   useEffect(() => {
     if (!loading) {
@@ -67,17 +67,7 @@ const Player = () => {
 
   useFrame((state, delta) => {
     let SPEED = 4;
-    const {
-      forward,
-      backward,
-      left,
-      right,
-      dash,
-      position,
-      dance,
-      carol,
-      world,
-    } = get();
+    const { forward, backward, left, right, dash, position, dance } = get();
     const velocity = ref.current.linvel();
     const [x, y, z] = [...ref.current.translation()];
 
@@ -86,15 +76,7 @@ const Player = () => {
     }
 
     if (position) {
-      debounce(console.log([x, y, z]), 1000);
-    }
-
-    if (carol) {
-      debounce(setSponPosition(false), 1000);
-    }
-
-    if (world) {
-      debounce(setSponPosition(true), 1000);
+      console.log([x, y, z]);
     }
 
     if (forward || backward || left || right) {
@@ -172,7 +154,11 @@ const Player = () => {
         mass={1}
         type="dynamic"
         colliders={false}
-        position={sponPosition ? [-15.7, 3, 21.4] : [22.34, 3, -13.59]}>
+        position={
+          (sponPosition === 'start' && [-15.7, 3, 21.4]) ||
+          (sponPosition === 'carolZoneIn' && [22.34, 2.3, -13.59]) ||
+          (sponPosition === 'carolZoneFront' && [11.21, 3.6, -3.34])
+        }>
         <CuboidCollider args={[0.3, 0.3, 0.3]} />
       </RigidBody>
     </>

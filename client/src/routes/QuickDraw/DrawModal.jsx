@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import QuickDraw from './QuickDraw';
 import { submit } from './QuickDraw';
 import { fetchData } from '../../utils/apis/api';
+import congrats from '../../assets/images/congrats.png';
 
 const DrawModal = (props) => {
   const [page, setPage] = useState(1); // 페이지 넘기기 변수
@@ -16,7 +17,7 @@ const DrawModal = (props) => {
     1: "'나무'를 그려주세요!!",
     2: "다음!! '망치'를 그려주세요!!",
     3: "마지막으로 '못'을 그려주세요!!",
-    4: '축하합니다! 모든 미션을 완수하셨어요!!',
+    4: '모든 미션을 완수하셨어요!!',
   };
   // 그림판 재로딩 Promise
   let drawReload = new Promise(function (resolve, reject) {
@@ -31,7 +32,7 @@ const DrawModal = (props) => {
     }
   }
   async function complete() {
-    props.setOnQuickDraw(false);
+    props.close();
   }
   useEffect(() => {
     if (!loading) {
@@ -40,77 +41,63 @@ const DrawModal = (props) => {
   }, [loading]);
 
   return (
-    <>
-      {page == 1 ? (
-        chap < 4 ? (
-          <Title>
-            <div>{drawing[chap]}</div>
-          </Title>
-        ) : (
-          <></>
-        )
-      ) : correct ? (
-        <Title>
-          <div>정답!!</div>
-        </Title>
-      ) : (
-        <Title>
-          <div>오답…</div>
-        </Title>
-      )}
-      {notDraw ? (
-        <CanvasCover>
-          <div></div>
-        </CanvasCover>
-      ) : (
-        <></>
-      )}
-      {loading ? (
-        <></>
-      ) : (
-        <Canvas>
-          <div className="App">
+    <QuickDrawBox>
+      <Title>
+        {page == 1 && (chap < 4 ? <p>{drawing[chap]}</p> : <></>)}
+        {page != 1 && (correct ? <p>정답!!</p> : <p>오답…</p>)}
+        {chap === 4 && <p>축하합니다</p>}
+      </Title>
+
+      <CanvasBox>
+        {chap === 4 && <img className="congrats" src={congrats}></img>}
+        {notDraw && <CanvasCover></CanvasCover>}
+        {!loading && (
+          <Canvas>
             <canvas
               id="canvas"
               className="canvas"
               width="810px"
-              height="450px"></canvas>
-          </div>
-        </Canvas>
-      )}
+              height="530px"></canvas>
+          </Canvas>
+        )}
+      </CanvasBox>
+
       {page == 1 ? (
         chap < 4 ? (
-          <Button>
-            <div>
-              <button
-                onClick={() => {
-                  {
-                    const drawVector = submit();
-                    fetchData
-                      .post('/api/v2/quick', {
-                        word: word[chap],
-                        vector: drawVector,
-                      })
-                      .then((res) => {
-                        setLab(res.data.draw);
-                        setCorrect(res.data.result);
-                      })
-                      .then(() => {
-                        setTimeout(setPage(2), 0);
-                        setNotDraw(true);
-                      });
-                  }
-                }}
-                className="submitBtn">
-                제출하기
-              </button>
-            </div>
-          </Button>
+          <>
+            <Answer />
+            <Button>
+              <div>
+                <button
+                  onClick={() => {
+                    {
+                      const drawVector = submit();
+                      fetchData
+                        .post('/api/v2/quick', {
+                          word: word[chap],
+                          vector: drawVector,
+                        })
+                        .then((res) => {
+                          setLab(res.data.draw);
+                          setCorrect(res.data.result);
+                        })
+                        .then(() => {
+                          setTimeout(setPage(2), 0);
+                          setNotDraw(true);
+                        });
+                    }
+                  }}
+                  className="submitBtn">
+                  제출하기
+                </button>
+              </div>
+            </Button>
+          </>
         ) : (
           <>
-            <Success>
+            <Answer>
               <div className="success">{drawing[chap]}</div>
-            </Success>
+            </Answer>
             <Button>
               <button className="complete" onClick={() => complete()}>
                 종료하기
@@ -178,77 +165,87 @@ const DrawModal = (props) => {
           </Button>
         </>
       )}
-    </>
+    </QuickDrawBox>
   );
 };
 
+const QuickDrawBox = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Title = styled.div`
-  width: 1000px;
-  height: 60px;
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  line-height: 60px;
-  vertical-align: middle;
-  color: white;
-  font-size: 60px;
+  width: 100%;
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  p {
+    font-size: 4.5rem;
+    color: white;
+  }
 `;
-const Success = styled.div`
-  width: 1000px;
-  height: 60px;
-  position: absolute;
-  bottom: 48%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 20px;
-  text-align: center;
-  line-height: 60px;
-  vertical-align: middle;
-  color: white;
-  font-size: 60px;
+
+const CanvasBox = styled.div`
+  width: 100%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .congrats {
+    width: 80%;
+  }
 `;
+
 const CanvasCover = styled.div`
   position: absolute;
-  width: 840px;
-  height: 480px;
-  z-index: 999;
+  width: 100%;
+  height: 60%;
+  z-index: 20;
 `;
+
 const Canvas = styled.div`
-  margin-top: 70px;
   width: 810px;
-  height: 405px;
+  height: 100%;
   border: 2px solid #3e8887;
   border-radius: 40px;
   overflow: hidden;
   box-shadow: 1px 1px 3px 1px gray;
 `;
+
 const Answer = styled.div`
-  width: 800px;
-  height: 60px;
-  position: absolute;
-  top: 80%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 20px;
-  text-align: center;
-  line-height: 60px;
-  vertical-align: middle;
-  font-size: 30px;
+  position: relative;
+  width: 100%;
+  height: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
 `;
+
 const Button = styled.div`
+  position: relative;
+  width: 100%;
+  height: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   button {
-    position: absolute;
-    width: 140px;
-    height: 50px;
+    background-color: #60c783;
     border-radius: 70px;
-    font-size: 24px;
-    left: 50%;
-    top: 60%;
-    transform: translate(-50%, 360%);
+    padding: 10px 20px;
+    font-size: 34px;
     box-shadow: 1px 1px 3px 1px gray;
     color: white;
+    cursor: pointer;
   }
   .complete {
     background-color: #60c783;

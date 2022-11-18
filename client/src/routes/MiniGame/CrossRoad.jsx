@@ -4,16 +4,24 @@ import game from './road.js';
 import { IoIosArrowBack } from 'react-icons/io';
 import game2 from '../../assets/images/crossroad.png';
 import coin from '../../assets/images/coin.png';
+import { useRecoilState } from 'recoil';
+import { infoUpdateState } from '../../Atom.jsx';
 // import './game.css';
 const CrossRoad = (props) => {
   const { setPage } = props;
   const [loading, setLoading] = useState(true);
+  const [update, setUpdate] = useRecoilState(infoUpdateState);
 
   useEffect(() => {
     if (!loading) {
       game();
     }
   }, [loading]);
+
+  const getBack = () => {
+    setUpdate(!update);
+    setPage(1);
+  };
 
   const play = () => {
     return (
@@ -32,7 +40,7 @@ const CrossRoad = (props) => {
                   <b id="result-coin"></b>코인 획득
                 </span>
               </div>
-              <PlayBtn onClick={() => setPage(1)}>처음으로</PlayBtn>
+              <PlayBtn onClick={() => getBack()}>처음으로</PlayBtn>
             </div>
           </Results>
         </div>

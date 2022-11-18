@@ -8,11 +8,13 @@ import photo1 from '../../assets/images/photo1.png';
 import photo2 from '../../assets/images/photo2.png';
 import photo3 from '../../assets/images/photo3.png';
 import photo4 from '../../assets/images/photo4.png';
+import MainModal from '../Common/MainModal';
 const SantaFourCutPage = () => {
   const [page, setPage] = useState(1);
   const [photoNum, setPhotoNum] = useState(1);
   const [imgData, setImgData] = useState([]);
   const [resData, setResData] = useState('');
+
   useEffect(() => {
     if (photoNum === 5) {
       setPage(3);
@@ -125,41 +127,47 @@ const SantaFourCutPage = () => {
       location.replace(uri);
     }
   };
-  return (
-    <>
-      <div>
-        <Logo>
-          <p>산타</p>
-          <img src={santa} alt="santaLogo" />
-          <p>네컷</p>
-        </Logo>
-        {page === 1 && (
-          <SubTitle>나의 캐릭터와 함께 사진을 찍어보아요!</SubTitle>
-        )}
-      </div>
-      {page < 3 ? (
-        <CameraBox id="arcamera">
-          <AppCanvas />
-        </CameraBox>
-      ) : null}
-      {page === 1 ? page1() : null}
-      {page === 2 ? page2() : null}
-      {resData ? <img src={resData} alt="" width="240px" id="resimg" /> : null}
-      {page === 3 ? (
-        <StartBtn>
-          <button
-            onClick={() => {
-              saveFile(
-                resData.replace('image/png', 'image/octet-stream'),
-                'Santa4cut.jpg',
-              );
-            }}>
-            저장
-          </button>
-        </StartBtn>
-      ) : null}
-    </>
-  );
+
+  const render = () => {
+    return (
+      <>
+        <div>
+          <Logo>
+            <p>산타</p>
+            <img src={santa} alt="santaLogo" />
+            <p>네컷</p>
+          </Logo>
+          {page === 1 && (
+            <SubTitle>나의 캐릭터와 함께 사진을 찍어보아요!</SubTitle>
+          )}
+        </div>
+        {page < 3 ? (
+          <CameraBox id="arcamera">
+            <AppCanvas />
+          </CameraBox>
+        ) : null}
+        {page === 1 ? page1() : null}
+        {page === 2 ? page2() : null}
+        {resData ? (
+          <img src={resData} alt="" width="240px" id="resimg" />
+        ) : null}
+        {page === 3 ? (
+          <StartBtn>
+            <button
+              onClick={() => {
+                saveFile(
+                  resData.replace('image/png', 'image/octet-stream'),
+                  'Santa4cut.jpg',
+                );
+              }}>
+              저장
+            </button>
+          </StartBtn>
+        ) : null}
+      </>
+    );
+  };
+  return <>{render()}</>;
 };
 const Logo = styled.div`
   display: flex;
