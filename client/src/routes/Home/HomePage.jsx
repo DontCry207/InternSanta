@@ -45,7 +45,6 @@ const HomePage = () => {
         </MainModal>
       );
     }
-
     if (onSealListModal) {
       return (
         <MainModal closeBtnControl={setOnSealListModal} bgColor="#2E2D56">
