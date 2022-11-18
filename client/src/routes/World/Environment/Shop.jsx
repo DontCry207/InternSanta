@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLoader, useThree } from '@react-three/fiber';
+import ShopModel from '../../../assets/shop.glb';
+import * as THREE from 'three';
+import { RigidBody } from '@react-three/rapier';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import boneFire from '../../assets/boneFire.glb';
-import { RigidBody } from '@react-three/rapier';
 
-const BoneFire = () => {
+const Shop = () => {
   const { gl } = useThree();
   const ktxLoader = new KTX2Loader();
   const dracoLoader = new DRACOLoader();
@@ -19,27 +20,35 @@ const BoneFire = () => {
       `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
     )
     .detectSupport(gl);
-  const boneFireGltf = useLoader(GLTFLoader, boneFire, (loader) => {
+  const shopGltf = useLoader(GLTFLoader, ShopModel, (loader) => {
     loader.setDRACOLoader(dracoLoader);
     loader.setKTX2Loader(ktxLoader);
     ktxLoader.dispose();
     dracoLoader.dispose();
   });
-  boneFireGltf.scene.rotation.set(0, 0.37 * Math.PI, 0);
+  shopGltf.scene.rotation.set(0, 0.37 * Math.PI, 0);
 
   return (
     <>
+      <primitive
+        object={shopGltf.scene}
+        scale={[0.7, 0.7, 0.7]}
+        position={[-12.43786334991455, 0.21, 4.422557353973389]}
+      />
       <RigidBody type="fixed" colliders={'hull'}>
-        <primitive
-          object={boneFireGltf.scene}
-          scale={[0.7, 0.7, 0.7]}
-          position={[
-            -6.012689590454102, 0.4022400856018066, 1.0203404426574707,
-          ]}
-        />
+        <mesh
+          position={[-12.43786334991455, 0.51, 4.422557353973389]}
+          rotation={[0, 0.37 * Math.PI, 0]}>
+          <boxGeometry args={[2, 0.8, 2]} />
+          <meshStandardMaterial
+            color={(0, 0, 0, 0)}
+            opacity={0}
+            transparent={true}
+          />
+        </mesh>
       </RigidBody>
     </>
   );
 };
 
-export default BoneFire;
+export default Shop;

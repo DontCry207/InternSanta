@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import speech from '../../assets/speech.glb';
-import star from '../../assets/star.glb';
-import check from '../../assets/check.glb';
-import question from '../../assets/question.glb';
+import speech from '../../../assets/speech.glb';
+import star from '../../../assets/star.glb';
+import check from '../../../assets/check.glb';
+import question from '../../../assets/question.glb';
 import { useFrame, useThree } from '@react-three/fiber';
-import { NpcLocation, NpcQuest } from '../../utils/constants/constants';
+import { NpcLocation, NpcQuest } from '../../../utils/constants/constants';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { questInfoState, userInfoState } from '../../Atom';
+import { questInfoState, userInfoState } from '../../../Atom';
 import { useGLTF } from '@react-three/drei';
 
-const QuestBubbleModal = () => {
+const QuestBubble = () => {
   const { camera } = useThree();
   const speechBuble = useGLTF(speech);
   const starBuble = useGLTF(star);
@@ -55,4 +55,4 @@ const QuestBubbleModal = () => {
   );
 };
 
-export default QuestBubbleModal;
+export default QuestBubble;

@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Webcam from 'react-webcam';
 import * as tmImage from '@teachablemachine/image';
 import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
 import Animal_Pet from '../../assets/images/Animal_Pet.png';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import {
   animalModalState,
-  chapter2ConditionState,
+  chapterConditionState,
   infoUpdateState,
   missionModalState,
+  petState,
+  userInfoState,
 } from '../../Atom';
 import MainModal from '../Common/MainModal';
 
-const AnimalModal = (props) => {
+const AnimalModal = () => {
   const [page, setPage] = useState(1); // 페이지 넘기기 변수
   const [animal, setAnimal] = useState(); // 동물형 기록 변수
   const [animalKey, setAnimalKey] = useState(1); // 동물형 기록 변수
@@ -23,8 +25,10 @@ const AnimalModal = (props) => {
   const [imgSrc, setImgSrc] = React.useState(null);
   const [modal, setModal] = useRecoilState(animalModalState);
   const [update, setUpdate] = useRecoilState(infoUpdateState);
-  const [condition, setCondition] = useRecoilState(chapter2ConditionState);
+  const [condition, setCondition] = useRecoilState(chapterConditionState);
   const [missionModal, setMissionModal] = useRecoilState(missionModalState);
+  const [petInfo, setPetInfo] = useRecoilState(petState);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
   // Teachable machine 클라우드 URL
   const URL = 'https://teachablemachine.withgoogle.com/models/46rTWJ4Ls/';
@@ -47,6 +51,16 @@ const AnimalModal = (props) => {
     // 이하 Predict 함수
     setTimeout(predict, 0);
   };
+
+  const petUpdate = () => {
+    if (userInfo.memberPet !== petInfo) {
+      setPetInfo(userInfo.memberPet);
+    }
+  };
+
+  useEffect(() => {
+    petUpdate();
+  }, [userInfo]);
 
   // 캡쳐한 사진으로 결과값 산출하는 함수
   const predict = async () => {
@@ -101,7 +115,9 @@ const AnimalModal = (props) => {
     setPage(1);
     setOnOff(true);
     setUpdate(!update);
-    missionClear();
+    setTimeout(() => {
+      missionClear();
+    }, 500);
   };
 
   const fetchPet = async () => {
@@ -113,9 +129,10 @@ const AnimalModal = (props) => {
   };
 
   const missionClear = () => {
-    console.log(condition);
-    if (!condition) {
-      setCondition(true);
+    if (!condition[2]) {
+      const updatedList = [...condition];
+      updatedList.splice(2, 1, true);
+      setCondition(updatedList);
       setMissionModal(true);
     }
   };

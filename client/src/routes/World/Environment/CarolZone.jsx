@@ -2,7 +2,7 @@ import { useLoader, useThree } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import room from '../../assets/room.glb';
+import room from '../../../assets/room.glb';
 import { RigidBody } from '@react-three/rapier';
 
 const CarolZone = () => {

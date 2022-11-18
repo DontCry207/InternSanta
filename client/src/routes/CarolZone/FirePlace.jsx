@@ -21,16 +21,13 @@ const FirePlace = () => {
   const [modal, setModal] = useRecoilState(fortuneModalState);
 
   const hover = (e) => {
-    e.stopPropagation();
     setHover(true);
   };
   const unhover = (e) => {
-    e.stopPropagation();
     setHover(false);
   };
 
   const click = (e) => {
-    e.stopPropagation();
     setModal(!modal);
   };
 
@@ -38,7 +35,7 @@ const FirePlace = () => {
     document.body.style.cursor = hovered ? 'pointer' : 'auto';
   }, [hovered]);
 
-  const { camera, gl, scene } = useThree();
+  const { gl } = useThree();
   const fireplaceGltf = useLoader(GLTFLoader, fireplace, (loader) => {
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath(

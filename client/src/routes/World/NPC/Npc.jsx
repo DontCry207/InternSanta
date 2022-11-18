@@ -3,13 +3,13 @@ import { RigidBody } from '@react-three/rapier';
 import { useAnimations, useGLTF } from '@react-three/drei';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
 import { useSetRecoilState } from 'recoil';
-import { modalState, npcHoverState } from '../../Atom';
+import { modalState, npcHoverState } from '../../../Atom';
 import {
   NpcLocation,
   NpcRotation,
   NpcModel,
   NpcAnimation,
-} from '../../utils/constants/constants';
+} from '../../../utils/constants/constants';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { useLoader, useThree } from '@react-three/fiber';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';

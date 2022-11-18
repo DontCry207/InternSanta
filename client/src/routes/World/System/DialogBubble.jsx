@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import msg from '../../assets/msg.glb';
+import msg from '../../../assets/msg.glb';
 import { useThree } from '@react-three/fiber';
-import { NpcLocation } from '../../utils/constants/constants';
+import { NpcLocation } from '../../../utils/constants/constants';
 import { useRecoilValue } from 'recoil';
-import { npcHoverState } from '../../Atom';
+import { npcHoverState } from '../../../Atom';
 import { useGLTF } from '@react-three/drei';
 
-const BubbleModal = () => {
+const DialogBubble = () => {
   const { camera } = useThree();
   const buble = useGLTF(msg);
   const hovered = useRecoilValue(npcHoverState);
@@ -36,4 +36,4 @@ const BubbleModal = () => {
   );
 };
 
-export default BubbleModal;
+export default DialogBubble;

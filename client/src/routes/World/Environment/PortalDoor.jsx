@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { sponPositionState } from '../../Atom';
+import { sponPositionState } from '../../../Atom';
 import { RigidBody } from '@react-three/rapier';
 
 const PortalDoor = () => {

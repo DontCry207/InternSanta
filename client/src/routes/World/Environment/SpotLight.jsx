@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { SpotLight } from '@react-three/drei';
 import { useRecoilValue } from 'recoil';
-import { ambientState } from '../../Atom';
+import { ambientState } from '../../../Atom';
 
 const DanceLight = () => {
   const ambient = useRecoilValue(ambientState);

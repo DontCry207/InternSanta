@@ -1,21 +1,40 @@
 import React from 'react';
-import { useEffect, useRef, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { fetchData } from '../../utils/apis/api';
-import { movieModalState } from '../../Atom';
+import {
+  chapterConditionState,
+  missionModalState,
+  movieModalState,
+} from '../../Atom';
 import MainModal from '../Common/MainModal';
 import MovieRecPage from '../CarolZone/MovieRecPage';
 
 const MovieModal = () => {
   const [modal, setModal] = useRecoilState(movieModalState);
-  const [onMovieModal, setOnMovieModal] = useState(false);
+  const [condition, setCondition] = useRecoilState(chapterConditionState);
+  const setMissionModal = useSetRecoilState(missionModalState);
+
+  const missionClear = () => {
+    if (!condition[6]) {
+      const updatedList = [...condition];
+      updatedList.splice(6, 1, true);
+      setCondition(updatedList);
+      setMissionModal(true);
+    }
+  };
+
+  const close = (e) => {
+    setModal(false);
+    setTimeout(() => {
+      missionClear();
+    }, 500);
+  };
 
   return (
     <>
       {modal ? (
         <Modal>
-          <MainModal closeBtnControl={setModal} bgColor="#76b484">
+          <MainModal closeBtnControl={close} bgColor="#76b484">
             <MovieRecPage />
           </MainModal>
         </Modal>

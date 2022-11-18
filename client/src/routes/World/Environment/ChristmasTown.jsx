@@ -3,7 +3,7 @@ import { useLoader, useThree } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import Town from '../../assets/ChristmasTown.glb';
+import Town from '../../../assets/ChristmasTown.glb';
 import { RigidBody } from '@react-three/rapier';
 
 const ChristmasTown = () => {

@@ -3,12 +3,16 @@ import styled from 'styled-components';
 import { useEffect } from 'react';
 import { BsFillCaretDownFill } from 'react-icons/bs';
 import { BsThreeDots } from 'react-icons/bs';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   animalModalState,
+  chapterConditionState,
+  gameModalState,
+  infoUpdateState,
   missionModalState,
   modalState,
   npcScriptState,
+  photoModalState,
   questInfoState,
   userInfoState,
 } from '../../Atom';
@@ -19,28 +23,70 @@ import {
   NpcNames,
   NpcQuest,
 } from '../../utils/constants/constants';
+import { fetchData } from '../../utils/apis/api';
 
 const ChatModal = () => {
   const [cnt, setCnt] = useState(0);
   const [lengthScript, setLengthScript] = useState(0);
   const [modal, setModal] = useRecoilState(modalState);
-  const [missionModal, setMissionModal] = useRecoilState(missionModalState);
-  const [animalModal, setAnimalModal] = useRecoilState(animalModalState);
+  const [update, setUpdate] = useRecoilState(infoUpdateState);
+  const setMissionModal = useSetRecoilState(missionModalState);
+  const setAnimalModal = useSetRecoilState(animalModalState);
+  const setGameModal = useSetRecoilState(gameModalState);
+  const setPhotoModal = useSetRecoilState(photoModalState);
+  const [condition, setCondition] = useRecoilState(chapterConditionState);
   const scripts = useRecoilValue(npcScriptState);
   const quest = useRecoilValue(questInfoState);
   const userInfo = useRecoilValue(userInfoState);
   const targetNpc = NpcQuest[quest.questNpc];
+  const chapter = userInfo.memberChapter;
+  const checkPoint = userInfo.memberCheckpoint;
+
+  const clearQuest = async () => {
+    const res = await fetchData.patch('/api/v1/member/chapter');
+    setUpdate(!update);
+  };
+
+  const proceedCheckPoint = async () => {
+    const res = await fetchData.patch('/api/v1/member/checkpoint');
+    setUpdate(!update);
+  };
 
   const check = (e) => {
     if (e === targetNpc) {
-      setMissionModal(e);
+      if (chapter === 0 || chapter === 9) {
+        clearQuest();
+        setMissionModal(e);
+      } else if (chapter === 10) {
+        console.log('스토리종료');
+      } else if (checkPoint === 0) {
+        proceedCheckPoint();
+        setMissionModal(e);
+      } else if (checkPoint === 2) {
+        clearQuest();
+        setMissionModal(e);
+      }
+    }
+  };
+
+  const missionClear = () => {
+    if (!condition[5]) {
+      const updatedList = [...condition];
+      updatedList.splice(5, 1, true);
+      setCondition(updatedList);
+      setMissionModal(5);
     }
   };
 
   const featureModal = (e) => {
-    console.log(e);
     if (e === 'reindeerGreen') {
       setAnimalModal(true);
+    } else if (e === 'storeGuy') {
+      missionClear();
+    } else if (e === 'reindeerWhite') {
+      setGameModal(true);
+    } else if (e === 'reindeerPink') {
+      setPhotoModal(true);
     }
     setModal(null);
   };
@@ -73,7 +119,7 @@ const ChatModal = () => {
                 <p className="dialog">{NormalDialog[modal][cnt]}</p>
               ))}
             <Buttons>
-              {NpcFeatButton[modal] ? (
+              {lengthScript === cnt && NpcFeatButton[modal] ? (
                 <FeatBtn
                   onClick={() => {
                     featureModal(modal);

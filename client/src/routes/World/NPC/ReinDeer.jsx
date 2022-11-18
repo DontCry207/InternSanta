@@ -2,14 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import { RigidBody } from '@react-three/rapier';
 import { SpotLight, useGLTF } from '@react-three/drei';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { modalState, ambientState, npcHoverState } from '../../Atom';
+import { modalState, ambientState, npcHoverState } from '../../../Atom';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import {
   NpcLocation,
   NpcRotation,
   NpcModel,
-} from '../../utils/constants/constants';
+} from '../../../utils/constants/constants';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { useLoader, useThree } from '@react-three/fiber';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Pet from './Pet';
 
-const PetSelector = () => {
+const PetDistributor = () => {
   return (
     <>
       <Pet type={'Dog'} />
@@ -16,4 +16,4 @@ const PetSelector = () => {
   );
 };
 
-export default PetSelector;
+export default PetDistributor;

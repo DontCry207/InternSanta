@@ -8,7 +8,7 @@ import {
   clothesModalState,
   missionModalState,
   userInfoState,
-  chapter1ConditionState,
+  chapterConditionState,
 } from '../../Atom';
 import AlertModal from '../Common/AlertModal';
 import MainModal from '../Common/MainModal';
@@ -21,7 +21,7 @@ const ClothesPage = () => {
   const [backModal, setBackModal] = useState(false);
   const [resultModal, setResultModal] = useState(false);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-  const [condition, setCondition] = useRecoilState(chapter1ConditionState);
+  const [condition, setCondition] = useRecoilState(chapterConditionState);
   const [missionModal, setMissionModal] = useRecoilState(missionModalState);
 
   const openModal = () => {
@@ -51,7 +51,9 @@ const ClothesPage = () => {
           setRightBtnControl={() => {
             setResultModal(false);
             setModal(false);
-            missionClear();
+            setTimeout(() => {
+              missionClear();
+            }, 500);
           }}>
           <ResultBox>변경이 완료되었습니다.</ResultBox>
         </AlertModal>
@@ -60,9 +62,10 @@ const ClothesPage = () => {
   };
 
   const missionClear = () => {
-    console.log(condition);
-    if (!condition) {
-      setCondition(true);
+    if (!condition[1]) {
+      const updatedList = [...condition];
+      updatedList.splice(1, 1, true);
+      setCondition(updatedList);
       setMissionModal(true);
     }
   };

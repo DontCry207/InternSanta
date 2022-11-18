@@ -3,11 +3,15 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
 import santa from '../../assets/images/santa.png';
+import { chapterConditionState, missionModalState } from '../../Atom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 const MovieRecPage = () => {
   const [movieList, setMovieList] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState('');
   const [movieRecList, setMovieRecList] = useState(null);
+  const [condition, setCondition] = useRecoilState(chapterConditionState);
+  const setMissionModal = useSetRecoilState(missionModalState);
 
   useEffect(() => {
     fetchData.get('/api/v2/movie').then((res) => {
@@ -24,6 +28,15 @@ const MovieRecPage = () => {
       '/api/v2/movie/recommend?title=' + selectedMovie,
     );
     setMovieRecList(res.data);
+  };
+
+  const missionClear = () => {
+    if (!condition[6]) {
+      const updatedList = [...condition];
+      updatedList.splice(6, 1, true);
+      setCondition(updatedList);
+      setMissionModal(true);
+    }
   };
 
   const page1 = () => {

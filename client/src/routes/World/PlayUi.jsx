@@ -21,6 +21,7 @@ import {
 import { useEffect } from 'react';
 import { fetchData } from '../../utils/apis/api';
 import { NpcProfileImages, NpcQuest } from '../../utils/constants/constants';
+import stickerCard from '../../assets/images/StickerCard.png';
 
 const PlayUi = () => {
   const [prog, setProg] = useState(false);
@@ -99,7 +100,11 @@ const PlayUi = () => {
           <HiVolumeUp size={40} color={'white'} />
         </IconBorder>
       </RightTopBox>
-      <RightBottomBox>HI</RightBottomBox>
+      <RightBottomBox>
+        <StickerBox>
+          <img src={stickerCard} alt="" />
+        </StickerBox>
+      </RightBottomBox>
     </ContainerUi>
   );
 };
@@ -151,6 +156,25 @@ const RightBottomBox = styled.div`
   padding: 20px;
   gap: 20px;
   rotate: -10deg;
+`;
+
+const StickerBox = styled.div`
+  width: 170px;
+  height: auto;
+  position: absolute;
+  top: -90px;
+  left: 50px;
+  rotate: 4deg;
+  pointer-events: auto;
+  cursor: pointer;
+  &:hover {
+    scale: 1.05;
+  }
+  img {
+    width: 170px;
+    border: 2px solid #9991b1;
+    border-radius: 10px;
+  }
 `;
 
 const Logo = styled.div`

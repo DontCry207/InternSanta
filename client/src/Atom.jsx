@@ -45,11 +45,21 @@ export const movieModalState = atom({
 
 export const missionModalState = atom({
   key: `missionModal`,
-  default: false,
+  default: null,
 });
 
 export const animalModalState = atom({
   key: `animalModal`,
+  default: false,
+});
+
+export const gameModalState = atom({
+  key: `gameModal`,
+  default: false,
+});
+
+export const photoModalState = atom({
+  key: `photoModal`,
   default: false,
 });
 
@@ -83,40 +93,17 @@ export const infoUpdateState = atom({
   default: false,
 });
 
+export const petState = atom({
+  key: 'pet',
+  default: 0,
+});
+
 export const sponPositionState = atom({
   key: 'sponPosition',
   default: 'start',
 });
 
-export const chapter1ConditionState = atom({
-  key: 'chapter1Condition',
-  default: false,
-});
-export const chapter2ConditionState = atom({
-  key: 'chapter2Condition',
-  default: false,
-});
-export const chapter3ConditionState = atom({
-  key: 'chapter3Condition',
-  default: false,
-});
-export const chapter4ConditionState = atom({
-  key: 'chapter4Condition',
-  default: false,
-});
-export const chapter5ConditionState = atom({
-  key: 'chapter5Condition',
-  default: false,
-});
-export const chapter6ConditionState = atom({
-  key: 'chapter6Condition',
-  default: false,
-});
-export const chapter7ConditionState = atom({
-  key: 'chapter7Condition',
-  default: false,
-});
-export const chapter8ConditionState = atom({
-  key: 'chapter8Condition',
-  default: false,
+export const chapterConditionState = atom({
+  key: 'chapterCondition',
+  default: [false, false, false, false, false, false, false, false, false],
 });

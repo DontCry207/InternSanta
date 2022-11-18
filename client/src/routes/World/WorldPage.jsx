@@ -3,47 +3,52 @@ import { Canvas } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
 import React, { Suspense } from 'react';
 import styled from 'styled-components';
-import ChristmasTown from './ChristmasTown';
+import ChristmasTown from './Environment/ChristmasTown';
 import Player from './Player';
-import ReinDeer from './ReinDeer';
-import Snow from './Snow';
+import Snow from './Environment/Snow';
 import ChatModal from './ChatModal';
 import PlayUi from './PlayUi';
-import LazyLoading from './LazyLoading';
+import LazyLoading from './System/LazyLoading';
 import LoadingPage from './LoadingPage';
-import Npc from './Npc';
-import Shop from './Shop';
-import BoneFire from './BoneFire';
+import Shop from './Environment/Shop';
+import BoneFire from './Environment/BoneFire';
 import FortuneModal from './FortuneModal';
 import MovieModal from './MovieModal';
-import MainLight from './MainLight';
-import DanceLight from './SpotLight';
-import Moon from './Moon';
-import BubbleModal from './BubbleModal';
-import CarolZone from './CarolZone';
-import Pet from './Pet';
+import MainLight from './Environment/MainLight';
+import DanceLight from './Environment/SpotLight';
+import Moon from './Environment/Moon';
+import DialogBubble from './System/DialogBubble';
+import CarolZone from './Environment/CarolZone';
 import FirePlace from '../CarolZone/FirePlace';
 import Television from '../CarolZone/Television';
 import Tree from '../CarolZone/Tree';
 import TeddyBear from '../CarolZone/TeddyBear';
-import QuestBubbleModal from './QuestBubbleModal';
+import QuestBubble from './System/QuestBubble';
 import MissionModal from './MissionModal';
-import ClothesPage from '../Clothes/ClothesPage';
-import PortalDoor from './PortalDoor';
+import ClothesModal from '../Clothes/ClothesPage';
+import PortalDoor from './Environment/PortalDoor';
 import AnimalModal from '../AnimalPet/AnimalModal';
-import PetSelector from './PetSelector';
+import PetDistributor from './NPC/PetDistributor';
+import QuestLogic from './System/QuestLogic';
+import NpcDistributor from './NPC/NpcDistributor';
+import ReinDeerDistributor from './NPC/ReinDeerDistributor';
+import MiniGameModal from '../MiniGame/MiniGamePage';
+import SantaFourCutModal from '../SantaFourCut/SantaFourCutPage';
 
 const WorldPage = () => {
   return (
     <Container>
       <LoadingPage />
+      <SantaFourCutModal />
       <ChatModal />
-      <ClothesPage />
+      <ClothesModal />
       <AnimalModal />
       <FortuneModal />
       <MissionModal />
       <MovieModal />
+      <MiniGameModal />
       <PlayUi />
+      <QuestLogic />
       <KeyboardControls
         map={[
           { name: 'forward', keys: ['ArrowUp', 'w', 'W'] },
@@ -67,40 +72,25 @@ const WorldPage = () => {
           />
           <Sky sunPosition={[-10, -10, 0]} />
           <Moon />
-          <BubbleModal />
-          <QuestBubbleModal />
+          <DialogBubble />
+          <QuestBubble />
           <MainLight />
           <DanceLight />
           <Suspense fallback={<LazyLoading />}>
             <Physics gravity={[0, -30, 0]} colliders={false}>
-              <CarolZone />
               <ChristmasTown />
+              <Shop />
+              <BoneFire />
               <PortalDoor />
+              <CarolZone />
               <FirePlace />
               <Television />
               <Tree />
               <TeddyBear />
               <Player />
-              <PetSelector />
-              <Shop />
-              <BoneFire />
-              <Npc type={'infoGuy'} />
-              <Npc type={'storeGuy'} />
-              <Npc type={'trainGuy'} />
-              <Npc type={'yellowGuy'} />
-              <Npc type={'greenGuy'} />
-              <Npc type={'minSeo'} />
-              <Npc type={'yb'} />
-              <Npc type={'commet'} />
-              <ReinDeer type={'reindeer'} />
-              <ReinDeer type={'reindeerRed'} />
-              <ReinDeer type={'reindeerOrange'} />
-              <ReinDeer type={'reindeerYellow'} />
-              <ReinDeer type={'reindeerGreen'} />
-              <ReinDeer type={'reindeerBlue'} />
-              <ReinDeer type={'reindeerPurple'} />
-              <ReinDeer type={'reindeerWhite'} />
-              <ReinDeer type={'reindeerPink'} />
+              <PetDistributor />
+              <NpcDistributor />
+              <ReinDeerDistributor />
             </Physics>
           </Suspense>
         </Canvas>

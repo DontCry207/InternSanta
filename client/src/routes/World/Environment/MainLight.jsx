@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { ambientState } from '../../Atom';
+import { ambientState } from '../../../Atom';
 
 const MainLight = () => {
   const ambient = useRecoilValue(ambientState);

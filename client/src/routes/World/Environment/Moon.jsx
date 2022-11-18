@@ -1,8 +1,8 @@
-import santa from '../../assets/santa.glb';
-import christmasLogo from '../../assets/christmasLogo.glb';
+import santa from '../../../assets/santa.glb';
+import christmasLogo from '../../../assets/christmasLogo.glb';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { ambientState } from '../../Atom';
+import { ambientState } from '../../../Atom';
 import { useEffect } from 'react';
 import { useGLTF } from '@react-three/drei';
 

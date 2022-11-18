@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { loadingState } from '../../Atom';
+import { loadingState } from '../../../Atom';
 
 const LazyLoading = () => {
   const setLoading = useSetRecoilState(loadingState);

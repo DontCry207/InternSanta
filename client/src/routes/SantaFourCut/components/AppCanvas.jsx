@@ -43,7 +43,7 @@ const FaceFollower = (props) => {
 
   // console.log('RENDER FaceFollower component');
   const { nodes, materials, animations } = useGLTF(myCharacter);
-  nodes.Scene.rotateY(Math.PI);
+
   return (
     <>
       <Stars
