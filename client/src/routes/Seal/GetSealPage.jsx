@@ -6,10 +6,13 @@ import { fetchData } from '../../utils/apis/api';
 import AlertModal from '../Common/AlertModal';
 import machine from '../../assets/images/machine.png';
 import turn from '../../assets/images/turn.png';
+import { infoUpdateState } from '../../Atom';
+import { useRecoilState } from 'recoil';
 const GetSealPage = () => {
   const [sealResult, setSealResult] = useState([]);
   const [modal, setModal] = useState(false);
   const [openToggle, setOpenToggle] = useState(false);
+  const [update, setUpdate] = useRecoilState(infoUpdateState);
   const turnEl = useRef();
   useEffect(() => {
     let timer;
@@ -24,11 +27,12 @@ const GetSealPage = () => {
     }
   }, [openToggle]);
 
-  const getOneSeal = (num) => {
-    fetchData.patch('/api/v1/seal', { count: num }).then((res) => {
+  const getOneSeal = async (num) => {
+    await fetchData.patch('/api/v1/seal', { count: num }).then((res) => {
       setSealResult(res.data);
       console.log(res.data);
     });
+    setUpdate(!update);
     setOpenToggle(true);
   };
 

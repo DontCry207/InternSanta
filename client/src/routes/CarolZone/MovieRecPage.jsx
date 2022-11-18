@@ -85,7 +85,9 @@ const MovieRecPage = () => {
                       title={item.title}
                     />
                     <div>
-                      <Title>{item.title}</Title>
+                      <Title>
+                        <p>{item.title}</p>
+                      </Title>
                       <Content>
                         <p>개봉날짜 : {item.release_date}</p>
                         <p>줄거리 : {item.overview}</p>
@@ -216,12 +218,15 @@ const MovieInfoBox = styled.div`
     -webkit-box-orient: vertical; */
   }
 `;
-const Title = styled.p`
-  font-size: 40px;
-  font-weight: bold;
-  padding-bottom: 15px;
+const Title = styled.div`
+  p {
+    font-size: 40px;
+    font-weight: bold;
+    padding-bottom: 15px;
+  }
 `;
-const Content = styled.p`
+
+const Content = styled.div`
   p {
     font-size: 20px;
     padding-bottom: 10px;
