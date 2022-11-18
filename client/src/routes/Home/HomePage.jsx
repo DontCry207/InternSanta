@@ -12,6 +12,8 @@ import MiniGamePage from '../MiniGame/MiniGamePage';
 import DrawModal from '../QuickDraw/DrawModal';
 import MiniDrawModal from '../QuickDraw/MiniDrawModal';
 import SantaFourCutPage from '../SantaFourCut/SantaFourCutPage';
+import GetSealPage from '../Seal/GetSealPage';
+import SealListPage from '../Seal/SealListPage';
 const HomePage = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [loggedIn, setloggedIn] = useRecoilState(loggedInState);
@@ -19,6 +21,10 @@ const HomePage = () => {
 
   const [onSantaFourCutModal, setOnSantaFourCutModal] = useState(false);
   const [onMiniGameModal, setOnMiniGameModal] = useState(false);
+
+  const [onSealListModal, setOnSealListModal] = useState(false);
+  const [onGetSealModal, setOnGetSealModal] = useState(false);
+
   const [onAnimalPet, setOnAnimalPet] = useState(false);
   const [onQuickDraw, setOnQuickDraw] = useState(false);
   const [onMiniDraw, setOnMiniDraw] = useState(false);
@@ -36,6 +42,20 @@ const HomePage = () => {
       return (
         <MainModal closeBtnControl={setOnMiniGameModal} bgColor="#56668E">
           <MiniGamePage />
+        </MainModal>
+      );
+    }
+    if (onSealListModal) {
+      return (
+        <MainModal closeBtnControl={setOnSealListModal} bgColor="#2E2D56">
+          <SealListPage />
+        </MainModal>
+      );
+    }
+    if (onGetSealModal) {
+      return (
+        <MainModal closeBtnControl={setOnGetSealModal} bgColor="#E47B81">
+          <GetSealPage />
         </MainModal>
       );
     }
@@ -92,6 +112,8 @@ const HomePage = () => {
           <button onClick={() => navigate('/game')}>게임</button>
           <button onClick={() => setOnSantaFourCutModal(true)}>산타네컷</button>
           <button onClick={() => setOnMiniGameModal(true)}>미니게임</button>
+          <button onClick={() => setOnSealListModal(true)}>씰모으기</button>
+          <button onClick={() => setOnGetSealModal(true)}>씰뽑기</button>
           <button onClick={() => setOnClothesModal(true)}>옷텍스쳐</button>
           <button onClick={() => setOnMiniDraw(true)}>미니게임_퀵드로우</button>
           <button onClick={() => setOnAnimalPet(true)}>Q2. 동물형분별</button>
