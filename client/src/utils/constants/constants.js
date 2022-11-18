@@ -191,3 +191,18 @@ export const NpcFeatButton = {
 export const NpcQuest = {
   reindeerRed: 0,
 };
+
+export const SealImg = [
+  'https://internsanta.s3.ap-northeast-2.amazonaws.com/seal/rudolf_seal.png',
+  'https://internsanta.s3.ap-northeast-2.amazonaws.com/seal/snow_seal.png',
+  'https://internsanta.s3.ap-northeast-2.amazonaws.com/seal/candle_seal.png',
+  'https://internsanta.s3.ap-northeast-2.amazonaws.com/seal/bell_seal.png',
+  'https://internsanta.s3.ap-northeast-2.amazonaws.com/seal/candy_seal.png',
+  'https://internsanta.s3.ap-northeast-2.amazonaws.com/seal/tree_seal.png',
+  'https://internsanta.s3.ap-northeast-2.amazonaws.com/seal/snowman_seal.png',
+  'https://internsanta.s3.ap-northeast-2.amazonaws.com/seal/cookie_seal.png',
+  'https://internsanta.s3.ap-northeast-2.amazonaws.com/seal/santa_seal.png',
+  'https://internsanta.s3.ap-northeast-2.amazonaws.com/seal/choco_seal.png',
+  'https://internsanta.s3.ap-northeast-2.amazonaws.com/seal/socks_seal.png',
+  'https://internsanta.s3.ap-northeast-2.amazonaws.com/seal/gift_seal.png',
+]
