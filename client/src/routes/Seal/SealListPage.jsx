@@ -26,6 +26,5 @@ const SealListPage = () => {
     );
   };
   return sealList ? render() : null;
-};
-
+}
 export default SealListPage;

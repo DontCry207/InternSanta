@@ -7,7 +7,7 @@ import { JEELIZFACEFILTER, NN_4EXPR } from 'facefilter';
 // import THREE.js helper, useful to compute pose
 // The helper is not minified, feel free to customize it (and submit pull requests bro):
 import { JeelizThreeFiberHelper } from '../contrib/faceFilter/JeelizThreeFiberHelper.js';
-import myCharacter from '../../../assets/character_final.glb';
+import myCharacter from '../../../assets/character.glb';
 import { Stars, useGLTF } from '@react-three/drei';
 // import { Model } from '../Character_final';
 
@@ -43,6 +43,7 @@ const FaceFollower = (props) => {
 
   // console.log('RENDER FaceFollower component');
   const { nodes, materials, animations } = useGLTF(myCharacter);
+  nodes.Scene.rotateY(Math.PI);
   return (
     <>
       <Stars

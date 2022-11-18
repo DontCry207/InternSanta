@@ -11,7 +11,7 @@ const MainModal = (props) => {
           <IoIosCloseCircle
             color={'white'}
             size={50}
-            onClick={() => closeBtnControl()}
+            onClick={() => closeBtnControl(false)}
           />
         </CloseBtn>
         <MainContents>{props.children}</MainContents>
@@ -47,7 +47,7 @@ const ModalBox = styled.div`
     ${(props) => `${props.bgColor}`} 25%,
     #f3f3f3 100%
   );
-
+  overflow: hidden;
   .close {
     position: absolute;
     right: 10px;
