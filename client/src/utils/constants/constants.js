@@ -60,6 +60,8 @@ import RhinoImg from '../../assets/images/pets/Rhino.png';
 
 export const NpcLocation = {
   null: [0, -10, 0],
+  doorOut: [12.2, 3.7, -4.2],
+  doorIn: [22, 1.4, -12.05],
   infoGuy: [-14.68914, 0.28, 19.2158622],
   storeGuy: [-12.437863349, 0.55, 4.4225573539],
   trainGuy: [-21.2908630375, 0.28, 3.7027873992],
@@ -175,7 +177,7 @@ export const NpcNames = {
   storeGuy: '정민호 문방구아저씨',
   trainGuy: '양경섭 역무장',
   yellowGuy: '원재호 단무지',
-  greenGuy: '최하영 착한누나',
+  greenGuy: '최하영 동물보호 운동가',
   minSeo: '강민서 동네누나',
   yb: '김영범 박사',
   commet: '김혜성 노는누나',
@@ -183,15 +185,19 @@ export const NpcNames = {
 
 export const NormalDialog = {
   null: ['초기값'],
-  reindeer: ['안녕'],
-  reindeerRed: ['안녕 너가 새로온 인턴이구나? 나는 인사팀장 루돌프야.'],
-  reindeerOrange: ['안녕'],
-  reindeerYellow: ['안녕'],
-  reindeerGreen: ['안녕'],
-  reindeerBlue: ['안녕'],
-  reindeerPurple: ['안녕'],
-  reindeerPink: ['안녕'],
-  reindeerWhite: ['안녕'],
+  reindeer: ['복장은 개성있게! 몰개성한 옷은 봐 줄 수가 없어!'],
+  reindeerRed: ['안녕? 새로운 산타는 언제나 환영이야.'],
+  reindeerOrange: ['후후후… 너는… 썰매를 탈 자격이 있을까…? 후후….'],
+  reindeerYellow: ['아 썰매 없으면 일 못하지~'],
+  reindeerGreen: ['하하하하! 나는 은퇴하면 고향에 돌아가서 펫샵을 열 것이야!!'],
+  reindeerBlue: ['히히 영화는 근무시간에 봐야 제 맛… 헉! 들었어?'],
+  reindeerPurple: ['꺄아아아앙 귀여워 ㅎㅎ'],
+  reindeerPink: [
+    '나는 여기서 산타 자격이 충분한 인턴들의 사진을 찍어주고 있어.',
+  ],
+  reindeerWhite: [
+    '왜 나만 일하고 있는 것 같지? 왜 나만 일하고 있는 것 같지?? 헉헉…',
+  ],
   infoGuy: [
     '안녕! 우리마을에 온걸 환영해!',
     '인사팀장 루돌프님이 기다리고 계셔! 그분께 가봐.',
@@ -200,8 +206,8 @@ export const NormalDialog = {
   trainGuy: ['이번에 마을로 가져온 재료가 참많답니다~'],
   yellowGuy: ['신난다! 게임이 최고야 유후우우'],
   greenGuy: ['동물들을 보호해야해...'],
-  minSeo: ['강민서'],
-  yb: ['안녕'],
+  minSeo: ['안녕하세요, 인턴산타 팀장입니다... 많이 사랑해주세요'],
+  yb: ['싸피의 명물 알쓸싸잡 주인공 김영범입니다. 인턴산타 화이팅!'],
   commet: ['너, 나랑같이 사진찍을래?'],
 };
 
