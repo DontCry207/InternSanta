@@ -8,7 +8,8 @@ import { JEELIZFACEFILTER, NN_4EXPR } from 'facefilter';
 // The helper is not minified, feel free to customize it (and submit pull requests bro):
 import { JeelizThreeFiberHelper } from '../contrib/faceFilter/JeelizThreeFiberHelper.js';
 // import myCharacter from '../../../assets/character2.glb';
-import myCharacter from '../../../assets/star.glb';
+// import myCharacter from '../../../assets/star.glb';
+import myCharacter from '../model/human.glb';
 import { Stars, useGLTF } from '@react-three/drei';
 // import { Model } from '../Character_final';
 
