@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useThree, useFrame, extend } from '@react-three/fiber';
+import { useThree, useFrame, extend, useLoader } from '@react-three/fiber';
 import character from '../../assets/character.glb';
 import { RigidBody, CuboidCollider } from '@react-three/rapier';
 import {
@@ -10,6 +10,8 @@ import * as THREE from 'three';
 import { useKeyboardControls, useAnimations, useGLTF } from '@react-three/drei';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { loadingState, sponPositionState, userInfoState } from '../../Atom';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module';
 extend({ OrbitControls, MapControls });
 
 const Player = () => {
@@ -30,19 +32,17 @@ const Player = () => {
 
   const [, get] = useKeyboardControls();
 
-  const { nodes, animations, materials } = useGLTF(character);
+  const { nodes, animations, materials } = useLoader(
+    GLTFLoader,
+    character,
+    (loader) => {
+      loader.setMeshoptDecoder(MeshoptDecoder);
+    },
+  );
+
   nodes.Scene.scale.setZ(-0.6);
   nodes.Scene.scale.setX(-0.6);
   const { actions } = useAnimations(animations, group);
-
-  const textureInsert = (obj) => {
-    if (materials.characters.map != obj) {
-      materials.characters.map.copy(obj);
-      materials.characters.map.encoding = THREE.sRGBEncoding;
-      materials.characters.map.flipY = false;
-      materials.characters.map.updateMatrix();
-    }
-  };
 
   useEffect(() => {
     controls.current.enableRotate = true;
@@ -51,6 +51,14 @@ const Player = () => {
   }, []);
 
   useEffect(() => {
+    const textureInsert = (obj) => {
+      if (materials.characters.map != obj) {
+        materials.characters.map.copy(obj);
+        materials.characters.map.encoding = THREE.sRGBEncoding;
+        materials.characters.map.flipY = false;
+        materials.characters.map.updateMatrix();
+      }
+    };
     if (userInfo.memberTop) {
       const texture = new THREE.TextureLoader().load(userInfo.memberTop);
       texture.needsUpdate = true;
