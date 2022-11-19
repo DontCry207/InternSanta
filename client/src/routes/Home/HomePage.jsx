@@ -99,12 +99,10 @@ const HomePage = () => {
             <p>이 모든 콘텐츠를</p>
             <p>지금 바로 인턴산타에서</p>
           </div>
-          <a
-            href="javascript:void(0)"
-            onClick={() => (loggedIn ? navigate('/game') : navigate('/main'))}>
+          <p onClick={() => (loggedIn ? navigate('/game') : navigate('/main'))}>
             즐기러 가기&nbsp;
             <HiOutlineArrowNarrowRight />
-          </a>
+          </p>
         </GameConnect>
       </Main>
       <footer></footer>
@@ -230,7 +228,7 @@ const GameConnect = styled.section`
       padding: 10px;
     }
   }
-  a {
+  & > p {
     display: flex;
     justify-content: center;
     align-items: center;

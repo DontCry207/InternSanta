@@ -24,7 +24,7 @@ const SealListPage = () => {
     fetchData.get('/api/v1/seal').then((res) => {
       setSealList(res.data);
     });
-    fetchData.get(`/api/v1/member/rank/${5}`).then((res) => {
+    fetchData.get(`/api/v1/member/rank/${10}`).then((res) => {
       setSealRank(res.data);
     });
   }, [update]);
@@ -299,9 +299,21 @@ const RankBox = styled.div`
   width: 60%;
   display: flex;
   justify-content: center;
-  align-items: center;
   text-align: center;
   font-size: 22px;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar,
+  &::-webkit-scrollbar-thumb {
+    overflow: visible;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(13, 12, 15, 0.4);
+  }
   table {
     margin: 0 auto;
     width: 100%;

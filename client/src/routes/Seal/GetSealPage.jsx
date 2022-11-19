@@ -8,6 +8,8 @@ import machine from '../../assets/images/machine.png';
 import turn from '../../assets/images/turn.png';
 import { infoUpdateState } from '../../Atom';
 import { useRecoilState } from 'recoil';
+import coin from '../../assets/images/coin.png';
+
 const GetSealPage = () => {
   const [sealResult, setSealResult] = useState([]);
   const [modal, setModal] = useState(false);
@@ -83,12 +85,20 @@ const GetSealPage = () => {
         <button
           onClick={() => getOneSeal(1)}
           disabled={openToggle ? true : false}>
-          1번 씰뽑기
+          <span>1회 뽑기</span>
+          <small>
+            <img src={coin} alt="" width="16px" />
+            &nbsp;× 100
+          </small>
         </button>
         <button
           onClick={() => getOneSeal(10)}
           disabled={openToggle ? true : false}>
-          10번 씰뽑기
+          <span>10회 뽑기</span>
+          <small>
+            <img src={coin} alt="" width="16px" />
+            &nbsp;× 1000
+          </small>
         </button>
       </BtnSet>
       {openModal()}
@@ -146,8 +156,16 @@ const BtnSet = styled.div`
     border-radius: 70px;
     font-size: 24px;
     color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
     &:last-child {
       background-color: #de6363;
+    }
+    small {
+      font-size: 18px;
     }
   }
 `;
