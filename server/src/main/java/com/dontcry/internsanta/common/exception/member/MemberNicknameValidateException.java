@@ -1,6 +1,6 @@
 package com.dontcry.internsanta.common.exception.member;
 
-import com.singsong.common.exception.code.ErrorCode;
+import com.dontcry.internsanta.common.exception.code.ErrorCode;
 import lombok.Getter;
 
 @Getter

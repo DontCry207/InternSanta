@@ -1,8 +1,8 @@
 package com.dontcry.internsanta.common;
 
+import com.dontcry.internsanta.common.model.response.BaseResponseBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
-import com.singsong.common.model.response.BaseResponseBody;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletRequest;
