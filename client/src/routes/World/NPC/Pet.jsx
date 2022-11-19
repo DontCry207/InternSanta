@@ -7,7 +7,7 @@ import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { PetIndex, UserPet } from '../../../utils/constants/constants';
 import { useRecoilValue } from 'recoil';
-import { petState } from '../../../Atom';
+import { petState, userInfoState } from '../../../Atom';
 
 const Pet = (props) => {
   const { scene, gl } = useThree();
@@ -15,7 +15,7 @@ const Pet = (props) => {
   const group = useRef(null);
   const PetGltf = UserPet[props.type];
   const ktxLoader = new KTX2Loader();
-  const petInfo = useRecoilValue(petState);
+  const userInfo = useRecoilValue(userInfoState);
   ktxLoader
     .setTranscoderPath(
       `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
@@ -26,27 +26,23 @@ const Pet = (props) => {
     loader.setKTX2Loader(ktxLoader);
     ktxLoader.dispose();
   });
+  nodes.Rig.scale.set(0.1, 0.1, -0.1);
 
   const [playerIdx, setPlayerIdx] = useState(0);
   const { actions } = useAnimations(animations, group);
   const player = scene.children[playerIdx];
 
   useEffect(() => {
-    if (props.type !== PetIndex[petInfo]) {
+    if (props.type !== PetIndex[userInfo.memberPet]) {
       nodes.Rig.visible = false;
     } else {
       nodes.Rig.visible = true;
     }
-  }, [petInfo]);
-
-  useEffect(() => {
     const result = scene.children.findIndex((data) => {
       return data.name === 'player';
     });
     setPlayerIdx(result);
-    nodes.Rig.scale.set(0.1, 0.1, -0.1);
-    return () => {};
-  }, []);
+  }, [userInfo]);
 
   useFrame((state, delta) => {
     const { forward, backward, left, right, dash, dance } = get();

@@ -17,8 +17,6 @@ const AnimalModal = () => {
   const [condition, setCondition] = useRecoilState(chapterConditionState);
   const setMissionModal = useSetRecoilState(missionModalState);
   const [update, setUpdate] = useRecoilState(infoUpdateState);
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-  const [petInfo, setPetInfo] = useRecoilState(petState);
 
   const missionClear = () => {
     if (!condition[2]) {
@@ -29,16 +27,9 @@ const AnimalModal = () => {
     setMissionModal(2);
   };
 
-  const petUpdate = () => {
-    if (userInfo.memberPet !== petInfo) {
-      setPetInfo(userInfo.memberPet);
-    }
-  };
-
   const close = (e) => {
     setAnimalModal(false);
     setUpdate(!update);
-    petUpdate();
     setTimeout(() => {
       missionClear();
     }, 500);
