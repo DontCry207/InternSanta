@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import { atom, selectorFamily } from 'recoil';
 
 export const loggedInState = atom({
   key: `loggedIn`,
@@ -9,13 +9,38 @@ export const userInfoState = atom({
   key: 'userInfo',
   default: {
     memberNickname: '',
-    memberCoin: -1,
-    memberTicket: -1,
+    memberCoin: 0,
+    memberTicket: 0,
     memberTop: null,
-    memberPet: -1,
-    memberChapter: -1,
-    memberCheckpoint: -1,
+    memberPet: 0,
+    memberChapter: 0,
+    memberCheckpoint: 0,
   },
+});
+
+export const questInfoState = atom({
+  key: 'questInfo',
+  default: {
+    questId: 0,
+    questTitle: '',
+    questSub: '',
+    questNpc: 0,
+  },
+});
+
+export const quickDrawModalState = atom({
+  key: 'quickDrawModal',
+  default: false,
+});
+
+export const logoutModalState = atom({
+  key: 'logoutModal',
+  default: false,
+});
+
+export const clothesModalState = atom({
+  key: 'clothesModal',
+  default: false,
 });
 
 export const fortuneModalState = atom({
@@ -25,6 +50,36 @@ export const fortuneModalState = atom({
 
 export const movieModalState = atom({
   key: `movieModal`,
+  default: false,
+});
+
+export const sealModalState = atom({
+  key: `sealModal`,
+  default: false,
+});
+
+export const gotchaModalState = atom({
+  key: `gotchaModal`,
+  default: false,
+});
+
+export const missionModalState = atom({
+  key: `missionModal`,
+  default: null,
+});
+
+export const animalModalState = atom({
+  key: `animalModal`,
+  default: false,
+});
+
+export const gameModalState = atom({
+  key: `gameModal`,
+  default: false,
+});
+
+export const photoModalState = atom({
+  key: `photoModal`,
   default: false,
 });
 
@@ -46,4 +101,29 @@ export const ambientState = atom({
 export const npcHoverState = atom({
   key: `npcHover`,
   default: null,
+});
+
+export const npcScriptState = atom({
+  key: 'npcScript',
+  default: [],
+});
+
+export const infoUpdateState = atom({
+  key: 'infoUpdate',
+  default: false,
+});
+
+export const petState = atom({
+  key: 'pet',
+  default: 0,
+});
+
+export const sponPositionState = atom({
+  key: 'sponPosition',
+  default: 'start',
+});
+
+export const chapterConditionState = atom({
+  key: 'chapterCondition',
+  default: [false, false, false, false, false, false, false, false, false],
 });

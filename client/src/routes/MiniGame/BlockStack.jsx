@@ -4,15 +4,23 @@ import Block from './block';
 import { IoIosArrowBack } from 'react-icons/io';
 import game1 from '../../assets/images/blockstack.png';
 import coin from '../../assets/images/coin.png';
+import { useRecoilState } from 'recoil';
+import { infoUpdateState } from '../../Atom';
 const BlockStack = (props) => {
   const { setPage } = props;
   const [loading, setLoading] = useState(true);
+  const [update, setUpdate] = useRecoilState(infoUpdateState);
 
   useEffect(() => {
     if (!loading) {
       Block();
     }
   }, [loading]);
+
+  const getBack = () => {
+    setUpdate(!update);
+    setPage(1);
+  };
 
   const play = () => {
     return (
@@ -31,7 +39,7 @@ const BlockStack = (props) => {
                   <b id="result-coin"></b>코인 획득
                 </span>
               </div>
-              <PlayBtn onClick={() => setPage(1)}>처음으로</PlayBtn>
+              <PlayBtn onClick={() => getBack()}>처음으로</PlayBtn>
             </div>
           </Results>
         </div>

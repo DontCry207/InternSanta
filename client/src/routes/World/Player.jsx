@@ -7,15 +7,15 @@ import {
   MapControls,
 } from 'three/examples/jsm/controls/OrbitControls';
 import * as THREE from 'three';
-import { useKeyboardControls, useGLTF, useAnimations } from '@react-three/drei';
+import { useKeyboardControls, useAnimations, useGLTF } from '@react-three/drei';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { loadingState, userInfoState } from '../../Atom';
+import { loadingState, sponPositionState, userInfoState } from '../../Atom';
 extend({ OrbitControls, MapControls });
 
 const Player = () => {
   const userInfo = useRecoilValue(userInfoState);
-  const { memberTop } = userInfo;
   const [loading, setLoading] = useRecoilState(loadingState);
+  const [sponPosition, setSponPosition] = useRecoilState(sponPositionState);
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();
   const sideVector = new THREE.Vector3();
@@ -26,18 +26,37 @@ const Player = () => {
   const {
     camera,
     gl: { domElement },
-    scene,
   } = useThree();
 
   const [, get] = useKeyboardControls();
-  const { nodes, animations } = useGLTF(character);
+
+  const { nodes, animations, materials } = useGLTF(character);
+  nodes.Scene.scale.setZ(-0.6);
+  nodes.Scene.scale.setX(-0.6);
   const { actions } = useAnimations(animations, group);
+
+  const textureInsert = (obj) => {
+    if (materials.characters.map != obj) {
+      materials.characters.map.copy(obj);
+      materials.characters.map.encoding = THREE.sRGBEncoding;
+      materials.characters.map.flipY = false;
+      materials.characters.map.updateMatrix();
+    }
+  };
 
   useEffect(() => {
     controls.current.enableRotate = true;
     controls.current.rotateSpeed = 0.4;
     nodes.Scene.name = 'player';
   }, []);
+
+  useEffect(() => {
+    if (userInfo.memberTop) {
+      const texture = new THREE.TextureLoader().load(userInfo.memberTop);
+      texture.needsUpdate = true;
+      textureInsert(texture);
+    }
+  }, [userInfo.memberTop]);
 
   useEffect(() => {
     if (!loading) {
@@ -135,7 +154,11 @@ const Player = () => {
         mass={1}
         type="dynamic"
         colliders={false}
-        position={[-15.7, 3, 21.4]}>
+        position={
+          (sponPosition === 'start' && [-15.7, 3, 21.4]) ||
+          (sponPosition === 'carolZoneIn' && [22.34, 2.3, -13.59]) ||
+          (sponPosition === 'carolZoneFront' && [11.21, 3.6, -3.34])
+        }>
         <CuboidCollider args={[0.3, 0.3, 0.3]} />
       </RigidBody>
     </>

@@ -10,20 +10,21 @@ import * as THREE from 'three';
 
 const TeddyBear = () => {
   const ktxLoader = new KTX2Loader();
-  const boxLocation = [-0.1, -100, 0];
   const scale = [0.8, 0.8, 0.8];
-  const location = [0, -100, 0];
+  const location = [24.05, 1, -14.54];
   const { camera, gl, scene } = useThree();
   const teddybearGltf = useLoader(GLTFLoader, teddybear, (loader) => {
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath(
-      '../node_modules/three/examples/js/libs/draco/gltf/',
+      'https://www.gstatic.com/draco/versioned/decoders/1.5.5/',
     );
     dracoLoader.setDecoderConfig({ type: 'js' });
     loader.setDRACOLoader(dracoLoader);
 
     ktxLoader
-      .setTranscoderPath('../node_modules/three/examples/js/libs/basis/')
+      .setTranscoderPath(
+        `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
+      )
       .detectSupport(gl);
     loader.setKTX2Loader(ktxLoader);
     ktxLoader.dispose();
