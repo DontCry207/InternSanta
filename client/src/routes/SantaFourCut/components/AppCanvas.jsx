@@ -79,12 +79,7 @@ const FaceFollower = (props) => {
       />
       <object3D ref={objRef}>
         <ambientLight intensity={0.8} />
-        <primitive
-          ref={photoMan}
-          object={nodes.Scene}
-          scale={0.7}
-          position={[0, 1, 0]}
-        />
+        <primitive object={nodes.Scene} scale={0.7} position={[0, 1, 0]} />
       </object3D>
     </>
   );
