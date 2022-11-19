@@ -9,13 +9,19 @@ import {
 import * as THREE from 'three';
 import { useKeyboardControls, useAnimations, useGLTF } from '@react-three/drei';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { loadingState, sponPositionState, userInfoState } from '../../Atom';
+import {
+  gameModalState,
+  loadingState,
+  sponPositionState,
+  userInfoState,
+} from '../../Atom';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module';
 extend({ OrbitControls, MapControls });
 
 const Player = () => {
   const userInfo = useRecoilValue(userInfoState);
+  const gameModal = useRecoilValue(gameModalState);
   const [loading, setLoading] = useRecoilState(loadingState);
   const [sponPosition, setSponPosition] = useRecoilState(sponPositionState);
   const direction = new THREE.Vector3();
@@ -75,7 +81,9 @@ const Player = () => {
 
   useFrame((state, delta) => {
     let SPEED = 4;
-    const { forward, backward, left, right, dash, position, dance } = get();
+    const { forward, backward, left, right, dash, position, dance } = !gameModal
+      ? get()
+      : null;
     const velocity = ref.current.linvel();
     const [x, y, z] = [...ref.current.translation()];
 
