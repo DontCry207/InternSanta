@@ -33,6 +33,16 @@ export const quickDrawModalState = atom({
   default: false,
 });
 
+export const musicModalState = atom({
+  key: 'musicModal',
+  default: false,
+});
+
+export const audioStartState = atom({
+  key: 'audioStart',
+  default: false,
+});
+
 export const logoutModalState = atom({
   key: 'logoutModal',
   default: false,

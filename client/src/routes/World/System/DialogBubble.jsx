@@ -17,7 +17,6 @@ const DialogBubble = () => {
   const location3 = [location1[0], location1[1] + 1.65, location1[2]];
 
   useEffect(() => {
-    console.log(hovered);
     document.body.style.cursor = hovered ? 'pointer' : 'auto';
   }, [hovered]);
 
