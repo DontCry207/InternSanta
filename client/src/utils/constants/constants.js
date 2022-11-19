@@ -28,7 +28,7 @@ import infoGuyImg from '../../assets/images/infoGuy.png';
 import storeGuyImg from '../../assets/images/storeGuy.png';
 import trainGuyImg from '../../assets/images/trainGuy.png';
 import yellowGuyImg from '../../assets/images/yellowGuy.png';
-import greenGuyImg from '../../assets/images/greenGuy.png';
+import greenGuyImg from '../../assets/images/GreenGuy.png';
 import minSeoImg from '../../assets/images/minSeo.png';
 import ybImg from '../../assets/images/yb.png';
 import commetImg from '../../assets/images/commet.png';
