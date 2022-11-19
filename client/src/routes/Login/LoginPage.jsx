@@ -12,35 +12,38 @@ const LoginPage = (props) => {
   const [memberPwd, setMemberPwd] = useState('');
   const navigate = useNavigate();
   const loginFnc = async () => {
-    const res = await fetchData.post('/api/v1/member/login', {
-      memberEmail,
-      memberPwd,
-    });
-
-    const {
-      memberNickname,
-      memberCoin,
-      memberTicket,
-      memberTop,
-      memberPet,
-      memberChapter,
-      memberCheckpoint,
-      accessToken,
-      refreshToken,
-    } = await res.data;
-    setUserInfo({
-      memberNickname,
-      memberCoin,
-      memberTicket,
-      memberTop,
-      memberPet,
-      memberChapter,
-      memberCheckpoint,
-    });
-    localStorage.setItem('refreshToken', refreshToken);
-    sessionStorage.setItem('accessToken', accessToken);
-    setloggedIn(true);
-    navigate('/game');
+    try {
+      const res = await fetchData.post('/api/v1/member/login', {
+        memberEmail,
+        memberPwd,
+      });
+      const {
+        memberNickname,
+        memberCoin,
+        memberTicket,
+        memberTop,
+        memberPet,
+        memberChapter,
+        memberCheckpoint,
+        accessToken,
+        refreshToken,
+      } = await res.data;
+      setUserInfo({
+        memberNickname,
+        memberCoin,
+        memberTicket,
+        memberTop,
+        memberPet,
+        memberChapter,
+        memberCheckpoint,
+      });
+      localStorage.setItem('refreshToken', refreshToken);
+      sessionStorage.setItem('accessToken', accessToken);
+      setloggedIn(true);
+      navigate('/game');
+    } catch {
+      alert('아이디 혹은 비밀번호를 다시 확인해주세요.');
+    }
   };
 
   return (

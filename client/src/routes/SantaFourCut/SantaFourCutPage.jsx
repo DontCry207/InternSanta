@@ -86,7 +86,6 @@ const SantaFourCutPage = () => {
   const page1 = () => {
     return (
       <>
-        <SubText>캐릭터를 클릭하면 춤을 춥니다!</SubText>
         <StartBtn>
           <button onClick={() => setPage(2)}>시작</button>
         </StartBtn>
