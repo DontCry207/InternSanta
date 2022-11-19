@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
 // import main script and neural network model from Jeeliz FaceFilter NPM package
@@ -11,9 +11,11 @@ import { JeelizThreeFiberHelper } from '../contrib/faceFilter/JeelizThreeFiberHe
 // import myCharacter from '../../../assets/character2.glb';
 // import myCharacter from '../../../assets/star.glb';
 import myCharacter from '../model/human.glb';
-import { Stars, useGLTF } from '@react-three/drei';
+import { Stars, useAnimations, useGLTF } from '@react-three/drei';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../../Atom.jsx';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 // import { Model } from '../Character_final';
 
 const _maxFacesDetected = 1; // max number of detected faces
@@ -47,8 +49,18 @@ const FaceFollower = (props) => {
   // });
 
   // console.log('RENDER FaceFollower component');
+  const photoMan = useRef();
   const userInfo = useRecoilValue(userInfoState);
-  const { nodes, materials, animations } = useGLTF(myCharacter);
+  const { nodes, animations, materials } = useLoader(
+    GLTFLoader,
+    myCharacter,
+    (loader) => {
+      loader.setMeshoptDecoder(MeshoptDecoder);
+    },
+  );
+  const { actions } = useAnimations(animations, photoMan);
+  const [dance, setDance] = useState(false);
+  console.log(actions);
 
   useEffect(() => {
     const textureInsert = (obj) => {
@@ -66,6 +78,20 @@ const FaceFollower = (props) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (dance) {
+      actions.Idle.stop();
+      actions['Song Jump'].play().setEffectiveTimeScale(1.3);
+    } else {
+      actions['Song Jump'].stop();
+      actions.Idle.play().setEffectiveTimeScale(1.3);
+    }
+  }, [dance]);
+
+  const makeDance = () => {
+    setDance(!dance);
+  };
+
   return (
     <>
       <Stars
@@ -79,7 +105,13 @@ const FaceFollower = (props) => {
       />
       <object3D ref={objRef}>
         <ambientLight intensity={0.8} />
-        <primitive object={nodes.Scene} scale={0.7} position={[0, 1, 0]} />
+        <primitive
+          ref={photoMan}
+          onClick={() => makeDance()}
+          object={nodes.Scene}
+          scale={0.7}
+          position={[0, 1, 0]}
+        />
       </object3D>
     </>
   );
