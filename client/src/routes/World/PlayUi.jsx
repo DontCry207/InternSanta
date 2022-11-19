@@ -16,7 +16,7 @@ import {
   infoUpdateState,
   logoutModalState,
   npcScriptState,
-  petState,
+  questIndicatorState,
   questInfoState,
   sealModalState,
   userInfoState,
@@ -37,8 +37,21 @@ const PlayUi = () => {
   const setSealModal = useSetRecoilState(sealModalState);
   const setLogoutModal = useSetRecoilState(logoutModalState);
   const update = useRecoilValue(infoUpdateState);
+  const [indicator, setIndicator] = useRecoilState(questIndicatorState);
   const [coinNum, setCoinNum] = useState(userInfo.memberCoin);
   const [ticketNum, setTicketNum] = useState(userInfo.memberTicket);
+
+  const animationProgress = () => {
+    setProg(true);
+    setTimeout(() => {
+      setProg(false);
+      setIndicator(false);
+    }, 3000);
+  };
+
+  useEffect(() => {
+    animationProgress();
+  }, [indicator]);
 
   const getScript = async () => {
     const res = await fetchData.get('/api/v1/quest/script');
@@ -57,18 +70,15 @@ const PlayUi = () => {
   };
 
   useEffect(() => {
+    console.log(userInfo);
     setCoinNum(userInfo.memberCoin);
     setTicketNum(userInfo.memberTicket);
   }, [userInfo]);
 
   useEffect(() => {
-    try {
-      getUserInfo();
-      getQuest();
-      getScript();
-    } catch (e) {
-      console.log(e);
-    }
+    getUserInfo();
+    getQuest();
+    getScript();
   }, [update]);
 
   return (
@@ -245,7 +255,7 @@ const ProgressButton = styled.div`
   border: solid 1px grey;
   pointer-events: auto;
   cursor: pointer;
-  transition: all 0.1s;
+  transition: all 0.15s;
   overflow: hidden;
   box-sizing: border-box;
 `;
