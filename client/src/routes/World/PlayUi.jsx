@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import {
@@ -9,12 +9,14 @@ import {
 } from 'react-icons/bs';
 import { FaTshirt } from 'react-icons/fa';
 import { AiOutlinePoweroff } from 'react-icons/ai';
-import { HiVolumeUp } from 'react-icons/hi';
+import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
+  audioStartState,
   clothesModalState,
   infoUpdateState,
   logoutModalState,
+  musicModalState,
   npcScriptState,
   questIndicatorState,
   questInfoState,
@@ -27,6 +29,8 @@ import { NpcProfileImages, NpcQuest } from '../../utils/constants/constants';
 import stickerCard from '../../assets/images/StickerCard.png';
 import ticket from '../../assets/images/ticket.png';
 import coin from '../../assets/images/coin.png';
+import music from '../../assets/Christmas.mp3';
+import MusicControlModal from './Modals/MusicControlModal';
 
 const PlayUi = () => {
   const [prog, setProg] = useState(false);
@@ -40,6 +44,17 @@ const PlayUi = () => {
   const [indicator, setIndicator] = useRecoilState(questIndicatorState);
   const [coinNum, setCoinNum] = useState(userInfo.memberCoin);
   const [ticketNum, setTicketNum] = useState(userInfo.memberTicket);
+  const [musicModal, setMusicModal] = useRecoilState(musicModalState);
+
+  const [volume, setVolume] = useState(0);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (volume) {
+      audioRef.current.play();
+    }
+    audioRef.current.volume = volume;
+  }, [volume]);
 
   const animationProgress = () => {
     setProg(true);
@@ -83,6 +98,8 @@ const PlayUi = () => {
 
   return (
     <ContainerUi>
+      <audio id="audio" src={music} ref={audioRef} loop volume={0} />
+      <MusicControlModal volume={volume} setVolume={setVolume} />
       <LeftTopBox>
         <Logo>
           <p>INTERN</p>
@@ -121,9 +138,15 @@ const PlayUi = () => {
         <IconBorder onClick={() => setModal(true)}>
           <FaTshirt size={40} color={'white'} />
         </IconBorder>
-        <IconBorder>
-          <HiVolumeUp size={40} color={'white'} />
-        </IconBorder>
+        {!volume ? (
+          <IconBorder onClick={() => setMusicModal(true)}>
+            <HiVolumeOff size={40} color={'white'} />
+          </IconBorder>
+        ) : (
+          <IconBorder onClick={() => setMusicModal(true)}>
+            <HiVolumeUp size={40} color={'white'} />
+          </IconBorder>
+        )}
         <IconBorder onClick={() => setLogoutModal(true)}>
           <AiOutlinePoweroff size={40} color={'white'} />
         </IconBorder>
