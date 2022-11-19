@@ -8,7 +8,6 @@ import photo1 from '../../assets/images/photo1.png';
 import photo2 from '../../assets/images/photo2.png';
 import photo3 from '../../assets/images/photo3.png';
 import photo4 from '../../assets/images/photo4.png';
-import MainModal from '../Common/MainModal';
 const SantaFourCutPage = () => {
   const [page, setPage] = useState(1);
   const [photoNum, setPhotoNum] = useState(1);
@@ -87,6 +86,7 @@ const SantaFourCutPage = () => {
   const page1 = () => {
     return (
       <>
+        <SubText>캐릭터를 클릭하면 춤을 춥니다!</SubText>
         <StartBtn>
           <button onClick={() => setPage(2)}>시작</button>
         </StartBtn>
@@ -181,12 +181,19 @@ const Logo = styled.div`
     width: 76px;
   }
 `;
+
+const SubText = styled.div`
+  color: #343434;
+  font-size: 26px;
+`;
+
 const SubTitle = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
   color: white;
   padding: 20px 0;
+  font-size: 40px;
 `;
 const CameraBox = styled.div`
   position: relative;

@@ -83,8 +83,9 @@ const ClothesPage = (props) => {
             옷의 앞면과 뒷면 사진을 추가해서 캐릭터 옷으로 만들 수 있다!
           </SubTitle>
         </Title>
+
         <ClothCut>
-          <div>
+          <Front>
             <p>앞면</p>
             <img
               className="front"
@@ -92,9 +93,9 @@ const ClothesPage = (props) => {
               onClick={() => setFrontModal(true)}
               alt=""
             />
-          </div>
+          </Front>
 
-          <div>
+          <Back>
             <p>뒷면</p>
             <img
               className="back"
@@ -102,15 +103,18 @@ const ClothesPage = (props) => {
               onClick={() => setBackModal(true)}
               alt=""
             />
-          </div>
+          </Back>
         </ClothCut>
 
-        <PlayBtn
-          onClick={() => {
-            callApi();
-          }}>
-          적용
-        </PlayBtn>
+        <ButtonBox>
+          <PlayBtn
+            onClick={() => {
+              callApi();
+            }}>
+            적용
+          </PlayBtn>
+        </ButtonBox>
+
         {openModal()}
       </>
     );
@@ -120,6 +124,8 @@ const ClothesPage = (props) => {
 };
 
 const Title = styled.div`
+  width: 100%;
+  height: 20%;
   h2 {
     display: block;
     font-size: 80px;
@@ -136,9 +142,12 @@ const SubTitle = styled.p`
 `;
 
 const ClothCut = styled.div`
+  width: 100%;
+  height: 70%;
   display: flex;
-  gap: 80px;
-  padding: 0 15%;
+  gap: 40px;
+  padding: 0 5%;
+
   & > div {
     display: flex;
     flex-direction: column;
@@ -150,7 +159,7 @@ const ClothCut = styled.div`
       color: white;
     }
     & > img {
-      width: 100%;
+      height: 90%;
       border-radius: 40px;
       cursor: pointer;
       margin: 0 auto;
@@ -164,6 +173,15 @@ const ClothCut = styled.div`
   }
 `;
 
+const ButtonBox = styled.div`
+  width: 100%;
+  height: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 const PlayBtn = styled.button`
   width: 140px;
   height: 50px;
@@ -172,6 +190,24 @@ const PlayBtn = styled.button`
   font-size: 24px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   color: white;
+`;
+
+const Front = styled.div`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Back = styled.div`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ResultBox = styled.div`
