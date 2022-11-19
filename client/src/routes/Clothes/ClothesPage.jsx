@@ -145,8 +145,7 @@ const ClothCut = styled.div`
   width: 100%;
   height: 70%;
   display: flex;
-  gap: 40px;
-  padding: 0 5%;
+  padding: 20px;
 
   & > div {
     display: flex;
