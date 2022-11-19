@@ -78,6 +78,11 @@ export const gameModalState = atom({
   default: false,
 });
 
+export const questIndicatorState = atom({
+  key: `questIndicator`,
+  default: false,
+});
+
 export const photoModalState = atom({
   key: `photoModal`,
   default: false,
