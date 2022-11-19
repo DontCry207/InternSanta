@@ -39,7 +39,6 @@ const PlayUi = () => {
   const update = useRecoilValue(infoUpdateState);
   const [coinNum, setCoinNum] = useState(userInfo.memberCoin);
   const [ticketNum, setTicketNum] = useState(userInfo.memberTicket);
-  const setPetInfo = useSetRecoilState(petState);
 
   const getScript = async () => {
     const res = await fetchData.get('/api/v1/quest/script');
@@ -60,7 +59,6 @@ const PlayUi = () => {
   useEffect(() => {
     setCoinNum(userInfo.memberCoin);
     setTicketNum(userInfo.memberTicket);
-    setPetInfo(userInfo.memberPet);
   }, [userInfo]);
 
   useEffect(() => {

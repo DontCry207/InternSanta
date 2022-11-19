@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { RigidBody } from '@react-three/rapier';
-import { useAnimations, useGLTF } from '@react-three/drei';
+import { useAnimations } from '@react-three/drei';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
 import { useSetRecoilState } from 'recoil';
 import { modalState, npcHoverState } from '../../../Atom';

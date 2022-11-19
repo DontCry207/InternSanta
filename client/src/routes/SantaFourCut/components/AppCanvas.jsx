@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
+import * as THREE from 'three';
 
 // import main script and neural network model from Jeeliz FaceFilter NPM package
 import { JEELIZFACEFILTER, NN_4EXPR } from 'facefilter';
@@ -8,7 +9,11 @@ import { JEELIZFACEFILTER, NN_4EXPR } from 'facefilter';
 // The helper is not minified, feel free to customize it (and submit pull requests bro):
 import { JeelizThreeFiberHelper } from '../contrib/faceFilter/JeelizThreeFiberHelper.js';
 import myCharacter from '../../../assets/character2.glb';
-import { Stars, useGLTF } from '@react-three/drei';
+import { Stars, useAnimations, useGLTF } from '@react-three/drei';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../../Atom.jsx';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 // import { Model } from '../Character_final';
 
 const _maxFacesDetected = 1; // max number of detected faces
@@ -20,6 +25,7 @@ let _expressions = null;
 const FaceFollower = (props) => {
   // This reference will give us direct access to the mesh
   const objRef = useRef();
+  const userInfo = useRecoilValue(userInfoState);
   useEffect(() => {
     const threeObject3D = objRef.current;
     // console.log(threeObject3D);
@@ -42,7 +48,47 @@ const FaceFollower = (props) => {
   // });
 
   // console.log('RENDER FaceFollower component');
-  const { nodes, materials, animations } = useGLTF(myCharacter);
+  const group = useRef();
+  const { nodes, materials, animations } = useLoader(
+    GLTFLoader,
+    myCharacter,
+    (loader) => {
+      loader.setMeshoptDecoder(MeshoptDecoder);
+    },
+  );
+  const { actions } = useAnimations(animations, group);
+  const [dance, setDance] = useState(false);
+
+  useEffect(() => {
+    const textureInsert = (obj) => {
+      if (materials.characters.map != obj) {
+        materials.characters.map.copy(obj);
+        materials.characters.map.encoding = THREE.sRGBEncoding;
+        materials.characters.map.flipY = false;
+        materials.characters.map.updateMatrix();
+      }
+    };
+    if (userInfo.memberTop) {
+      const texture = new THREE.TextureLoader().load(userInfo.memberTop);
+      texture.needsUpdate = true;
+      textureInsert(texture);
+    }
+    actions.Idle.play().setEffectiveTimeScale(2);
+  }, []);
+
+  useEffect(() => {
+    if (dance) {
+      actions.Idle.stop();
+      actions['Song Jump'].play().setEffectiveTimeScale(1.3);
+    } else {
+      actions['Song Jump'].stop();
+      actions.Idle.play().setEffectiveTimeScale(2);
+    }
+  }, [dance]);
+
+  const click = () => {
+    setDance(!dance);
+  };
 
   return (
     <>
@@ -55,13 +101,22 @@ const FaceFollower = (props) => {
         fade
         speed={5}
       />
-      <object3D ref={objRef}>
+      <object3D
+        ref={objRef}
+        onClick={() => {
+          click();
+        }}>
         {/* <mesh name="mainCube" position={[0, 1.5, 0]}>
         <boxBufferGeometry args={[0.8, 0.8, 0.8]} />
         <meshNormalMaterial />
       </mesh> */}
         <ambientLight intensity={0.8} />
-        <primitive object={nodes.Scene} scale={0.7} position={[0, 1, 0]} />
+        <primitive
+          ref={group}
+          object={nodes.Scene}
+          scale={0.7}
+          position={[0, 1, 0]}
+        />
         {/* <Model /> */}
       </object3D>
     </>
