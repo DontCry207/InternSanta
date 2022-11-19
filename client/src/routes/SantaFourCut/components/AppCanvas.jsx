@@ -11,7 +11,7 @@ import { JeelizThreeFiberHelper } from '../contrib/faceFilter/JeelizThreeFiberHe
 // import myCharacter from '../../../assets/character2.glb';
 // import myCharacter from '../../../assets/star.glb';
 import myCharacter from '../model/human.glb';
-import { Stars, useGLTF } from '@react-three/drei';
+import { useGLTF } from '@react-three/drei';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../../Atom.jsx';
 // import { Model } from '../Character_final';
@@ -68,15 +68,6 @@ const FaceFollower = (props) => {
 
   return (
     <>
-      <Stars
-        radius={40}
-        depth={20}
-        count={1000}
-        factor={4}
-        saturation={1}
-        fade
-        speed={5}
-      />
       <object3D ref={objRef}>
         <ambientLight intensity={0.8} />
         <primitive object={nodes.Scene} scale={0.7} position={[0, 1, 0]} />
