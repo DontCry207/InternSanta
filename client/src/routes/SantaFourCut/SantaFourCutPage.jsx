@@ -149,7 +149,9 @@ const SantaFourCutPage = () => {
         {page === 1 ? page1() : null}
         {page === 2 ? page2() : null}
         {resData ? (
-          <img src={resData} alt="" width="240px" id="resimg" />
+          <PhotoImg>
+            <img src={resData} alt="" id="resimg" />
+          </PhotoImg>
         ) : null}
         {page === 3 ? (
           <StartBtn>
@@ -208,6 +210,16 @@ const PhotoBox = styled.div`
   padding-bottom: 10px;
   img {
     width: 100px;
+  }
+`;
+
+const PhotoImg = styled.div`
+  width: 240px;
+  height: 70%;
+  text-align: center;
+  img {
+    aspect-ratio: 1/3;
+    height: 100%;
   }
 `;
 export default SantaFourCutPage;
