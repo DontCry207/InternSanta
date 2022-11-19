@@ -126,7 +126,6 @@ const ClothesPage = (props) => {
 const Title = styled.div`
   width: 100%;
   height: 20%;
-  background-color: tomato;
   h2 {
     display: block;
     font-size: 80px;
@@ -145,7 +144,6 @@ const SubTitle = styled.p`
 const ClothCut = styled.div`
   width: 100%;
   height: 70%;
-  background-color: blue;
   display: flex;
   gap: 40px;
   padding: 0 5%;
@@ -178,7 +176,6 @@ const ClothCut = styled.div`
 const ButtonBox = styled.div`
   width: 100%;
   height: 10%;
-  background-color: purple;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -198,7 +195,6 @@ const PlayBtn = styled.button`
 const Front = styled.div`
   width: 50%;
   height: 100%;
-  background-color: grey;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -208,7 +204,6 @@ const Front = styled.div`
 const Back = styled.div`
   width: 50%;
   height: 100%;
-  background-color: grey;
   display: flex;
   flex-direction: column;
   align-items: center;
