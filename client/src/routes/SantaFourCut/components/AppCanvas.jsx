@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
 // import main script and neural network model from Jeeliz FaceFilter NPM package
@@ -48,7 +48,7 @@ const FaceFollower = (props) => {
 
   // console.log('RENDER FaceFollower component');
   const userInfo = useRecoilValue(userInfoState);
-  const { nodes, materials, animations } = useGLTF(myCharacter);
+  const { nodes, materials } = useGLTF(myCharacter);
 
   useEffect(() => {
     const textureInsert = (obj) => {
