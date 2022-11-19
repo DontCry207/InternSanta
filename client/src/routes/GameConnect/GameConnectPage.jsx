@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import christmasTown from '../../assets/images/christmasTown.jpg';
 import AlertModal from '../Common/AlertModal';
@@ -7,7 +8,7 @@ import RegisterPage from '../Register/RegisterPage';
 const GameConnectPage = () => {
   const [onLoginModal, setOnLoginModal] = useState(false);
   const [onRegisterModal, setOnRegisterModal] = useState(false);
-
+  const navigate = useNavigate();
   const loginModalOpen = () => {
     setOnLoginModal(true);
   };
@@ -37,7 +38,7 @@ const GameConnectPage = () => {
   return (
     <>
       <Container img={christmasTown}>
-        <MainTitle>INTERN SANTA</MainTitle>
+        <MainTitle onClick={() => navigate('/')}>INTERN SANTA</MainTitle>
         <BtnSet>
           <button onClick={() => loginModalOpen()}>로그인</button>
           <button onClick={() => registerModalOpen()}>회원가입</button>
@@ -71,6 +72,7 @@ const MainTitle = styled.h1`
   font-weight: 700;
   color: white;
   text-shadow: 5px 5px 8px #ffffff4a;
+  cursor: pointer;
 `;
 
 const BtnSet = styled.div`

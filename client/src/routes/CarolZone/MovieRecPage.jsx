@@ -3,12 +3,13 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
 import santa from '../../assets/images/santa.png';
+import { useRef } from 'react';
 
 const MovieRecPage = () => {
   const [movieList, setMovieList] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState('');
   const [movieRecList, setMovieRecList] = useState(null);
-
+  // const movieRef = useRef();
   useEffect(() => {
     fetchData.get('/api/v2/movie').then((res) => {
       setMovieList(res.data);
@@ -25,6 +26,10 @@ const MovieRecPage = () => {
     );
     setMovieRecList(res.data);
   };
+
+  useEffect(() => {
+    document.getElementById('movierec')?.scrollTo(0, 0);
+  }, [movieRecList]);
 
   const page1 = () => {
     return (
@@ -73,7 +78,7 @@ const MovieRecPage = () => {
   const page2 = () => {
     return (
       <>
-        <MovieListBox>
+        <MovieListBox id="movierec">
           <form>
             <MovieRecList>
               {movieRecList?.map((item, i) => {
