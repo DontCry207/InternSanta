@@ -4,6 +4,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   infoUpdateState,
   missionModalState,
+  questIndicatorState,
   userInfoState,
 } from '../../../Atom';
 import AlertModal from '../../Common/AlertModal';
@@ -20,6 +21,7 @@ const MissionModal = () => {
   const [missionNum, setMissionNum] = useRecoilState(missionModalState);
   const [validation, setValidation] = useState('');
   const [update, setUpdate] = useRecoilState(infoUpdateState);
+  const [indicator, setIndicator] = useRecoilState(questIndicatorState);
   const userInfo = useRecoilValue(userInfoState);
   const chapter = userInfo.memberChapter;
   const checkPoint = userInfo.memberCheckpoint;
@@ -37,6 +39,7 @@ const MissionModal = () => {
   const isFirstTime = () => {
     if (missionNum === chapter && checkPoint === 1) {
       setValidation('mission');
+      setIndicator(true);
       proceedCheckPoint();
     } else if (missionNum === 'sucess' || missionNum === 'get') {
       setValidation(missionNum);
@@ -68,13 +71,14 @@ const MissionModal = () => {
   };
 
   const questClear = () => {
-    const res = chapter;
-    return (
-      <RewardBox>
-        <p>+{reward[res]}</p>
-        <img src={Coin} alt="" />
-      </RewardBox>
-    );
+    if (chapter >= 1) {
+      return (
+        <RewardBox>
+          <p>+{reward[chapter - 1]}</p>
+          <img src={Coin} alt="" />
+        </RewardBox>
+      );
+    }
   };
 
   const getQuest = () => {
