@@ -26,6 +26,20 @@ const HomePage = () => {
     sessionStorage.removeItem('accessToken');
     console.log('로그아웃');
   };
+  var docV = document.documentElement;
+  // 전체화면 설정
+  function openFullScreenMode() {
+    if (docV.requestFullscreen) docV.requestFullscreen();
+    else if (docV.webkitRequestFullscreen)
+      // Chrome, Safari (webkit)
+      docV.webkitRequestFullscreen();
+    else if (docV.mozRequestFullScreen)
+      // Firefox
+      docV.mozRequestFullScreen();
+    else if (docV.msRequestFullscreen)
+      // IE or Edge
+      docV.msRequestFullscreen();
+  }
 
   return (
     <Container>
@@ -55,7 +69,13 @@ const HomePage = () => {
         <ConnectBtn>
           {loggedIn ? (
             <>
-              <button onClick={() => navigate('/game')}>게임 시작</button>
+              <button
+                onClick={() => {
+                  navigate('/game');
+                  openFullScreenMode();
+                }}>
+                게임 시작
+              </button>
               {/* <button onClick={() => logout()}>로그아웃</button> */}
             </>
           ) : (
