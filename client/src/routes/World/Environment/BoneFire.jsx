@@ -8,18 +8,18 @@ import { RigidBody } from '@react-three/rapier';
 
 const BoneFire = () => {
   const { gl } = useThree();
-  const ktxLoader = new KTX2Loader();
-  const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath(
-    'https://www.gstatic.com/draco/versioned/decoders/1.5.5/',
-  );
-  dracoLoader.setDecoderConfig({ type: 'js' });
-  ktxLoader
-    .setTranscoderPath(
-      `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
-    )
-    .detectSupport(gl);
   const boneFireGltf = useLoader(GLTFLoader, boneFire, (loader) => {
+    const ktxLoader = new KTX2Loader();
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath(
+      'https://www.gstatic.com/draco/versioned/decoders/1.5.5/',
+    );
+    dracoLoader.setDecoderConfig({ type: 'js' });
+    ktxLoader
+      .setTranscoderPath(
+        `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
+      )
+      .detectSupport(gl);
     loader.setDRACOLoader(dracoLoader);
     loader.setKTX2Loader(ktxLoader);
     ktxLoader.dispose();

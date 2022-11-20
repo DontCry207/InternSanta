@@ -68,9 +68,10 @@ const MissionModal = () => {
   };
 
   const questClear = () => {
+    const res = chapter;
     return (
       <RewardBox>
-        <p>+{reward[chapter]}</p>
+        <p>+{reward[res]}</p>
         <img src={Coin} alt="" />
       </RewardBox>
     );

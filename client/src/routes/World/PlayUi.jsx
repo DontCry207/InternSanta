@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import {
@@ -9,24 +9,31 @@ import {
 } from 'react-icons/bs';
 import { FaTshirt } from 'react-icons/fa';
 import { AiOutlinePoweroff } from 'react-icons/ai';
-import { HiVolumeUp } from 'react-icons/hi';
+import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   clothesModalState,
   infoUpdateState,
   logoutModalState,
+  musicModalState,
   npcScriptState,
-  petState,
+  questIndicatorState,
   questInfoState,
   sealModalState,
   userInfoState,
 } from '../../Atom';
 import { useEffect } from 'react';
 import { fetchData } from '../../utils/apis/api';
-import { NpcProfileImages, NpcQuest } from '../../utils/constants/constants';
+import {
+  missionImg,
+  NpcProfileImages,
+  NpcQuest,
+} from '../../utils/constants/constants';
 import stickerCard from '../../assets/images/StickerCard.png';
 import ticket from '../../assets/images/ticket.png';
 import coin from '../../assets/images/coin.png';
+import music from '../../assets/EpicChristmas.mp3';
+import MusicControlModal from './Modals/MusicControlModal';
 
 const PlayUi = () => {
   const [prog, setProg] = useState(false);
@@ -37,8 +44,32 @@ const PlayUi = () => {
   const setSealModal = useSetRecoilState(sealModalState);
   const setLogoutModal = useSetRecoilState(logoutModalState);
   const update = useRecoilValue(infoUpdateState);
+  const [indicator, setIndicator] = useRecoilState(questIndicatorState);
   const [coinNum, setCoinNum] = useState(userInfo.memberCoin);
   const [ticketNum, setTicketNum] = useState(userInfo.memberTicket);
+  const [musicModal, setMusicModal] = useRecoilState(musicModalState);
+
+  const [volume, setVolume] = useState(0);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (volume) {
+      audioRef.current.play();
+    }
+    audioRef.current.volume = volume;
+  }, [volume]);
+
+  const animationProgress = () => {
+    setProg(true);
+    setTimeout(() => {
+      setProg(false);
+      setIndicator(false);
+    }, 3000);
+  };
+
+  useEffect(() => {
+    animationProgress();
+  }, [indicator]);
 
   const getScript = async () => {
     const res = await fetchData.get('/api/v1/quest/script');
@@ -53,26 +84,24 @@ const PlayUi = () => {
   const getUserInfo = async () => {
     const res = await fetchData.get('/api/v1/member');
     setUserInfo(res.data);
-    console.log(res.data);
   };
 
   useEffect(() => {
+    console.log(userInfo);
     setCoinNum(userInfo.memberCoin);
     setTicketNum(userInfo.memberTicket);
   }, [userInfo]);
 
   useEffect(() => {
-    try {
-      getUserInfo();
-      getQuest();
-      getScript();
-    } catch (e) {
-      console.log(e);
-    }
+    getUserInfo();
+    getQuest();
+    getScript();
   }, [update]);
 
   return (
     <ContainerUi>
+      <audio id="audio" src={music} ref={audioRef} loop volume={0} />
+      <MusicControlModal volume={volume} setVolume={setVolume} />
       <LeftTopBox>
         <Logo>
           <p>INTERN</p>
@@ -103,7 +132,11 @@ const PlayUi = () => {
             <p className="qsub">{questInfo.questSub}</p>
           </QuestDescription>
           <ProfileBox>
-            <img src={[NpcProfileImages[NpcQuest[questInfo.questNpc]]]} />
+            {userInfo.memberCheckpoint === 1 ? (
+              <img src={missionImg[userInfo.memberChapter]} />
+            ) : (
+              <img src={[NpcProfileImages[NpcQuest[questInfo.questNpc]]]} />
+            )}
           </ProfileBox>
         </ProgressButton>
       </LeftTopBox>
@@ -111,9 +144,15 @@ const PlayUi = () => {
         <IconBorder onClick={() => setModal(true)}>
           <FaTshirt size={40} color={'white'} />
         </IconBorder>
-        <IconBorder>
-          <HiVolumeUp size={40} color={'white'} />
-        </IconBorder>
+        {!volume ? (
+          <IconBorder onClick={() => setMusicModal(true)}>
+            <HiVolumeOff size={40} color={'white'} />
+          </IconBorder>
+        ) : (
+          <IconBorder onClick={() => setMusicModal(true)}>
+            <HiVolumeUp size={40} color={'white'} />
+          </IconBorder>
+        )}
         <IconBorder onClick={() => setLogoutModal(true)}>
           <AiOutlinePoweroff size={40} color={'white'} />
         </IconBorder>
@@ -245,7 +284,7 @@ const ProgressButton = styled.div`
   border: solid 1px grey;
   pointer-events: auto;
   cursor: pointer;
-  transition: all 0.1s;
+  transition: all 0.15s;
   overflow: hidden;
   box-sizing: border-box;
 `;

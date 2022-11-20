@@ -7,8 +7,8 @@ import { RigidBody } from '@react-three/rapier';
 
 const CarolZone = () => {
   const { gl } = useThree();
-  const ktxLoader = new KTX2Loader();
   const roomGltf = useLoader(GLTFLoader, room, (loader) => {
+    const ktxLoader = new KTX2Loader();
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath(
       'https://www.gstatic.com/draco/versioned/decoders/1.5.5/',

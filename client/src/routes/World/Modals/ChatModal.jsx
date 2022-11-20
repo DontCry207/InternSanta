@@ -13,6 +13,7 @@ import {
   modalState,
   npcScriptState,
   photoModalState,
+  questIndicatorState,
   questInfoState,
   quickDrawModalState,
   userInfoState,
@@ -23,6 +24,7 @@ import {
   NpcImages,
   NpcNames,
   NpcQuest,
+  reward,
 } from '../../../utils/constants/constants';
 import { fetchData } from '../../../utils/apis/api';
 
@@ -37,6 +39,7 @@ const ChatModal = () => {
   const setPhotoModal = useSetRecoilState(photoModalState);
   const setGotchaModal = useSetRecoilState(gotchaModalState);
   const setQuickDrawModal = useSetRecoilState(quickDrawModalState);
+  const [indicator, setIndicator] = useRecoilState(questIndicatorState);
   const scripts = useRecoilValue(npcScriptState);
   const quest = useRecoilValue(questInfoState);
   const userInfo = useRecoilValue(userInfoState);
@@ -54,20 +57,39 @@ const ChatModal = () => {
     setUpdate(!update);
   };
 
+  const getReward = async (num) => {
+    const res = await fetchData.patch('/api/v1/member/coin', {
+      memberCoin: num,
+    });
+    setUpdate(!update);
+  };
+
   const check = (e) => {
     if (e === targetNpc) {
       if (chapter === 0 || chapter === 9) {
         clearQuest();
         setMissionModal('sucess');
+        getReward(reward[chapter]);
+        setIndicator(true);
       } else if (chapter === 10) {
         console.log('스토리종료');
+        getReward(reward[10]);
         setUpdate(!update);
+        setIndicator(true);
+      } else if (chapter === 10) {
+        console.log('스토리종료');
+        getReward(reward[10]);
+        setUpdate(!update);
+        setIndicator(true);
       } else if (checkPoint === 0) {
         proceedCheckPoint();
         setMissionModal('get');
+        setIndicator(true);
       } else if (checkPoint >= 2) {
         clearQuest();
         setMissionModal('sucess');
+        getReward(reward[chapter]);
+        setIndicator(true);
       }
     }
   };
@@ -188,12 +210,12 @@ const ChatBox = styled.div`
 
   .dialog {
     width: 90%;
-    height: 55%;
+    height: 60%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 40px;
+    font-size: 36px;
     color: #0d005c;
   }
 
@@ -212,7 +234,6 @@ const NpcImage = styled.div`
   align-items: center;
   padding-bottom: 60px;
   img {
-    width: 300px;
     object-fit: cover;
   }
 `;
