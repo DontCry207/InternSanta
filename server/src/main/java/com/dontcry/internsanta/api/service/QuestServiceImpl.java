@@ -4,7 +4,6 @@ import com.dontcry.internsanta.common.exception.code.ErrorCode;
 import com.dontcry.internsanta.common.exception.quest.QuestNotFoundException;
 import com.dontcry.internsanta.db.entity.Member;
 import com.dontcry.internsanta.db.entity.Quest;
-import com.dontcry.internsanta.db.entity.QuestScript;
 import com.dontcry.internsanta.db.repository.QuestRepository;
 import com.dontcry.internsanta.db.repository.QuestScriptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +21,14 @@ public class QuestServiceImpl implements QuestService{
     QuestScriptRepository questScriptRepository;
     @Override
     public Quest getQuest(Member member) {
-        Quest quest = questRepository.findByQuestChapterAndQuestCheckpoint(member.getMemberChapter(), member.getMemberCheckpoint())
+        return questRepository.findByQuestChapterAndQuestCheckpoint(member.getMemberChapter(), member.getMemberCheckpoint())
                 .orElseThrow(() -> new QuestNotFoundException("quest not found", ErrorCode.QUEST_NOT_FOUND));
-        return quest;
     }
 
     @Override
     public List<String> getQuestScript(Member member) {
         String questScriptTxt = questScriptRepository.findByQuestChapterAndQuestScript(member.getMemberChapter(), member.getMemberCheckpoint())
                 .orElseThrow(() -> new QuestNotFoundException("quest not found", ErrorCode.QUEST_NOT_FOUND));
-        List<String> questScriptList = Arrays.asList(questScriptTxt.split(","));
-        return questScriptList;
+        return Arrays.asList(questScriptTxt.split(","));
     }
 }

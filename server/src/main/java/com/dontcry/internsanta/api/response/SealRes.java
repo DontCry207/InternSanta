@@ -10,14 +10,4 @@ import lombok.Getter;
 public class SealRes {
     private String sealName;
     private String sealUrl;
-
-    public static SealRes of (Seal seal) {
-        SealRes res = SealRes
-                .builder()
-                .sealName(seal.getSealName())
-                .sealUrl(seal.getSealUrl())
-                .build();
-
-        return res;
-    }
 }

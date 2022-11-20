@@ -13,13 +13,12 @@ public class QuestRes {
     int questNpc;
 
     public static QuestRes of(Quest quest) {
-        QuestRes res = QuestRes.builder()
+        return QuestRes.builder()
                 .questId(quest.getQuestId())
                 .questTitle(quest.getQuestTitle())
                 .questSub(quest.getQuestSub())
                 .questNpc(quest.getQuestNpc())
                 .build();
-        return res;
     }
 
 }
