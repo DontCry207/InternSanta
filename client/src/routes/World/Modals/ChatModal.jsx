@@ -74,12 +74,6 @@ const ChatModal = () => {
       } else if (chapter === 10) {
         console.log('스토리종료');
         getReward(reward[10]);
-        setUpdate(!update);
-        setIndicator(true);
-      } else if (chapter === 10) {
-        console.log('스토리종료');
-        getReward(reward[10]);
-        setUpdate(!update);
         setIndicator(true);
       } else if (checkPoint === 0) {
         proceedCheckPoint();
@@ -150,7 +144,7 @@ const ChatModal = () => {
                   onClick={() => {
                     setTimeout(() => {
                       check(modal);
-                    }, 500);
+                    }, 900);
                     setModal(null);
                   }}>
                   닫기
