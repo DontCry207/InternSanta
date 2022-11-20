@@ -41,7 +41,7 @@ public class Member {
     @ColumnDefault("0")
     private int memberTicket;
 
-    @ColumnDefault("'internsanta.s3.ap-northeast-2.amazonaws.com/texture/0/texture.png'")
+    @ColumnDefault("'https://internsanta.s3.ap-northeast-2.amazonaws.com/texture/0/texture.png'")
     @Column(length = 500)
     private String memberTop;
 
@@ -60,10 +60,10 @@ public class Member {
 
     public void updateMemberCoin(int memberCoin) {
         this.memberCoin += memberCoin;
-    };
+    }
     public void updateMemberPet(int memberPet) {
         this.memberPet = memberPet;
-    };
+    }
     public void updateMemberProgress(int memberChapter, int memberCheckpoint) {
         this.memberChapter = memberChapter;
         this.memberCheckpoint = memberCheckpoint;

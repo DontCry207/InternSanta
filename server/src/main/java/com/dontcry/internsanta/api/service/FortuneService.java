@@ -3,5 +3,5 @@ package com.dontcry.internsanta.api.service;
 import com.dontcry.internsanta.db.entity.Fortune;
 
 public interface FortuneService {
-    Fortune getRandomFortune();
+    Fortune getRandomFortune(Long memberId);
 }

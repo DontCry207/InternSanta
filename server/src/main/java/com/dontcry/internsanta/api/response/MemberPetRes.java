@@ -9,10 +9,9 @@ public class MemberPetRes {
     int memberPet;
 
     public static MemberPetRes of(int memberPet) {
-        MemberPetRes res = MemberPetRes.builder()
+        return MemberPetRes.builder()
                 .memberPet(memberPet)
                 .build();
-        return res;
     }
 
 }

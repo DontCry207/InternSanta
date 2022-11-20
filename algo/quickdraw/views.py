@@ -6,14 +6,12 @@ import quickdraw.AI as AI
 
 @api_view(["POST"])
 def quickdraw(request):
-    key = request.data.get('key')
+    word = request.data.get('word')
     vector = request.data.get('vector')
 
-    draw, answer = AI.AIfunction(vector, key)
+    draw = AI.AIfunction(vector, word)
 
-    if draw == 'error':
-        return Response("not valid key", status=status.HTTP_409_CONFLICT)
-    if draw == answer: result = True
+    if draw == word: result = True
     else: result = False
 
     return Response({"result": result, "draw": draw}, status=status.HTTP_200_OK)

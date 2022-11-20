@@ -37,18 +37,18 @@ def photo(request):
     src2 = cv2.imdecode(nparr2, cv2.IMREAD_COLOR)
     src3 = cv2.imdecode(nparr3, cv2.IMREAD_COLOR)
     src4 = cv2.imdecode(nparr4, cv2.IMREAD_COLOR)
-
-    img1 = cv2.resize(src1, dsize=(535,436), interpolation=cv2.INTER_AREA)
-    img2 = cv2.resize(src2, dsize=(535,436), interpolation=cv2.INTER_AREA)
-    img3 = cv2.resize(src3, dsize=(535,436), interpolation=cv2.INTER_AREA)
-    img4 = cv2.resize(src4, dsize=(535,436), interpolation=cv2.INTER_AREA)
+    
+    img1 = cv2.resize(src1, (0, 0), fx=0.915, fy=0.915, interpolation=cv2.INTER_AREA)
+    img2 = cv2.resize(src2, (0, 0), fx=0.915, fy=0.915, interpolation=cv2.INTER_AREA)
+    img3 = cv2.resize(src3, (0, 0), fx=0.915, fy=0.915, interpolation=cv2.INTER_AREA)
+    img4 = cv2.resize(src4, (0, 0), fx=0.915, fy=0.915, interpolation=cv2.INTER_AREA)
     
     width, height, channel = img1.shape
     
-    frame[150:width + 150, 185:height + 185] = img1
-    frame[655:width + 655, 185:height + 185] = img2
-    frame[1155:width + 1155, 185:height + 185] = img3
-    frame[1660:width + 1660, 185:height + 185] = img4
+    frame[17:width + 17, 25:height + 25] = img1
+    frame[400:width + 400, 25:height + 25] = img2
+    frame[783:width + 783, 25:height + 25] = img3
+    frame[1166:width + 1166, 25:height + 25] = img4
     
     # # BGR -> RGB 변환
     frameRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)

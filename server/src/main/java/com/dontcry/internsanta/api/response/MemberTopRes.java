@@ -9,10 +9,8 @@ public class MemberTopRes {
     String memberTop;
 
     public static MemberTopRes of(String memberTop) {
-        MemberTopRes res = MemberTopRes.builder()
+        return MemberTopRes.builder()
                 .memberTop(memberTop).build();
-
-        return res;
     }
 
 }
