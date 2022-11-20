@@ -24,6 +24,7 @@ import {
   NpcImages,
   NpcNames,
   NpcQuest,
+  reward,
 } from '../../../utils/constants/constants';
 import { fetchData } from '../../../utils/apis/api';
 
@@ -56,14 +57,28 @@ const ChatModal = () => {
     setUpdate(!update);
   };
 
+  const getReward = async (num) => {
+    const res = await fetchData.patch('/api/v1/member/coin', {
+      memberCoin: num,
+    });
+    setUpdate(!update);
+  };
+
   const check = (e) => {
     if (e === targetNpc) {
       if (chapter === 0 || chapter === 9) {
         clearQuest();
         setMissionModal('sucess');
+        getReward(reward[chapter]);
         setIndicator(true);
       } else if (chapter === 10) {
         console.log('스토리종료');
+        getReward(reward[10]);
+        setUpdate(!update);
+        setIndicator(true);
+      } else if (chapter === 10) {
+        console.log('스토리종료');
+        getReward(reward[10]);
         setUpdate(!update);
         setIndicator(true);
       } else if (checkPoint === 0) {
@@ -73,6 +88,7 @@ const ChatModal = () => {
       } else if (checkPoint >= 2) {
         clearQuest();
         setMissionModal('sucess');
+        getReward(reward[chapter]);
         setIndicator(true);
       }
     }
