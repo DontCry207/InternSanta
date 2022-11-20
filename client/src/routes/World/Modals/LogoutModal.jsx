@@ -10,6 +10,13 @@ const LogoutModal = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const setloggedIn = useSetRecoilState(loggedInState);
 
+  function closeFullScreenMode() {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+    else if (document.msExitFullscreen) document.msExitFullscreen();
+  }
+
   const close = () => {
     logout();
     setLogoutModal(false);
@@ -30,6 +37,7 @@ const LogoutModal = () => {
     localStorage.removeItem('refreshToken');
     sessionStorage.removeItem('accessToken');
     console.log('로그아웃');
+    closeFullScreenMode();
   };
 
   const render = () => {

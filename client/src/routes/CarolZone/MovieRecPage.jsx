@@ -181,6 +181,7 @@ const MovieBox = styled.div`
     width: 95%;
     border-radius: 10px;
     transition: 0.3s;
+    cursor: pointer;
     &:hover {
       transform: scale(1.04);
     }
@@ -203,16 +204,19 @@ const MovieRecList = styled.div`
   gap: 10px;
 `;
 const MovieInfoBox = styled.div`
-  width: 850px;
-  box-sizing: border-box;
+  width: 80%;
+  margin: 0 auto;
+  /* box-sizing: border-box; */
   overflow: hidden;
-  cursor: pointer;
+  /* cursor: pointer; */
   background-position: center center;
   display: flex;
+  align-items: center;
   padding: 10px 0;
   img {
-    display: block;
+    /* display: block; */
     width: 20%;
+    height: 100%;
     border-radius: 10px;
     transition: 0.3s;
   }

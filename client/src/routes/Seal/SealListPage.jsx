@@ -24,7 +24,7 @@ const SealListPage = () => {
     fetchData.get('/api/v1/seal').then((res) => {
       setSealList(res.data);
     });
-    fetchData.get(`/api/v1/member/rank/${10}`).then((res) => {
+    fetchData.get(`/api/v1/member/rank/${5}`).then((res) => {
       setSealRank(res.data);
     });
   }, [update]);
