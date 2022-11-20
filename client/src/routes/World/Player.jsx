@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useThree, useFrame, extend, useLoader } from '@react-three/fiber';
 import character from '../../assets/character.glb';
 import { RigidBody, CuboidCollider } from '@react-three/rapier';
@@ -24,6 +24,7 @@ const Player = () => {
   const gameModal = useRecoilValue(gameModalState);
   const [loading, setLoading] = useRecoilState(loadingState);
   const [sponPosition, setSponPosition] = useRecoilState(sponPositionState);
+  const [top, setTop] = useState(null);
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();
   const sideVector = new THREE.Vector3();
@@ -67,7 +68,6 @@ const Player = () => {
     };
     if (userInfo.memberTop) {
       const texture = new THREE.TextureLoader().load(userInfo.memberTop);
-      texture.needsUpdate = true;
       textureInsert(texture);
     }
   }, [userInfo.memberTop]);

@@ -17,16 +17,16 @@ import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.j
 const Npc = (props) => {
   const { scene, gl } = useThree();
   const group = useRef();
-  const ktxLoader = new KTX2Loader();
-  ktxLoader
-    .setTranscoderPath(
-      `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
-    )
-    .detectSupport(gl);
   const { nodes, animations } = useLoader(
     GLTFLoader,
     NpcModel[props.type],
     (loader) => {
+      const ktxLoader = new KTX2Loader();
+      ktxLoader
+        .setTranscoderPath(
+          `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
+        )
+        .detectSupport(gl);
       loader.setMeshoptDecoder(MeshoptDecoder);
       loader.setKTX2Loader(ktxLoader);
       ktxLoader.dispose();
