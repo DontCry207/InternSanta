@@ -12,7 +12,6 @@ import { AiOutlinePoweroff } from 'react-icons/ai';
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
-  audioStartState,
   clothesModalState,
   infoUpdateState,
   logoutModalState,
@@ -25,11 +24,15 @@ import {
 } from '../../Atom';
 import { useEffect } from 'react';
 import { fetchData } from '../../utils/apis/api';
-import { NpcProfileImages, NpcQuest } from '../../utils/constants/constants';
+import {
+  missionImg,
+  NpcProfileImages,
+  NpcQuest,
+} from '../../utils/constants/constants';
 import stickerCard from '../../assets/images/StickerCard.png';
 import ticket from '../../assets/images/ticket.png';
 import coin from '../../assets/images/coin.png';
-import music from '../../assets/Christmas.mp3';
+import music from '../../assets/EpicChristmas.mp3';
 import MusicControlModal from './Modals/MusicControlModal';
 
 const PlayUi = () => {
@@ -81,7 +84,6 @@ const PlayUi = () => {
   const getUserInfo = async () => {
     const res = await fetchData.get('/api/v1/member');
     setUserInfo(res.data);
-    console.log(res.data);
   };
 
   useEffect(() => {
@@ -130,7 +132,11 @@ const PlayUi = () => {
             <p className="qsub">{questInfo.questSub}</p>
           </QuestDescription>
           <ProfileBox>
-            <img src={[NpcProfileImages[NpcQuest[questInfo.questNpc]]]} />
+            {userInfo.memberCheckpoint === 1 ? (
+              <img src={missionImg[userInfo.memberChapter]} />
+            ) : (
+              <img src={[NpcProfileImages[NpcQuest[questInfo.questNpc]]]} />
+            )}
           </ProfileBox>
         </ProgressButton>
       </LeftTopBox>

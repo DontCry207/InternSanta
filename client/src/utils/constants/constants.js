@@ -57,6 +57,13 @@ import ReindeerImg from '../../assets/images/pets/Reindeer.png';
 import PolarBearImg from '../../assets/images/pets/PolarBear.png';
 import TortoiseImg from '../../assets/images/pets/Tortoise.png';
 import RhinoImg from '../../assets/images/pets/Rhino.png';
+import carolzoneProfile from '../../assets/images/profiles/carolzone.png';
+import clothesProfile from '../../assets/images/profiles/clothes.png';
+import commetProfile from '../../assets/images/profiles/commet.png';
+import greenGuyProfile from '../../assets/images/profiles/greenGuy.png';
+import storeGuyProfile from '../../assets/images/profiles/storeGuy.png';
+import trainGuyProfile from '../../assets/images/profiles/trainGuy.png';
+import yellowGuyProfile from '../../assets/images/profiles/yellowGuy.png';
 
 export const NpcLocation = {
   null: [0, -10, 0],
@@ -348,7 +355,7 @@ export const reward = {
   7: 4500,
   8: 5000,
   9: 6000,
-  10: 7000,
+  10: 100,
 };
 
 export const questText = {
@@ -375,4 +382,15 @@ export const questText = {
     '내캐릭터와 함께 산타네컷 한장!',
     '핑크옷의 김혜성 노는언니를 찾아가세요',
   ],
+};
+
+export const missionImg = {
+  1: clothesProfile,
+  2: greenGuyProfile,
+  3: carolzoneProfile,
+  4: trainGuyProfile,
+  5: storeGuyProfile,
+  6: carolzoneProfile,
+  7: yellowGuyProfile,
+  8: commetProfile,
 };
