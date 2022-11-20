@@ -14,13 +14,6 @@ const HomePage = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const navigate = useNavigate();
 
-  var docV = document.documentElement;
-  function openFullScreenMode() {
-    if (docV.requestFullscreen) docV.requestFullscreen();
-    else if (docV.webkitRequestFullscreen) docV.webkitRequestFullscreen();
-    else if (docV.mozRequestFullScreen) docV.mozRequestFullScreen();
-    else if (docV.msRequestFullscreen) docV.msRequestFullscreen();
-  }
   const logout = () => {
     setUserInfo({
       memberNickname: '',
@@ -78,10 +71,10 @@ const HomePage = () => {
           {loggedIn ? (
             <>
               <button
-                onClick={() => {
-                  navigate('/game');
-                  openFullScreenMode();
-                }}>
+                onClick={() => 
+                  navigate('/game')
+
+                }>
                 게임 시작
               </button>
             </>
@@ -117,13 +110,7 @@ const HomePage = () => {
             <p>이 모든 콘텐츠를</p>
             <p>지금 바로 인턴산타에서</p>
           </div>
-          <p
-            onClick={() => {
-              if (loggedIn) {
-                navigate('/game');
-                openFullScreenMode();
-              } else navigate('/main');
-            }}>
+          <p onClick={() => loggedIn ? navigate('/game'):navigate('/main')}>
             즐기러 가기&nbsp;
             <HiOutlineArrowNarrowRight />
           </p>
