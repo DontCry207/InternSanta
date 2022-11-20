@@ -11,7 +11,7 @@
 
 ### [📚 WiKi](https://intelligent-bathtub-07f.notion.site/A207-e2239cc41bb244848f07d212c6d9641e)
 
-### [🎬 UCC](https://www.youtube.com/watch?v=EtcfjVcGXNM)
+### [🎬 UCC](https://www.youtube.com/watch?v=XHCPxxlhflc)
 
 ### 🧱 ER Diagram
 
@@ -28,9 +28,9 @@
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 |                            React                             |                            Recoil                            |                       Styled-Component                       |
 
-| <img src="https://user-images.githubusercontent.com/56426044/202632256-14376be0-ffcf-4ad0-b885-302cb45f098e.png" alt="React" width="50px" height="50px" /> | <img src="https://user-images.githubusercontent.com/56426044/202632374-7f7ff5dd-c63d-441d-85b3-bc9b47548e1f.png" alt="TS" width="50px" height="50px" /> | <img src="https://user-images.githubusercontent.com/56426044/202634853-17f332fb-a2a3-4b06-86c8-50b00aa83a1c.png" alt="TS" width="50px" height="50px" /> |
-| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-|                           Three.js                           |                          JavaScript                          |                          tensorflow                          |
+| <img src="https://user-images.githubusercontent.com/56426044/202632256-14376be0-ffcf-4ad0-b885-302cb45f098e.png" alt="React" width="50px" height="50px" /> | <img src="https://user-images.githubusercontent.com/56426044/202632374-7f7ff5dd-c63d-441d-85b3-bc9b47548e1f.png" alt="TS" width="50px" height="50px" /> |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | 
+|                           Three.js                           |                          JavaScript                          |                          
 
 
 
@@ -61,6 +61,9 @@
 | Jenkins                                                      | Docker                                                       | NginX                                                        |
 
 
+# 📁프로젝트 구조
+### 아키텍처(Architecture)
+![image](https://user-images.githubusercontent.com/56426044/202901725-0defebec-a00f-4736-8e01-1e68f5fa8a9f.png)
 
 
 # 💻주요 기능
