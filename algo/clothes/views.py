@@ -47,7 +47,6 @@ def top(request):
     back = cv2.resize(src2, (480, 480))
     
     memberId = request.data["member"]
-    filePath = request.data["filePath"]
     # 팔부분 색상
     b, g, r = front[80, 80]
 
@@ -77,8 +76,13 @@ def top(request):
     fileName = hashlib.sha256(salt.encode() + str(memberId).encode()).hexdigest()
 
     imageUrl = "texture/" + str(memberId) + "/"+ fileName + ".png"
+    
     # 기존 텍스쳐 파일 삭제
-    S3_CLIENT.delete_object(Bucket=BUCKET, Key=filePath[52:])
+    filePath = request.data["filePath"]
+
+    # 기본 텍스쳐 파일이 아니라면 삭제
+    if filePath[60] != '0': 
+        S3_CLIENT.delete_object(Bucket=BUCKET, Key=filePath[52:])
     # 이미지 업로드
     S3_CLIENT.upload_fileobj(
         buffer,
