@@ -6,20 +6,19 @@ import Town from '../../../assets/ChristmasTown.glb';
 import { RigidBody } from '@react-three/rapier';
 
 const ChristmasTown = () => {
-  const ktxLoader = new KTX2Loader();
-  const dracoLoader = new DRACOLoader();
   const { gl } = useThree();
-  dracoLoader.setDecoderPath(
-    'https://www.gstatic.com/draco/versioned/decoders/1.5.5/',
-  );
-  dracoLoader.setDecoderConfig({ type: 'js' });
-  ktxLoader
-    .setTranscoderPath(
-      `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
-    )
-    .detectSupport(gl);
-
   const gltf = useLoader(GLTFLoader, Town, (loader) => {
+    const ktxLoader = new KTX2Loader();
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath(
+      'https://www.gstatic.com/draco/versioned/decoders/1.5.5/',
+    );
+    dracoLoader.setDecoderConfig({ type: 'js' });
+    ktxLoader
+      .setTranscoderPath(
+        `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
+      )
+      .detectSupport(gl);
     loader.setDRACOLoader(dracoLoader);
     loader.setKTX2Loader(ktxLoader);
     ktxLoader.dispose();

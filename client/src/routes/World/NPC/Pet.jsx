@@ -14,14 +14,14 @@ const Pet = (props) => {
   const [, get] = useKeyboardControls();
   const group = useRef(null);
   const PetGltf = UserPet[props.type];
-  const ktxLoader = new KTX2Loader();
   const userInfo = useRecoilValue(userInfoState);
-  ktxLoader
-    .setTranscoderPath(
-      `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
-    )
-    .detectSupport(gl);
   const { nodes, animations } = useLoader(GLTFLoader, PetGltf, (loader) => {
+    const ktxLoader = new KTX2Loader();
+    ktxLoader
+      .setTranscoderPath(
+        `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
+      )
+      .detectSupport(gl);
     loader.setMeshoptDecoder(MeshoptDecoder);
     loader.setKTX2Loader(ktxLoader);
     ktxLoader.dispose();
