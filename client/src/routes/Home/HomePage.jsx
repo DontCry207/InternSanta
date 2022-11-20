@@ -3,14 +3,24 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import section1 from '../../assets/images/landing/section1.png';
+import section2 from '../../assets/images/landing/section2.png';
 import section3 from '../../assets/images/landing/section3.png';
 import { useRecoilState } from 'recoil';
-import { loggedInState } from '../../Atom';
+import { loggedInState, userInfoState } from '../../Atom';
 import Snowfall from 'react-snowfall';
 import { HiOutlineArrowNarrowRight } from 'react-icons/hi';
 const HomePage = () => {
   const [loggedIn, setloggedIn] = useRecoilState(loggedInState);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const navigate = useNavigate();
+
+  var docV = document.documentElement;
+  function openFullScreenMode() {
+    if (docV.requestFullscreen) docV.requestFullscreen();
+    else if (docV.webkitRequestFullscreen) docV.webkitRequestFullscreen();
+    else if (docV.mozRequestFullScreen) docV.mozRequestFullScreen();
+    else if (docV.msRequestFullscreen) docV.msRequestFullscreen();
+  }
   const logout = () => {
     setUserInfo({
       memberNickname: '',
@@ -26,7 +36,6 @@ const HomePage = () => {
     sessionStorage.removeItem('accessToken');
     console.log('로그아웃');
   };
-
   return (
     <Container>
       <Snowfall
@@ -55,19 +64,28 @@ const HomePage = () => {
         <ConnectBtn>
           {loggedIn ? (
             <>
-              <button onClick={() => navigate('/game')}>게임 시작</button>
-              {/* <button onClick={() => logout()}>로그아웃</button> */}
+              <p>{userInfo.memberNickname}님</p>
+              <button onClick={() => logout()}>로그아웃</button>
             </>
           ) : (
-            <button onClick={() => navigate('/main')}>접속하기</button>
+            <button onClick={() => navigate('/main')}>로그인</button>
           )}
-
-          {/* <button onClick={() => logout()}>로그아웃</button> */}
         </ConnectBtn>
       </NavBar>
       <Main>
         <TitleBox id="home">
           <h1>INTERN SANTA</h1>
+          {loggedIn ? (
+            <>
+              <button
+                onClick={() => {
+                  navigate('/game');
+                  openFullScreenMode();
+                }}>
+                게임 시작
+              </button>
+            </>
+          ) : null}
         </TitleBox>
         <SealBox id="seal">
           <img src={section1} alt="" />
@@ -78,14 +96,14 @@ const HomePage = () => {
             <p>다 모은 씰을 티켓으로 교환하여 선물을 받아보세요</p>
           </div>
         </SealBox>
-        <SealBox id="photo">
+        <PhotoBox id="photo">
           <div>
             <h2>나만의 캐릭터와 함께 찰칵</h2>
             <p>내가 직접 만든 옷을 입은 캐릭터와</p>
             <p>네컷 사진으로 추억을 남겨보세요</p>
           </div>
-          <img src={section1} alt="" />
-        </SealBox>
+          <img src={section2} alt="" />
+        </PhotoBox>
         <CarolBox id="carol">
           <img src={section3} alt="" />
           <div>
@@ -99,7 +117,13 @@ const HomePage = () => {
             <p>이 모든 콘텐츠를</p>
             <p>지금 바로 인턴산타에서</p>
           </div>
-          <p onClick={() => (loggedIn ? navigate('/game') : navigate('/main'))}>
+          <p
+            onClick={() => {
+              if (loggedIn) {
+                navigate('/game');
+                openFullScreenMode();
+              } else navigate('/main');
+            }}>
             즐기러 가기&nbsp;
             <HiOutlineArrowNarrowRight />
           </p>
@@ -143,9 +167,16 @@ const Logo = styled.div`
   }
 `;
 const ConnectBtn = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
   padding-right: 30px;
+  p {
+    color: #edefff;
+    font-size: 18px;
+  }
   button {
-    width: 100px;
+    width: 90px;
     height: 40px;
     border-radius: 10px;
     background-color: #edefff;
@@ -170,9 +201,26 @@ const Main = styled.main`
 `;
 
 const TitleBox = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
   h1 {
     font-size: 120px;
     color: #edefff;
+  }
+  button {
+    width: 200px;
+    height: 70px;
+    /* margin-top: 20px; */
+    border-radius: 10px;
+    background-color: #edefff;
+    color: #55669e;
+    font-size: 32px;
+    transition: 0.2s;
+    /* font-weight: 600; */
+    &:hover {
+      transform: scale(1.08);
+    }
   }
 `;
 
@@ -182,6 +230,27 @@ const SealBox = styled.section`
   gap: 50px;
   img {
     width: 40%;
+  }
+  div {
+    color: #edefff;
+    h2 {
+      font-size: 52px;
+      font-weight: 700;
+      padding-bottom: 30px;
+    }
+    p {
+      font-size: 28px;
+      padding: 5px 0;
+    }
+  }
+`;
+
+const PhotoBox = styled.section`
+  display: flex;
+  width: 90%;
+  gap: 50px;
+  img {
+    width: 35%;
   }
   div {
     color: #edefff;
@@ -236,6 +305,7 @@ const GameConnect = styled.section`
     border-bottom: 3px solid #353535;
     color: #353535;
     padding-bottom: 2px;
+    cursor: pointer;
     /* text-decoration: underline; */
   }
 `;
