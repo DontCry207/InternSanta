@@ -801,7 +801,6 @@ const game = () => {
             });
           // 방향키 조작 X
           window.removeEventListener('keydown', keydownEventHandler);
-          lanes = []
           // retry 버튼 등장
           endDOM.style.display = 'flex';
           callApi = true;
