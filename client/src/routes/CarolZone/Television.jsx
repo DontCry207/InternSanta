@@ -11,7 +11,6 @@ import { movieModalState } from '../../Atom';
 import * as THREE from 'three';
 
 const Television = () => {
-  const ktxLoader = new KTX2Loader();
   const boxLocation = [
     21.429622268676758, 1.3018462657928467, -15.259762954711914,
   ];
@@ -39,6 +38,7 @@ const Television = () => {
 
   const televisionGltf = useLoader(GLTFLoader, television, (loader) => {
     const dracoLoader = new DRACOLoader();
+    const ktxLoader = new KTX2Loader();
     dracoLoader.setDecoderPath(
       'https://www.gstatic.com/draco/versioned/decoders/1.5.5/',
     );
