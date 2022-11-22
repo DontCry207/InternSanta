@@ -13,7 +13,6 @@ import { useRecoilState } from 'recoil';
 import { fortuneModalState } from '../../Atom';
 
 const FirePlace = () => {
-  const ktxLoader = new KTX2Loader();
   const location = [24, 1, -14.5];
   const boxLocation = [23, 1.5158779382705688, -15.257784843444824];
   const scale = [0.8, 0.8, 0.8];
@@ -37,6 +36,7 @@ const FirePlace = () => {
 
   const { gl } = useThree();
   const fireplaceGltf = useLoader(GLTFLoader, fireplace, (loader) => {
+    const ktxLoader = new KTX2Loader();
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath(
       'https://www.gstatic.com/draco/versioned/decoders/1.5.5/',

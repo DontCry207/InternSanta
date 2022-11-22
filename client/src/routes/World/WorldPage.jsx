@@ -1,4 +1,4 @@
-import { KeyboardControls, Sky, Stars } from '@react-three/drei';
+import { KeyboardControls, Sky } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
 import React, { Suspense } from 'react';
@@ -45,15 +45,6 @@ const WorldPage = () => {
         ]}>
         <Canvas camera={{ fov: 70 }}>
           <Snow />
-          <Stars
-            radius={30}
-            depth={10}
-            count={500}
-            factor={4}
-            saturation={1}
-            fade
-            speed={6}
-          />
           <Sky sunPosition={[-10, -10, 0]} />
           <Moon />
           <DialogBubble />
@@ -63,18 +54,20 @@ const WorldPage = () => {
           <Physics gravity={[0, -30, 0]} colliders={false}>
             <Suspense fallback={<LazyLoading />}>
               <ChristmasTown />
-              <CarolZone />
-              <Player />
+              <Tree />
+              <Television />
               <Shop />
+              <CarolZone />
+              <FirePlace />
               <BoneFire />
+              <Player />
               <PortalDoor />
               <PetDistributor />
               <NpcDistributor />
               <ReinDeerDistributor />
-              <FirePlace />
-              <Television />
-              <Tree />
+              {/*
               <TeddyBear />
+              */}
             </Suspense>
           </Physics>
         </Canvas>

@@ -26,7 +26,6 @@ export const removeAccessToken = () => {
 
 const getNewAccessToken = async () => {
   const refreshtoken = getLocalRefreshToken();
-  console.log(123);
   const result = await axios.get(`${baseURL}/api/v1/member/refresh`, {
     headers: {
       'REFRESH-TOKEN': `${refreshtoken}`,
