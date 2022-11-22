@@ -11,10 +11,12 @@ import QuickDrawModal from './QuickDrawModal';
 import SantaFourCutModal from './SantaFourCutModal';
 import SealModal from './SealModal';
 import LogoutModal from './LogoutModal';
+import MiniMapModal from './MiniMapModal';
 
 const ModalDistributor = () => {
   return (
     <>
+      <MiniMapModal />
       <SealModal />
       <ChatModal />
       <MissionModal />

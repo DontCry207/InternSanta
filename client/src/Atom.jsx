@@ -58,6 +58,11 @@ export const fortuneModalState = atom({
   default: false,
 });
 
+export const miniMapModalState = atom({
+  key: `miniMapModalState`,
+  default: false,
+});
+
 export const movieModalState = atom({
   key: `movieModal`,
   default: false,

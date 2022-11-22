@@ -110,12 +110,8 @@ const AnimalPage = (props) => {
               video="false"
               audio={false}
               ref={webcamRef}
+              className="webcam"
               screenshotFormat="image/jpeg"
-              style={{
-                width: 768,
-                height: 575,
-                bottom: 0,
-              }}
             />
           </Camera>
         ) : (
@@ -123,12 +119,7 @@ const AnimalPage = (props) => {
             src={imgSrc}
             id="canvas"
             style={{
-              position: 'absolute',
-              width: 480,
-              height: 360,
-              borderRadius: '40px',
               display: 'none',
-              transform: 'translate(44.5%, 10%)',
             }}
           />
         )}
@@ -257,7 +248,7 @@ const CameraTitle = styled.div`
   width: 100%;
   height: 20%;
   p {
-    font-size: 4.5rem;
+    font-size: 3.5rem;
     color: white;
   }
   display: flex;
@@ -276,9 +267,11 @@ const CameraBox = styled.div`
 `;
 
 const Camera = styled.div`
-  height: 100%;
   overflow: hidden;
   border-radius: 40px;
+  .webcam {
+    height: 100%;
+  }
 `;
 
 export default AnimalPage;
