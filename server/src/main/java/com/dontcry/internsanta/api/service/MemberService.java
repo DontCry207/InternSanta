@@ -13,7 +13,7 @@ public interface MemberService {
     Member getMemberByMemberEmail(String memberEmail);
     int updateMemberCoin(Member member, int memberCoin);
     int updateMemberPet(Member member, int memberPet);
-    List<Integer> adventChulCheck(Member member);
+    int adventChulCheck(Member member);
     Member updateMemberChpater(Member member);
     Member updateMemberCheckpoint(Member member);
 
