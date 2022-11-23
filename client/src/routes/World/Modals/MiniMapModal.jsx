@@ -16,7 +16,9 @@ const MiniMapModal = () => {
     return (
       <Modal>
         <MainModal closeBtnControl={close} bgColor="#608b98">
-          <img src={map} alt="" />
+          <ImgBox>
+            <img src={map} alt="" />
+          </ImgBox>
         </MainModal>
       </Modal>
     );
@@ -30,10 +32,19 @@ const Modal = styled.div`
   width: 100%;
   height: 100%;
   z-index: 10;
+`;
 
+const ImgBox = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 30px;
   img {
     height: 100%;
-    border-radius: 20px;
   }
 `;
 
