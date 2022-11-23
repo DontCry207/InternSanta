@@ -152,6 +152,18 @@ const SubTitle = styled.div`
 `;
 const MovieListBox = styled.div`
   overflow: auto;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar,
+  &::-webkit-scrollbar-thumb {
+    overflow: visible;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(13, 12, 15, 0.4);
+  }
 `;
 const MovieList = styled.div`
   width: 100%;

@@ -346,10 +346,11 @@ const Block = () => {
     fetchData
       .patch('/api/v1/member/coin', {
         memberCoin: stack.length - 2,
-      })
-      .then((res) => {
-        console.log(res.data);
       });
+    fetchData.post('/api/v1/game', {
+      minigameType: 1,
+      score: stack.length - 2
+    });
     if (resultsElement) resultsElement.style.display = 'flex';
     document.getElementById('result-score').innerText = stack.length - 2;
     document.getElementById('result-coin').innerText = stack.length - 2;
