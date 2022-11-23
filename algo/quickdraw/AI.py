@@ -37,7 +37,7 @@ def AIfunction(vector, word):
 
   for i in range(N_train):
     p = probs[i, :]
-    top_classes = np.argpartition(p, -40)[-40:]
+    top_classes = np.argpartition(p, -20)[-20:]
     top_classes = top_classes[np.argsort(p[top_classes])]
     top_classes = np.flip(top_classes)
   
