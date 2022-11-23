@@ -24,6 +24,10 @@ public class Minigame {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long minigameId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     @NotNull
     private String memberNickname;
 
