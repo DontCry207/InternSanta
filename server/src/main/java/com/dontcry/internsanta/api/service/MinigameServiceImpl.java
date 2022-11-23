@@ -26,6 +26,7 @@ public class MinigameServiceImpl implements MinigameService{
     @Override
     public void registerMinigameRanking(Member member, int minigameType, int score) {
         minigameRepository.save(Minigame.builder()
+                .member(member)
                 .memberNickname(member.getMemberNickname())
                 .minigameScore(score)
                 .minigameType(minigameType)
