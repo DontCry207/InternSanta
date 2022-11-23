@@ -28,6 +28,7 @@ const TeddyBear = () => {
       .detectSupport(gl);
     loader.setKTX2Loader(ktxLoader);
     ktxLoader.dispose();
+    dracoLoader.dispose();
   });
   teddybearGltf.scene.rotation.y = -0.5;
   return (

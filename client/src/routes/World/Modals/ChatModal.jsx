@@ -6,6 +6,7 @@ import { BsThreeDots } from 'react-icons/bs';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   animalModalState,
+  gambleModalState,
   gameModalState,
   gotchaModalState,
   infoUpdateState,
@@ -39,6 +40,7 @@ const ChatModal = () => {
   const setPhotoModal = useSetRecoilState(photoModalState);
   const setGotchaModal = useSetRecoilState(gotchaModalState);
   const setQuickDrawModal = useSetRecoilState(quickDrawModalState);
+  const setGambleModal = useSetRecoilState(gambleModalState);
   const [indicator, setIndicator] = useRecoilState(questIndicatorState);
   const scripts = useRecoilValue(npcScriptState);
   const quest = useRecoilValue(questInfoState);
@@ -99,6 +101,8 @@ const ChatModal = () => {
       setPhotoModal(true);
     } else if (e === 'trainGuy') {
       setQuickDrawModal(true);
+    } else if (e === 'snowMan') {
+      setGambleModal(true);
     }
     setModal(null);
   };
@@ -112,10 +116,19 @@ const ChatModal = () => {
     }
   }, [modal]);
 
+  const clickBg = () => {
+    if (lengthScript !== cnt) {
+      setCnt(cnt + 1);
+    }
+  };
+
   const render = () => {
     return (
       <>
-        <Modal>
+        <Modal
+          onClick={() => {
+            clickBg();
+          }}>
           <NpcImage>
             <img src={NpcImages[modal]} alt="" />
           </NpcImage>
@@ -154,9 +167,6 @@ const ChatModal = () => {
                   className="next"
                   color="#DE6363"
                   size={30}
-                  onClick={() => {
-                    setCnt(cnt + 1);
-                  }}
                 />
               )}
             </Buttons>
@@ -172,9 +182,9 @@ const ChatModal = () => {
 const Modal = styled.div`
   position: absolute;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
-  align-items: end;
+  align-items: center;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.404);
@@ -183,6 +193,7 @@ const Modal = styled.div`
 
 const ChatBox = styled.div`
   position: absolute;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -219,16 +230,10 @@ const ChatBox = styled.div`
 `;
 
 const NpcImage = styled.div`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 60px;
+  width: 17%;
+  padding-bottom: 100px;
   img {
-    object-fit: cover;
+    width: 100%;
   }
 `;
 
