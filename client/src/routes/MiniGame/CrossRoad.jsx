@@ -40,7 +40,12 @@ const CrossRoad = (props) => {
                   <b id="result-coin"></b>코인 획득
                 </span>
               </div>
-              <PlayBtn onClick={() => getBack()}>처음으로</PlayBtn>
+              <BtnSet>
+                <PlayBtn id="retry">
+                  다시하기 <small>R</small>
+                </PlayBtn>
+                <PlayBtn onClick={() => getBack()}>처음으로</PlayBtn>
+              </BtnSet>
             </div>
           </Results>
         </div>
@@ -63,6 +68,7 @@ const CrossRoad = (props) => {
           <GameImg src={game2} alt="" />
           <p>방향키(WASD키)를 이용하여 멀리멀리 달려보자.</p>
           <p>사고나지 않게 조심히 차를 피해야 한다!</p>
+          <p>게임 종료 후 R을 누르면 다시 시작할 수 있다!</p>
         </Explain>
 
         <PlayBtn
@@ -118,6 +124,13 @@ const PlayBtn = styled.button`
   font-size: 24px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  small {
+    font-size: 16px;
+  }
 `;
 const Explain = styled.div`
   text-align: center;
@@ -182,5 +195,12 @@ const Results = styled.div`
     button {
     }
   }
+`;
+
+const BtnSet = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 `;
 export default CrossRoad;
