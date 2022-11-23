@@ -3,18 +3,18 @@ import speech from '../../../assets/speech.glb';
 import star from '../../../assets/star.glb';
 import check from '../../../assets/check.glb';
 import question from '../../../assets/question.glb';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame, useLoader, useThree } from '@react-three/fiber';
 import { NpcLocation, NpcQuest } from '../../../utils/constants/constants';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { questInfoState, userInfoState } from '../../../Atom';
-import { useGLTF } from '@react-three/drei';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 const QuestBubble = () => {
   const { camera } = useThree();
-  const speechBuble = useGLTF(speech);
-  const starBuble = useGLTF(star);
-  const checkBuble = useGLTF(check);
-  const questionBuble = useGLTF(question);
+  const speechBuble = useLoader(GLTFLoader, speech);
+  const starBuble = useLoader(GLTFLoader, star);
+  const checkBuble = useLoader(GLTFLoader, check);
+  const questionBuble = useLoader(GLTFLoader, question);
   const quest = useRecoilValue(questInfoState);
   const targetNpc = NpcQuest[quest.questNpc];
   const [buble, setBuble] = useState(speechBuble);

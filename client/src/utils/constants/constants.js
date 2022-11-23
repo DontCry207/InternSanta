@@ -32,6 +32,7 @@ import greenGuyImg from '../../assets/images/GreenGuy.png';
 import minSeoImg from '../../assets/images/minSeo.png';
 import ybImg from '../../assets/images/yb.png';
 import commetImg from '../../assets/images/commet.png';
+import snowManImg from '../../assets/images/snowMan.png';
 import Tortoise from '../../assets/pet/Tortoise.glb';
 import Cat from '../../assets/pet/Cat.glb';
 import Dog from '../../assets/pet/Dog.glb';
@@ -86,6 +87,7 @@ export const NpcLocation = {
   reindeerPurple: [-11.200315, 0.279665, 2.5480184],
   reindeerWhite: [-5.8828038215, 1.32455928325, -6.936524868],
   reindeerPink: [-7.6799707412, 1.5212489128, 26.7339458465],
+  snowMan: [5.05, 1, 1.22],
 };
 export const NpcRotation = {
   infoGuy: [0, 4 * Math.PI, 0],
@@ -156,6 +158,7 @@ export const NpcImages = {
   minSeo: minSeoImg,
   yb: ybImg,
   commet: commetImg,
+  snowMan: snowManImg,
 };
 
 export const NpcProfileImages = {
@@ -188,6 +191,7 @@ export const NpcNames = {
   minSeo: '강민서 동네누나',
   yb: '이승윤 박사',
   commet: '김혜성 노는누나',
+  snowMan: '조금 이상한 눈사람',
 };
 
 export const NormalDialog = {
@@ -216,6 +220,7 @@ export const NormalDialog = {
   minSeo: ['안녕하세요, 인턴산타 팀장입니다... 많이 사랑해주세요'],
   yb: ['산타마을 이장 이승윤입니다. 인턴산타 화이팅!'],
   commet: ['너, 나랑같이 사진찍을래?'],
+  snowMan: ['히히히, 나,나나,,나랑 내,내기할래?'],
 };
 
 export const NpcFeatButton = {
@@ -236,6 +241,7 @@ export const NpcFeatButton = {
   minSeo: null,
   yb: null,
   commet: '산타네컷',
+  snowMan: '내기하기',
 };
 
 export const NpcQuest = {

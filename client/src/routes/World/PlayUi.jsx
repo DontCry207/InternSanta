@@ -36,6 +36,7 @@ import ticket from '../../assets/images/ticket.png';
 import coin from '../../assets/images/coin.png';
 import music from '../../assets/EpicChristmas.mp3';
 import MusicControlModal from './Modals/MusicControlModal';
+import { useThree } from '@react-three/fiber';
 
 const PlayUi = () => {
   const [prog, setProg] = useState(false);
