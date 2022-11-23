@@ -31,10 +31,9 @@ const game = () => {
 
   const zoom = 2;
 
-  const snowmanSize = 10;
-
+  const snowmanSize = 9;
   const positionWidth = 42;
-  const columns = 17;
+  const columns = 20;
   const boardWidth = positionWidth * columns;
 
   const stepTime = 200; // Miliseconds it takes for the snowman to take a step forward, backward, left or right
@@ -562,13 +561,18 @@ const game = () => {
   }
 
   // retry 클릭
-  // document.querySelector("#retry").addEventListener("click", () => {
-  //   lanes.forEach(lane => scene.remove( lane.mesh ));
-  //   initaliseValues();
-  //   endDOM.style.visibility = 'hidden';
-  //   counterDOM.innerHTML = 0;
-  //   window.addEventListener("keydown", keydownEventHandler);
-  // });
+  document.querySelector("#retry").addEventListener("click", () => {
+    
+    currentLane = 0;
+    callApi = false;
+    lanes.forEach(lane => scene.remove( lane.mesh ));
+    initaliseValues();
+    endDOM.style.display = 'none';
+    // endDOM.style.visibility = 'hidden';
+    counterDOM.innerHTML = 0;
+    window.addEventListener("keydown", keydownEventHandler);
+    window.removeEventListener("keydown", retryEventHandler);
+  });
 
   // document.getElementById('forward').addEventListener("click", () => move('forward'));
 
@@ -577,6 +581,20 @@ const game = () => {
   // document.getElementById('left').addEventListener("click", () => move('left'));
 
   // document.getElementById('right').addEventListener("click", () => move('right'));
+
+  const retryEventHandler = (event) => {
+    if (event.keyCode == '82') {
+      currentLane = 0;
+      callApi = false;
+      lanes.forEach(lane => scene.remove( lane.mesh ));
+      initaliseValues();
+      endDOM.style.display = 'none';
+      // endDOM.style.visibility = 'hidden';
+      counterDOM.innerHTML = 0;
+      window.addEventListener("keydown", keydownEventHandler);
+      window.removeEventListener("keydown", retryEventHandler);
+    }
+  }
 
   const keydownEventHandler = (event) => {
     if (event.keyCode == '38' || event.keyCode == '87') {
@@ -795,15 +813,19 @@ const game = () => {
           fetchData
             .patch('/api/v1/member/coin', {
               memberCoin: parseInt(currentLane / 2),
-            })
-            .then((res) => {
-              console.log(res.data);
+            });
+            
+          fetchData.post('/api/v1/game', {
+            minigameType: 2,
+            score: currentLane
             });
           // 방향키 조작 X
           window.removeEventListener('keydown', keydownEventHandler);
-          // retry 버튼 등장
+          // 결과창
           endDOM.style.display = 'flex';
           callApi = true;
+          window.addEventListener('keydown', retryEventHandler);
+          // currentLane = 0;
         }
       });
     }
