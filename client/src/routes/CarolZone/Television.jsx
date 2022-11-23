@@ -6,16 +6,15 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import television from '../../assets/television.glb';
+import tv from '../../assets/tv.glb';
 import { RigidBody } from '@react-three/rapier';
 import { movieModalState } from '../../Atom';
 import * as THREE from 'three';
 
 const Television = () => {
-  const boxLocation = [
-    21.429622268676758, 1.3018462657928467, -15.259762954711914,
-  ];
+  const boxLocation = [21.56, 1.46, -14.94];
   const scale = [0.8, 0.8, 0.8];
-  const location = [24, 1, -14.5];
+  const location = [21.42, 1.3, -15];
   const [modal, setModal] = useRecoilState(movieModalState);
   const [hovered, setHover] = useState(false);
   const { gl } = useThree();
@@ -36,13 +35,14 @@ const Television = () => {
     document.body.style.cursor = hovered ? 'pointer' : 'auto';
   }, [hovered]);
 
-  const televisionGltf = useLoader(GLTFLoader, television, (loader) => {
+  const televisionGltf = useLoader(GLTFLoader, tv, (loader) => {
     const dracoLoader = new DRACOLoader();
     const ktxLoader = new KTX2Loader();
     dracoLoader.setDecoderPath(
       'https://www.gstatic.com/draco/versioned/decoders/1.5.5/',
     );
     dracoLoader.setDecoderConfig({ type: 'js' });
+    dracoLoader.setWorkerLimit(1);
     loader.setDRACOLoader(dracoLoader);
 
     ktxLoader
@@ -50,7 +50,10 @@ const Television = () => {
         `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
       )
       .detectSupport(gl);
+    ktxLoader.setWorkerLimit(1);
     loader.setKTX2Loader(ktxLoader);
+    ktxLoader.dispose();
+    dracoLoader.dispose();
   });
 
   return (
@@ -62,11 +65,11 @@ const Television = () => {
           onClick={(e) => click(e)}
           onPointerOver={(e) => hover(e)}
           onPointerOut={(e) => unhover(e)}>
-          <boxGeometry args={[0.4, 1.1, 0.65]} />
+          <boxGeometry args={[0.23, 0.35, 0.5]} />
           <meshStandardMaterial
-            color={[0, 0, 0, 0]}
-            opacity={0}
-            transparent={true}
+            color={'#e0d381'}
+            emissive={'#71e1d6'}
+            emissiveIntensity={1}
           />
         </mesh>
       </RigidBody>
@@ -74,6 +77,7 @@ const Television = () => {
         object={televisionGltf.scene}
         position={location}
         scale={scale}
+        rotation={[0, -1.57, 0]}
       />
     </>
   );

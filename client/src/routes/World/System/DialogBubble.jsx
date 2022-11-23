@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import msg from '../../../assets/msg.glb';
 import door from '../../../assets/door.glb';
-import { useThree } from '@react-three/fiber';
+import { useLoader, useThree } from '@react-three/fiber';
 import { NpcLocation } from '../../../utils/constants/constants';
 import { useRecoilValue } from 'recoil';
 import { npcHoverState } from '../../../Atom';
-import { useGLTF } from '@react-three/drei';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 const DialogBubble = () => {
   const { camera } = useThree();
-  const buble = useGLTF(msg);
-  const doorBuble = useGLTF(door);
+  const buble = useLoader(GLTFLoader, msg);
+  const doorBuble = useLoader(GLTFLoader, door);
   const hovered = useRecoilValue(npcHoverState);
   buble.nodes.Scene.rotation.copy(camera.rotation);
   doorBuble.nodes.Scene.rotation.copy(camera.rotation);

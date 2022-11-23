@@ -27,6 +27,7 @@ const Npc = (props) => {
           `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
         )
         .detectSupport(gl);
+      ktxLoader.setWorkerLimit(1);
       loader.setMeshoptDecoder(MeshoptDecoder);
       loader.setKTX2Loader(ktxLoader);
       ktxLoader.dispose();
