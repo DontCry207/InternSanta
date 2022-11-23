@@ -121,16 +121,14 @@ const Title = styled.div`
 `;
 
 const Machine = styled.div`
-  /* width: 40%; */
   display: flex;
   justify-content: center;
   align-items: center;
   background: url(${machine}) no-repeat;
-  /* height: 100%; */
   background-size: 100% 100%;
   flex-grow: 1;
   position: relative;
-  aspect-ratio: 2/3;
+  aspect-ratio: 3/5;
   @keyframes rotate_image {
     100% {
       transform: rotate(360deg);
