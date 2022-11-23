@@ -210,7 +210,7 @@ export const NormalDialog = {
     '인사팀장 루돌프님이 기다리고 계셔! 그분께 가봐.',
   ],
   storeGuy: ['안녕, 오늘도 뽑기하러왔니? 호호호'],
-  trainGuy: ['이번에 마을로 가져온 재료가 참많답니다~'],
+  trainGuy: ['이번에 마을로 가져온 재료가 참 많답니다~'],
   yellowGuy: ['신난다! 게임이 최고야 유후우우'],
   greenGuy: ['동물들을 보호해야해...'],
   minSeo: ['안녕하세요, 인턴산타 팀장입니다... 많이 사랑해주세요'],
@@ -355,7 +355,7 @@ export const reward = {
   7: 4500,
   8: 5000,
   9: 6000,
-  10: 100,
+  10: 10,
 };
 
 export const questText = {

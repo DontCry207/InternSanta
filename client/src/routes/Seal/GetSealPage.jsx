@@ -23,7 +23,7 @@ const GetSealPage = () => {
       timer = setTimeout(() => {
         setModal(true);
         setOpenToggle(!openToggle);
-        console.log('g');
+        //console.log('g');
         turnEl.current.style.animation = 'none';
       }, 1000);
     }
@@ -32,7 +32,7 @@ const GetSealPage = () => {
   const getOneSeal = async (num) => {
     await fetchData.patch('/api/v1/seal', { count: num }).then((res) => {
       setSealResult(res.data);
-      console.log(res.data);
+      //console.log(res.data);
     });
     setUpdate(!update);
     setOpenToggle(true);
