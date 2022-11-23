@@ -30,7 +30,7 @@ const MainLight = () => {
         position={[23, 1.4, -15]}
         color={'#e88b5d'}
       />
-      <pointLight
+      {/* <pointLight
         className="tv"
         intensity={2}
         position={[21.52, 1.6, -15.25]}
@@ -45,7 +45,7 @@ const MainLight = () => {
         distance={2}
         decay={2}
         color={'skyblue'}
-      />
+      /> */}
       {/*'최적화 문제로 조명 조절'*/}
       {/* <pointLight
         className="startLeft"

@@ -19,7 +19,6 @@ import CarolZone from './Environment/CarolZone';
 import FirePlace from '../CarolZone/FirePlace';
 import Television from '../CarolZone/Television';
 import Tree from '../CarolZone/Tree';
-import TeddyBear from '../CarolZone/TeddyBear';
 import QuestBubble from './System/QuestBubble';
 import PortalDoor from './Environment/PortalDoor';
 import PetDistributor from './NPC/PetDistributor';
@@ -58,26 +57,23 @@ const WorldPage = () => {
           <QuestBubble />
           <MainLight />
           <DanceLight />
-          <Physics gravity={[0, -30, 0]} colliders={false}>
-            <Suspense fallback={<LazyLoading />}>
+          <Suspense fallback={<LazyLoading />}>
+            <Physics gravity={[0, -30, 0]} colliders={false}>
               <ChristmasTown />
               <SnowMan />
+              <Player />
+              <CarolZone />
+              <BoneFire />
+              <Shop />
               <Tree />
               <Television />
-              <Shop />
-              <CarolZone />
               <FirePlace />
-              <BoneFire />
-              <Player />
               <PortalDoor />
               <PetDistributor />
               <NpcDistributor />
               <ReinDeerDistributor />
-              {/*
-              <TeddyBear />
-              */}
-            </Suspense>
-          </Physics>
+            </Physics>
+          </Suspense>
         </Canvas>
       </KeyboardControls>
     </Container>

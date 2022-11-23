@@ -16,6 +16,7 @@ const Tree = () => {
       'https://www.gstatic.com/draco/versioned/decoders/1.5.5/',
     );
     dracoLoader.setDecoderConfig({ type: 'js' });
+    dracoLoader.setWorkerLimit(1);
     loader.setDRACOLoader(dracoLoader);
 
     ktxLoader
@@ -23,6 +24,7 @@ const Tree = () => {
         `https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/basis/`,
       )
       .detectSupport(gl);
+    ktxLoader.setWorkerLimit(1);
     loader.setKTX2Loader(ktxLoader);
     ktxLoader.dispose();
   });
