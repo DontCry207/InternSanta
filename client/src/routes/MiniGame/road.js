@@ -33,7 +33,7 @@ const game = () => {
 
   const snowmanSize = 9;
   const positionWidth = 42;
-  const columns = 20;
+  const columns = 17;
   const boardWidth = positionWidth * columns;
 
   const stepTime = 200; // Miliseconds it takes for the snowman to take a step forward, backward, left or right
