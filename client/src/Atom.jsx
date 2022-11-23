@@ -77,6 +77,10 @@ export const gotchaModalState = atom({
   key: `gotchaModal`,
   default: false,
 });
+export const gambleModalState = atom({
+  key: `gambleModal`,
+  default: false,
+});
 
 export const missionModalState = atom({
   key: `missionModal`,

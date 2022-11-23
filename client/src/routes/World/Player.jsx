@@ -24,7 +24,6 @@ const Player = () => {
   const gameModal = useRecoilValue(gameModalState);
   const [loading, setLoading] = useRecoilState(loadingState);
   const [sponPosition, setSponPosition] = useRecoilState(sponPositionState);
-  const [reset, setReset] = useState(false);
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();
   const sideVector = new THREE.Vector3();
