@@ -45,6 +45,7 @@ const ImgBox = styled.div`
   border-radius: 30px;
   img {
     height: 100%;
+    border-radius: 30px;
   }
 `;
 

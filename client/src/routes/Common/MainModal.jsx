@@ -56,7 +56,7 @@ const ModalBox = styled.div`
 `;
 
 const MainContents = styled.div`
-  padding: 40px 20px;
+  padding: 60px 60px;
   display: flex;
   flex-direction: column;
   align-items: center;

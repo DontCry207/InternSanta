@@ -26,6 +26,7 @@ import PetDistributor from './NPC/PetDistributor';
 import NpcDistributor from './NPC/NpcDistributor';
 import ReinDeerDistributor from './NPC/ReinDeerDistributor';
 import ModalDistributor from './Modals/ModalDistributor';
+import SnowMan from './Environment/SnowMan';
 
 const WorldPage = () => {
   return (
@@ -43,7 +44,13 @@ const WorldPage = () => {
           { name: 'position', keys: ['q', 'Q'] },
           { name: 'dance', keys: ['f', 'F'] },
         ]}>
-        <Canvas camera={{ fov: 70 }}>
+        <Canvas
+          gl={{
+            antialias: true,
+            precision: 'lowp',
+          }}
+          camera={{ fov: 70, near: 0.1, far: 300 }}
+          dpr={[0.8, 1.2]}>
           <Snow />
           <Sky sunPosition={[-10, -10, 0]} />
           <Moon />
@@ -54,6 +61,7 @@ const WorldPage = () => {
           <Physics gravity={[0, -30, 0]} colliders={false}>
             <Suspense fallback={<LazyLoading />}>
               <ChristmasTown />
+              <SnowMan />
               <Tree />
               <Television />
               <Shop />

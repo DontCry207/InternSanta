@@ -51,6 +51,7 @@ const FirePlace = () => {
       .detectSupport(gl);
     loader.setKTX2Loader(ktxLoader);
     ktxLoader.dispose();
+    dracoLoader.dispose();
   });
   return (
     <>
