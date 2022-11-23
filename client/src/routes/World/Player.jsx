@@ -7,7 +7,7 @@ import {
   MapControls,
 } from 'three/examples/jsm/controls/OrbitControls';
 import * as THREE from 'three';
-import { useKeyboardControls, useAnimations, useGLTF } from '@react-three/drei';
+import { useKeyboardControls, useAnimations } from '@react-three/drei';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   gameModalState,
@@ -24,7 +24,7 @@ const Player = () => {
   const gameModal = useRecoilValue(gameModalState);
   const [loading, setLoading] = useRecoilState(loadingState);
   const [sponPosition, setSponPosition] = useRecoilState(sponPositionState);
-  const [top, setTop] = useState(null);
+  const [reset, setReset] = useState(false);
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();
   const sideVector = new THREE.Vector3();
@@ -47,14 +47,14 @@ const Player = () => {
     },
   );
 
-  nodes.Scene.scale.setZ(-0.6);
-  nodes.Scene.scale.setX(-0.6);
   const { actions } = useAnimations(animations, group);
 
   useEffect(() => {
     controls.current.enableRotate = true;
     controls.current.rotateSpeed = 0.4;
     nodes.Scene.name = 'player';
+    nodes.Scene.scale.setZ(-0.6);
+    nodes.Scene.scale.setX(-0.6);
   }, []);
 
   useEffect(() => {
@@ -83,7 +83,15 @@ const Player = () => {
     let SPEED = 4;
     const { forward, backward, left, right, dash, position, dance } = !gameModal
       ? get()
-      : null;
+      : {
+          forward: 0,
+          backward: 0,
+          left: 0,
+          right: 0,
+          dash: 0,
+          position: 0,
+          dance: 0,
+        };
     const velocity = ref.current.linvel();
     const [x, y, z] = [...ref.current.translation()];
 

@@ -6,6 +6,7 @@ import {
   BsQuestionLg,
   BsCheckLg,
   BsFillStarFill,
+  BsMap,
 } from 'react-icons/bs';
 import { FaTshirt } from 'react-icons/fa';
 import { AiOutlinePoweroff } from 'react-icons/ai';
@@ -15,6 +16,7 @@ import {
   clothesModalState,
   infoUpdateState,
   logoutModalState,
+  miniMapModalState,
   musicModalState,
   npcScriptState,
   questIndicatorState,
@@ -48,6 +50,7 @@ const PlayUi = () => {
   const [coinNum, setCoinNum] = useState(userInfo.memberCoin);
   const [ticketNum, setTicketNum] = useState(userInfo.memberTicket);
   const [musicModal, setMusicModal] = useRecoilState(musicModalState);
+  const [mapModal, setMapModal] = useRecoilState(miniMapModalState);
 
   const [volume, setVolume] = useState(0);
   const audioRef = useRef(null);
@@ -87,7 +90,6 @@ const PlayUi = () => {
   };
 
   useEffect(() => {
-    console.log(userInfo);
     setCoinNum(userInfo.memberCoin);
     setTicketNum(userInfo.memberTicket);
   }, [userInfo]);
@@ -143,6 +145,9 @@ const PlayUi = () => {
       <RightTopBox>
         <IconBorder onClick={() => setModal(true)}>
           <FaTshirt size={40} color={'white'} />
+        </IconBorder>
+        <IconBorder onClick={() => setMapModal(true)}>
+          <BsMap size={32} color={'white'} />
         </IconBorder>
         {!volume ? (
           <IconBorder onClick={() => setMusicModal(true)}>
@@ -310,7 +315,7 @@ const IconBorder = styled.div`
 
 const QuestDescription = styled.div`
   width: 340px;
-  min-width: 320px;
+  min-width: 340px;
   height: 80px;
   min-height: 80px;
   display: flex;
