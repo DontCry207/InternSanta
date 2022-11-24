@@ -4,7 +4,7 @@ import QuickDraw from './QuickDraw';
 import { submit } from './QuickDraw';
 import { randNum } from './QuickDataSet';
 import { fetchData } from '../../utils/apis/api';
-import Quick from '../../assets/images/Quick.png';
+import Quick from '../../assets/images/Quick.webp';
 
 const MiniDrawModal = (props) => {
   const [page, setPage] = useState(0); // 페이지 넘기기 변수

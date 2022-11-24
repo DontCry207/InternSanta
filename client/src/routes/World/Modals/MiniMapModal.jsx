@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { miniMapModalState } from '../../../Atom';
 import MainModal from '../../Common/MainModal';
-import map from '../../../assets/images/miniMap.png';
+import map from '../../../assets/images/miniMap.webp';
 
 const MiniMapModal = () => {
   const [gameModal, setGameModal] = useRecoilState(miniMapModalState);

@@ -7,10 +7,10 @@ import {
   userInfoState,
 } from '../../../Atom';
 import MainModal from '../../Common/MainModal';
-import coin from '../../../assets/images/coin.png';
+import coin from '../../../assets/images/coin.webp';
 import AlertModal from '../../Common/AlertModal';
 import SlotMachine from './SlotMachine';
-import santa from '../../../assets/images/slotSanta.png';
+import santa from '../../../assets/images/slotSanta.webp';
 import { fetchData } from '../../../utils/apis/api';
 
 const GambleModal = () => {
@@ -55,16 +55,26 @@ const GambleModal = () => {
     }
   };
 
+  const restart = () => {
+    setReward(0);
+    setPlay(false);
+    setTimeout(() => {
+      slotPlay();
+    }, 300);
+  };
+
   const alarm = () => {
     return (
       <Modal>
         <AlertModal
           title={'알림'}
-          rightBtnName={'닫기'}
-          setRightBtnControl={() => {
+          leftBtnName={'닫기'}
+          rightBtnName={reward !== 4 ? '다시하기' : null}
+          setLeftBtnControl={() => {
             setReward(0);
             setPlay(false);
-          }}>
+          }}
+          setRightBtnControl={reward !== 4 ? restart : null}>
           <Reward>
             {reward !== 1 && <img src={coin} alt="" />}
             {reward === 1 && <p>꽝! 다시 도전 하세요</p>}

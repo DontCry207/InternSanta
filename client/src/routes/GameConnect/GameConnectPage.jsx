@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import christmasTown from '../../assets/images/christmasTown.jpg';
+import christmasTown from '../../assets/images/christmasTown.webp';
 import AlertModal from '../Common/AlertModal';
 import LoginPage from '../Login/LoginPage';
 import RegisterPage from '../Register/RegisterPage';
