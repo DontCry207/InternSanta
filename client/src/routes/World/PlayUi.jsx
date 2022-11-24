@@ -31,9 +31,9 @@ import {
   NpcProfileImages,
   NpcQuest,
 } from '../../utils/constants/constants';
-import stickerCard from '../../assets/images/StickerCard.png';
-import ticket from '../../assets/images/ticket.png';
-import coin from '../../assets/images/coin.png';
+import stickerCard from '../../assets/images/StickerCard.webp';
+import ticket from '../../assets/images/ticket.webp';
+import coin from '../../assets/images/coin.webp';
 import music from '../../assets/EpicChristmas.mp3';
 import MusicControlModal from './Modals/MusicControlModal';
 import { useThree } from '@react-three/fiber';

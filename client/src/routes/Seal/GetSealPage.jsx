@@ -4,11 +4,11 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
 import AlertModal from '../Common/AlertModal';
-import machine from '../../assets/images/machine.png';
-import turn from '../../assets/images/turn.png';
+import machine from '../../assets/images/machine.webp';
+import turn from '../../assets/images/turn.webp';
 import { infoUpdateState } from '../../Atom';
 import { useRecoilState } from 'recoil';
-import coin from '../../assets/images/coin.png';
+import coin from '../../assets/images/coin.webp';
 
 const GetSealPage = () => {
   const [sealResult, setSealResult] = useState([]);

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
-import santa from '../../assets/images/santa.png';
+import santa from '../../assets/images/santa.webp';
 import { useRef } from 'react';
 
 const MovieRecPage = () => {

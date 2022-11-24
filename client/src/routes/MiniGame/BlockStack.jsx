@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Block from './block';
 import { IoIosArrowBack } from 'react-icons/io';
-import game1 from '../../assets/images/blockstack.png';
-import coin from '../../assets/images/coin.png';
+import game1 from '../../assets/images/blockstack.webp';
+import coin from '../../assets/images/coin.webp';
 import { useRecoilState } from 'recoil';
 import { infoUpdateState } from '../../Atom';
 const BlockStack = (props) => {
