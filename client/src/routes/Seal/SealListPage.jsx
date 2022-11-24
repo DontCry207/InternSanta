@@ -5,7 +5,7 @@ import { fetchData } from '../../utils/apis/api';
 import { infoUpdateState } from '../../Atom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import ticket from '../../assets/images/ticket.png';
+import ticket from '../../assets/images/ticket.webp';
 import { SealImg } from '../../utils/constants/constants';
 import {
   HiOutlineArrowNarrowLeft,

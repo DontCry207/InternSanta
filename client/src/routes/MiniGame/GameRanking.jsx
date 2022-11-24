@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IoIosArrowBack } from 'react-icons/io';
 import { fetchData } from '../../utils/apis/api';
-import crown from '../../assets/images/crown2.png';
+import crown from '../../assets/images/crown2.webp';
 const GameRanking = (props) => {
   const { setPage, gameType } = props;
   const [scoreRank, setScoreRank] = useState([]);

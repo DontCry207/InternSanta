@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/images/logo.png';
-import section1 from '../../assets/images/landing/section1.png';
-import section2 from '../../assets/images/landing/section2.png';
-import section3 from '../../assets/images/landing/section3.png';
+import logo from '../../assets/images/logo.webp';
+import section1 from '../../assets/images/landing/section1.webp';
+import section2 from '../../assets/images/landing/section2.webp';
+import section3 from '../../assets/images/landing/section3.webp';
 import { useRecoilState } from 'recoil';
 import { loggedInState, userInfoState } from '../../Atom';
 import Snowfall from 'react-snowfall';
@@ -70,13 +70,7 @@ const HomePage = () => {
           <h1>INTERN SANTA</h1>
           {loggedIn ? (
             <>
-              <button
-                onClick={() => 
-                  navigate('/game')
-
-                }>
-                게임 시작
-              </button>
+              <button onClick={() => navigate('/game')}>게임 시작</button>
             </>
           ) : null}
         </TitleBox>
@@ -110,7 +104,7 @@ const HomePage = () => {
             <p>이 모든 콘텐츠를</p>
             <p>지금 바로 인턴산타에서</p>
           </div>
-          <p onClick={() => loggedIn ? navigate('/game'):navigate('/main')}>
+          <p onClick={() => (loggedIn ? navigate('/game') : navigate('/main'))}>
             즐기러 가기&nbsp;
             <HiOutlineArrowNarrowRight />
           </p>

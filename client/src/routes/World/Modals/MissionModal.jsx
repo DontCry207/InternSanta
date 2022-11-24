@@ -8,7 +8,7 @@ import {
   userInfoState,
 } from '../../../Atom';
 import AlertModal from '../../Common/AlertModal';
-import Coin from '../../../assets/images/coin.png';
+import Coin from '../../../assets/images/coin.webp';
 import { useEffect } from 'react';
 import { fetchData } from '../../../utils/apis/api';
 import {
