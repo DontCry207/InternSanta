@@ -3,8 +3,8 @@ import { useState } from 'react';
 import BlockStack from './BlockStack';
 import CrossRoad from './CrossRoad';
 import GameRanking from './GameRanking';
-import game1 from '../../assets/images/blockstack.png';
-import game2 from '../../assets/images/crossroad.png';
+import game1 from '../../assets/images/blockstack.webp';
+import game2 from '../../assets/images/crossroad.webp';
 import styled from 'styled-components';
 
 const MiniGamePage = () => {

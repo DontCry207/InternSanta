@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
 import ClothesCut from './ClothesCut';
-import clothesEmpty from '../../assets/images/clothesEmpty.png';
+import clothesEmpty from '../../assets/images/clothesEmpty.webp';
 import { useRecoilState } from 'recoil';
 import { userInfoState } from '../../Atom';
 import AlertModal from '../Common/AlertModal';

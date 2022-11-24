@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import AppCanvas from './components/AppCanvas';
-import santa from '../../assets/images/santa.png';
+import santa from '../../assets/images/santa.webp';
 import { fetchData } from '../../utils/apis/api';
-import photo1 from '../../assets/images/photo1.png';
-import photo2 from '../../assets/images/photo2.png';
-import photo3 from '../../assets/images/photo3.png';
-import photo4 from '../../assets/images/photo4.png';
+import photo1 from '../../assets/images/photo1.webp';
+import photo2 from '../../assets/images/photo2.webp';
+import photo3 from '../../assets/images/photo3.webp';
+import photo4 from '../../assets/images/photo4.webp';
 const SantaFourCutPage = () => {
   const [page, setPage] = useState(1);
   const [photoNum, setPhotoNum] = useState(1);
