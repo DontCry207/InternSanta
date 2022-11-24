@@ -29,6 +29,12 @@ const GambleModal = () => {
     }
   }, [reward]);
 
+  useEffect(() => {
+    setReward(0);
+    setInsCoin(100);
+    setPlay(false);
+  }, [gambleModal]);
+
   const close = (e) => {
     setGambleModal(false);
   };
