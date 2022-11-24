@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import santa from '../../../assets/images/santa.png';
 
 const items = ['🎅', '😊', '👻', '🦌', '🥶', '⛄', '💯', '💖', '🎃', '💎'];
 // 2개맞을 확률: 30%, 3개맞을 확률: 1%
@@ -172,7 +171,7 @@ const Content = styled.div`
     aspect-ratio: 1;
     overflow: hidden;
     border-radius: 20px;
-    margin: 5px;
+    margin: 20px;
   }
 
   .boxes {
