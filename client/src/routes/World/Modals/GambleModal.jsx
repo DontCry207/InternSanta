@@ -1,152 +1,126 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { gambleModalState } from '../../../Atom';
+import {
+  gambleModalState,
+  infoUpdateState,
+  userInfoState,
+} from '../../../Atom';
 import MainModal from '../../Common/MainModal';
 import coin from '../../../assets/images/coin.png';
-
-const items = ['🍭', '❌', '⛄️', '🦄', '🍌', '💩'];
-// 2개맞을 확률: 13.88%, 3개맞을 확률: 2.77%
-// 당첨시 4배, 20배
+import AlertModal from '../../Common/AlertModal';
+import SlotMachine from './SlotMachine';
+import santa from '../../../assets/images/santa.png';
+import { fetchData } from '../../../utils/apis/api';
 
 const GambleModal = () => {
   const [gambleModal, setGambleModal] = useRecoilState(gambleModalState);
+  const [update, setUpdate] = useRecoilState(infoUpdateState);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [reward, setReward] = useState(0);
+  const [play, setPlay] = useState(false);
+  const [insCoin, setInsCoin] = useState(100);
+
+  useEffect(() => {
+    if (reward === 2) {
+      editCoin(insCoin * 3);
+    } else if (reward === 3) {
+      editCoin(insCoin * 20);
+    }
+  }, [reward]);
 
   const close = (e) => {
     setGambleModal(false);
   };
 
-  let doors = document.querySelectorAll('.door');
+  const editCoin = async (e) => {
+    const res = await fetchData.patch('/api/v1/member/coin', {
+      memberCoin: e,
+    });
+    setUpdate(!update);
+  };
 
-  function init(firstInit = true, groups = 1, duration = 1) {
-    for (const door of doors) {
-      if (firstInit) {
-        door.dataset.spinned = '0';
-      } else if (door.dataset.spinned === '1') {
-        return;
-      }
-
-      const boxes = door.querySelector('.boxes');
-      const boxesClone = boxes.cloneNode(false);
-      const pool = ['❓'];
-
-      if (!firstInit) {
-        const arr = [];
-        for (let n = 0; n < (groups > 0 ? groups : 1); n++) {
-          arr.push(...items);
-        }
-        pool.push(...shuffle(arr));
-
-        boxesClone.addEventListener(
-          'transitionstart',
-          function () {
-            door.dataset.spinned = '1';
-            this.querySelectorAll('.box').forEach((box) => {
-              box.style.filter = 'blur(1px)';
-            });
-          },
-          { once: true },
-        );
-
-        boxesClone.addEventListener(
-          'transitionend',
-          function () {
-            this.querySelectorAll('.box').forEach((box, index) => {
-              box.style.filter = 'blur(0)';
-              if (index > 0) this.removeChild(box);
-            });
-          },
-          { once: true },
-        );
-      }
-
-      for (let i = pool.length - 1; i >= 0; i--) {
-        const box = document.createElement('div');
-        box.classList.add('box');
-        box.style.width = door.clientWidth + 'px';
-        box.style.height = door.clientHeight + 'px';
-        box.textContent = pool[i];
-        boxesClone.appendChild(box);
-      }
-      boxesClone.style.transitionDuration = `${duration > 0 ? duration : 1}s`;
-      boxesClone.style.transform = `translateY(-${
-        door.clientHeight * (pool.length - 1)
-      }px)`;
-      door.replaceChild(boxesClone, boxes);
+  const slotPlay = () => {
+    if (insCoin <= userInfo.memberCoin) {
+      editCoin(-insCoin);
+      setPlay(true);
+    } else {
+      setReward(4);
     }
-  }
+  };
 
-  async function spin() {
-    init(false, 1, 2);
-
-    for (const door of doors) {
-      console.log(door);
-      const boxes = door.querySelector('.boxes');
-      const duration = parseInt(boxes.style.transitionDuration);
-      boxes.style.transform = 'translateY(0)';
-      await new Promise((resolve) => setTimeout(resolve, duration * 100));
-    }
-  }
-
-  function shuffle([...arr]) {
-    let m = arr.length;
-    while (m) {
-      const i = Math.floor(Math.random() * m--);
-      [arr[m], arr[i]] = [arr[i], arr[m]];
-    }
-    return arr;
-  }
-
-  useEffect(() => {
-    if (gambleModal) {
-      doors = document.querySelectorAll('.door');
-      init();
-    }
-  }, [gambleModal]);
-
-  const render = () => {
-    init();
+  const alarm = () => {
     return (
       <Modal>
+        <AlertModal
+          title={'알림'}
+          rightBtnName={'닫기'}
+          setRightBtnControl={() => {
+            setReward(0);
+            setPlay(false);
+          }}>
+          <Reward>
+            {reward !== 1 && <img src={coin} alt="" />}
+            {reward === 1 && <p>꽝! 다시 도전 하세요</p>}
+            {reward === 2 && <p>+{insCoin * 3}</p>}
+            {reward === 3 && <p>+{insCoin * 20}</p>}
+            {reward === 4 && <p>보유 코인이 부족합니다</p>}
+          </Reward>
+        </AlertModal>
+      </Modal>
+    );
+  };
+
+  const render = () => {
+    return (
+      <Modal>
+        {reward ? alarm() : null}
         <MainModal closeBtnControl={close} bgColor="#836f87">
           <Title>
-            <p>슬롯머신</p>
+            <MainTitle>
+              <p>산타</p>
+              <img src={santa} />
+              <p>슬롯</p>
+            </MainTitle>
+            <p className="sub">같은 그림 2개면 3배 보상!</p>
+            <p className="sub">같은 그림 3개면 20배 보상!</p>
           </Title>
-          <Content>
-            <div className="doors">
-              <div className="door">
-                <div className="boxes">
-                  <div className="box">?</div>
-                </div>
-              </div>
-
-              <div className="door">
-                <div className="boxes">
-                  <div className="box">?</div>
-                </div>
-              </div>
-
-              <div className="door">
-                <div className="boxes">
-                  <div className="box">?</div>
-                </div>
-              </div>
-            </div>
-          </Content>
-          <Buttons>
+          <SlotMachine play={play} result={(e) => setReward(e)} />
+          <CoinBox>
             <Coin>
+              <p>투입 코인</p>
               <img src={coin} alt="" />
-              <input type="number" />
+              <select
+                size="1"
+                className="insCoin"
+                onChange={(e) => {
+                  setInsCoin(e.target.value);
+                }}
+                disabled={play ? true : false}>
+                <option value={100} defaultValue>
+                  100
+                </option>
+                <option value={200}>200</option>
+                <option value={400}>400</option>
+                <option value={400}>600</option>
+                <option value={800}>800</option>
+                <option value={1000}>1000</option>
+                <option value={5000}>5000</option>
+                <option value={10000}>10000</option>
+              </select>
             </Coin>
-            <button
-              id="spinner"
-              onClick={() => {
-                init();
-                spin();
-              }}>
-              Play
-            </button>
-          </Buttons>
+            {play ? (
+              <button className="disable">Play</button>
+            ) : (
+              <button
+                id="spinner"
+                onClick={() => {
+                  slotPlay();
+                }}>
+                Play
+              </button>
+            )}
+          </CoinBox>
         </MainModal>
       </Modal>
     );
@@ -166,52 +140,21 @@ const Title = styled.div`
   width: 100%;
   text-align: center;
   p {
-    font-size: 60px;
+    font-size: 90px;
     color: white;
+  }
+  .sub {
+    font-size: 30px;
   }
 `;
 
-const Content = styled.div`
-  width: 100%;
+const MainTitle = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-
-  .doors {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-  }
-
-  .door {
-    background: #fafafa;
-    width: 32%;
-    aspect-ratio: 1;
-    overflow: hidden;
-    border-radius: 20px;
-    margin: 5px;
-  }
-
-  .boxes {
-    /* transform: translateY(0); */
-    transition: transform 1s ease-in-out;
-  }
-
-  .box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 7rem;
-  }
-
-  .info {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
+  img {
+    height: 80px;
   }
 `;
 
@@ -221,21 +164,41 @@ const Coin = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
+  font-size: 30px;
   img {
     height: 50px;
   }
-  input {
-    width: 200px;
+  select {
+    width: 150px;
     height: 50px;
     border-radius: 20px;
     font-size: 30px;
-    padding: 20px;
-    border: none;
+    padding: 0 20px;
     color: #0d005c;
+    cursor: pointer;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  select:hover {
+    border-color: #888;
+  }
+
+  select:focus {
+    border-color: #aaa;
+    box-shadow: 0 0 1px 3px rgba(59, 153, 252, 0.7);
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    color: #222;
+    outline: none;
+  }
+
+  select:disabled {
+    opacity: 0.5;
   }
 `;
 
-const Buttons = styled.div`
+const CoinBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -246,13 +209,32 @@ const Buttons = styled.div`
   button {
     width: 140px;
     height: 50px;
-    background-color: #60c783;
+    background-color: #e31d13;
     border-radius: 70px;
-    font-size: 24px;
+    font-size: 28px;
     color: white;
   }
-  #reseter {
-    background-color: #d63c3c;
+
+  .disable {
+    opacity: 0.4;
+    cursor: default;
   }
 `;
+
+const Reward = styled.div`
+  width: 100%;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  img {
+    height: 40px;
+  }
+  p {
+    font-size: 40px;
+  }
+`;
+
 export default GambleModal;
