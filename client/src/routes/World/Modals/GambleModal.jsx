@@ -10,7 +10,7 @@ import MainModal from '../../Common/MainModal';
 import coin from '../../../assets/images/coin.png';
 import AlertModal from '../../Common/AlertModal';
 import SlotMachine from './SlotMachine';
-import santa from '../../../assets/images/santa.png';
+import santa from '../../../assets/images/slotSanta.png';
 import { fetchData } from '../../../utils/apis/api';
 
 const GambleModal = () => {
@@ -108,11 +108,12 @@ const GambleModal = () => {
                 </option>
                 <option value={200}>200</option>
                 <option value={400}>400</option>
-                <option value={400}>600</option>
+                <option value={600}>600</option>
                 <option value={800}>800</option>
                 <option value={1000}>1000</option>
                 <option value={5000}>5000</option>
                 <option value={10000}>10000</option>
+                <option value={100000}>100000</option>
               </select>
             </Coin>
             {play ? (
@@ -159,8 +160,10 @@ const MainTitle = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap: 10px;
+  padding-bottom: 15px;
   img {
-    height: 80px;
+    height: 100px;
   }
 `;
 
