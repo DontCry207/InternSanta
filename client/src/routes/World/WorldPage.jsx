@@ -1,4 +1,4 @@
-import { KeyboardControls, Sky, Stars } from '@react-three/drei';
+import { KeyboardControls, Sky } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
 import React, { Suspense } from 'react';
@@ -19,13 +19,13 @@ import CarolZone from './Environment/CarolZone';
 import FirePlace from '../CarolZone/FirePlace';
 import Television from '../CarolZone/Television';
 import Tree from '../CarolZone/Tree';
-import TeddyBear from '../CarolZone/TeddyBear';
 import QuestBubble from './System/QuestBubble';
 import PortalDoor from './Environment/PortalDoor';
 import PetDistributor from './NPC/PetDistributor';
 import NpcDistributor from './NPC/NpcDistributor';
 import ReinDeerDistributor from './NPC/ReinDeerDistributor';
 import ModalDistributor from './Modals/ModalDistributor';
+import SnowMan from './Environment/SnowMan';
 
 const WorldPage = () => {
   return (
@@ -43,40 +43,37 @@ const WorldPage = () => {
           { name: 'position', keys: ['q', 'Q'] },
           { name: 'dance', keys: ['f', 'F'] },
         ]}>
-        <Canvas camera={{ fov: 70 }}>
+        <Canvas
+          gl={{
+            antialias: true,
+            precision: 'lowp',
+          }}
+          camera={{ fov: 70, near: 0.1, far: 300 }}
+          dpr={[0.8, 1.2]}>
           <Snow />
-          <Stars
-            radius={30}
-            depth={10}
-            count={500}
-            factor={4}
-            saturation={1}
-            fade
-            speed={6}
-          />
           <Sky sunPosition={[-10, -10, 0]} />
           <Moon />
           <DialogBubble />
           <QuestBubble />
           <MainLight />
           <DanceLight />
-          <Physics gravity={[0, -30, 0]} colliders={false}>
-            <Suspense fallback={<LazyLoading />}>
+          <Suspense fallback={<LazyLoading />}>
+            <Physics gravity={[0, -30, 0]} colliders={false}>
               <ChristmasTown />
-              <CarolZone />
+              <SnowMan />
               <Player />
-              <Shop />
+              <CarolZone />
               <BoneFire />
+              <Shop />
+              <Tree />
+              <Television />
+              <FirePlace />
               <PortalDoor />
               <PetDistributor />
               <NpcDistributor />
               <ReinDeerDistributor />
-              <FirePlace />
-              <Television />
-              <Tree />
-              <TeddyBear />
-            </Suspense>
-          </Physics>
+            </Physics>
+          </Suspense>
         </Canvas>
       </KeyboardControls>
     </Container>

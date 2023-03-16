@@ -72,12 +72,20 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<Integer> adventChulCheck(Member member) {
-        String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    public int adventChulCheck(Member member) {
+        LocalDateTime currentTime = LocalDateTime.now();
         int todayDate = LocalDateTime.now().getDayOfMonth();
-        List<AdventCalendar> adventCalendarList = adventCalendarRepository.findAllByMember(member).orElseThrow(()-> new AdventCalendarNotFoundException("advent calendar not found", ErrorCode.ADVENT_CALENDAR_NOT_FOUND));
-
-        return null;
+        List<AdventCalendar> adventCalendarList = adventCalendarRepository.findAllByMember(member).orElse(null);
+        for(AdventCalendar adventCalendar : adventCalendarList){
+            if(todayDate == adventCalendar.getAdventCalendarCheck().getDayOfMonth()){
+                return 0;
+            }
+        }
+        adventCalendarRepository.save(AdventCalendar.builder()
+                .adventCalendarCheck(currentTime)
+                .member(member)
+                .build());
+        return 1;
     }
 
     @Override

@@ -51,14 +51,12 @@ public class MemberController {
     }
 
     @PatchMapping("/advent")
-    public ResponseEntity<MemberAdventCalendarListRes> adventChulCheck(@ApiIgnore Authentication authentication) {
+    public ResponseEntity<BaseResponseBody> adventChulCheck(@ApiIgnore Authentication authentication) {
         MemberDetails memberDetails = (MemberDetails) authentication.getDetails();
         Member member = memberDetails.getUser();
-        List<Integer> memberAdventCalendarList = new ArrayList<>();
-        memberService.adventChulCheck(member);
-
-
-        return ResponseEntity.status(200).body(MemberAdventCalendarListRes.of(memberAdventCalendarList));
+        int result = memberService.adventChulCheck(member);
+        if(result == 0) return ResponseEntity.status(200).body(BaseResponseBody.of(200, "false"));
+        else return ResponseEntity.status(200).body(BaseResponseBody.of(200, "true"));
     }
 
     @PostMapping

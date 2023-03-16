@@ -15,23 +15,24 @@ import greenGuy from '../../assets/npc/greenGuy.glb';
 import minSeo from '../../assets/npc/minSeo.glb';
 import yb from '../../assets/npc/yb.glb';
 import commet from '../../assets/npc/commet.glb';
-import reindeerImg from '../../assets/images/reindeer.png';
-import reindeerRedImg from '../../assets/images/reindeerRed.png';
-import reindeerOrangeImg from '../../assets/images/reindeerOrange.png';
-import reindeerYellowImg from '../../assets/images/reindeerYellow.png';
-import reindeerGreenImg from '../../assets/images/reindeerGreen.png';
-import reindeerBlueImg from '../../assets/images/reindeerBlue.png';
-import reindeerPurpleImg from '../../assets/images/reindeerPurple.png';
-import reindeerWhiteImg from '../../assets/images/reindeerWhite.png';
-import reindeerPinkImg from '../../assets/images/reindeerPink.png';
-import infoGuyImg from '../../assets/images/infoGuy.png';
-import storeGuyImg from '../../assets/images/storeGuy.png';
-import trainGuyImg from '../../assets/images/trainGuy.png';
-import yellowGuyImg from '../../assets/images/yellowGuy.png';
-import greenGuyImg from '../../assets/images/GreenGuy.png';
-import minSeoImg from '../../assets/images/minSeo.png';
-import ybImg from '../../assets/images/yb.png';
-import commetImg from '../../assets/images/commet.png';
+import reindeerImg from '../../assets/images/reindeer.webp';
+import reindeerRedImg from '../../assets/images/reindeerRed.webp';
+import reindeerOrangeImg from '../../assets/images/reindeerOrange.webp';
+import reindeerYellowImg from '../../assets/images/reindeerYellow.webp';
+import reindeerGreenImg from '../../assets/images/reindeerGreen.webp';
+import reindeerBlueImg from '../../assets/images/reindeerBlue.webp';
+import reindeerPurpleImg from '../../assets/images/reindeerPurple.webp';
+import reindeerWhiteImg from '../../assets/images/reindeerWhite.webp';
+import reindeerPinkImg from '../../assets/images/reindeerPink.webp';
+import infoGuyImg from '../../assets/images/infoGuy.webp';
+import storeGuyImg from '../../assets/images/storeGuy.webp';
+import trainGuyImg from '../../assets/images/trainGuy.webp';
+import yellowGuyImg from '../../assets/images/yellowGuy.webp';
+import greenGuyImg from '../../assets/images/GreenGuy.webp';
+import minSeoImg from '../../assets/images/minSeo.webp';
+import ybImg from '../../assets/images/yb.webp';
+import commetImg from '../../assets/images/commet.webp';
+import snowManImg from '../../assets/images/snowMan.webp';
 import Tortoise from '../../assets/pet/Tortoise.glb';
 import Cat from '../../assets/pet/Cat.glb';
 import Dog from '../../assets/pet/Dog.glb';
@@ -40,30 +41,30 @@ import PolarBear from '../../assets/pet/PolarBear.glb';
 import Rabbit from '../../assets/pet/Rabbit.glb';
 import Reindeer from '../../assets/pet/Reindeer.glb';
 import Rhino from '../../assets/pet/Rhino.glb';
-import reindeerProfileImg from '../../assets/images/profiles/reindeer.png';
-import reindeerRedProfileImg from '../../assets/images/profiles/reindeerRed.png';
-import reindeerOrangeProfileImg from '../../assets/images/profiles/reindeerOrange.png';
-import reindeerYellowProfileImg from '../../assets/images/profiles/reindeerYellow.png';
-import reindeerGreenProfileImg from '../../assets/images/profiles/reindeerGreen.png';
-import reindeerBlueProfileImg from '../../assets/images/profiles/reindeerBlue.png';
-import reindeerPurpleProfileImg from '../../assets/images/profiles/reindeerPurple.png';
-import reindeerWhiteProfileImg from '../../assets/images/profiles/reindeerWhite.png';
-import reindeerPinkProfileImg from '../../assets/images/profiles/reindeerPink.png';
-import DogImg from '../../assets/images/pets/Dog.png';
-import CatImg from '../../assets/images/pets/Cat.png';
-import RabbitImg from '../../assets/images/pets/Rabbit.png';
-import FoxImg from '../../assets/images/pets/Fox.png';
-import ReindeerImg from '../../assets/images/pets/Reindeer.png';
-import PolarBearImg from '../../assets/images/pets/PolarBear.png';
-import TortoiseImg from '../../assets/images/pets/Tortoise.png';
-import RhinoImg from '../../assets/images/pets/Rhino.png';
-import carolzoneProfile from '../../assets/images/profiles/carolzone.png';
-import clothesProfile from '../../assets/images/profiles/clothes.png';
-import commetProfile from '../../assets/images/profiles/commet.png';
-import greenGuyProfile from '../../assets/images/profiles/greenGuy.png';
-import storeGuyProfile from '../../assets/images/profiles/storeGuy.png';
-import trainGuyProfile from '../../assets/images/profiles/trainGuy.png';
-import yellowGuyProfile from '../../assets/images/profiles/yellowGuy.png';
+import reindeerProfileImg from '../../assets/images/profiles/reindeer.webp';
+import reindeerRedProfileImg from '../../assets/images/profiles/reindeerRed.webp';
+import reindeerOrangeProfileImg from '../../assets/images/profiles/reindeerOrange.webp';
+import reindeerYellowProfileImg from '../../assets/images/profiles/reindeerYellow.webp';
+import reindeerGreenProfileImg from '../../assets/images/profiles/reindeerGreen.webp';
+import reindeerBlueProfileImg from '../../assets/images/profiles/reindeerBlue.webp';
+import reindeerPurpleProfileImg from '../../assets/images/profiles/reindeerPurple.webp';
+import reindeerWhiteProfileImg from '../../assets/images/profiles/reindeerWhite.webp';
+import reindeerPinkProfileImg from '../../assets/images/profiles/reindeerPink.webp';
+import DogImg from '../../assets/images/pets/Dog.webp';
+import CatImg from '../../assets/images/pets/Cat.webp';
+import RabbitImg from '../../assets/images/pets/Rabbit.webp';
+import FoxImg from '../../assets/images/pets/Fox.webp';
+import ReindeerImg from '../../assets/images/pets/Reindeer.webp';
+import PolarBearImg from '../../assets/images/pets/PolarBear.webp';
+import TortoiseImg from '../../assets/images/pets/Tortoise.webp';
+import RhinoImg from '../../assets/images/pets/Rhino.webp';
+import carolzoneProfile from '../../assets/images/profiles/carolzone.webp';
+import clothesProfile from '../../assets/images/profiles/clothes.webp';
+import commetProfile from '../../assets/images/profiles/commet.webp';
+import greenGuyProfile from '../../assets/images/profiles/greenGuy.webp';
+import storeGuyProfile from '../../assets/images/profiles/storeGuy.webp';
+import trainGuyProfile from '../../assets/images/profiles/trainGuy.webp';
+import yellowGuyProfile from '../../assets/images/profiles/yellowGuy.webp';
 
 export const NpcLocation = {
   null: [0, -10, 0],
@@ -86,6 +87,7 @@ export const NpcLocation = {
   reindeerPurple: [-11.200315, 0.279665, 2.5480184],
   reindeerWhite: [-5.8828038215, 1.32455928325, -6.936524868],
   reindeerPink: [-7.6799707412, 1.5212489128, 26.7339458465],
+  snowMan: [5.05, 1, 1.22],
 };
 export const NpcRotation = {
   infoGuy: [0, 4 * Math.PI, 0],
@@ -156,6 +158,7 @@ export const NpcImages = {
   minSeo: minSeoImg,
   yb: ybImg,
   commet: commetImg,
+  snowMan: snowManImg,
 };
 
 export const NpcProfileImages = {
@@ -182,12 +185,13 @@ export const NpcNames = {
   reindeerWhite: '대셔',
   infoGuy: '박아영 정보과장',
   storeGuy: '정민호 문방구아저씨',
-  trainGuy: '양경섭 역무장',
-  yellowGuy: '원재호 단무지',
+  trainGuy: '제진명 역무장',
+  yellowGuy: '천민우 게임광',
   greenGuy: '최하영 동물보호 운동가',
   minSeo: '강민서 동네누나',
-  yb: '김영범 박사',
+  yb: '이승윤 박사',
   commet: '김혜성 노는누나',
+  snowMan: '조금 이상한 눈사람',
 };
 
 export const NormalDialog = {
@@ -210,12 +214,13 @@ export const NormalDialog = {
     '인사팀장 루돌프님이 기다리고 계셔! 그분께 가봐.',
   ],
   storeGuy: ['안녕, 오늘도 뽑기하러왔니? 호호호'],
-  trainGuy: ['이번에 마을로 가져온 재료가 참많답니다~'],
+  trainGuy: ['이번에 마을로 가져온 재료가 참 많답니다~'],
   yellowGuy: ['신난다! 게임이 최고야 유후우우'],
   greenGuy: ['동물들을 보호해야해...'],
   minSeo: ['안녕하세요, 인턴산타 팀장입니다... 많이 사랑해주세요'],
-  yb: ['싸피의 명물 알쓸싸잡 주인공 김영범입니다. 인턴산타 화이팅!'],
+  yb: ['산타마을 이장 이승윤입니다. 인턴산타 화이팅!'],
   commet: ['너, 나랑같이 사진찍을래?'],
+  snowMan: ['히히히, 나,나나,,나랑 내,내기할래?'],
 };
 
 export const NpcFeatButton = {
@@ -236,6 +241,7 @@ export const NpcFeatButton = {
   minSeo: null,
   yb: null,
   commet: '산타네컷',
+  snowMan: '내기하기',
 };
 
 export const NpcQuest = {
@@ -355,7 +361,7 @@ export const reward = {
   7: 4500,
   8: 5000,
   9: 6000,
-  10: 100,
+  10: 10,
 };
 
 export const questText = {
@@ -376,7 +382,7 @@ export const questText = {
   ],
   7: [
     '선물을 가득 쌓아 코인을 얻어볼까요?',
-    '노란옷의 게임광 원재호를 찾아가세요',
+    '노란옷의 게임광 천민우를 찾아가세요',
   ],
   8: [
     '내캐릭터와 함께 산타네컷 한장!',

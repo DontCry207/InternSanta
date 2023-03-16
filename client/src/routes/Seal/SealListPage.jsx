@@ -5,7 +5,7 @@ import { fetchData } from '../../utils/apis/api';
 import { infoUpdateState } from '../../Atom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import ticket from '../../assets/images/ticket.png';
+import ticket from '../../assets/images/ticket.webp';
 import { SealImg } from '../../utils/constants/constants';
 import {
   HiOutlineArrowNarrowLeft,
@@ -140,9 +140,11 @@ const SealListPage = () => {
               alt="BHC 뿌링클"
             />
             <p>
-              BHC 뿌링클
+              BHC
               <br />
-              (1명)
+              뿌링클 치킨
+              <br />
+              <small>(1명)</small>
             </p>
           </div>
           <div className="rank2">
@@ -151,9 +153,10 @@ const SealListPage = () => {
               alt="스타벅스 '오늘도 달콤하게'"
             />
             <p>
-              스타벅스 '오늘도 달콤하게'
+              스타벅스 <br />
+              '오늘도 달콤하게'
               <br />
-              (2명)
+              <small>(2명)</small>
             </p>
           </div>
           <div className="rank3">
@@ -162,9 +165,11 @@ const SealListPage = () => {
               alt="스타벅스 아메리카노"
             />
             <p>
-              스타벅스 아메리카노
+              스타벅스
               <br />
-              (4명)
+              아메리카노
+              <br />
+              <small>(4명)</small>
             </p>
           </div>
         </GiftBox>
@@ -245,14 +250,19 @@ const SubBox = styled.div`
 
 const GiftBox = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: flex-end;
   gap: 50px;
   padding: 20px 0;
+  /* max-height: 30%; */
   div {
     text-align: center;
     color: white;
-    font-size: 18px;
+    font-size: 16px;
+    flex-grow: 1;
+    small {
+      font-size: 12px;
+    }
   }
   img {
     border-radius: 20px;
@@ -260,18 +270,21 @@ const GiftBox = styled.div`
   }
   .rank1 {
     width: 20%;
+    max-width: 140px;
     img {
       width: 100%;
     }
   }
   .rank2 {
     width: 16%;
+    max-width: 120px;
     img {
       width: 100%;
     }
   }
   .rank3 {
     width: 12%;
+    max-width: 100px;
     img {
       width: 100%;
     }

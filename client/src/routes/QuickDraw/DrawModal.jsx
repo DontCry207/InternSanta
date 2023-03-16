@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import QuickDraw from './QuickDraw';
 import { submit } from './QuickDraw';
 import { fetchData } from '../../utils/apis/api';
-import congrats from '../../assets/images/congrats.png';
+import congrats from '../../assets/images/congrats.webp';
 
 const DrawModal = (props) => {
   const [page, setPage] = useState(1); // 페이지 넘기기 변수

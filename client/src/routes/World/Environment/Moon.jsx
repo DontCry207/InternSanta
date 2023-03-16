@@ -5,12 +5,14 @@ import { useRecoilState } from 'recoil';
 import { ambientState } from '../../../Atom';
 import { useEffect } from 'react';
 import { useGLTF } from '@react-three/drei';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { useLoader } from '@react-three/fiber';
 
 const Moon = () => {
   const [ambient, setAmbient] = useRecoilState(ambientState);
   const [hovered, setHover] = useState(false);
-  const { nodes } = useGLTF(santa);
-  const logo = useGLTF(christmasLogo);
+  const { nodes } = useLoader(GLTFLoader, santa);
+  const logo = useLoader(GLTFLoader, christmasLogo);
   logo.nodes.Scene.scale.set(46, 46, 46);
   nodes.Scene.scale.set(12, 9, 12);
   nodes.Scene.rotation.set(0, 0, 0.6);

@@ -4,11 +4,11 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
 import AlertModal from '../Common/AlertModal';
-import machine from '../../assets/images/machine.png';
-import turn from '../../assets/images/turn.png';
+import machine from '../../assets/images/machine.webp';
+import turn from '../../assets/images/turn.webp';
 import { infoUpdateState } from '../../Atom';
 import { useRecoilState } from 'recoil';
-import coin from '../../assets/images/coin.png';
+import coin from '../../assets/images/coin.webp';
 
 const GetSealPage = () => {
   const [sealResult, setSealResult] = useState([]);
@@ -23,7 +23,7 @@ const GetSealPage = () => {
       timer = setTimeout(() => {
         setModal(true);
         setOpenToggle(!openToggle);
-        console.log('g');
+        //console.log('g');
         turnEl.current.style.animation = 'none';
       }, 1000);
     }
@@ -32,7 +32,7 @@ const GetSealPage = () => {
   const getOneSeal = async (num) => {
     await fetchData.patch('/api/v1/seal', { count: num }).then((res) => {
       setSealResult(res.data);
-      console.log(res.data);
+      //console.log(res.data);
     });
     setUpdate(!update);
     setOpenToggle(true);
@@ -121,16 +121,14 @@ const Title = styled.div`
 `;
 
 const Machine = styled.div`
-  /* width: 40%; */
   display: flex;
   justify-content: center;
   align-items: center;
   background: url(${machine}) no-repeat;
-  /* height: 100%; */
   background-size: 100% 100%;
   flex-grow: 1;
   position: relative;
-  aspect-ratio: 2/3;
+  aspect-ratio: 3/5;
   @keyframes rotate_image {
     100% {
       transform: rotate(360deg);
