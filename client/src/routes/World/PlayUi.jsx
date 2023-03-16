@@ -6,6 +6,7 @@ import {
   BsQuestionLg,
   BsCheckLg,
   BsFillStarFill,
+  BsMap,
 } from 'react-icons/bs';
 import { FaTshirt } from 'react-icons/fa';
 import { AiOutlinePoweroff } from 'react-icons/ai';
@@ -15,6 +16,7 @@ import {
   clothesModalState,
   infoUpdateState,
   logoutModalState,
+  miniMapModalState,
   musicModalState,
   npcScriptState,
   questIndicatorState,
@@ -29,11 +31,12 @@ import {
   NpcProfileImages,
   NpcQuest,
 } from '../../utils/constants/constants';
-import stickerCard from '../../assets/images/StickerCard.png';
-import ticket from '../../assets/images/ticket.png';
-import coin from '../../assets/images/coin.png';
+import stickerCard from '../../assets/images/StickerCard.webp';
+import ticket from '../../assets/images/ticket.webp';
+import coin from '../../assets/images/coin.webp';
 import music from '../../assets/EpicChristmas.mp3';
 import MusicControlModal from './Modals/MusicControlModal';
+import { useThree } from '@react-three/fiber';
 
 const PlayUi = () => {
   const [prog, setProg] = useState(false);
@@ -48,6 +51,7 @@ const PlayUi = () => {
   const [coinNum, setCoinNum] = useState(userInfo.memberCoin);
   const [ticketNum, setTicketNum] = useState(userInfo.memberTicket);
   const [musicModal, setMusicModal] = useRecoilState(musicModalState);
+  const [mapModal, setMapModal] = useRecoilState(miniMapModalState);
 
   const [volume, setVolume] = useState(0);
   const audioRef = useRef(null);
@@ -87,7 +91,6 @@ const PlayUi = () => {
   };
 
   useEffect(() => {
-    console.log(userInfo);
     setCoinNum(userInfo.memberCoin);
     setTicketNum(userInfo.memberTicket);
   }, [userInfo]);
@@ -143,6 +146,9 @@ const PlayUi = () => {
       <RightTopBox>
         <IconBorder onClick={() => setModal(true)}>
           <FaTshirt size={40} color={'white'} />
+        </IconBorder>
+        <IconBorder onClick={() => setMapModal(true)}>
+          <BsMap size={32} color={'white'} />
         </IconBorder>
         {!volume ? (
           <IconBorder onClick={() => setMusicModal(true)}>
@@ -310,7 +316,7 @@ const IconBorder = styled.div`
 
 const QuestDescription = styled.div`
   width: 340px;
-  min-width: 320px;
+  min-width: 340px;
   height: 80px;
   min-height: 80px;
   display: flex;

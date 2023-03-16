@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { fetchData } from '../../utils/apis/api';
 import ClothesCut from './ClothesCut';
-import clothesEmpty from '../../assets/images/clothesEmpty.png';
+import clothesEmpty from '../../assets/images/clothesEmpty.webp';
 import { useRecoilState } from 'recoil';
 import { userInfoState } from '../../Atom';
 import AlertModal from '../Common/AlertModal';
@@ -77,11 +77,8 @@ const ClothesPage = (props) => {
       <>
         <Title>
           <h2>나만의 옷 만들기</h2>
-          <SubTitle>
-            내가 가진 옷을 캐릭터에게 입혀보자.
-            <br />
-            옷의 앞면과 뒷면 사진을 추가해서 캐릭터 옷으로 만들 수 있다!
-          </SubTitle>
+          <p>내가 가진 옷을 캐릭터에게 입혀보자.</p>
+          <p>옷의 앞면과 뒷면 사진을 추가해서 캐릭터 옷으로 만들 수 있다!</p>
         </Title>
 
         <ClothCut>
@@ -125,7 +122,8 @@ const ClothesPage = (props) => {
 
 const Title = styled.div`
   width: 100%;
-  height: 20%;
+  height: 30%;
+
   h2 {
     display: block;
     font-size: 80px;
@@ -133,12 +131,11 @@ const Title = styled.div`
     text-align: center;
     color: white;
   }
-`;
-const SubTitle = styled.p`
-  text-align: center;
-  padding-top: 20px;
-  color: white;
-  font-size: 22px;
+  p {
+    text-align: center;
+    color: white;
+    font-size: 22px;
+  }
 `;
 
 const ClothCut = styled.div`

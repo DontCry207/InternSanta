@@ -1,8 +1,8 @@
-import christmasTown from '../../assets/images/christmasTown.jpg';
+import christmasTown from '../../assets/images/christmasTown.webp';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { loadingState } from '../../Atom';
-import loadingImg from '../../assets/images/loading.png';
+import loadingImg from '../../assets/images/loading.webp';
 const LoadingPage = () => {
   const loading = useRecoilValue(loadingState);
   return (

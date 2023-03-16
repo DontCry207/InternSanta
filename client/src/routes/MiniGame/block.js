@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import * as CANNON from 'cannon';
-import snow from '../../assets/images/snow1.png';
+import snow from '../../assets/images/snow1.webp';
 import { fetchData } from '../../utils/apis/api';
 const Block = () => {
   window.focus(); // Capture keys right away (by default focus is on editor)
@@ -343,13 +343,13 @@ const Block = () => {
 
     gameEnded = true;
     // api 호출 stack.length
-    fetchData
-      .patch('/api/v1/member/coin', {
-        memberCoin: stack.length - 2,
-      })
-      .then((res) => {
-        console.log(res.data);
-      });
+    fetchData.patch('/api/v1/member/coin', {
+      memberCoin: stack.length - 2,
+    });
+    fetchData.post('/api/v1/game', {
+      minigameType: 1,
+      score: stack.length - 2,
+    });
     if (resultsElement) resultsElement.style.display = 'flex';
     document.getElementById('result-score').innerText = stack.length - 2;
     document.getElementById('result-coin').innerText = stack.length - 2;
